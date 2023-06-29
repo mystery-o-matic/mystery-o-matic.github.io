@@ -13,6 +13,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -47,7 +49,11 @@ jobs:
         pip3 install .
         MysteryOMatic scenarios/simple.template.sol static out
 
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@v4
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
       with:
-        folder: out # The folder the action should deploy.
+          # Upload the resulting folder
+          path: 'out'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
