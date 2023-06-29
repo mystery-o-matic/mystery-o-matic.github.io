@@ -1,6 +1,8 @@
 name: Echidna Test
 
 on:
+  schedule:
+    - cron: "0 0 * * *"
   push:
     branches: [ code ]
     paths:
