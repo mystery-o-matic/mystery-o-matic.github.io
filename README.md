@@ -7,7 +7,7 @@ mystery-o-matic is a Python program used to produce the content of [mystery-o-ma
 Make sure all the requirements are installed. If you are using Ubuntu:
 
 ```
-$ sudo apt-get install libsecp256k1-0 graphviz
+$ sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
 ```
 
 Solidity 0.8.x is needed, so we can install `solc-select` for that:

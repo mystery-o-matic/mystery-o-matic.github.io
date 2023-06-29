@@ -3,8 +3,13 @@ name: Echidna Test
 on:
   push:
     branches: [ code ]
-  pull_request:
-    branches: [ code ]
+    paths:
+      - setup.py
+      - bin/**
+      - config/**
+      - DetectiveMysteryOMatic/**
+      - static/**
+      - scenarios/**
 
 permissions:
   contents: write
