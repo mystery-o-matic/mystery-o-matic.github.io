@@ -1,0 +1,45 @@
+name: Echidna Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
+
+    - name: Install Echidna
+      run: |
+        sudo mv ./bin/echidna /usr/bin
+        echidna --version
+
+    - name: Install solc using solc-select
+      run: |
+        pip install solc-select
+        solc-select install 0.8.17
+        solc-select use 0.8.17
+
+    - name: Generate Murder Mystery
+      run: |
+        pip3 install .
+        MysteryOMatic scenarios/simple.template.sol static out
+
+    - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: out # The folder the action should deploy.

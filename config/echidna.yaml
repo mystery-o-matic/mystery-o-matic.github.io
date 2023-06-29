@@ -1,0 +1,5 @@
+testLimit: 1000000000000
+timeout: 1200
+format: json
+prefix: "mysteryNotSolved"
+#corpusDir: "corpus"
