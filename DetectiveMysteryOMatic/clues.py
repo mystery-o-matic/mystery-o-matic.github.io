@@ -35,7 +35,7 @@ class Clue:
 		elif (self.name == "PoliceArrived"):
 			return "Police arrived at {}!".format(self.fields[0])
 		elif (self.name == "Stayed"):
-			str = "{} said: \"I was in {} at {}\""
+			str = "{} said: \"I was in the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[2])
 		else:
 			print("Invalid clue!", self.name, self.fields)
