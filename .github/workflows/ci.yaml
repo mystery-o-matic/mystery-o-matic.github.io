@@ -10,6 +10,7 @@ on:
       - DetectiveMysteryOMatic/**
       - static/**
       - scenarios/**
+      - .github/**
 
 permissions:
   contents: write
