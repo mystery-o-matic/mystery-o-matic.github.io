@@ -2,9 +2,9 @@ name: Echidna Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ code ]
   pull_request:
-    branches: [ main ]
+    branches: [ code ]
 
 jobs:
   build:
