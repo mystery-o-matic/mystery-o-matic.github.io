@@ -29,68 +29,69 @@ def main() -> int:
 	print("Running the simulation..")
 	result = model.solve()
 
-	if result is not None:
-		txs = (result["tests"][0]["transactions"])
+	if result is None:
+		return 1
 
-		events = []
-		if "events" in result["tests"][0]:
-			events = result["tests"][0]["events"]
+	txs = (result["tests"][0]["transactions"])
 
-		weapon_used = weapon_locations[weapon_location]
-		mystery = Mystery(initial_locations_pairs, final_locations_pairs, weapon_used, model.source, txs)
-		mystery.load_events(events)
-		mystery.process_clues()
-		intervals = mystery.get_intervals()
-		select_suspects = get_options_selector(mystery.get_characters())
-		select_intervals = get_options_selector(intervals)
-		select_weapons = get_options_selector(map(lambda n: weapon_locations[n], locations.nodes()))
+	events = []
+	if "events" in result["tests"][0]:
+		events = result["tests"][0]["events"]
 
-		intro = ""
-		intro += get_subtitle("Initial clues:") + "<br>"
-		bullets = ["The murderer was alone with their victim"]
-		bullets += ["The body was not moved"]
-		for i, clue in enumerate(mystery.initial_clues):
-			bullets.append(str(clue))
+	weapon_used = weapon_locations[weapon_location]
+	mystery = Mystery(initial_locations_pairs, final_locations_pairs, weapon_used, model.source, txs)
+	mystery.load_events(events)
+	mystery.process_clues()
+	intervals = mystery.get_intervals()
+	select_suspects = get_options_selector(mystery.get_characters())
+	select_intervals = get_options_selector(intervals)
+	select_weapons = get_options_selector(map(lambda n: weapon_locations[n], locations.nodes()))
 
-		for loc, weapon in weapon_locations.items():
-			bullets.append("The {} was in the ${}".format(weapon, loc))
+	intro = ""
+	bullets = ["The murderer was alone with their victim"]
+	bullets += ["The body was not moved"]
+	for i, clue in enumerate(mystery.initial_clues):
+		bullets.append(str(clue))
 
-		for (c, p) in mystery.final_locations:
-			bullets.append("{} was in the {}".format(c, p))
+	for loc, weapon in weapon_locations.items():
+		bullets.append("The {} was in the ${}".format(weapon, loc))
 
-		intro += get_bullet_list(bullets)
+	for (c, p) in mystery.final_locations:
+		bullets.append("{} was in the {}".format(c, p))
 
-		clues = get_subtitle("Additional clues:") + "<br>\n"
+	initial_clues = get_bullet_list(bullets)
 
-		for i, clue in enumerate(mystery.additional_clues):
-			clues += get_accordion("Clue #{}".format(i+1), str(clue), i+1) + "\n"
+	additional_clues = ""
 
-		correct_answer = mystery.get_answer_hash()
+	for i, clue in enumerate(mystery.additional_clues):
+		additional_clues += get_accordion("Clue #{}".format(i+1), str(clue), i+1) + "\n"
 
-		html_source = html_template.substitute(intro = intro, clues = clues, selectIntervals = select_intervals, selectSuspects = select_suspects, selectWeapon = select_weapons, numIntervals = str(len(intervals)), suspectNames = str(mystery.get_characters()), correctAnswer = correct_answer)
+	correct_answer = mystery.get_answer_hash()
 
-		args = {}
-		for i, char in enumerate(mystery.get_characters()):
-			args["CHAR" + str(i + 1)] = get_char_name(char)
-		args["NOBODY"] = "nobody"
+	html_source = html_template.substitute(initialClues = initial_clues, clues = additional_clues, selectIntervals = select_intervals, selectSuspects = select_suspects, selectWeapon = select_weapons, numIntervals = str(len(intervals)), suspectNames = str(mystery.get_characters()), correctAnswer = correct_answer)
 
-		args["BEDROOM"] = "bedroom"
-		args["LIVING"] = "living"
-		args["KITCHEN"] = "kitchen"
-		args["BATHROOM"] = "bathroom"
+	args = {}
+	for i, char in enumerate(mystery.get_characters()):
+		args["CHAR" + str(i + 1)] = get_char_name(char)
+	args["NOBODY"] = "nobody"
 
-		html_source = create_template(html_source).substitute(args)
-		build_website(out_dir, static_dir, html_source)
-		render_locations(out_dir, locations)
+	args["BEDROOM"] = "bedroom"
+	args["LIVING"] = "living"
+	args["KITCHEN"] = "kitchen"
+	args["BATHROOM"] = "bathroom"
 
-		print("Solution:")
+	html_source = create_template(html_source).substitute(args)
+	build_website(out_dir, static_dir, html_source)
+	render_locations(out_dir, locations)
 
-		print(" Initial locations:")
-		for (c, p) in mystery.initial_locations:
-			print("  * {} was in the {}".format(c, p))
+	print("Solution:")
 
-		for action in mystery.solution:
-			print(action)
+	print(" Initial locations:")
+	for (c, p) in mystery.initial_locations:
+		print("  * {} was in the {}".format(c, p))
+
+	for action in mystery.solution:
+		print(action)
 	return 0
 
 if __name__ == '__main__':

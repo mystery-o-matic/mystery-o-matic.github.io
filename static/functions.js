@@ -1,3 +1,10 @@
+function getCurrentDate() {
+	var options = {  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: false };
+	return String(new Date().toLocaleTimeString('en-us', options)).split(" at")[0];
+}
+
+document.getElementById("span-today").innerHTML = getCurrentDate();
+
 function openModal(name) {
 	let element = document.getElementById('portraitImage');
 	element.src = "images/" + name + ".jpg";
