@@ -1,4 +1,4 @@
-name: Echidna Test
+name: Generate Mystery and Deploy
 
 on:
   schedule:
