@@ -37,6 +37,9 @@ class Clue:
 		elif (self.name == "Stayed"):
 			str = "{} said: \"I was in the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[2])
+		elif (self.name == "WeaponNotUsed"):
+			str = "Inspecting the body reveals that the {} was not the murderer weapon"
+			return str.format(self.fields[0])
 		else:
 			print("Invalid clue!", self.name, self.fields)
 			assert(false)

@@ -10,6 +10,7 @@ class Mystery:
 	source = None
 	solution = []
 	characters = []
+	weapons = []
 	killer = None
 	victim = None
 	initial_clues = []
@@ -34,6 +35,7 @@ class Mystery:
 				self.victim = action[2]
 
 		self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
+		self.weapons = ["gun", "knife", "poison", "rope"]
 		shuffle(self.characters)
 		self.characters = self.characters[:3]
 
@@ -96,6 +98,11 @@ class Mystery:
 				clues.append(clue)
 
 		self.additional_clues = clues
+		for weapon in self.weapons:
+			if weapon is not self.weapon_used:
+				clue = Clue("WeaponNotUsed", [weapon])
+				self.additional_clues.append(clue)
+
 		shuffle(self.additional_clues)
 
 	def get_intervals(self):
