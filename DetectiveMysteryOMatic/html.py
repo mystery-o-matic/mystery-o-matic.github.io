@@ -29,7 +29,9 @@ def get_bullet_list(elements, name = ''):
 
 	with tag('ul', id = name):
 		for element in elements:
-			line('li', element, klass="priority")
+			doc.asis("<li>")
+			doc.asis(element)
+			doc.asis("</li>")
 
 	return indent(doc.getvalue())
 

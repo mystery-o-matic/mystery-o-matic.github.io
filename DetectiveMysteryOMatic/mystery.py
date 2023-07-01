@@ -69,10 +69,25 @@ class Mystery:
 
 
 	def process_clues(self):
+		# Process initial clues
 		for clue in self.initial_clues:
 			if clue.name == "PoliceArrived":
 				self.final_time = clue.fields[0]
 
+		# Filter initial clues
+		clues = []
+		for clue in self.initial_clues:
+			if clue.name == "PoliceArrived":
+				continue
+			elif clue.name == "WasMurdered":
+				clue.fields += [self.initial_time, self.final_time]
+				clues.append(clue)
+			else:
+				clues.append(clue)
+
+		self.initial_clues = clues
+
+		# Filter additional clues
 		clues = []
 		for clue in self.additional_clues:
 			if clue.is_incriminating(self.killer, self.victim):

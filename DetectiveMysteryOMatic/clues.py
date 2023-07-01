@@ -31,7 +31,7 @@ class Clue:
 			str += "{} when I was leaving the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
 		elif (self.name == "WasMurdered"):
-			return "{} was murdered in the {}!".format(self.fields[0], self.fields[1])
+			return "{} was murdered in the {} between {} and {}!".format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
 		elif (self.name == "PoliceArrived"):
 			return "Police arrived at {}!".format(self.fields[0])
 		elif (self.name == "Stayed"):
