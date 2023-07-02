@@ -3,6 +3,7 @@ function getCurrentDate() {
 	return String(new Date().toLocaleTimeString('en-us', options)).split(" at")[0];
 }
 
+hideClues();
 document.getElementById("span-today").innerHTML = getCurrentDate();
 
 function openModal(name) {
@@ -10,6 +11,41 @@ function openModal(name) {
 	element.src = "images/" + name + ".jpg";
 	let modal = new bootstrap.Modal(document.getElementById('portraitModal'), {});
 	modal.show();
+}
+
+function hideClues() {
+	let i = 4;
+	while (true) {
+		element = document.getElementById("accordion-" + i)
+		if (element == null)
+			break;
+
+		element.style.display = "none"
+		i = i + 1
+	}
+}
+
+function revealAnotherClue() {
+	let i = 1;
+	let revealed = false;
+	while (true) {
+		element = document.getElementById("accordion-" + i);
+		console.log(element);
+		if (element == null) {
+			break;
+		}
+		if (element.style.display == "none") {
+			element.style.display = "block";
+			revealed = true;
+			break;
+		}
+		i = i + 1
+	}
+	if (!revealed) {
+		var button = document.getElementById("more-clues-button");
+		button.innerText = "No more clues"
+		button.disabled = true;
+	}
 }
 
 function toggleClueStrikeout(element) {

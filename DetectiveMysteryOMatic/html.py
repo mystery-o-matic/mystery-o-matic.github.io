@@ -58,7 +58,7 @@ def get_clues_list(elements):
 
 def get_accordion(title, inner_html, index):
 	html_template = """
-	<div class="accordion">
+	<div class="accordion" id="accordion-$index">
   <div class="accordion-item">
     <h2 class="accordion-header" id="panelsStayOpen-heading-$index">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#panelsStayOpen-collapse-$index" aria-controls="panelsStayOpen-collapse-$index" onClick="markedAsViewed(this)">
