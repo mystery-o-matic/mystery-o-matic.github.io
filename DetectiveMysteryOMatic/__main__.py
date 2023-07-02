@@ -48,15 +48,17 @@ def main() -> int:
 	select_weapons = get_options_selector(map(lambda n: weapon_locations[n], locations.nodes()))
 
 	intro = ""
-	bullets = ["The murderer was alone with their victim and the body was not moved"]
+	bullets = []
 	for i, clue in enumerate(mystery.initial_clues):
 		bullets.append(str(clue))
 
+	bullets.append("The murderer was alone with their victim and the body was not moved")
+
 	sub_bullets = []
 	for loc, weapon in weapon_locations.items():
-		sub_bullets.append("The {} was in the ${}".format(weapon, loc))
+		sub_bullets.append("The {} from the ${}".format(weapon, loc))
 
-	weapon_locations_bullets = "At {}, some potential weapons were around:\n".format(mystery.initial_time)
+	weapon_locations_bullets = "The murderer weapon was taken from one of these rooms:\n"
 	weapon_locations_bullets += get_bullet_list(sub_bullets)
 	bullets.append(weapon_locations_bullets)
 
