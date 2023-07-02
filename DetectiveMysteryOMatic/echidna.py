@@ -7,10 +7,12 @@ def create_outdir(prefix):
 	except OSError:
 		pass
 
-def create_echidna_process(prefix, path):
+def create_echidna_process(prefix, path, seed):
 	call = ["echidna"]
 	call.extend([path])
 	call.extend(["--config", "config/echidna.yaml", "--workers", "6"])
+	if seed is not None:
+		call.extend(["--seed", str(seed)])
 	outjson = open(prefix + "/result.json", "w")
 	outerr = open(prefix + "/out.err", "w")
 	return (

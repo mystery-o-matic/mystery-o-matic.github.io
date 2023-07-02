@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 from sys import argv, exit
+from argparse import ArgumentParser
+from random import seed
 
 from DetectiveMysteryOMatic.html import read_html_template, create_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
 from DetectiveMysteryOMatic.echidna import create_outdir
@@ -9,13 +11,28 @@ from DetectiveMysteryOMatic.mystery import Mystery
 from DetectiveMysteryOMatic.model import Model
 
 def main() -> int:
-	if (len(argv) != 4):
-		return 1
+
+	parser = ArgumentParser(description='mystery-o-matic')
+	parser.add_argument('scenario', type=str, action='store',
+						help='path to mystery scenario')
+	parser.add_argument('static_dir', type=str, action='store',
+						help='path to folder with static files)')
+	parser.add_argument('out_dir', type=str, action='store',
+						help='path to output folder')
+
+	parser.add_argument('--seed', type=int, action='store',
+						help='seed for randomness')
+
+	args = parser.parse_args()
 
 	print("Welcome to mystery-o-matic!")
-	solidity_file = argv[1]
-	static_dir = argv[2]
-	out_dir = argv[3]
+	solidity_file = args.scenario
+	static_dir = args.static_dir
+	out_dir = args.out_dir
+	used_seed = args.seed
+
+	if (used_seed is not None):
+		seed(used_seed)
 
 	create_outdir(out_dir)
 	locations = create_locations_graph(out_dir, mansion_locations)
@@ -27,7 +44,7 @@ def main() -> int:
 	solidity_file = model.generate_solidity()
 
 	print("Running the simulation..")
-	result = model.solve()
+	result = model.solve(used_seed)
 
 	if result is None:
 		return 1
