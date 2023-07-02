@@ -3,6 +3,12 @@ function getCurrentDate() {
 	return String(new Date().toLocaleTimeString('en-us', options)).split(" at")[0];
 }
 
+function showPage(page) {
+	document.getElementById("home").style.display = "none";
+	document.getElementById("about").style.display = "none";
+	document.getElementById(page).style.display = "block";
+}
+
 hideClues();
 document.getElementById("span-today").innerHTML = getCurrentDate();
 

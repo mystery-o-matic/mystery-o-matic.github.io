@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C7DCY6FN81"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-C7DCY6FN81', {'anonymize_ip': true});
-</script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-C7DCY6FN81"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-C7DCY6FN81', { 'anonymize_ip': true });
+	</script>
 
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -25,19 +25,24 @@
 		.tabulator {
 			font-size: 15px;
 		}
+
 		.tabulator-header {
 			border-top: 1px transparent !important;
 			font-size: 10px;
 		}
+
 		.tabulator-cell {
 			border-right: 1px solid #FFFFFF !important;
-        }
-		.tabulator-row {
-		    border-bottom: 1px solid #FFFFFF !important;
 		}
+
+		.tabulator-row {
+			border-bottom: 1px solid #FFFFFF !important;
+		}
+
 		.tabulator-row-odd {
 			background-color: #CCCCCC !important;
 		}
+
 		.tabulator-row-even {
 			background-color: #CCCCCC !important;
 		}
@@ -49,20 +54,20 @@
 <!-- Modals -->
 <div class="modal fade" id="portraitModal" tabindex="-1" aria-labelledby="portraitLabel" aria-hidden="true">
 	<div class="modal-dialog">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title" id="portraitLabel">Suspect portrait</h5>
-		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="portraitLabel">Suspect portrait</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<img id="portraitImage" src="images/alice.jpg" class="w-100" alt="...">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">I have seen enough</button>
+			</div>
 		</div>
-		<div class="modal-body">
-			<img id="portraitImage" src="images/alice.jpg" class="w-100" alt="...">
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">I have seen enough</button>
-		</div>
-	  </div>
 	</div>
-  </div>
+</div>
 
 <body>
 	<div class="container p-5 text-center">
@@ -70,113 +75,152 @@
 		<p>A mystery a day keeps the coroner away!</p>
 	</div>
 
-	<div class="container mt-5">
-	Welcome to your daily destination for an exhilarating dose of mystery! Immerse yourself
-	in a world of crime, suspense, and intrigue as we present you with a new murder mystery
-	every day. What sets us apart is our cutting-edge technology that generates these
-	captivating cases randomly, ensuring a unique and mind-boggling experience every 24 hours.
-	</div>
+	<div id="about" style="display:none">
+		<div class="container mt-5">
+			<p>Mystery-o-matic is a website that offers a free murder mysteries for daily solving.
+				It was created by two enthusiastic individuals who share a profound passion for mysteries and a strong
+				commitment to providing
+				a distinctive experience for fellow detectives.</p>
 
-	<div class="container mt-5">
-		<h3><span class="font-monospace">beep boop</span>, a new mystery is up</h3>
-		<p><span id='span-today'></span></p>
+			<p> Unlike typical games, the daily mysteries on this website require deductive thinking, but they are
+				designed to mirror the unpredictability
+				of real-life scenarios, making them more challenging and
+				varied in difficulty. Instead of following a predefined deduction path,
+				each daily mystery is synthesized through random exploration,
+				offering a refreshing twist compared to traditional deductive logic games.
+			</p>
 
-		Time to step into the shoes of the lead investigator tasked with solving perplexing crimes.
-		Your objective is <strong>to deduce who commited the murder, when it was commited and which weapon was used</strong>.
-		Start reviewing this list of initial clues:
-		<p></p>
-		<div class="row align-items-center justify-content-start">
-			<div class="col">
-			  $initialClues
-			</div>
-			<div class="col">
-				<img src="images/locations.svg" class="mx-auto d-block" style="height: 80%;" alt="...">
-			</div>
-	</div>
-
-	<div class="container mt-5">
-		<h4>The game is afoot!</h4>
-
-		<p>To unravel this intricate puzzle, you'll be presented with a series of clues that gradually
-		unveil the truth behind the murder. Keep in mind that <strong>the suspects won't dare lie</strong> to avoid being charged with obstruction of justice,
-		but <strong>they will be cautious about divulging anything excessively incriminating</strong>.</p>
-
-		<p>However, it's important to note that <strong>every clue you view will have an impact on your overall score</strong>.
-		Exercise caution and strategic thinking as you navigate through the evidence and interrogate
-		the suspects to piece together the ultimate solution.</p>
-
-		<p>Are you up for the challenge? Let the investigation begin!</p>
-		$clues
-		<div class="row align-items-center justify-content-start">
-			<button id="more-clues-button" type="button" class="btn btn-outline-secondary" onclick="revealAnotherClue()">Reveal another clue ...</button>
+			<p>The creators drew inspiration from popular games
+				like <a href="https://en.wikipedia.org/wiki/Cluedo">Cluedo</a> (naturally) and <a
+					href="https://murdle.com/">Murdle</a> to shape the
+				captivating world of mystery-o-matic.</p>
 		</div>
 	</div>
 
-	<div class="container d-flex align-items-center justify-content-center" style="user-select: none">
-	<div class="container">
-		<div class="row align-items-center justify-content-md-center">
-			<div class="col-sm-1">Bedroom</div>
-			<div class="col-md-auto">
-				<div id="clues-table-bedroom" class="table-sm"></div>
-			</div>
-
-		</div>
-		<div class="row align-items-center justify-content-md-center">
-
-			<div class="col-sm-1">Kitchen</div>
-			<div class="col-md-auto">
-				<div id="clues-table-kitchen" class="table-sm"></div>
-			</div>
+	<div id="home">
+		<div class="container mt-5">
+			Welcome to your daily destination for an exhilarating dose of mystery! Immerse yourself
+			in a world of crime, suspense, and intrigue as we present you with a new murder mystery
+			every day. What sets us apart is our cutting-edge technology that generates these
+			captivating cases randomly, ensuring a unique and mind-boggling experience every 24 hours.
 		</div>
 
-		<div class="row align-items-center justify-content-md-center">
+		<div class="container mt-5">
+			<h3><span class="font-monospace">beep boop</span>, a new mystery is up</h3>
+			<p><span id='span-today'></span></p>
 
-			<div class="col-sm-1">Living</div>
-			<div class="col-md-auto">
-				<div id="clues-table-living" class="table-sm"></div>
+			Time to step into the shoes of the lead investigator tasked with solving perplexing crimes.
+			Your objective is <strong>to deduce who commited the murder, when it was commited and which weapon was
+				used</strong>.
+			Start reviewing this list of initial clues:
+			<p></p>
+			<div class="row align-items-center justify-content-start">
+				<div class="col">
+					$initialClues
+				</div>
+				<div class="col">
+					<img src="images/locations.svg" class="mx-auto d-block" style="height: 80%;" alt="...">
+				</div>
+			</div>
+
+			<div class="container mt-5">
+				<h4>The game is afoot!</h4>
+
+				<p>To unravel this intricate puzzle, you'll be presented with a series of clues that gradually
+					unveil the truth behind the murder. Keep in mind that <strong>the suspects won't dare lie</strong>
+					to avoid being charged with obstruction of justice,
+					but <strong>they will be cautious about divulging anything excessively incriminating</strong>.</p>
+
+				<p>However, it's important to note that <strong>every clue you view will have an impact on your overall
+						score</strong>.
+					Exercise caution and strategic thinking as you navigate through the evidence and interrogate
+					the suspects to piece together the ultimate solution.</p>
+
+				<p>Are you up for the challenge? Let the investigation begin!</p>
+				$clues
+				<div class="row align-items-center justify-content-start">
+					<button id="more-clues-button" type="button" class="btn btn-outline-secondary"
+						onclick="revealAnotherClue()">Reveal another clue ...</button>
+				</div>
+			</div>
+
+			<div class="container d-flex align-items-center justify-content-center" style="user-select: none">
+				<div class="container">
+					<div class="row align-items-center justify-content-md-center">
+						<div class="col-sm-1">Bedroom</div>
+						<div class="col-md-auto">
+							<div id="clues-table-bedroom" class="table-sm"></div>
+						</div>
+
+					</div>
+					<div class="row align-items-center justify-content-md-center">
+
+						<div class="col-sm-1">Kitchen</div>
+						<div class="col-md-auto">
+							<div id="clues-table-kitchen" class="table-sm"></div>
+						</div>
+					</div>
+
+					<div class="row align-items-center justify-content-md-center">
+
+						<div class="col-sm-1">Living</div>
+						<div class="col-md-auto">
+							<div id="clues-table-living" class="table-sm"></div>
+						</div>
+					</div>
+
+					<div class="row align-items-center justify-content-md-center">
+
+						<div class="col-sm-1">Bathroom</div>
+						<div class="col-md-auto">
+							<div id="clues-table-bathroom" class="table-sm"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container d-flex align-items-center justify-content-center">
+				<div class="container mt-5">
+					<div class="row align-items-center justify-content-start">
+						<h5 class='text-center'>Time for accusations</h5>
+
+						<select class="form-select" id="who-selector">
+							<option value="" disabled selected>Who?</option>
+							$selectSuspects
+						</select>
+					</div>
+
+					<div class="row align-items-center justify-content-start">
+						<select class="form-select" id="when-selector">
+							<option value="" disabled selected>When?</option>
+							$selectIntervals
+						</select>
+					</div>
+
+					<div class="row align-items-center justify-content-start">
+						<select class="form-select" id="how-selector">
+							<option value="" disabled selected>How?</option>
+							$selectWeapon
+						</select>
+					</div>
+
+					<div class="row align-items-center justify-content-start">
+						<button type="button" class="btn btn-danger"
+							onclick="checkAccusation('$correctAnswer')">Accuse!</button>
+					</div>
+				</div>
 			</div>
 		</div>
-
-		<div class="row align-items-center justify-content-md-center">
-
-			<div class="col-sm-1">Bathroom</div>
-			<div class="col-md-auto">
-				<div id="clues-table-bathroom" class="table-sm"></div>
-			</div>
-		</div>
-	</div>
 	</div>
 
-	<div class="container d-flex align-items-center justify-content-center">
-	<div class="container mt-5">
-	<div class="row align-items-center justify-content-start">
-	<h5 class='text-center'>Time for accusations</h5>
-
-	<select class="form-select" id="who-selector">
-		<option value="" disabled selected>Who?</option>
-		$selectSuspects
-	</select>
-	</div>
-
-	<div class="row align-items-center justify-content-start">
-	<select class="form-select" id="when-selector">
-		<option value="" disabled selected>When?</option>
-		$selectIntervals
-	</select>
-	</div>
-
-	<div class="row align-items-center justify-content-start">
-		<select class="form-select" id="how-selector">
-			<option value="" disabled selected>How?</option>
-			$selectWeapon
-		</select>
-	</div>
-
-	<div class="row align-items-center justify-content-start">
-		<button type="button" class="btn btn-danger" onclick="checkAccusation('$correctAnswer')">Accuse!</button>
-	</div>
-	</div>
-	</div>
+	<footer class="py-3 my-4">
+		<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+			<li class="nav-item"><a href="#/" onClick="showPage('home')" class="nav-link px-2 text-muted">Home</a></li>
+			<li class="nav-item"><a href="#/" onClick="showPage('about')" class="nav-link px-2 text-muted">About</a>
+			</li>
+		</ul>
+		<p class="text-center text-muted">© 2023 Gabbo Industries 🏭 Inc.</p>
+	</footer>
 
 	<!-- Define global parameters -->
 	<script>
@@ -193,9 +237,5 @@
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
 </body>
-
-<footer class="py-3 my-4">
-	<p class="text-center text-muted">© 2023 Gabbo Industries 🏭 Inc</p>
-</footer>
 
 </html>
