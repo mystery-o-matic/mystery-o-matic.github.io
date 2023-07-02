@@ -3,6 +3,7 @@
 from sys import argv, exit
 from argparse import ArgumentParser
 from random import seed
+from datetime import datetime
 
 from DetectiveMysteryOMatic.html import read_html_template, create_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
 from DetectiveMysteryOMatic.echidna import create_outdir
@@ -23,6 +24,12 @@ def main() -> int:
 	parser.add_argument('--seed', type=int, action='store',
 						help='seed for randomness')
 
+	parser.add_argument('--today', action='store_const',
+						const=True, help='generate the mystery for the day')
+
+	parser.add_argument('--workers', type=int, action='store',
+						default=6, help='number of workers')
+
 	args = parser.parse_args()
 
 	print("Welcome to mystery-o-matic!")
@@ -30,6 +37,11 @@ def main() -> int:
 	static_dir = args.static_dir
 	out_dir = args.out_dir
 	used_seed = args.seed
+	workers = args.workers
+
+	if args.today:
+		assert(used_seed is None)
+		used_seed = abs(hash(datetime.today().strftime('%Y-%m-%d')))
 
 	if (used_seed is not None):
 		seed(used_seed)
@@ -44,7 +56,7 @@ def main() -> int:
 	solidity_file = model.generate_solidity()
 
 	print("Running the simulation..")
-	result = model.solve(used_seed)
+	result = model.solve(used_seed, workers)
 
 	if result is None:
 		return 1

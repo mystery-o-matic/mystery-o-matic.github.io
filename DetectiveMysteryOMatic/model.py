@@ -65,8 +65,8 @@ class Model:
 
 		return r.strip()
 
-	def solve(self, seed):
-		(proc, outjson, outerr) = create_echidna_process(self.outdir, self.outdir + "/model.sol", seed)
+	def solve(self, seed, workers):
+		(proc, outjson, outerr) = create_echidna_process(self.outdir, self.outdir + "/model.sol", seed, workers)
 		proc.wait()
 		outjson.close()
 		outerr.close()

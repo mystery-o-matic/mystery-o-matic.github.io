@@ -2,7 +2,7 @@ name: Generate Mystery and Deploy
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 1 * * *"
   push:
     branches: [ code ]
     paths:
@@ -50,7 +50,7 @@ jobs:
     - name: Generate Murder Mystery
       run: |
         pip3 install .
-        MysteryOMatic scenarios/simple.template.sol static out
+        MysteryOMatic scenarios/simple.template.sol static out --today --workers 1
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
