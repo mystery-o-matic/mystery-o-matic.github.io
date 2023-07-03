@@ -25,6 +25,7 @@ contract StoryModel {
     event PoliceArrived(uint256 time);
 
     mapping(Char => Place) private currentLocation;
+    mapping(Char => uint256) private lastMovement;
     mapping(Char => Place) private finalLocation;
     mapping(Char => bool) private changedLocation;
 	mapping(Place => mapping(Place => bool)) private connection;
@@ -48,7 +49,7 @@ contract StoryModel {
         //$finalLocations
 
         //$locationWeapon
-        minNumberOfMoves = 4;
+        minNumberOfMoves = 1;
         // End of generated code
     }
 
@@ -103,10 +104,21 @@ contract StoryModel {
         return (connection[p0][p1] || connection[p1][p0]);
 	}
 
+	function stay() public {
+        for (uint8 c = 1; c < numChars; c++) {
+            if (Char(c) == victimIdentity) // victim will always stay
+                continue;
+            emit Stayed(c, uint8(currentLocation[Char(c)]), time);
+        }
+        time = time + 15 minutes;
+        numberOfMoves++;
+    }
+
     function move(uint8 char, uint8 place) public {
         require(char > 0);
         char = char % numChars;
         require(Char(char) != victimIdentity);
+        require(lastMovement[Char(char)] < time);
 
         place = place % numPlaces;
         require(checkConnection(currentLocation[Char(char)], Place(place)));
@@ -114,6 +126,7 @@ contract StoryModel {
         currentLocation[Char(char)] = Place(place);
 		changedLocation[Char(char)] = true;
         numberOfMoves++;
+        lastMovement[Char(char)] = time;
     }
 
     function kills(uint8 char, uint8 char1) public {
