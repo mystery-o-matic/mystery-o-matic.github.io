@@ -87,7 +87,7 @@ def main() -> int:
 	for loc, weapon in weapon_locations.items():
 		sub_bullets.append("The {} from the ${}".format(weapon, loc))
 
-	weapon_locations_bullets = "The murder weapon was taken from one of these rooms:\n"
+	weapon_locations_bullets = "The killer took the murder weapon from one of these rooms:\n"
 	weapon_locations_bullets += get_bullet_list(sub_bullets)
 	bullets.append(weapon_locations_bullets)
 

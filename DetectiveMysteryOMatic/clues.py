@@ -1,3 +1,5 @@
+from random import randint
+
 class Clue:
 	name = ""
 	fields = []
@@ -35,8 +37,7 @@ class Clue:
 		elif (self.name == "PoliceArrived"):
 			return "Police arrived at {}!".format(self.fields[0])
 		elif (self.name == "Stayed"):
-			str = "{} said: \"I was in the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[2])
+			return self.print_Stayed_clue()
 		elif (self.name == "WeaponNotUsed"):
 			str = "Inspecting the body reveals that the {} was not the murderer weapon"
 			return str.format(self.fields[0])
@@ -53,4 +54,18 @@ class Clue:
 			return True
 		return False
 
+	def print_Stayed_clue(self):
+		r = randint(0, 2)
+
+		if (r == 0):
+			str = "{} said: \"I was in the {} at {}\""
+			return str.format(self.fields[0], self.fields[1], self.fields[2])
+		elif (r == 1):
+			str = "\"I was in the {} at {}\" stated {}"
+			return str.format(self.fields[1], self.fields[2], self.fields[0])
+		elif (r == 2):
+			str = "\"I stayed in the {} at {}\" claimed {}"
+			return str.format(self.fields[1], self.fields[2], self.fields[0])
+		else:
+			assert(False)
 
