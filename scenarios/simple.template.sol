@@ -104,7 +104,7 @@ contract StoryModel {
         return (connection[p0][p1] || connection[p1][p0]);
 	}
 
-	function stay() public {
+    function stay() internal {
         for (uint8 c = 1; c < numChars; c++) {
             if (Char(c) == victimIdentity) // victim will always stay
                 continue;
@@ -118,10 +118,13 @@ contract StoryModel {
         require(char > 0);
         char = char % numChars;
         require(Char(char) != victimIdentity);
-        require(lastMovement[Char(char)] < time);
 
         place = place % numPlaces;
         require(checkConnection(currentLocation[Char(char)], Place(place)));
+
+        if (lastMovement[Char(char)] == time)
+            stay();
+
         sawEvents(char, place);
         currentLocation[Char(char)] = Place(place);
 		changedLocation[Char(char)] = true;
