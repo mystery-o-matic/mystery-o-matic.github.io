@@ -11,6 +11,7 @@ function showPage(page) {
 
 hideClues();
 document.getElementById("span-today").innerHTML = getCurrentDate();
+var tries = 0;
 
 function openModal(name) {
 	let element = document.getElementById('portraitImage');
@@ -80,17 +81,21 @@ function computeRank() {
 	}
 	viewedPercentage = 100 * viewed / i;
 	rank = ""
-	if (viewedPercentage == 0)
-		rank = "Sleuth level: clairvoyant!";
-	else if (viewedPercentage <= 25)
-		rank = "Sleuth level: chief inspector!";
-	else if (viewedPercentage <= 50)
-		rank = "Sleuth level: senior detective!";
-	else if (viewedPercentage <= 75)
-		rank = "Sleuth level: sub-inspector!";
-	else {
-		rank = "Sleuth level: constable"
-		rank = rank + "\nCongratulations on a job.. done!"
+	if (viewedPercentage ==  0 && tries == 0) {
+		rank = "sleuth level: <b>clairvoyant</b> 🪄";
+		rank = rank + "<br><i>Next time try guessing the lotto</i>!"
+	} else if (viewedPercentage <= 25 && tries == 0) {
+		rank = "sleuth level: <b>chief inspector</b> 🕵️";
+		rank = rank + "<br><i>Your deductive abilities are remarkable !</i>"
+	} else if (viewedPercentage <= 50 && tries == 0) {
+		rank = "sleuth level: <b>senior detective</b> 🕵️";
+		rank = rank + "<br><i>Good job indeed !</i>"
+	} else if (viewedPercentage <= 75 && tries == 0) {
+		rank = "sleuth level: <b>sub-inspector!</b> 🕵️";
+		rank = rank + "<br><i>Keep sharpening your deductive skills!</i>"
+	} else {
+		rank = "sleuth level: <b>constable</b> 👮"
+		rank = rank + "<br><i>Congratulations on a job.. done!</i>"
 	}
 
 	return rank;
@@ -168,8 +173,15 @@ function checkAccusation(solution) {
 	hash(input).then((result) => {
 		if (result == solution) {
 			rank = computeRank();
-			alert("Correct answer!\n" + rank);
-		} else
-			alert("Incorrect answer!");
+			document.getElementById("accusation-lose").style.display = "none";
+			document.getElementById("accusation-win-message").innerHTML += " " + rank;
+			document.getElementById("accusation-win").style.display = "block";
+			document.getElementById("accusation-win").scrollIntoView();
+			document.getElementById("accusation-button").disabled = true;
+		} else {
+			document.getElementById("accusation-lose").style.display = "block";
+			document.getElementById("accusation-lose").scrollIntoView();
+			tries += 1;
+		}
 	});
 }

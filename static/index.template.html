@@ -212,17 +212,38 @@
 					</div>
 
 					<div class="row align-items-center justify-content-start">
-						<button type="button" class="btn btn-danger"
+						<button id="accusation-button" type="button" class="btn btn-danger"
 							onclick="checkAccusation('$correctAnswer')">Accuse!</button>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div id="accusation-win" class="container mt-5" style="display:none">
+			<h4>Answer is.. <span class="font-monospace">beep boop, correct!</span></h4>
+			<p>The weight of evidence against the accused was immense, leaving no room for doubt.
+			In a stunning turn of events, as soon as the police arrived, the accused succumbed to
+			the pressure and confessed their guilt.</p>
+			<p id="accusation-win-message">Congratulations on cracking the case!, you solved today's mystery with</p>
+			<p>Come back tomorrow for another challenge.</p>
+		</div>
+
+		<div id="accusation-lose" class="container mt-5" style="display:none">
+			<h3>Answer is.. <span class="font-monospace">beep boop, wrong!</span></h3>
+
+			After apprehending the suspect, the authorities found themselves facing a perplexing puzzle of
+			conflicting evidence. Although they had managed to detain a person of interest, the available proof fell short of providing a definitive conviction. It became evident that
+			either the <b>suspect's identity, the timing of the crime, or even the weapon involved might be erroneous</b>,
+			creating a cloud of uncertainty around the investigation.
+
+			<p>Your chief asks you to <b>review your accusation and try again</b> while she .. <i>cleans up your mess</i> or you can back tomorrow for another challenge.</p>
 		</div>
 	</div>
 
 	<footer class="py-3 my-4">
 		<ul class="nav justify-content-center border-bottom pb-3 mb-3">
 			<li class="nav-item"><a href="#" onClick="showPage('home')" class="nav-link px-2 text-muted">Home</a></li>
+			<li class="nav-item"><a href="#" onClick="alert('Coming soon')" class="nav-link px-2 text-muted">How to play</a></li>
 			<li class="nav-item"><a href="#" onClick="showPage('about')" class="nav-link px-2 text-muted">About</a>
 			</li>
 		</ul>
