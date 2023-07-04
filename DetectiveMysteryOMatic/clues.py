@@ -13,7 +13,7 @@ class Clue:
 			if not self.fields[2]:
 				str += "the body of "
 
-			str += "{} when I was arriving to the {} at {}\""
+			str += "{} when I arrived to the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
 
 		elif (self.name == "SawVictimWhenArriving"):
