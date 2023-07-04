@@ -72,14 +72,14 @@ class Clue:
 		r = randint(0, 2)
 
 		if (r == 0):
-			str = "{} said: \"I was in the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[2])
+			str = "{} said: \"I was in the {} from {} to {}\""
+			return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
 		elif (r == 1):
-			str = "\"I was in the {} at {}\" stated {}"
-			return str.format(self.fields[1], self.fields[2], self.fields[0])
+			str = "\"I was in the {} from {} to {}\" stated {}"
+			return str.format(self.fields[1], self.fields[2], self.fields[3], self.fields[0])
 		elif (r == 2):
-			str = "\"I stayed in the {} at {}\" claimed {}"
-			return str.format(self.fields[1], self.fields[2], self.fields[0])
+			str = "\"I stayed in the {} from {} to {}\" claimed {}"
+			return str.format(self.fields[1], self.fields[2], self.fields[3], self.fields[0])
 		else:
 			assert(False)
 

@@ -20,7 +20,7 @@ contract StoryModel {
     // Clues
     event SawWhenLeaving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);
     event SawWhenArriving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);
-    event Stayed(uint8 char0, uint8 place, uint256 time);
+    event Stayed(uint8 char0, uint8 place, uint256 time0, uint256 time1);
 	event WasMurdered(uint8 char0, uint8 place, uint256 time);
     event PoliceArrived(uint256 time);
 
@@ -80,8 +80,8 @@ contract StoryModel {
             if (currentLocation[Char(c)] == currentLocation[Char(char)]) {
                 emit SawWhenLeaving(char, c, wasAlive, uint8(currentLocation[Char(char)]), time);
                 sawSomeone = true;
-            } else
-				emit Stayed(c, uint8(currentLocation[Char(c)]), time);
+            } //else
+			//	emit Stayed(c, uint8(currentLocation[Char(c)]), time);
         }
         if (!sawSomeone) emit SawWhenLeaving(char, uint8(Char.NOBODY), true, uint8(currentLocation[Char(char)]), time);
 
@@ -105,11 +105,11 @@ contract StoryModel {
 	}
 
     function stay() internal {
-        for (uint8 c = 1; c < numChars; c++) {
+        /*for (uint8 c = 1; c < numChars; c++) {
             if (Char(c) == victimIdentity) // victim will always stay
                 continue;
             emit Stayed(c, uint8(currentLocation[Char(c)]), time);
-        }
+        }*/
         time = time + 15 minutes;
         numberOfMoves++;
     }
@@ -125,6 +125,7 @@ contract StoryModel {
         if (lastMovement[Char(char)] == time)
             stay();
 
+        emit Stayed(char, uint8(currentLocation[Char(char)]), lastMovement[Char(char)], time);
         sawEvents(char, place);
         currentLocation[Char(char)] = Place(place);
 		changedLocation[Char(char)] = true;

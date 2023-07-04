@@ -23,7 +23,6 @@ def read_solidity(filename):
 	return parser.objectify(source_unit)
 
 def get_enum(source, contract_name, typ):
-	typ = ''.join(i for i in typ if not i.isdigit())
 	enums_map = source.contracts[contract_name].enums
 	enum_map = enums_map[typ.capitalize()]["members"]
 	return list(map(lambda x: "$" + x.name, enum_map))
@@ -43,6 +42,7 @@ def get_event(source, contract_name, event):
 	event_call = [event_name]
 	for (argument, typ) in zip(args.split(","), abi[event_name].arguments):
 		argument = argument.strip()
+		typ = ''.join(i for i in typ if not i.isdigit())
 		if (argument == "true" or argument == "false"):
 			event_call.append(argument == "true")
 			continue
