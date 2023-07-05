@@ -81,21 +81,21 @@ function computeRank() {
 		i = i + 1
 	}
 	viewedPercentage = 100 * viewed / i;
-	rank = ""
+	rank = "Sleuth-o-matic: "
 	if (viewedPercentage ==  0 && tries == 0) {
-		rank = "sleuth level: <b>clairvoyant</b> 🪄";
+		rank = "<b>clairvoyant</b> 🪄";
 		rank = rank + "<br><i>Next time try guessing the lotto</i>!"
 	} else if (viewedPercentage <= 25 && tries == 0) {
-		rank = "sleuth level: <b>chief inspector</b> 🕵️";
+		rank = "<b>chief inspector</b> 🕵️";
 		rank = rank + "<br><i>Your deductive abilities are remarkable !</i>"
 	} else if (viewedPercentage <= 50 && tries == 0) {
-		rank = "sleuth level: <b>senior detective</b> 🕵️";
+		rank = "<b>senior detective</b> 🕵️";
 		rank = rank + "<br><i>Good job indeed !</i>"
 	} else if (viewedPercentage <= 75 && tries == 0) {
-		rank = "sleuth level: <b>sub-inspector!</b> 🕵️";
+		rank = "<b>sub-inspector!</b> 🕵️";
 		rank = rank + "<br><i>Keep sharpening your deductive skills!</i>"
 	} else {
-		rank = "sleuth level: <b>constable</b> 👮"
+		rank = "<b>constable</b> 👮"
 		rank = rank + "<br><i>Congratulations on a job.. done!</i>"
 	}
 
@@ -167,9 +167,17 @@ async function hash(message) {
 
 function checkAccusation(solution) {
 	input = "";
-	input = input + document.getElementById("who-selector").value + "-";
-	input = input + document.getElementById("how-selector").value + "-";
-	input = input + document.getElementById("when-selector").value;
+	let who = document.getElementById("who-selector").value;
+	let how = document.getElementById("how-selector").value;
+	let when = document.getElementById("when-selector").value;
+	if (who == "" || how == "" || when == "") {
+		alert("You accusation is incomplete detective!");
+		return;
+	}
+
+	input = input + who + "-";
+	input = input + how + "-";
+	input = input + when;
 
 	hash(input).then((result) => {
 		if (result == solution) {
