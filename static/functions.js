@@ -83,20 +83,20 @@ function computeRank() {
 	viewedPercentage = 100 * viewed / i;
 	rank = "Sleuth-o-matic: "
 	if (viewedPercentage ==  0 && tries == 0) {
-		rank = "<b>clairvoyant</b> 🪄";
-		rank = rank + "<br><i>Next time try guessing the lotto</i>!"
+		rank += "<b>clairvoyant</b> 🪄";
+		rank += "<br><i>Next time try guessing the lotto</i>!"
 	} else if (viewedPercentage <= 25 && tries == 0) {
-		rank = "<b>chief inspector</b> 🕵️";
-		rank = rank + "<br><i>Your deductive abilities are remarkable !</i>"
+		rank += "<b>chief inspector</b> 🕵️";
+		rank += "<br><i>Your deductive abilities are remarkable !</i>"
 	} else if (viewedPercentage <= 50 && tries == 0) {
-		rank = "<b>senior detective</b> 🕵️";
-		rank = rank + "<br><i>Good job indeed !</i>"
+		rank += "<b>senior detective</b> 🕵️";
+		rank += "<br><i>Good job indeed !</i>"
 	} else if (viewedPercentage <= 75 && tries == 0) {
-		rank = "<b>sub-inspector!</b> 🕵️";
-		rank = rank + "<br><i>Keep sharpening your deductive skills!</i>"
+		rank += "<b>sub-inspector!</b> 🕵️";
+		rank += "<br><i>Keep sharpening your deductive skills!</i>"
 	} else {
-		rank = "<b>constable</b> 👮"
-		rank = rank + "<br><i>Congratulations on a job.. done!</i>"
+		rank += "<b>constable</b> 👮"
+		rank += "<br><i>Congratulations on a job.. done!</i>"
 	}
 
 	return rank;
