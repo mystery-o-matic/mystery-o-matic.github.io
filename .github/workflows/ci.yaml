@@ -47,6 +47,14 @@ jobs:
         solc-select install 0.8.17
         solc-select use 0.8.17
 
+    - name: Install fonts
+      run: |
+        mkdip -p ~/.local/share/fonts
+        wget -O "Raleway.zip" "https://fonts.google.com/download?family=Raleway"
+        unzip -u "Raleway.zip" -d ~/.local/share/fonts
+        rm -Rf ~/.local/share/fonts/README.txt
+        fc-cache -f
+
     - name: Generate Murder Mystery
       run: |
         pip3 install .
