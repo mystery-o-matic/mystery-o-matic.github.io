@@ -49,7 +49,7 @@ jobs:
 
     - name: Install fonts
       run: |
-        mkdip -p ~/.local/share/fonts
+        mkdir -p ~/.local/share/fonts
         wget -O "Raleway.zip" "https://fonts.google.com/download?family=Raleway"
         unzip -u "Raleway.zip" -d ~/.local/share/fonts
         rm -Rf ~/.local/share/fonts/README.txt
