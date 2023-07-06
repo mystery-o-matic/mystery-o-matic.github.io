@@ -22,7 +22,8 @@ contract StoryModel {
     event SawWhenArriving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);
     event Stayed(uint8 char0, uint8 place, uint256 time0, uint256 time1);
 	event WasMurdered(uint8 char0, uint8 place, uint256 time);
-    event PoliceArrived(uint256 time);
+	event FinalLocation(uint8 char0, uint8 place);
+	event PoliceArrived(uint256 time);
 
     mapping(Char => Place) private currentLocation;
     mapping(Char => uint256) private lastMovement;
@@ -45,8 +46,6 @@ contract StoryModel {
 
         // This should be randomly generated
         //$currentLocations
-
-        //$finalLocations
 
         //$locationWeapon
         minNumberOfMoves = 1;
@@ -172,10 +171,11 @@ contract StoryModel {
         for (uint8 char = 1; char < numChars; char++) {
 			if (!changedLocation[Char(char)])
 				return true;
-            if (currentLocation[Char(char)] != finalLocation[Char(char)])
-                return true;
         }
         emit PoliceArrived(time + 15 minutes);
+        for (uint8 char = 1; char < numChars; char++)
+            emit FinalLocation(char, uint8(currentLocation[Char(char)]));
+
         return false;
     }
 }

@@ -52,7 +52,7 @@ def main() -> int:
 	html_template = read_html_template(static_dir + "/index.template.html")
 
 	model = Model("StoryModel", locations, out_dir, solidity_file)
-	(initial_locations_pairs, final_locations_pairs, weapon_location) = model.generate_conditions()
+	(initial_locations_pairs, weapon_location) = model.generate_conditions()
 	solidity_file = model.generate_solidity()
 
 	print("Running the simulation..")
@@ -68,7 +68,7 @@ def main() -> int:
 		events = result["tests"][0]["events"]
 
 	weapon_used = weapon_locations[weapon_location]
-	mystery = Mystery(initial_locations_pairs, final_locations_pairs, weapon_used, model.source, txs)
+	mystery = Mystery(initial_locations_pairs, weapon_used, model.source, txs)
 	mystery.load_events(events)
 	mystery.process_clues()
 	intervals = mystery.get_intervals()
@@ -92,7 +92,7 @@ def main() -> int:
 	bullets.append(weapon_locations_bullets)
 
 	sub_bullets = []
-	for (c, p) in mystery.final_locations:
+	for (c, p) in mystery.final_locations.items():
 		sub_bullets.append("{} was in the {}".format(c, p))
 
 	final_locations_bullets = "When the police arrived at {}:\n".format(mystery.final_time)
@@ -116,7 +116,7 @@ def main() -> int:
 	args["NOBODY"] = "nobody"
 
 	args["BEDROOM"] = "bedroom"
-	args["LIVING"] = "living"
+	args["LIVING"] = "living room"
 	args["KITCHEN"] = "kitchen"
 	args["BATHROOM"] = "bathroom"
 

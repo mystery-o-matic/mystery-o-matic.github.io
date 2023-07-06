@@ -42,7 +42,7 @@ class Clue:
 			return self.print_WeaponNotUsed_clue()
 		else:
 			print("Invalid clue!", self.name, self.fields)
-			assert(false)
+			assert(False)
 
 	def is_incriminating(self, killer, victim):
 		if (self.name == "SawWhenArriving" and self.fields[0] == killer and self.fields[1] == victim):

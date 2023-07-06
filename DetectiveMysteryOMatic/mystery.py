@@ -20,10 +20,10 @@ class Mystery:
 	interval_size = 15 * 60 # 15 minutes
 	final_time = ""
 
-	def __init__(self, initial_locations, final_locations, weapon_used, source, txs):
+	def __init__(self, initial_locations, weapon_used, source, txs):
 		self.source = source
 		self.initial_locations = initial_locations
-		self.final_locations = final_locations
+		self.final_locations = dict()
 		self.weapon_used = weapon_used
 
 		for tx in txs:
@@ -59,6 +59,9 @@ class Mystery:
 					call[1] = call[2]
 					call[2] = self.victim
 			elif call[0].startswith("Stayed") and call[1] == self.victim:
+				continue
+			elif call[0] == "FinalLocation":
+				self.final_locations[call[1]] = call[2]
 				continue
 
 			if (call[0] == "WasMurdered"):

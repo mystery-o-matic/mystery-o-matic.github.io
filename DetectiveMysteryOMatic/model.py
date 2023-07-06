@@ -12,7 +12,6 @@ class Model:
 	weapon_location_condition = ""
 	connection_conditions = ""
 	initial_locations_conditions = ""
-	final_locations_conditions = ""
 
 	def __init__(self, contract_name, locations, outdir, solidity_file):
 		self.contract_name = contract_name
@@ -28,13 +27,10 @@ class Model:
 		initial_locations_pairs = self.get_location_conditions()
 		self.initial_locations_conditions = self.generate_location_conditions(initial_locations_pairs, "currentLocation")
 
-		final_locations_pairs = self.get_location_conditions()
-		self.final_locations_conditions = self.generate_location_conditions(final_locations_pairs, "finalLocation")
-
-		return (initial_locations_pairs, final_locations_pairs, self.weapon_location)
+		return (initial_locations_pairs, self.weapon_location)
 
 	def generate_solidity(self):
-		solidity_source = self.template.substitute(connectionLocations = self.connection_conditions, currentLocations = self.initial_locations_conditions, finalLocations = self.final_locations_conditions, locationWeapon = self.weapon_location_condition)
+		solidity_source = self.template.substitute(connectionLocations = self.connection_conditions, currentLocations = self.initial_locations_conditions, locationWeapon = self.weapon_location_condition)
 		return save_solidity(self.outdir, solidity_source)
 
 	def generate_location_connections(self):
