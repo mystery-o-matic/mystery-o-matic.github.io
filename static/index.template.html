@@ -111,25 +111,37 @@
 				The clues offered require both spacial and temporal deductions in order to solve the case.</p>
 
 			<h3>Understanding clues and making deductions</h3>
-			<p> Let's say we have the following clue:<br>
-			<q cite="">Alice said: 'I saw Bob when I arrived to the kitchen at 10:15'</q></p>
+			<p> Let's say we have the following clue:</p>
+			<p><q cite=""><b>Alice said: 'I saw Bob when I arrived to the kitchen at 10:15'</b></q></p>
 			<p> There is a surprising amount of information packed in this clue if we consider both spacial and temporal constraints.
 				From this clue, we can deduce:
-				<lu>
-					<li>Alice was in the kitchen at 10:15</li>
-					<li>Bob was in the kitchen at 10:15</li>
-					<li>Bob was alive at 10:15 (if he were the victim)</li>
-					<li>Alice was NOT in the kitchen at 10:00</li>
+				<lu class="list-group">
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was in the kitchen at 10:15</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was in the kitchen at 10:15</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was alive at 10:15 (if he were the victim)</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 10:00</li>
 				</lu>
 			</p>
+
 			<p>Where was Alice at 10:00 then? The location graph offers some clues:</p>
-			<img src="images/locations_tutorial.svg" class="mx-auto d-block" style="width: 35%; height: 35%;" alt="...">
+			<img src="images/locations_tutorial.svg" style="max-width: 100%; height: 100%;" alt="...">
 			<p>Since the kitchen is only connected by the living and the bedroom, we cannot deduce where exactly Alice was.
 				However, we can still make a deduction:
-				<lu>
-					<li>Alice was NOT in the bedroom at 10:00</li>
+				<lu class="list-group">
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at 10:00</li>
 				</lu>
 			</p>
+
+			<p>Using this information, we can complete the clues table adding either ✓ or ✗:</p>
+
+			<div class="container d-flex align-items-center justify-content-center" style="user-select: none">
+				<div class="row align-items-center">
+					<div class="col-sm-1">Kitchen</div>
+					<div class="col-md-auto">
+						<div id="clues-table-kitchen-tutorial" class="table-sm"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 

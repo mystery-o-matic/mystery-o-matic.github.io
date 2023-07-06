@@ -8,6 +8,10 @@ function showPage(page) {
 	document.getElementById("about").style.display = "none";
 	document.getElementById("how-to-play").style.display = "none";
 	document.getElementById(page).style.display = "block";
+
+	for (let i = 0; i < tables.length; i++) {
+		tables[i].redraw(true);
+	}
 }
 
 hideClues();
@@ -109,18 +113,22 @@ function markedAsViewed(element) {
 
 //create Tabulator on DOM element with id "example-table"
 var tables = [];
-tables.push(createCluesTable("bedroom", nColumns, timeOffset, true));
-tables.push(createCluesTable("kitchen", nColumns, timeOffset, false));
-tables.push(createCluesTable("living", nColumns, timeOffset, false));
-tables.push(createCluesTable("bathroom", nColumns, timeOffset, false));
+tables.push(createCluesTable("bedroom", nColumns, timeOffset, true, false));
+tables.push(createCluesTable("kitchen", nColumns, timeOffset, false, false));
+tables.push(createCluesTable("living", nColumns, timeOffset, false, false));
+tables.push(createCluesTable("bathroom", nColumns, timeOffset, false, false));
+tables.push(createCluesTable("kitchen-tutorial", nColumns, timeOffset, true, true));
 
-function createCluesTable(name, nColumns, timeOffset, headerVisible) {
+function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
   var date = new Date(null);
   date.setSeconds(timeOffset);
   var columns = [ //Define Table Columns
   {title:"", field:"name", headerSort:false, hozAlign:"center", vertAlign:"center", resizable: false},
   ];
   var title;
+  if (isTutorial)
+	nColumns = 6;
+
   for (let i = 0; i < nColumns; i++) {
     title = date.toISOString().substr(11, 5);
 	columns.push({title:title, width: 45, headerSort:false, hozAlign:"center", vertAlign:"center", resizable:false});
@@ -128,6 +136,9 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible) {
   }
 
   var tabledata = [];
+  if (isTutorial)
+ 	suspectNames = ['alice', 'bob'];
+
   for (let i = 0; i < suspectNames.length; i++) {
 	tabledata.push({id: i, name: suspectNames[i]});
   }
