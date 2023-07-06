@@ -117,7 +117,8 @@ tables.push(createCluesTable("bedroom", nColumns, timeOffset, true, false));
 tables.push(createCluesTable("kitchen", nColumns, timeOffset, false, false));
 tables.push(createCluesTable("living", nColumns, timeOffset, false, false));
 tables.push(createCluesTable("bathroom", nColumns, timeOffset, false, false));
-tables.push(createCluesTable("kitchen-tutorial", nColumns, timeOffset, true, true));
+tables.push(createCluesTable("kitchen-tutorial", 6, timeOffset, true, true));
+tables.push(createCluesTable("bathroom-tutorial", 6, timeOffset, false, true));
 
 function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
   var date = new Date(null);
@@ -126,9 +127,6 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
   {title:"", field:"name", headerSort:false, hozAlign:"center", vertAlign:"center", resizable: false},
   ];
   var title;
-  if (isTutorial)
-	nColumns = 6;
-
   for (let i = 0; i < nColumns; i++) {
     title = date.toISOString().substr(11, 5);
 	columns.push({title:title, width: 45, headerSort:false, hozAlign:"center", vertAlign:"center", resizable:false});
