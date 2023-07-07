@@ -97,43 +97,54 @@
 			</p>
 
 			<p>The creators drew inspiration from popular games
-				like <a href="https://en.wikipedia.org/wiki/Cluedo">Cluedo</a> (naturally), <a href="http://www.squidi.net/three/entry.php?id=69">Squidi's "Infinite Detective"</a> and
-				<a href="https://murdle.com/">Murdle</a> to shape the captivating world of mystery-o-matic.</p>
+				like <a href="https://en.wikipedia.org/wiki/Cluedo">Cluedo</a> (naturally), <a
+					href="http://www.squidi.net/three/entry.php?id=69">Squidi's "Infinite Detective"</a> and
+				<a href="https://murdle.com/">Murdle</a> to shape the captivating world of mystery-o-matic.
+			</p>
 
 			<p>The website is still in beta, therefore, rules, interface and design is subject to change!
-				Please feel free to provide feedback <a href="https://forms.gle/dvA4Wr8LiuHFmDZN7">here</a> or in <a href="https://www.reddit.com/r/mystery_o_matic/">our subreddit</a>.
+				Please feel free to provide feedback <a href="https://forms.gle/dvA4Wr8LiuHFmDZN7">here</a> or in <a
+					href="https://www.reddit.com/r/mystery_o_matic/">our subreddit</a>.
 			</p>
 		</div>
 	</div>
 
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
-			<p>mystery-o-matic presents a daily mystery that happened in a particular location, with each suspect performing actions on their own.
+			<p>mystery-o-matic presents a daily mystery that happened in a particular location, with each suspect
+				performing actions on their own.
 				The clues offered require both spacial and temporal deductions in order to solve the case.</p>
 
 			<h3>🎓 Understanding clues and making deductions</h3>
 			<p> Let's say we have the following clue:</p>
 			<p><q cite=""><b>Alice said: 'I saw Bob when I arrived to the kitchen at 10:15'</b></q></p>
-			<p> There is a surprising amount of information packed in this clue if we consider both spacial and temporal constraints.
+			<p> There is a surprising amount of information packed in this clue if we consider both spacial and temporal
+				constraints.
 				From this clue, we can deduce:
 				<lu class="list-group">
-					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was in the kitchen at 10:15</li>
-					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was in the kitchen at 10:15</li>
-					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was alive at 10:15 (if he were the victim)</li>
-					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 10:00</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was in the kitchen at 10:15
+					</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was in the kitchen at 10:15
+					</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was alive at 10:15 (if he
+						were the victim)</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at
+						10:00</li>
 				</lu>
 			</p>
 
 			<p>Where was Alice at 10:00 then? The location graph offers some clues:</p>
 			<img src="images/locations_tutorial.svg" style="max-width: 100%; height: 100%;" alt="...">
-			<p>Since the kitchen is connected by both the living room and the bedroom, we cannot deduce where exactly Alice was.
-				However, we can still make a deduction:
+			<p>Since the kitchen is connected by both the living room and the bedroom, we cannot
+				deduce where exactly Alice was. However, we can still make a deduction:
 				<lu class="list-group">
-					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at 10:00</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at
+						10:00</li>
 				</lu>
 			</p>
 
-			<p>Using this information, we can complete the clue tables adding either ✓ or ✗. Clicking each deduction will strikethrough the text to help you focus on other clues:</p>
+			<p>Using this information, we can complete the clue tables adding either ✓ or ✗. Clicking each deduction
+				will strikethrough the text to help you focus on other clues:</p>
 			<div class="container d-flex align-items-center justify-content-center" style="user-select: none">
 				<div class="container">
 					<div class="row align-items-center justify-content-md-center">
@@ -245,34 +256,35 @@
 					<div class="row align-items-center justify-content-start">
 						<h4>👉 Time for accusations</h4>
 
-						<p>After working overnight collecting evidence, analyzing clues and inferring every possible bit of information, it is time to
-							crack this case selecting suspect, time of murder and weapon.
+						<p>After working overnight collecting evidence, analyzing clues and inferring every possible bit
+							of information, it is time to crack this case selecting
+							suspect, time of murder and weapon.
 						</p>
 
 						<ul class="sticky-notes">
 							<li class="sticky-notes">
 								<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
-								<h6 class="sticky-notes">The murderer was…</h6>
-								<select class="form-select sticky-notes" id="who-selector">
-									<option value="" disabled selected>Who?</option>
-									$selectSuspects
-								</select>
-							  </a>
+									<h6 class="sticky-notes">The murderer was…</h6>
+									<select class="form-select sticky-notes" id="who-selector">
+										<option value="" disabled selected>Who?</option>
+										$selectSuspects
+									</select>
+								</a>
 							</li>
 
 							<li class="sticky-notes">
 								<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
-								<h6 class="sticky-notes">The weapon was…</h6>
-								<select class="form-select sticky-notes" id="how-selector">
-									<option value="" disabled selected>How?</option>
-									$selectWeapon
-								</select>
-							  </a>
+									<h6 class="sticky-notes">The weapon was…</h6>
+									<select class="form-select sticky-notes" id="how-selector">
+										<option value="" disabled selected>How?</option>
+										$selectWeapon
+									</select>
+								</a>
 							</li>
 
 							<li class="sticky-notes">
 								<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
-								<h6 class="sticky-notes">Time of murder was…</h6>
+									<h6 class="sticky-notes">Time of murder was…</h6>
 									<select class="form-select sticky-notes" id="when-selector">
 										<option value="" disabled selected>When?</option>
 										$selectIntervals
@@ -292,8 +304,8 @@
 		<div id="accusation-win" class="container mt-5" style="display:none">
 			<h4>🤖 Answer is.. <span class="font-monospace">beep boop, correct!</span></h4>
 			<p>The weight of evidence against the accused was immense, leaving no room for doubt.
-			In a stunning turn of events, as soon as the police arrived, the accused succumbed to
-			the pressure and confessed their guilt.</p>
+				In a stunning turn of events, as soon as the police arrived, the accused succumbed to
+				the pressure and confessed their guilt.</p>
 			<p id="accusation-win-message">Congratulations on cracking the case!, you solved today's mystery with</p>
 			<p><b>Come back tomorrow for another challenge.</b></p>
 		</div>
@@ -302,18 +314,22 @@
 			<h4>🤖 Answer is.. <span class="font-monospace">beep boop, wrong!</span></h4>
 
 			<p>After apprehending the suspect, the authorities found themselves facing a perplexing puzzle of
-			conflicting evidence. Although they had managed to detain a person of interest, the available proof fell short of providing a definitive conviction. It became evident that
-			either the <b>suspect's identity, the timing of the crime, or even the weapon involved might be erroneous</b>,
-			creating a cloud of uncertainty around the investigation.</p>
+				conflicting evidence. Although they had managed to detain a person of interest, the available proof fell
+				short of providing a definitive conviction. It became evident that
+				either the <b>suspect's identity, the timing of the crime, or even the weapon involved might be
+					erroneous</b>,
+				creating a cloud of uncertainty around the investigation.</p>
 
-			<p>Your chief asks you to <b>review your accusation and try again</b> while she .. <i>cleans up your mess</i>. Otherwise, <b>you can come back tomorrow for another challenge</b>.</p>
+			<p>Your chief asks you to <b>review your accusation and try again</b> while she .. <i>cleans up your
+					mess</i>. Otherwise, <b>you can come back tomorrow for another challenge</b>.</p>
 		</div>
 	</div>
 
 	<footer class="py-3 my-4">
 		<ul class="nav justify-content-center border-bottom pb-3 mb-3">
 			<li class="nav-item"><a href="#" onClick="showPage('home')" class="nav-link px-2 text-muted">Home</a></li>
-			<li class="nav-item"><a href="#" onClick="showPage('how-to-play')" class="nav-link px-2 text-muted">How to play</a></li>
+			<li class="nav-item"><a href="#" onClick="showPage('how-to-play')" class="nav-link px-2 text-muted">How to
+					play</a></li>
 			<li class="nav-item"><a href="#" onClick="showPage('about')" class="nav-link px-2 text-muted">About</a>
 			</li>
 		</ul>
