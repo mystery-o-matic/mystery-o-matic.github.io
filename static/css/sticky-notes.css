@@ -1,0 +1,100 @@
+body.sticky-notes{
+  font-family:arial,sans-serif;
+  font-size:100%;
+  margin:3em;
+  background:#666;
+  color:#fff;
+}
+ul li select.sticky-notes{
+	background:#ffc;
+	color:#000;
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
+ul li:nth-child(even) select.sticky-notes{
+	background:#cfc;
+	color:#000;
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
+
+ul li:nth-child(3n) select.sticky-notes{
+	background:#ccf;
+	color:#000;
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
+
+h2.sticky-notes,p.sticky-notes{
+  font-size:100%;
+  font-weight:normal;
+}
+ul.sticky-notes,li.sticky-notes{
+  list-style:none;
+}
+ul.sticky-notes{
+  overflow:hidden;
+  padding:3em;
+}
+ul li a.sticky-notes{
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:8em;
+  width:8.5em;
+  padding:1em;
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  -moz-transition:-moz-transform .15s linear;
+  -o-transition:-o-transform .15s linear;
+  -webkit-transition:-webkit-transform .15s linear;
+}
+ul li.sticky-notes{
+  margin:1em;
+  float:left;
+}
+ul li h2.sticky-notes{
+  font-size:140%;
+  font-weight:bold;
+  padding-bottom:10px;
+}
+ul li p.sticky-notes{
+  font-family:arial,sans-serif;
+  font-size:180%;
+}
+ul li a.sticky-notes{
+  -webkit-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -moz-transform:rotate(-3deg);
+}
+ul li:nth-child(even) a.sticky-notes{
+  -o-transform:rotate(3deg);
+  -webkit-transform:rotate(3deg);
+  -moz-transform:rotate(3deg);
+  position:relative;
+  top:5px;
+  background:#cfc;
+}
+ul li:nth-child(3n) a.sticky-notes{
+  -o-transform:rotate(-3deg);
+  -webkit-transform:rotate(-3deg);
+  -moz-transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  background:#ccf;
+}
+ul li a:hover.sticky-notes,ul li a:focus.sticky-notes{
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+  position:relative;
+  z-index:5;
+}
+ol.sticky-notes{text-align:center;}
+ol li.sticky-notes{display:inline;padding-right:1em;}
+ol li a.sticky-notes{color:#fff;}

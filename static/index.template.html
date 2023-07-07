@@ -53,6 +53,7 @@
 			background-color: #CCCCCC !important;
 		}
 	</style>
+	<link href="css/sticky-notes.css" rel="stylesheet">
 	<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 	<title>mystery-o-matic</title>
@@ -223,7 +224,7 @@
 
 					<div class="row align-items-center justify-content-md-center">
 
-						<div class="col-sm-1">Living</div>
+						<div class="col-sm-1">Living room</div>
 						<div class="col-md-auto">
 							<div id="clues-table-living" class="table-sm"></div>
 						</div>
@@ -248,26 +249,38 @@
 							crack this case selecting suspect, time of murder and weapon.
 						</p>
 
-						<select class="form-select" id="who-selector">
-							<option value="" disabled selected>Who?</option>
-							$selectSuspects
-						</select>
-					</div>
+						<ul class="sticky-notes">
+							<li class="sticky-notes">
+								<a href="#/" class="sticky-notes" onClick="javascript:void()">
+								<h6 class="sticky-notes">The murderer was..</h6>
+								<select class="form-select sticky-notes" id="who-selector">
+									<option value="" disabled selected>Who?</option>
+									$selectSuspects
+								</select>
+							  </a>
+							</li>
 
-					<div class="row align-items-center justify-content-start">
-						<select class="form-select" id="when-selector">
-							<option value="" disabled selected>When?</option>
-							$selectIntervals
-						</select>
-					</div>
+							<li class="sticky-notes">
+								<a href="#/" class="sticky-notes" onClick="javascript:void()">
+								<h6 class="sticky-notes">The weapon was..</h6>
+								<select class="form-select sticky-notes" id="how-selector">
+									<option value="" disabled selected>How?</option>
+									$selectWeapon
+								</select>
+							  </a>
+							</li>
 
-					<div class="row align-items-center justify-content-start">
-						<select class="form-select" id="how-selector">
-							<option value="" disabled selected>How?</option>
-							$selectWeapon
-						</select>
+							<li class="sticky-notes">
+								<a href="#/" class="sticky-notes" onClick="javascript:void()">
+								<h6 class="sticky-notes">Time of murder was..</h6>
+									<select class="form-select sticky-notes" id="when-selector">
+										<option value="" disabled selected>When?</option>
+										$selectIntervals
+									</select>
+								</a>
+							</li>
+						</ul>
 					</div>
-
 					<div class="row align-items-center justify-content-start">
 						<button id="accusation-button" type="button" class="btn btn-danger"
 							onclick="checkAccusation('$correctAnswer')">Accuse!</button>
