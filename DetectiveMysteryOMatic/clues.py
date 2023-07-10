@@ -9,17 +9,9 @@ class Clue:
 
 	def __str__(self):
 		if (self.name == "SawWhenArriving"):
-			str = "{} said: \"I saw "
-			if not self.fields[2]:
-				str += "the body of "
-
-			str += "{} when I arrived to the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
-
+			return self.print_SawWhenArriving_clue()
 		elif (self.name == "NotSawWhenArriving"):
-			str = "{} said: \"{} was not in the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
-
+			return self.print_NotSawWhenArriving_clue()
 		elif (self.name == "SawVictimWhenArriving"):
 			str = "{} said: \"I saw "
 			if not self.fields[2]:
@@ -60,6 +52,46 @@ class Clue:
 		elif (self.name == "SawVictimWhenArriving" and self.fields[0] == killer and self.fields[1] == victim):
 			return True
 		return False
+
+	def print_SawWhenArriving_clue(self):
+		r = randint(0, 3)
+		str = "{} said \""
+
+		if (self.fields[1] == "$NOBODY"):
+			r = 0
+
+		if (r == 0):
+			str += "I saw "
+		elif (r == 1):
+			str += "I think I saw "
+		elif (r == 2):
+			str += "I'm sure I saw "
+		elif (r == 3):
+			str += "I remember "
+		else:
+			assert(False)
+
+		if not self.fields[2]:
+			str += "the body of "
+
+		str += "{} when I arrived to the {} at {}\""
+		return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
+
+	def print_NotSawWhenArriving_clue(self):
+		r = randint(0, 2)
+		str = "{} said: \""
+
+		if (r == 0):
+			str += " "
+		elif (r == 1):
+			str += "I don't think "
+		elif (r == 2):
+			str += "I'm sure "
+		else:
+			assert(False)
+
+		str += "{} was not in the {} at {}\""
+		return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
 
 	def print_WeaponNotUsed_clue(self):
 		r = randint(0, 2)
