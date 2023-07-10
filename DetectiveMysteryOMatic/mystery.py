@@ -49,7 +49,7 @@ class Mystery:
 
 		for call in event_calls:
 			# victim clues should be modified
-			if call[0].startswith("Saw") and call[1] == self.victim:
+			if (call[0].startswith("Saw") or call[0].startswith("NotSaw")) and call[1] == self.victim:
 				if call[2] == "$NOBODY": # No witnesses
 					continue
 				elif call[0] == "SawWhenLeaving": # TODO

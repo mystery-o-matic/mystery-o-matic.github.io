@@ -20,7 +20,9 @@ contract StoryModel {
     // Clues
     event SawWhenLeaving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);
     event SawWhenArriving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);
-    event Stayed(uint8 char0, uint8 place, uint256 time0, uint256 time1);
+    event NotSawWhenLeaving(uint8 char0, uint8 char1, uint8 place, uint256 time);
+    event NotSawWhenArriving(uint8 char0, uint8 char1, uint8 place, uint256 time);
+	event Stayed(uint8 char0, uint8 place, uint256 time0, uint256 time1);
 	event WasMurdered(uint8 char0, uint8 place, uint256 time);
 	event FinalLocation(uint8 char0, uint8 place);
 	event PoliceArrived(uint256 time);
@@ -79,10 +81,20 @@ contract StoryModel {
             if (currentLocation[Char(c)] == currentLocation[Char(char)]) {
                 emit SawWhenLeaving(char, c, wasAlive, uint8(currentLocation[Char(char)]), time);
                 sawSomeone = true;
-            } //else
-			//	emit Stayed(c, uint8(currentLocation[Char(c)]), time);
+            }
         }
-        if (!sawSomeone) emit SawWhenLeaving(char, uint8(Char.NOBODY), true, uint8(currentLocation[Char(char)]), time);
+        if (!sawSomeone) // No one was there
+			emit SawWhenLeaving(char, uint8(Char.NOBODY), true, uint8(currentLocation[Char(char)]), time);
+		else {
+			// Someone was there, so have some negatives clues
+			for (uint8 c = 1; c < numChars; c++) {
+				if (c == char) continue;
+
+				if (currentLocation[Char(c)] != currentLocation[Char(char)]) {
+					emit NotSawWhenLeaving(char, c, uint8(currentLocation[Char(char)]), time);
+				}
+			}
+		}
 
 		time = time + 15 minutes;
 
@@ -96,7 +108,17 @@ contract StoryModel {
                 sawSomeone = true;
             }
         }
-        if (!sawSomeone) emit SawWhenArriving(char, uint8(Char.NOBODY), true, place, time);
+        if (!sawSomeone)
+			emit SawWhenArriving(char, uint8(Char.NOBODY), true, place, time);
+		else {
+			for (uint8 c = 1; c < numChars; c++) {
+				if (c == char) continue;
+
+				if (currentLocation[Char(c)] != Place(place)) {
+					emit NotSawWhenArriving(char, c, place, time);
+				}
+			}
+		}
     }
 
 	function checkConnection(Place p0, Place p1) view internal returns (bool) {
@@ -104,11 +126,6 @@ contract StoryModel {
 	}
 
     function stay() internal {
-        /*for (uint8 c = 1; c < numChars; c++) {
-            if (Char(c) == victimIdentity) // victim will always stay
-                continue;
-            emit Stayed(c, uint8(currentLocation[Char(c)]), time);
-        }*/
         time = time + 15 minutes;
         numberOfMoves++;
     }

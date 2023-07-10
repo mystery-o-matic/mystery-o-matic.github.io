@@ -16,6 +16,10 @@ class Clue:
 			str += "{} when I arrived to the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
 
+		elif (self.name == "NotSawWhenArriving"):
+			str = "{} said: \"{} was not in the {} at {}\""
+			return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
+
 		elif (self.name == "SawVictimWhenArriving"):
 			str = "{} said: \"I saw "
 			if not self.fields[2]:
@@ -32,6 +36,10 @@ class Clue:
 
 			str += "{} when I was leaving the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
+		elif (self.name == "NotSawWhenLeaving"):
+			str = "{} said: \"{} was not in the {} at {}\""
+			return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
+
 		elif (self.name == "WasMurdered"):
 			return "{} was murdered in the {} between {} and {}!".format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
 		elif (self.name == "PoliceArrived"):
