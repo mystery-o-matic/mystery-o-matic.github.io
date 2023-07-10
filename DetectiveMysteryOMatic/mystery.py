@@ -48,8 +48,10 @@ class Mystery:
 			event_calls.append(get_event(self.source, "StoryModel", event))
 
 		for call in event_calls:
+			if call[0].startswith("NotSaw") and call[1] == self.victim:
+				continue
 			# victim clues should be modified
-			if (call[0].startswith("Saw") or call[0].startswith("NotSaw")) and call[1] == self.victim:
+			elif call[0].startswith("Saw") and call[1] == self.victim:
 				if call[2] == "$NOBODY": # No witnesses
 					continue
 				elif call[0] == "SawWhenLeaving": # TODO
