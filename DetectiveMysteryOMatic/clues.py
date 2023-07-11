@@ -6,6 +6,10 @@ class Clue:
 	def __init__(self, name, fields):
 		self.name = name
 		self.fields = fields
+		r = randint(1, 10)
+		self.foggy = False
+		if (r <= 5):
+			self.foggy = True
 
 	def __str__(self):
 		if (self.name == "SawWhenArriving"):
@@ -13,21 +17,11 @@ class Clue:
 		elif (self.name == "NotSawWhenArriving"):
 			return self.print_NotSawWhenArriving_clue()
 		elif (self.name == "SawVictimWhenArriving"):
-			str = "{} said: \"I saw "
-			if not self.fields[2]:
-				str += "the body of "
-
-			str += "{} arriving to the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
+			return self.print_SawVictimWhenArriving_clue()
 	#	elif (name == "SawVictimWhenLeaving"):
 	#		return "{} said: \"I saw {} leaving to {} at {}\"".format(clue[1], clue[2], clue[3], clue[4])
 		elif (self.name == "SawWhenLeaving"):
-			str = "{} said: \"I saw "
-			if not self.fields[2]:
-				str += "the body of "
-
-			str += "{} when I was leaving the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
+			return self.print_SawWhenLeaving_clue()
 		elif (self.name == "NotSawWhenLeaving"):
 			str = "{} said: \"{} was not in the {} at {}\""
 			return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
@@ -53,6 +47,42 @@ class Clue:
 			return True
 		return False
 
+	def print_SawVictimWhenArriving_clue(self):
+		str = "{} said: \"I saw "
+		if not self.fields[2]:
+			str += "the body of "
+
+		str += "{} arriving to the {} at {}\""
+		return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
+
+	def print_SawWhenLeaving_clue(self):
+		r = randint(0, 3)
+		str = "{} said \""
+
+		if (self.fields[1] == "$NOBODY"):
+			r = 0
+
+		if (r == 0):
+			str += "I saw "
+		elif (r == 1):
+			str += "I think I saw "
+		elif (r == 2):
+			str += "I'm sure I saw "
+		elif (r == 3):
+			str += "I remember "
+		else:
+			assert(False)
+
+		if not self.fields[2]:
+			str += "the body of "
+
+		if (self.foggy and self.fields[2]):
+			if (self.fields[1] is not "$NOBODY"):
+				self.fields[1] = "somebody"
+
+		str += "{} when I was leaving the {} at {}\""
+		return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
+
 	def print_SawWhenArriving_clue(self):
 		r = randint(0, 3)
 		str = "{} said \""
@@ -73,6 +103,10 @@ class Clue:
 
 		if not self.fields[2]:
 			str += "the body of "
+
+		if (self.foggy and self.fields[2]):
+			if (self.fields[1] is not "$NOBODY"):
+				self.fields[1] = "somebody"
 
 		str += "{} when I arrived to the {} at {}\""
 		return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
