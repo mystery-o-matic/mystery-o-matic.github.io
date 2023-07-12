@@ -15,7 +15,7 @@ class Clue:
 		if (self.name == "SawWhenArriving"):
 			return self.print_SawWhenArriving_clue()
 		elif (self.name == "NotSawWhenArriving"):
-			return self.print_NotSawWhenArriving_clue()
+			return self.print_NotSawWhenArrivingLeaving_clue()
 		elif (self.name == "SawVictimWhenArriving"):
 			return self.print_SawVictimWhenArriving_clue()
 	#	elif (name == "SawVictimWhenLeaving"):
@@ -23,9 +23,7 @@ class Clue:
 		elif (self.name == "SawWhenLeaving"):
 			return self.print_SawWhenLeaving_clue()
 		elif (self.name == "NotSawWhenLeaving"):
-			str = "{} said: \"{} was not in the {} at {}\""
-			return str.format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
-
+			return self.print_NotSawWhenArrivingLeaving_clue()
 		elif (self.name == "WasMurdered"):
 			return "{} was murdered in the {} between {} and {}!".format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
 		elif (self.name == "PoliceArrived"):
@@ -111,7 +109,7 @@ class Clue:
 		str += "{} when I arrived to the {} at {}\""
 		return str.format(self.fields[0], self.fields[1], self.fields[3], self.fields[4])
 
-	def print_NotSawWhenArriving_clue(self):
+	def print_NotSawWhenArrivingLeaving_clue(self):
 		r = randint(0, 2)
 		str = "{} said: \""
 
