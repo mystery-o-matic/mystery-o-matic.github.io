@@ -3,7 +3,22 @@ function getCurrentDate() {
 	return String(new Date().toLocaleTimeString('en-us', options)).split(" at")[0];
 }
 
+function getTableData() {
+	var data = [];
+	for (let i = 0; i < tables.length; i++) {
+		data[i] = []
+		for (let row = 0; row < tables[i].getRows().length; row++) {
+			for (col = 1; col < tables[i].getRow(row).getCells().length; col++) {
+				value = tables[i].getRow(row).getCells()[col].getValue();
+				data[i].push([row, col, value]);
+			}
+		}
+	}
+	return data;
+}
+
 function showPage(page) {
+	data = getTableData();
 	document.getElementById("home").style.display = "none";
 	document.getElementById("about").style.display = "none";
 	document.getElementById("how-to-play").style.display = "none";
@@ -11,6 +26,10 @@ function showPage(page) {
 
 	for (let i = 0; i < tables.length; i++) {
 		tables[i].redraw(true);
+		for (let j = 0; j < data[i].length; j++) {
+			[row, col, value] = data[i][j];
+			tables[i].getRow(row).getCells()[col].setValue(value);
+		}
 	}
 }
 
