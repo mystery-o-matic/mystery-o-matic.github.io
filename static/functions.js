@@ -22,6 +22,7 @@ function showPage(page) {
 	document.getElementById("home").style.display = "none";
 	document.getElementById("about").style.display = "none";
 	document.getElementById("how-to-play").style.display = "none";
+	document.getElementById("sleuth-o-meter").style.display = "none";
 	document.getElementById(page).style.display = "block";
 
 	for (let i = 0; i < tables.length; i++) {
@@ -104,21 +105,24 @@ function computeRank() {
 		i = i + 1
 	}
 	viewedPercentage = 100 * viewed / i;
-	rank = "Sleuth-o-matic: "
+	rank = ""
 	if (viewedPercentage ==  0 && tries == 0) {
-		rank += "<b>clairvoyant</b> 🪄";
+		rank += "<b>clairvoyant</b> 🧙";
 		rank += "<br><i>Next time try guessing the lotto</i>!"
-	} else if (viewedPercentage <= 25 && tries == 0) {
-		rank += "<b>chief inspector</b> 🕵️";
-		rank += "<br><i>Your deductive abilities are remarkable !</i>"
 	} else if (viewedPercentage <= 50 && tries == 0) {
-		rank += "<b>senior detective</b> 🕵️";
+		rank += "<b>super sleuth</b> 🕵️";
+		rank += "<br><i>Your deductive abilities are remarkable !</i>"
+	} else if (viewedPercentage <= 60 && tries == 0) {
+		rank += "<b>seasoned P.I</b> 🕵️";
 		rank += "<br><i>Good job indeed !</i>"
-	} else if (viewedPercentage <= 75 && tries == 0) {
-		rank += "<b>sub-inspector!</b> 🕵️";
+	} else if (viewedPercentage <= 70 && tries == 0) {
+		rank += "<b>amateur gumshoe!</b> 👮";
+		rank += "<br><i>Keep sharpening your deductive skills!</i>"
+	} else if (viewedPercentage <= 80 && tries == 0) {
+		rank += "<b>absent minded!</b> 🤷";
 		rank += "<br><i>Keep sharpening your deductive skills!</i>"
 	} else {
-		rank += "<b>constable</b> 👮"
+		rank += "<b>barely conscious</b> 🧟"
 		rank += "<br><i>Congratulations on a job.. done!</i>"
 	}
 

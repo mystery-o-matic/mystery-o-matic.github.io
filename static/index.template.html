@@ -80,6 +80,38 @@
 		</div>
 	</div>
 
+	<div id="sleuth-o-meter" style="display:none">
+		<div class="container mt-5">
+			<h3>🌡️ Sleuth-o-meter</h3>
+
+			<p>mystery-o-matic brings back the venerable <a class="link-dark" href="https://www.benshoof.org/blog/super-sleuth">sleuth-o-meter™</a> from
+				<a class="link-dark" href="https://www.mobygames.com/game/461/the-colonels-bequest/">Laura Bow's mysteries</a> to keep track of score</p>
+
+			<div class="container d-flex aligns-items-center justify-content-center bg-secondary bg-gradient">
+				<div class="row align-items-center">
+					<div class="col-9">
+									<lu class="list-group">
+											<li class="list-group-item list-group-item-danger">Super sleuth</li>
+											<li class="list-group-item list-group-item-warning">Seasoned P.I.</li>
+											<li class="list-group-item list-group-item-success">Amateur Gumshoe</li>
+											<li class="list-group-item list-group-item-info">Absent Minded</li>
+											<li class="list-group-item list-group-item-primary">Barely Concious</li>
+									</lu>
+							</div>
+					<div class="col-3">
+						<img src="images/sleuth-o-meter.png" style="max-width: 100%; height: 50%;" alt="...">
+					</div>
+				</div>
+			</div>
+
+			<p>Each clue reveled will decrease your score. Keep in mind that the website is still in beta, so this scoring system, the interface or design is subject to change!
+				Please feel free to provide feedback <a href="https://forms.gle/dvA4Wr8LiuHFmDZN7">here</a> or in <a
+					href="https://www.reddit.com/r/mystery_o_matic/">our subreddit</a>.
+			</p>
+		</div>
+	</div>
+
+
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
 			<p>mystery-o-matic presents a daily mystery that happened in a particular location, with each suspect
@@ -174,7 +206,8 @@
 				<p>However, it's important to note that <strong>every clue you view will have an impact on your overall
 						score</strong>.
 					Exercise caution and strategic thinking as you navigate through the evidence and interrogate
-					the suspects to piece together the ultimate solution.</p>
+					the suspects to piece together the ultimate solution. Once you solve the daily mystery, you will receive an
+					rank from the <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')">sleuth-o-meter™</a></p>
 
 				<p>Are you up for the challenge? Let the investigation begin!</p>
 				$clues
@@ -277,7 +310,7 @@
 			<p>The weight of evidence against the accused was immense, leaving no room for doubt.
 				In a stunning turn of events, as soon as the police arrived, the accused succumbed to
 				the pressure and confessed their guilt.</p>
-			<p id="accusation-win-message">Congratulations on cracking the case!, you solved today's mystery with</p>
+			<p id="accusation-win-message">Congratulations on cracking the case!, you solved today's mystery with <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')">sleuth-o-meter™</a> rank of </p>
 			<p><b>Come back tomorrow for another challenge.</b></p>
 		</div>
 
