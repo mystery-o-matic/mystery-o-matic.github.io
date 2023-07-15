@@ -16,7 +16,6 @@ def create_locations_weapons():
 	weapon_locations = {}
 	shuffled_weapons = list(weapons)
 	shuffle(shuffled_weapons)
-	print(shuffled_weapons)
 
 	for (loc, weapon) in zip(mansion_locations.values(), shuffled_weapons):
 		weapon_locations[loc] = weapon
