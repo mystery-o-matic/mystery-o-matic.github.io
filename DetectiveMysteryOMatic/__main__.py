@@ -7,7 +7,7 @@ from datetime import datetime
 
 from DetectiveMysteryOMatic.html import read_html_template, create_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
 from DetectiveMysteryOMatic.echidna import create_outdir
-from DetectiveMysteryOMatic.location import create_locations_graph, render_locations, mansion_locations, weapon_locations
+from DetectiveMysteryOMatic.location import create_locations_graph, create_locations_weapons, render_locations, mansion_locations
 from DetectiveMysteryOMatic.mystery import Mystery
 from DetectiveMysteryOMatic.model import Model
 
@@ -48,6 +48,7 @@ def main() -> int:
 
 	create_outdir(out_dir)
 	locations = create_locations_graph(out_dir, mansion_locations)
+	weapon_locations = create_locations_weapons()
 
 	html_template = read_html_template(static_dir + "/index.template.html")
 
@@ -68,7 +69,7 @@ def main() -> int:
 		events = result["tests"][0]["events"]
 
 	weapon_used = weapon_locations[weapon_location]
-	mystery = Mystery(initial_locations_pairs, weapon_used, model.source, txs)
+	mystery = Mystery(initial_locations_pairs, weapon_locations, weapon_used, model.source, txs)
 	mystery.load_events(events)
 	mystery.process_clues()
 	intervals = mystery.get_intervals()

@@ -10,7 +10,7 @@ class Mystery:
 	source = None
 	solution = []
 	characters = []
-	weapons = []
+	weapon_locations = {}
 	killer = None
 	victim = None
 	initial_clues = []
@@ -20,11 +20,12 @@ class Mystery:
 	interval_size = 15 * 60 # 15 minutes
 	final_time = ""
 
-	def __init__(self, initial_locations, weapon_used, source, txs):
+	def __init__(self, initial_locations, weapon_locations, weapon_used, source, txs):
 		self.source = source
 		self.initial_locations = initial_locations
 		self.final_locations = dict()
 		self.weapon_used = weapon_used
+		self.weapon_locations = weapon_locations
 
 		for tx in txs:
 			self.solution.append(get_tx(self.source, "StoryModel", tx))
@@ -35,7 +36,6 @@ class Mystery:
 				self.victim = action[2]
 
 		self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
-		self.weapons = ["gun", "knife", "poison", "rope"]
 		shuffle(self.characters)
 		self.characters = self.characters[:3]
 
@@ -103,7 +103,7 @@ class Mystery:
 				clues.append(clue)
 
 		self.additional_clues = clues
-		for weapon in self.weapons:
+		for weapon in self.weapon_locations.values():
 			if weapon is not self.weapon_used:
 				clue = Clue("WeaponNotUsed", [weapon])
 				self.additional_clues.append(clue)
