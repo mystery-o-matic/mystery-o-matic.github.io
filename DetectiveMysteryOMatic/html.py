@@ -1,4 +1,5 @@
 from os import remove
+from os.path import isfile
 from shutil import copytree
 from string import Template
 from yattag import Doc, indent
@@ -11,13 +12,20 @@ def read_html_template(filename):
 		template = create_template(f.read())
 		return template
 
-
 def save_html(outdir, html):
 	filename = outdir + "/index.html"
 	with open(filename, 'w') as f:
 		f.write(html)
 
 	return filename
+
+def read_story(season, date):
+	filename = "story/season-" + str(season) + "/" + date + ".html"
+	if not isfile(filename):
+		return "STORY CLUE!"
+
+	with open(filename, 'r') as f:
+		return f.read()
 
 def build_website(outdir, static_dir, html):
 	save_html(outdir, html)

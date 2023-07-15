@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from random import seed
 from datetime import datetime
 
-from DetectiveMysteryOMatic.html import read_html_template, create_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
+from DetectiveMysteryOMatic.html import read_story, read_html_template, create_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
 from DetectiveMysteryOMatic.echidna import create_outdir
 from DetectiveMysteryOMatic.location import create_locations_graph, create_locations_weapons, render_locations, mansion_locations
 from DetectiveMysteryOMatic.mystery import Mystery
@@ -27,6 +27,9 @@ def main() -> int:
 	parser.add_argument('--today', action='store_const',
 						const=True, help='generate the mystery for the day')
 
+	parser.add_argument('--season', action='store',
+						default=1, help='season number')
+
 	parser.add_argument('--workers', type=int, action='store',
 						default=6, help='number of workers')
 
@@ -38,10 +41,13 @@ def main() -> int:
 	out_dir = args.out_dir
 	used_seed = args.seed
 	workers = args.workers
+	season = args.season
+	date = datetime.today().strftime('%d-%m-%Y')
 
+	print(date, season)
 	if args.today:
 		assert(used_seed is None)
-		used_seed = abs(hash(datetime.today().strftime('%Y-%m-%d')))
+		used_seed = abs(hash(date))
 
 	if (used_seed is not None):
 		seed(used_seed)
@@ -49,6 +55,7 @@ def main() -> int:
 	create_outdir(out_dir)
 	locations = create_locations_graph(out_dir, mansion_locations)
 	weapon_locations = create_locations_weapons()
+	story_clue = read_story(season, date)
 
 	html_template = read_html_template(static_dir + "/index.template.html")
 
@@ -109,8 +116,18 @@ def main() -> int:
 
 	correct_answer = mystery.get_answer_hash()
 
-	html_source = html_template.substitute(initialClues = initial_clues, clues = additional_clues, selectIntervals = select_intervals, selectSuspects = select_suspects, selectWeapon = select_weapons, numIntervals = str(len(intervals)), suspectNames = str(mystery.get_characters()), correctAnswer = correct_answer)
+	args = {}
+	args["initialClues"] = initial_clues
+	args["mysteryClues"] = additional_clues
+	args["selectIntervals"] = select_intervals
+	args["selectSuspects"] =  select_suspects
+	args["selectWeapon"] = select_weapons
+	args["numIntervals"] = str(len(intervals))
+	args["suspectNames"] = str(mystery.get_characters())
+	args["correctAnswer"] = correct_answer
+	args["storyClue"] = story_clue
 
+	html_source = html_template.substitute(args)
 	args = {}
 	for i, char in enumerate(mystery.get_characters()):
 		args["CHAR" + str(i + 1)] = get_char_name(char)
