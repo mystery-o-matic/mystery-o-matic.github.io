@@ -152,7 +152,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
   var title;
   for (let i = 0; i < nColumns; i++) {
     title = date.toISOString().substr(11, 5);
-	columns.push({title:title, width: 37, headerSort:false, headerHozAlign:"center", hozAlign:"center", vertAlign:"center", resizable:false});
+	columns.push({title:title, width: 40, headerSort:false, headerHozAlign:"center", hozAlign:"center", vertAlign:"center", resizable:false});
 	date.setSeconds(60 * 15);
   }
 
