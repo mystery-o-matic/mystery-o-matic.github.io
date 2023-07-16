@@ -116,7 +116,7 @@ class Clue:
 		if (r == 0):
 			str += " "
 		elif (r == 1):
-			str += "I don't think "
+			str += "I think "
 		elif (r == 2):
 			str += "I'm sure "
 		else:
