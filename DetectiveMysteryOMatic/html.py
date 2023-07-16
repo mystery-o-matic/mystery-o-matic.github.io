@@ -22,7 +22,7 @@ def save_html(outdir, html):
 def read_story(season, date):
 	filename = "story/season-" + str(season) + "/" + date + ".html"
 	if not isfile(filename):
-		return "STORY CLUE!"
+		return ""
 
 	with open(filename, 'r') as f:
 		return f.read()
