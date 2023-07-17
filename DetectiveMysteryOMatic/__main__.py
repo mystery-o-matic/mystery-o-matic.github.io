@@ -44,8 +44,8 @@ def main() -> int:
 	season = args.season
 	date = datetime.today().strftime('%d-%m-%Y')
 
-	print(date, season)
 	if args.today:
+		print("Generating mystery for ", date, "(season ", season, ")")
 		assert(used_seed is None)
 		used_seed = abs(hash(date))
 
