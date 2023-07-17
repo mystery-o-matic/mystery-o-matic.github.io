@@ -1,0 +1,3 @@
+[submodule "story"]
+	path = story
+	url = ssh://git@github.com/mystery-o-matic/story.git
