@@ -9,7 +9,6 @@ body {
 .tabulator-header {
 	border-top: 1px transparent !important;
 	font-size: 8px;
-	font-family: 'Roboto Mono';
 }
 
 .tabulator-cell {
