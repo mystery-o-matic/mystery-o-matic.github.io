@@ -104,7 +104,7 @@ class Mystery:
 
 		self.additional_clues = clues
 		for weapon in self.weapon_locations.values():
-			if weapon is not self.weapon_used:
+			if weapon != self.weapon_used:
 				clue = Clue("WeaponNotUsed", [weapon])
 				self.additional_clues.append(clue)
 

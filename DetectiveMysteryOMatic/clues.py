@@ -75,7 +75,7 @@ class Clue:
 			str += "the body of "
 
 		if (self.foggy and self.fields[2]):
-			if (self.fields[1] is not "$NOBODY"):
+			if (self.fields[1] != "$NOBODY"):
 				self.fields[1] = "somebody"
 
 		str += "{} when I was leaving the {} at {}\""
@@ -103,7 +103,7 @@ class Clue:
 			str += "the body of "
 
 		if (self.foggy and self.fields[2]):
-			if (self.fields[1] is not "$NOBODY"):
+			if (self.fields[1] != "$NOBODY"):
 				self.fields[1] = "somebody"
 
 		str += "{} when I arrived to the {} at {}\""
