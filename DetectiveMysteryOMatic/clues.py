@@ -25,7 +25,7 @@ class Clue:
 		elif (self.name == "NotSawWhenLeaving"):
 			return self.print_NotSawWhenArrivingLeaving_clue()
 		elif (self.name == "WasMurdered"):
-			return "{} was murdered in the {} between {} and {}!".format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
+			return "{} was murdered in the {} at some time between {} and {}!".format(self.fields[0], self.fields[1], self.fields[2], self.fields[3])
 		elif (self.name == "PoliceArrived"):
 			return "Police arrived at {}!".format(self.fields[0])
 		elif (self.name == "Stayed"):
