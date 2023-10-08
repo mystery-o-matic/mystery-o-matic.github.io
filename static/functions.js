@@ -134,57 +134,128 @@ function markedAsViewed(element) {
 		element.textContent += "👀";
 }
 
-//create Tabulator on DOM element with id "example-table"
-var tables = [];
-tables.push(createCluesTable("bedroom", nColumns, timeOffset, true, false));
-tables.push(createCluesTable("kitchen", nColumns, timeOffset, false, false));
-tables.push(createCluesTable("living", nColumns, timeOffset, false, false));
-tables.push(createCluesTable("bathroom", nColumns, timeOffset, false, false));
-tables.push(createCluesTable("kitchen-tutorial", 6, timeOffset, true, true));
-tables.push(createCluesTable("bathroom-tutorial", 6, timeOffset, false, true));
+var tables = new Map();
+createCluesTable("bedroom", nColumns, timeOffset, true, false);
+createCluesTable("kitchen", nColumns, timeOffset, false, false);
+createCluesTable("living", nColumns, timeOffset, false, false);
+createCluesTable("bathroom", nColumns, timeOffset, false, false);
+createCluesTable("kitchen-tutorial", 6, timeOffset, true, true);
+createCluesTable("bathroom-tutorial", 6, timeOffset, false, true);
+
+function drawClueTable(table) {
+	for (let i = 0; i < table.nColumns + 1; i++) {
+		table.ctx.moveTo(table.columnSize * i, 0);
+		table.ctx.lineTo(table.columnSize * i, table.height);
+		table.ctx.stroke();
+	}
+
+	for (let i = 0; i < table.nRows + 1; i++) {
+		table.ctx.moveTo(0, table.rowSize * i);
+		table.ctx.lineTo(table.width, table.rowSize * i);
+		table.ctx.stroke();
+	}
+}
+
+function fillClueTable(text, size, column, row, table) {
+	table.ctx.font = "bold " + size + "px Raleway";
+	table.ctx.textAlign = "center";
+	table.ctx.fillStyle = '#ffffff';
+	table.ctx.fillText("███", table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
+	table.ctx.fillStyle = '#000000';
+	table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
+	table.data[column][row] = text;
+}
 
 function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
-  var date = new Date(null);
-  date.setSeconds(timeOffset);
-  var columns = [ //Define Table Columns
-  {title:"", field:"name", headerSort:false, hozAlign:"center", vertAlign:"center", resizable: false},
-  ];
-  var title;
-  for (let i = 0; i < nColumns; i++) {
-    title = date.toISOString().substr(11, 5);
-	columns.push({title:title, width: 43, headerSort:false, headerHozAlign:"center", hozAlign:"center", vertAlign:"center", resizable:false});
-	date.setSeconds(60 * 15);
-  }
+	var rowNames = [name.replace("-tutorial", "")];
 
-  var tabledata = [];
-  if (isTutorial)
- 	suspectNames = ['alice', 'bob'];
+	if (isTutorial) {
+		rowNames = rowNames.concat(['alice', 'bob']);
+	} else {
+		rowNames = rowNames.concat(suspectNames);
+	}
 
-  for (let i = 0; i < suspectNames.length; i++) {
-	tabledata.push({id: i, name: suspectNames[i]});
-  }
+	var nRows = rowNames.length;
 
-  var table = new Tabulator("#clues-table-" + name, {
-	renderVertical:"basic",
-	layout:"fitDataTable",
-	headerVisible: headerVisible,
-	data:tabledata, //assign data to table
-	columns: columns,
-  });
+	if (nColumns == null || timeOffset == null) { // Only for debug
+		nColumns = 8
+		timeOffset = 15
+	}
+	var c = document.getElementById("clues-table-" + name);
+	var width = c.width;
+	var height = c.height;
 
-  table.on("cellClick", function(e, cell){
-	if (cell.getColumn().getField() == "name")
-		return;
-    if (cell.getValue() == undefined)
-		cell.setValue("✓")
-	else if (cell.getValue() == "✓")
-		cell.setValue("✗")
-	else if (cell.getValue() == "✗")
-		cell.setValue("?")
+	var columnSize = width / nColumns;
+	var rowSize = height / nRows;
+
+	var ctx = c.getContext("2d");
+
+	var table = {
+		canvas: c,
+		ctx: ctx,
+		nColumns: nColumns,
+		nRows: nRows,
+		columnSize: columnSize,
+		rowSize: rowSize,
+		width: width,
+		height: height,
+		data: [...Array(nColumns)].map(e => Array(nRows).fill(""))
+	};
+
+	tables.set(name, table);
+	drawClueTable(table);
+
+	var date = new Date(null);
+	date.setSeconds(timeOffset);
+	var titles = [];
+	for (let i = 0; i < nColumns; i++) {
+	  title = date.toISOString().substr(11, 5);
+	  titles.push(title);
+	  date.setSeconds(60 * 15);
+	}
+
+	for (let i = 1; i < nColumns; i++) {
+		fillClueTable(titles[i], columnSize / 4, i, 0, table);
+		table.data[i][0] = titles[i];
+	}
+
+	for (let i = 0; i < nRows; i++) {
+		fillClueTable(rowNames[i], columnSize / 5, 0, i, table);
+		table.data[0][i] = rowNames[i];
+	}
+
+	return table;
+}
+
+function findPositionTable(table, x, y) {
+	x = x - 13; // Unclear why this is necessary
+	console.log(x, y);
+	const rect = table.canvas.getBoundingClientRect()
+	x = table.height * x / rect.height;
+	y = table.width* y / rect.width;
+	return [Math.trunc(x / table.columnSize), Math.trunc(y / table.rowSize)];
+}
+
+function checkCellClicked(c, x, y) {
+	var name = c.id.replace("clues-table-", "");
+	var table = tables.get(name);
+	var position = findPositionTable(table, x, y);
+	//console.log(table.data);
+	var value = table.data[position[0]][position[1]];
+    if (value == "")
+		value = "✓";
+	else if (value == "✓")
+		value = "✗";
+	else if (value == "✗")
+		value = "?";
+	else if (value == "?")
+		value = "";
 	else
-		cell.setValue(null)
-  });
-  return table;
+		return;
+
+	table.data[position[0]][position[1]] = value;
+	//console.log(position);
+	fillClueTable(value, 30, position[0], position[1], table);
 }
 
 async function hash(message) {

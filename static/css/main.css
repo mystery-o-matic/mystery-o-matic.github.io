@@ -2,6 +2,11 @@ body {
 	font-family: 'Raleway';
 }
 
+canvas {
+    margin: 0;
+    padding: 0;
+}
+
 .tabulator {
 	font-size: 15px;
 }
