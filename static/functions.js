@@ -134,6 +134,13 @@ function markedAsViewed(element) {
 		element.textContent += "👀";
 }
 
+var places = new Map();
+places.set("bedroom", "🛏️");
+places.set("living", "🛋️");
+places.set("kitchen", "🍲");
+places.set("bathroom", "🚽");
+
+
 var tables = new Map();
 createCluesTable("bedroom", nColumns, timeOffset, true, false);
 createCluesTable("kitchen", nColumns, timeOffset, false, false);
@@ -150,7 +157,10 @@ function drawClueTable(table) {
 	}
 
 	for (let i = 0; i < table.nRows + 1; i++) {
-		table.ctx.moveTo(0, table.rowSize * i);
+		var start = table.columnSize;
+		if (i == 0 || i == table.nRows) // Draw first and last line
+			start = 0;
+		table.ctx.moveTo(start, table.rowSize * i);
 		table.ctx.lineTo(table.width, table.rowSize * i);
 		table.ctx.stroke();
 	}
@@ -160,14 +170,17 @@ function fillClueTable(text, size, column, row, table) {
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = '#ffffff';
-	table.ctx.fillText("███", table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
+	table.ctx.fillText("██", table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
 	table.ctx.fillStyle = '#000000';
 	table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
 	table.data[column][row] = text;
 }
 
 function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
-	var rowNames = [name.replace("-tutorial", "")];
+	var rowNames = []
+
+	//if (headerVisible)
+	//	rowNames = [];
 
 	if (isTutorial) {
 		rowNames = rowNames.concat(['alice', 'bob']);
@@ -175,13 +188,21 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		rowNames = rowNames.concat(suspectNames);
 	}
 
-	var nRows = rowNames.length;
-
 	if (nColumns == null || timeOffset == null) { // Only for debug
-		nColumns = 8
+		nColumns = 6 + 2;
 		timeOffset = 15
+		rowNames = ['Alice', 'Bob', 'Carol'];
 	}
+	nColumns = nColumns + 2;
+	var nRows = rowNames.length;
+	if (headerVisible)
+		nRows = nRows + 1;
+
 	var c = document.getElementById("clues-table-" + name);
+	if (!headerVisible) {
+		c.height = c.height - 40;
+	}
+
 	var width = c.width;
 	var height = c.height;
 
@@ -197,6 +218,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		nRows: nRows,
 		columnSize: columnSize,
 		rowSize: rowSize,
+		headerVisible: headerVisible,
 		width: width,
 		height: height,
 		data: [...Array(nColumns)].map(e => Array(nRows).fill(""))
@@ -207,22 +229,37 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 
 	var date = new Date(null);
 	date.setSeconds(timeOffset);
-	var titles = [];
+	var titles = ["🕰️"];
 	for (let i = 0; i < nColumns; i++) {
 	  title = date.toISOString().substr(11, 5);
 	  titles.push(title);
 	  date.setSeconds(60 * 15);
 	}
 
-	for (let i = 1; i < nColumns; i++) {
-		fillClueTable(titles[i], columnSize / 4, i, 0, table);
-		table.data[i][0] = titles[i];
+	if (headerVisible) {
+		for (let i = 0; i < nColumns - 1; i++) {
+			fillClueTable(titles[i], columnSize / 4, i + 1, 0, table);
+			table.data[i + 1][0] = titles[i];
+		}
 	}
-
+	var column;
 	for (let i = 0; i < nRows; i++) {
-		fillClueTable(rowNames[i], columnSize / 5, 0, i, table);
-		table.data[0][i] = rowNames[i];
+		var column = i;
+		if (headerVisible)
+			column = column + 1;
+		fillClueTable(rowNames[i], columnSize / 5, 1, column, table);
+		table.data[1][column] = rowNames[i];
 	}
+	var placeLabelPosition = 1;
+	if (headerVisible)
+		placeLabelPosition = placeLabelPosition + 1;
+
+	fillClueTable(places.get(name), columnSize / 2.5, 0, placeLabelPosition, table);
+	table.data[0][0] = " ";
+	table.data[0][1] = " ";
+	table.data[0][2] = " ";
+	table.data[0][3] = " ";
+	table.data[0][placeLabelPosition] = places.get(name);
 
 	return table;
 }
@@ -232,7 +269,7 @@ function findPositionTable(table, x, y) {
 	console.log(x, y);
 	const rect = table.canvas.getBoundingClientRect()
 	x = table.height * x / rect.height;
-	y = table.width* y / rect.width;
+	y = table.width * y / rect.width;
 	return [Math.trunc(x / table.columnSize), Math.trunc(y / table.rowSize)];
 }
 
