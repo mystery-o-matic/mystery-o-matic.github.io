@@ -150,6 +150,10 @@ createCluesTable("kitchen-tutorial", 6, timeOffset, true, true);
 createCluesTable("bathroom-tutorial", 6, timeOffset, false, true);
 
 function drawClueTable(table) {
+	table.ctx.fillStyle = "#cccccc";
+	table.ctx.fillRect(0, 0, table.canvas.width, table.canvas.height);
+
+	table.ctx.strokeStyle = "white";
 	for (let i = 0; i < table.nColumns + 1; i++) {
 		table.ctx.moveTo(table.columnSize * i, 0);
 		table.ctx.lineTo(table.columnSize * i, table.height);
@@ -160,6 +164,7 @@ function drawClueTable(table) {
 		var start = table.columnSize;
 		if (i == 0 || i == table.nRows) // Draw first and last line
 			start = 0;
+
 		table.ctx.moveTo(start, table.rowSize * i);
 		table.ctx.lineTo(table.width, table.rowSize * i);
 		table.ctx.stroke();
@@ -169,7 +174,7 @@ function drawClueTable(table) {
 function fillClueTable(text, size, column, row, table) {
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
-	table.ctx.fillStyle = '#ffffff';
+	table.ctx.fillStyle = '#cccccc';
 	table.ctx.fillText("██", table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
 	table.ctx.fillStyle = '#000000';
 	table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
@@ -178,10 +183,6 @@ function fillClueTable(text, size, column, row, table) {
 
 function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
 	var rowNames = []
-
-	//if (headerVisible)
-	//	rowNames = [];
-
 	if (isTutorial) {
 		rowNames = rowNames.concat(['alice', 'bob']);
 	} else {
@@ -265,7 +266,6 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 }
 
 function findPositionTable(table, x, y) {
-	x = x - 13; // Unclear why this is necessary
 	console.log(x, y);
 	const rect = table.canvas.getBoundingClientRect()
 	x = table.height * x / rect.height;

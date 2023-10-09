@@ -5,29 +5,7 @@ body {
 canvas {
     margin: 0;
     padding: 0;
-}
-
-.tabulator {
-	font-size: 15px;
-}
-
-.tabulator-header {
-	border-top: 1px transparent !important;
-	font-size: 8px;
-}
-
-.tabulator-cell {
-	border-right: 1px solid #FFFFFF !important;
-}
-
-.tabulator-row {
-	border-bottom: 1px solid #FFFFFF !important;
-}
-
-.tabulator-row-odd {
-	background-color: #CCCCCC !important;
-}
-
-.tabulator-row-even {
-	background-color: #CCCCCC !important;
+	background-color: #CCCCCC;
+	width: 100%;
+	height: auto;
 }
