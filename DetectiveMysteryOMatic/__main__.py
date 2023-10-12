@@ -4,12 +4,22 @@ from sys import argv, exit
 from argparse import ArgumentParser
 from random import seed
 from datetime import datetime
+from os.path import isfile
 
-from DetectiveMysteryOMatic.html import read_story, read_html_template, create_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
+from DetectiveMysteryOMatic.output.html import produce_html_output
+from DetectiveMysteryOMatic.output.text import produce_text_output
 from DetectiveMysteryOMatic.echidna import create_outdir
 from DetectiveMysteryOMatic.location import create_locations_graph, create_locations_weapons, render_locations, mansion_locations
 from DetectiveMysteryOMatic.mystery import Mystery
 from DetectiveMysteryOMatic.model import Model
+
+def read_story(season, date):
+	filename = "story/season-" + str(season) + "/" + date + ".html"
+	if not isfile(filename):
+		return ""
+
+	with open(filename, 'r') as f:
+		return f.read()
 
 def main() -> int:
 
@@ -30,6 +40,9 @@ def main() -> int:
 	parser.add_argument('--season', action='store',
 						default=1, help='season number')
 
+	parser.add_argument('--mode', action='store',
+						default="html", help='output mode')
+
 	parser.add_argument('--workers', type=int, action='store',
 						default=6, help='number of workers')
 
@@ -43,9 +56,15 @@ def main() -> int:
 	workers = args.workers
 	season = args.season
 	date = datetime.today().strftime('%d-%m-%Y')
+	mode = args.mode
+
+	if mode not in ["html", "text"]:
+		print("Invalid mode", mode)
+		print("Only html and text is accepted")
+		return -1
 
 	if args.today:
-		print("Generating mystery for ", date, "(season ", season, ")")
+		print("Generating mystery for ", date, "(season", season, ")")
 		assert(used_seed is None)
 		used_seed = abs(hash(date))
 
@@ -56,8 +75,6 @@ def main() -> int:
 	locations = create_locations_graph(out_dir, mansion_locations)
 	weapon_locations = create_locations_weapons()
 	story_clue = read_story(season, date)
-
-	html_template = read_html_template(static_dir + "/index.template.html")
 
 	model = Model("StoryModel", locations, out_dir, solidity_file)
 	(initial_locations_pairs, weapon_location) = model.generate_conditions()
@@ -79,69 +96,15 @@ def main() -> int:
 	mystery = Mystery(initial_locations_pairs, weapon_locations, weapon_used, model.source, txs)
 	mystery.load_events(events)
 	mystery.process_clues()
-	intervals = mystery.get_intervals()
-	select_suspects = get_options_selector(mystery.get_characters())
-	select_intervals = get_options_selector(intervals)
-	select_weapons = get_options_selector(map(lambda n: weapon_locations[n], locations.nodes()))
 
-	intro = ""
-	bullets = []
-	for i, clue in enumerate(mystery.initial_clues):
-		bullets.append(str(clue))
-
-	bullets.append("The murderer was alone with their victim and the body was not moved")
-
-	sub_bullets = []
-	for loc, weapon in weapon_locations.items():
-		sub_bullets.append("The {} from the ${}".format(weapon, loc))
-
-	weapon_locations_bullets = "The killer took the murder weapon from one of these rooms:\n"
-	weapon_locations_bullets += get_bullet_list(sub_bullets)
-	bullets.append(weapon_locations_bullets)
-
-	sub_bullets = []
-	for (c, p) in mystery.final_locations.items():
-		sub_bullets.append("{} was in the {}".format(c, p))
-
-	final_locations_bullets = "When the police arrived at {}:\n".format(mystery.final_time)
-	final_locations_bullets += get_bullet_list(sub_bullets)
-	bullets.append(final_locations_bullets)
-
-	initial_clues = get_bullet_list(bullets)
-
-	additional_clues = ""
-
-	for i, clue in enumerate(mystery.additional_clues):
-		additional_clues += get_accordion("Clue #{}".format(i+1), str(clue), i+1) + "\n"
-
-	correct_answer = mystery.get_answer_hash()
-
-	args = {}
-	args["initialClues"] = initial_clues
-	args["mysteryClues"] = additional_clues
-	args["selectIntervals"] = select_intervals
-	args["selectSuspects"] =  select_suspects
-	args["selectWeapon"] = select_weapons
-	args["numIntervals"] = str(len(intervals))
-	args["suspectNames"] = str(mystery.get_characters())
-	args["correctAnswer"] = correct_answer
-	args["storyClue"] = story_clue
-
-	html_source = html_template.substitute(args)
-	args = {}
-	for i, char in enumerate(mystery.get_characters()):
-		args["CHAR" + str(i + 1)] = get_char_name(char)
-	args["NOBODY"] = "nobody"
-
-	args["BEDROOM"] = "bedroom"
-	args["LIVING"] = "living room"
-	args["KITCHEN"] = "kitchen"
-	args["BATHROOM"] = "bathroom"
-
-	html_source = create_template(html_source).substitute(args)
-	build_website(out_dir, static_dir, html_source)
+	if mode == "html":
+		produce_html_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue)
+	elif mode == "text":
+		produce_text_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue)
+	else:
+		print("Invalid mode")
+		return -1
 	render_locations(out_dir, locations)
-
 	print("Solution:")
 
 	print(" Initial locations:")

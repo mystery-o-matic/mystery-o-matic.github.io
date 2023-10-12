@@ -16,6 +16,9 @@ setup(
     long_description=open("README.md").read(),
     packages=[
         "DetectiveMysteryOMatic",
+        "DetectiveMysteryOMatic.output",
+        "DetectiveMysteryOMatic.output.html",
+        "DetectiveMysteryOMatic.output.text",
     ],
     license="AGPL3",
     entry_points="""
@@ -24,5 +27,5 @@ setup(
     """,
     install_requires=["solidity_parser", "slither_analyzer", "pygraphviz", "networkx", "yattag"],
     extras_require=extra_require,
-    url="https://github.com/neuromancer",
+    url="https://github.com/neuromancer/DetectiveMysteryOMatic",
 )

@@ -126,10 +126,13 @@ class Mystery:
 		h, m = map(int, t.split(':'))
 		return h * 3600 + m * 60
 
-	def get_answer_hash(self):
-		m = sha256()
+	def get_answer(self):
 		index = int("".join(filter(str.isdigit, self.killer))) - 1
-		answer = self.characters[index] + "-" + self.weapon_used + "-" + self.murder_time
+		return self.characters[index] + "-" + self.weapon_used + "-" + self.murder_time
+
+	def get_answer_hash(self):
+		answer = self.get_answer()
 		print("Answer is:", answer)
+		m = sha256()
 		m.update(answer.encode('utf-8'))
 		return(m.hexdigest())
