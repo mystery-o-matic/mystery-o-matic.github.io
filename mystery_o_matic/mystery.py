@@ -2,9 +2,9 @@ from datetime import timedelta
 from random import shuffle
 from hashlib import sha256
 
-from DetectiveMysteryOMatic.clues import Clue
-from DetectiveMysteryOMatic.solidity import get_tx, get_event
-from DetectiveMysteryOMatic.text import get_char_name
+from mystery_o_matic.clues import Clue
+from mystery_o_matic.solidity import get_tx, get_event
+from mystery_o_matic.text import get_char_name
 
 class Mystery:
 	source = None

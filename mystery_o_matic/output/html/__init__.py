@@ -1,5 +1,5 @@
-from DetectiveMysteryOMatic.output import create_template
-from DetectiveMysteryOMatic.output.html.utils import read_html_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
+from mystery_o_matic.output import create_template
+from mystery_o_matic.output.html.utils import read_html_template, build_website, get_bullet_list, get_options_selector, get_subtitle, get_accordion, get_char_name
 
 def produce_html_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue):
 	html_template = read_html_template(static_dir + "/index.template.html")

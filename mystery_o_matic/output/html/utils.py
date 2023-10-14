@@ -4,7 +4,7 @@ from shutil import copytree
 from string import Template
 from yattag import Doc, indent
 
-from DetectiveMysteryOMatic.output import create_template
+from mystery_o_matic.output import create_template
 
 def read_html_template(filename):
 	with open(filename, 'r') as f:

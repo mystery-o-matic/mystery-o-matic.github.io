@@ -65,7 +65,7 @@ jobs:
     - name: Generate Murder Mystery
       run: |
         pip3 install .
-        MysteryOMatic scenarios/simple.template.sol static out --today --workers 1
+        mystery-o-matic scenarios/simple.template.sol static out --today --workers 1
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1

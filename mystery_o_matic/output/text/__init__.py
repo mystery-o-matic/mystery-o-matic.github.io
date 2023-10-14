@@ -1,7 +1,7 @@
 import cmd
 
-from DetectiveMysteryOMatic.output import create_template
-from DetectiveMysteryOMatic.output.text.telegram import create_telegram_bot
+from mystery_o_matic.output import create_template
+from mystery_o_matic.output.text.telegram import create_telegram_bot
 
 class DetectiveShell(cmd.Cmd):
 	prompt = '? '

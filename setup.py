@@ -9,23 +9,23 @@ extra_require = {
 }
 
 setup(
-    name="DetectiveMysteryOMatic",
+    name="mystery_o_matic",
     version="0.1",
     description="",
     long_description_content_type="text/markdown",
     long_description=open("README.md").read(),
     packages=[
-        "DetectiveMysteryOMatic",
-        "DetectiveMysteryOMatic.output",
-        "DetectiveMysteryOMatic.output.html",
-        "DetectiveMysteryOMatic.output.text",
+        "mystery_o_matic",
+        "mystery_o_matic.output",
+        "mystery_o_matic.output.html",
+        "mystery_o_matic.output.text",
     ],
     license="AGPL3",
     entry_points="""
     [console_scripts]
-    MysteryOMatic = DetectiveMysteryOMatic.__main__:main
+    mystery-o-matic = mystery_o_matic.__main__:main
     """,
     install_requires=["solidity_parser", "slither_analyzer", "pygraphviz", "networkx", "yattag", "python-telegram-bot"],
     extras_require=extra_require,
-    url="https://github.com/neuromancer/DetectiveMysteryOMatic",
+    url="https://github.com/mystery-o-matic/mystery-o-matic.github.io",
 )

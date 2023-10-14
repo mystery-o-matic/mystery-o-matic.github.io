@@ -1,8 +1,8 @@
 from json import loads
 from random import choice
 
-from DetectiveMysteryOMatic.solidity import read_sol_template, read_solidity, save_solidity, get_enum
-from DetectiveMysteryOMatic.echidna import create_echidna_process, create_outdir
+from mystery_o_matic.solidity import read_sol_template, read_solidity, save_solidity, get_enum
+from mystery_o_matic.echidna import create_echidna_process, create_outdir
 
 class Model:
 	contract_name = ""

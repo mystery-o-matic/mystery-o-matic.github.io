@@ -6,12 +6,12 @@ from random import seed
 from datetime import datetime
 from os.path import isfile
 
-from DetectiveMysteryOMatic.output.html import produce_html_output
-from DetectiveMysteryOMatic.output.text import produce_text_output
-from DetectiveMysteryOMatic.echidna import create_outdir
-from DetectiveMysteryOMatic.location import create_locations_graph, create_locations_weapons, render_locations, mansion_locations
-from DetectiveMysteryOMatic.mystery import Mystery
-from DetectiveMysteryOMatic.model import Model
+from mystery_o_matic.output.html import produce_html_output
+from mystery_o_matic.output.text import produce_text_output
+from mystery_o_matic.echidna import create_outdir
+from mystery_o_matic.location import create_locations_graph, create_locations_weapons, render_locations, mansion_locations
+from mystery_o_matic.mystery import Mystery
+from mystery_o_matic.model import Model
 
 def read_story(season, date):
 	filename = "story/season-" + str(season) + "/" + date + ".html"
