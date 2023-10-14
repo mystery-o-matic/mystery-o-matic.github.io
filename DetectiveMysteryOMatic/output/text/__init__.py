@@ -1,6 +1,7 @@
 import cmd
 
 from DetectiveMysteryOMatic.output import create_template
+from DetectiveMysteryOMatic.output.text.telegram import create_telegram_bot
 
 class DetectiveShell(cmd.Cmd):
 	prompt = '? '
@@ -13,36 +14,51 @@ class DetectiveShell(cmd.Cmd):
 		self.args = args
 		self.locations = locations
 		self.answer = answer
+		self.last_output = ""
+
+	def do_start(self, arg):
+		'Show intro'
+		self.stdout.write(self.intro)
+
+	def do_reset(self, arg):
+		'Reset clue counter'
+		self.current_clue = 0
+		self.stdout.write("Reseted clue counter")
 
 	def do_clue(self, arg):
 		'Provide next clue'
+		clue = ''
 		if self.current_clue < len(self.clues):
 			clue = create_template(str(self.clues[self.current_clue])).substitute(self.args)
 			self.current_clue += 1
 		else:
 			clue = "No more clues!"
-		print(clue)
+		self.stdout.write(clue)
 
 	def do_locations(self, arg):
+		'Show locations'
+		locations = ""
 		for src in self.locations.nodes:
 			connections = []
 			for dst in self.locations[src]:
 				connections.append(dst.lower())
-			print("*", src.lower(), "is connected with", ", ".join(connections))
+			locations += "* " + src.lower() + " is connected with " + ", ".join(connections) + "\n"
+		self.stdout.write(locations)
 
 	def do_solve(self, arg):
-		print(repr(arg), repr(self.answer))
+		'Attempt to solve the daily mystery'
 		if (self.answer == arg):
-			print("Correct answer!")
+			self.stdout.write("Correct answer!")
 			return True
 		else:
-			print("Wrong answer or invalid format (name-weapon-time).")
+			self.stdout.write("Wrong answer or invalid format (name-weapon-time).")
 
 	def do_exit(self, arg):
+		'Exit the shell'
 		return True
 
-def produce_text_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue):
-	txt_source = []
+def produce_text_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue, telegram_api_key):
+	txt_source = ["Welcome to mystery-o-matic!", " "]
 	txt_source.append("Initial clues are:")
 	for i, clue in enumerate(mystery.initial_clues):
 		txt_source.append("* " + str(clue))
@@ -69,4 +85,9 @@ def produce_text_output(static_dir, out_dir, mystery, weapon_locations, location
 	print(mystery.get_answer())
 
 	txt_output = create_template("\n".join(txt_source)).substitute(args)
-	DetectiveShell(txt_output, mystery.additional_clues, locations, mystery.get_answer(), args).cmdloop()
+	shell = DetectiveShell(txt_output, mystery.additional_clues, locations, mystery.get_answer(), args)
+
+	if telegram_api_key is not None:
+		create_telegram_bot(shell, telegram_api_key).run_polling()
+	else:
+		shell.cmdloop()

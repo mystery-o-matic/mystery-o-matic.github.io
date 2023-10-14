@@ -43,6 +43,9 @@ def main() -> int:
 	parser.add_argument('--mode', action='store',
 						default="html", help='output mode')
 
+	parser.add_argument('--telegram-api-key', type=str, action='store',
+						default=None, help='telegram api key to start a bot')
+
 	parser.add_argument('--workers', type=int, action='store',
 						default=6, help='number of workers')
 
@@ -57,6 +60,7 @@ def main() -> int:
 	season = args.season
 	date = datetime.today().strftime('%d-%m-%Y')
 	mode = args.mode
+	telegram_api_key = args.telegram_api_key
 
 	if mode not in ["html", "text"]:
 		print("Invalid mode", mode)
@@ -100,7 +104,7 @@ def main() -> int:
 	if mode == "html":
 		produce_html_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue)
 	elif mode == "text":
-		produce_text_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue)
+		produce_text_output(static_dir, out_dir, mystery, weapon_locations, locations, story_clue, telegram_api_key)
 	else:
 		print("Invalid mode")
 		return -1
