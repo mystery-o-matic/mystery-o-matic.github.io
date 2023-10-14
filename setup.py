@@ -25,7 +25,7 @@ setup(
     [console_scripts]
     MysteryOMatic = DetectiveMysteryOMatic.__main__:main
     """,
-    install_requires=["solidity_parser", "slither_analyzer", "pygraphviz", "networkx", "yattag", "telegram"],
+    install_requires=["solidity_parser", "slither_analyzer", "pygraphviz", "networkx", "yattag", "python-telegram-bot"],
     extras_require=extra_require,
     url="https://github.com/neuromancer/DetectiveMysteryOMatic",
 )
