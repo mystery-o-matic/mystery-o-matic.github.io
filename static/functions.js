@@ -171,12 +171,10 @@ function drawClueTable(table) {
 	}
 }
 
-function fillClueTable(text, size, column, row, table) {
+function fillClueTable(text, size, color, column, row, table) {
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
-	table.ctx.fillStyle = '#cccccc';
-	table.ctx.fillText("██", table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
-	table.ctx.fillStyle = '#000000';
+	table.ctx.fillStyle = color;
 	table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
 	table.data[column][row] = text;
 }
@@ -239,7 +237,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 
 	if (headerVisible) {
 		for (let i = 0; i < nColumns - 1; i++) {
-			fillClueTable(titles[i], columnSize / 4, i + 1, 0, table);
+			fillClueTable(titles[i], columnSize / 3, '#000000', i + 1, 0, table);
 			table.data[i + 1][0] = titles[i];
 		}
 	}
@@ -248,14 +246,14 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		var column = i;
 		if (headerVisible)
 			column = column + 1;
-		fillClueTable(rowNames[i], columnSize / 5, 1, column, table);
+		fillClueTable(rowNames[i], columnSize / 3, '#000000', 1, column, table);
 		table.data[1][column] = rowNames[i];
 	}
 	var placeLabelPosition = 1;
 	if (headerVisible)
 		placeLabelPosition = placeLabelPosition + 1;
 
-	fillClueTable(places.get(name), columnSize / 2.5, 0, placeLabelPosition, table);
+	fillClueTable(places.get(name), columnSize / 1.5, '#000000', 0, placeLabelPosition, table);
 	table.data[0][0] = " ";
 	table.data[0][1] = " ";
 	table.data[0][2] = " ";
@@ -292,7 +290,8 @@ function checkCellClicked(c, x, y) {
 
 	table.data[position[0]][position[1]] = value;
 	//console.log(position);
-	fillClueTable(value, 30, position[0], position[1], table);
+	fillClueTable("███", 30, '#cccccc', position[0], position[1], table);
+	fillClueTable(value, 30, '#000000', position[0], position[1], table);
 }
 
 async function hash(message) {
