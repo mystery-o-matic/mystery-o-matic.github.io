@@ -253,7 +253,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	if (headerVisible)
 		placeLabelPosition = placeLabelPosition + 1;
 
-	fillClueTable(places.get(name), columnSize / 1.5, '#000000', 0, placeLabelPosition, table);
+	fillClueTable(places.get(name.replace("-tutorial", "")), columnSize / 1.5, '#000000', 0, placeLabelPosition, table);
 	table.data[0][0] = " ";
 	table.data[0][1] = " ";
 	table.data[0][2] = " ";
