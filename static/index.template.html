@@ -216,19 +216,26 @@
 					rank from the <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')">sleuth-o-meter™</a></p>
 
 				<p>Are you up for the challenge? Let the investigation begin!</p>
-				$mysteryClues
-				<p></p>
-				<div class="row align-items-center justify-content-start">
-					<button id="more-clues-button" type="button" class="btn btn-outline-secondary"
-						onclick="revealAnotherClue()">Reveal another clue ...</button>
-				</div>
 			</div>
 			<p></p>
 			<div class="container d-flex align-items-center justify-content-center" style="user-select: none">
 				<div class="container">
-					<h4>📔 Investigator's notebook</h4>
+					<h4>📔 Clues and investigator's notebook</h4>
 					<p>Use this table to keep track of your facts, clues and deductions. You can check the <a href="#" onClick="showPage('how-to-play')" class="link-dark">how to
 						play section</a> if you need it.</p>
+						<div id="clues">
+							$mysteryClues
+						</div>
+						<p></p>
+						<div class="row align-items-center justify-content-start">
+							<div class="col">
+								<button id="previous-clue-button" type="button" class="btn btn-outline-secondary"
+									onclick="revealAnotherClue(-1)">Previous clue</button>
+								<button id="next-clue-button" type="button" class="btn btn-outline-secondary"
+									onclick="revealAnotherClue(1)">Next clue</button>
+							</div>
+						</div>
+						<p></p>
 					<div class="row">
 						<div class="col-md-7">
 						<canvas id="clues-table-bedroom" height="300", width="1200" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">

@@ -6,6 +6,7 @@ from mystery_o_matic.output.html.utils import (
     get_options_selector,
     get_subtitle,
     get_accordion,
+    get_card,
     get_char_name,
 )
 
@@ -55,9 +56,7 @@ def produce_html_output(
     additional_clues = ""
 
     for i, clue in enumerate(mystery.additional_clues):
-        additional_clues += (
-            get_accordion("Clue #{}".format(i + 1), str(clue), i + 1) + "\n"
-        )
+        additional_clues += get_card("Clue #{}".format(i + 1), str(clue), i + 1) + "\n"
 
     correct_answer = mystery.get_answer_hash()
 

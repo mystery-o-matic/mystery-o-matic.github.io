@@ -67,9 +67,20 @@ def get_subtitle(subtitle, name=""):
 def get_clues_list(elements):
     html = ""
     for element in elements:
-        html += get_accordion(element)
+        html += get_card(element)
         html += "\n"
     return html
+
+
+def get_card(title, inner_html, index):
+    html_template = """<div class="card" id="clue-$index">
+  <div class="card-body">
+    <h5 class="card-title">$title</h5>
+    <p class="card-text" onClick="toggleClueStrikeout(this)">$innerHTML</p>
+  </div>
+</div>"""
+    html_template = Template(html_template)
+    return html_template.substitute(title=title, innerHTML=inner_html, index=index)
 
 
 def get_accordion(title, inner_html, index):

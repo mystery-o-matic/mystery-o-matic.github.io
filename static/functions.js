@@ -37,6 +37,7 @@ function showPage(page) {
 hideClues();
 document.getElementById("span-today").innerHTML = getCurrentDate();
 var tries = 0;
+var currentClue = 1;
 
 function openModal(name) {
 	let element = document.getElementById('portraitImage');
@@ -46,9 +47,9 @@ function openModal(name) {
 }
 
 function hideClues() {
-	let i = 4;
+	let i = 2;
 	while (true) {
-		element = document.getElementById("accordion-" + i)
+		element = document.getElementById("clue-" + i)
 		if (element == null)
 			break;
 
@@ -57,27 +58,19 @@ function hideClues() {
 	}
 }
 
-function revealAnotherClue() {
-	let i = 1;
-	let revealed = false;
-	while (true) {
-		element = document.getElementById("accordion-" + i);
-		console.log(element);
-		if (element == null) {
-			break;
-		}
-		if (element.style.display == "none") {
-			element.style.display = "block";
-			revealed = true;
-			break;
-		}
-		i = i + 1
-	}
-	if (!revealed) {
-		var button = document.getElementById("more-clues-button");
-		button.innerText = "No more clues"
-		button.disabled = true;
-	}
+function revealAnotherClue(offset) {
+	if (currentClue == 1 && offset < 0)
+		return;
+
+	if (currentClue == document.getElementById("clues").children.length && offset > 0)
+		return;
+
+	element = document.getElementById("clue-" + currentClue);
+	element.style.display = "none"
+
+	currentClue = currentClue + offset;
+	element = document.getElementById("clue-" + currentClue);
+	element.style.display = "block";
 }
 
 function toggleClueStrikeout(element) {
@@ -289,8 +282,7 @@ function checkCellClicked(c, x, y) {
 		return;
 
 	table.data[position[0]][position[1]] = value;
-	//console.log(position);
-	fillClueTable("███", 30, '#cccccc', position[0], position[1], table);
+	fillClueTable("█", 30, '#cccccc', position[0], position[1], table);
 	fillClueTable(value, 30, '#000000', position[0], position[1], table);
 }
 
