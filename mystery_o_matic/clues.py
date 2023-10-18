@@ -86,7 +86,7 @@ class Clue:
         elif r == 2:
             str += "I'm sure I saw "
         elif r == 3:
-            str += "I remember "
+            str += "I remember seeing "
         else:
             assert False
 
@@ -116,7 +116,7 @@ class Clue:
         elif r == 2:
             str += "I'm sure I saw "
         elif r == 3:
-            str += "I remember "
+            str += "I remember seeing "
         else:
             assert False
 
@@ -137,7 +137,7 @@ class Clue:
         str = '{} said: "'
 
         if r == 0:
-            str += " "
+            str += ""
         elif r == 1:
             str += "I think "
         elif r == 2:

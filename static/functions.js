@@ -56,6 +56,7 @@ function hideClues() {
 		element.style.display = "none"
 		i = i + 1
 	}
+	document.getElementById("previous-clue-button").disabled = true;
 }
 
 function revealAnotherClue(offset) {
@@ -71,6 +72,9 @@ function revealAnotherClue(offset) {
 	currentClue = currentClue + offset;
 	element = document.getElementById("clue-" + currentClue);
 	element.style.display = "block";
+
+	document.getElementById("previous-clue-button").disabled = (currentClue == 1);
+	document.getElementById("next-clue-button").disabled = (currentClue == document.getElementById("clues").children.length);
 }
 
 function toggleClueStrikeout(element) {
