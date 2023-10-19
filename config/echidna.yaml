@@ -2,5 +2,5 @@ testLimit: 1000000000000
 timeout: 1200
 format: json
 prefix: "mysteryNotSolved"
-shrinkLimit: 10000
+shrinkLimit: 15000
 #corpusDir: "corpus"

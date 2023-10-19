@@ -15,9 +15,8 @@ from mystery_o_matic.location import (
     render_locations,
     mansion_locations,
 )
-from mystery_o_matic.mystery import Mystery
+from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
-
 
 def read_story(season, date):
     filename = "story/season-" + str(season) + "/" + date + ".html"
@@ -65,6 +64,10 @@ def main() -> int:
         "--workers", type=int, action="store", default=6, help="number of workers"
     )
 
+    parser.add_argument(
+        "--max-time-slots", type=int, action="store", default=9, help="max number of time slots"
+    )
+
     args = parser.parse_args()
 
     print("Welcome to mystery-o-matic!")
@@ -76,6 +79,7 @@ def main() -> int:
     season = args.season
     date = datetime.today().strftime("%d-%m-%Y")
     mode = args.mode
+    max_time_slots = args.max_time_slots
     telegram_api_key = args.telegram_api_key
 
     if mode not in ["html", "text"]:
@@ -92,25 +96,40 @@ def main() -> int:
         seed(used_seed)
 
     create_outdir(out_dir)
-    locations = create_locations_graph(out_dir, mansion_locations)
-    weapon_locations = create_locations_weapons()
+
+    while (True):
+        solidity_file = args.scenario
+        locations = create_locations_graph(out_dir, mansion_locations)
+        weapon_locations = create_locations_weapons()
+
+        model = Model("StoryModel", locations, out_dir, solidity_file)
+        (initial_locations_pairs, weapon_location) = model.generate_conditions()
+        solidity_file = model.generate_solidity()
+
+        print("Running the simulation..")
+        result = model.solve(used_seed, workers)
+
+        if result is None:
+            print("No result at all!, restarting..")
+            used_seed += 1
+            seed(used_seed)
+            continue
+
+        txs = result["tests"][0]["transactions"]
+        events = []
+        if "events" in result["tests"][0]:
+            events = result["tests"][0]["events"]
+
+        time_slots = get_intervals_length_from_events(model.source, "StoryModel", events)
+
+        if (time_slots <= max_time_slots):
+            break
+
+        print("Solution is too large:", int(time_slots))
+        used_seed += 1
+        seed(used_seed)
+
     story_clue = read_story(season, date)
-
-    model = Model("StoryModel", locations, out_dir, solidity_file)
-    (initial_locations_pairs, weapon_location) = model.generate_conditions()
-    solidity_file = model.generate_solidity()
-
-    print("Running the simulation..")
-    result = model.solve(used_seed, workers)
-
-    if result is None:
-        return 1
-
-    txs = result["tests"][0]["transactions"]
-
-    events = []
-    if "events" in result["tests"][0]:
-        events = result["tests"][0]["events"]
 
     weapon_used = weapon_locations[weapon_location]
     mystery = Mystery(
