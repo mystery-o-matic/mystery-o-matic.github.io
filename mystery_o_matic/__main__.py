@@ -18,6 +18,7 @@ from mystery_o_matic.location import (
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 
+
 def read_story(season, date):
     filename = "story/season-" + str(season) + "/" + date + ".html"
     if not isfile(filename):
@@ -65,7 +66,11 @@ def main() -> int:
     )
 
     parser.add_argument(
-        "--max-time-slots", type=int, action="store", default=9, help="max number of time slots"
+        "--max-time-slots",
+        type=int,
+        action="store",
+        default=9,
+        help="max number of time slots",
     )
 
     args = parser.parse_args()
@@ -97,7 +102,7 @@ def main() -> int:
 
     create_outdir(out_dir)
 
-    while (True):
+    while True:
         solidity_file = args.scenario
         locations = create_locations_graph(out_dir, mansion_locations)
         weapon_locations = create_locations_weapons()
@@ -120,9 +125,11 @@ def main() -> int:
         if "events" in result["tests"][0]:
             events = result["tests"][0]["events"]
 
-        time_slots = get_intervals_length_from_events(model.source, "StoryModel", events)
+        time_slots = get_intervals_length_from_events(
+            model.source, "StoryModel", events
+        )
 
-        if (time_slots <= max_time_slots):
+        if time_slots <= max_time_slots:
             break
 
         print("Solution is too large:", int(time_slots))

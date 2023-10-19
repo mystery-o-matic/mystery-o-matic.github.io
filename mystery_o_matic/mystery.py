@@ -6,9 +6,11 @@ from mystery_o_matic.clues import Clue
 from mystery_o_matic.solidity import get_tx, get_event
 from mystery_o_matic.text import get_char_name
 
+
 def parse_time(t):
     h, m = map(int, t.split(":"))
     return h * 3600 + m * 60
+
 
 def get_intervals_length_from_events(source, contract_name, events):
     interval_size = 15 * 60  # 15 minutes
@@ -18,6 +20,7 @@ def get_intervals_length_from_events(source, contract_name, events):
         if event[0] == "PoliceArrived":
             final_time = parse_time(event[1])
             return (final_time - initial_time) / interval_size
+
 
 class Mystery:
     source = None
