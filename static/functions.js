@@ -137,7 +137,6 @@ places.set("living", "🛋️");
 places.set("kitchen", "🍲");
 places.set("bathroom", "🚽");
 
-
 var tables = new Map();
 createCluesTable("bedroom", nColumns, timeOffset, true, false);
 createCluesTable("kitchen", nColumns, timeOffset, false, false);
@@ -217,7 +216,8 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		headerVisible: headerVisible,
 		width: width,
 		height: height,
-		data: [...Array(nColumns)].map(e => Array(nRows).fill(""))
+		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
+		isTutorial: isTutorial,
 	};
 
 	tables.set(name, table);
@@ -257,11 +257,28 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	table.data[0][3] = " ";
 	table.data[0][placeLabelPosition] = places.get(name);
 
+	if (!table.isTutorial) {
+		var startRow = 0;
+		if (headerVisible)
+			startRow = 1
+		for (let i = startRow; i < nRows; i++) {
+			fillClueTable("✗", columnSize / 3, '#000000', nColumns - 1, i, table);
+		}
+
+		for (let i = startRow; i < rowNames.length; i++) {
+			roomName = finalLocations.get(rowNames[i - startRow]);
+			if (roomName == name) {
+				fillClueTable("█", columnSize / 3, '#cccccc', nColumns - 1, i, table);
+				fillClueTable("✓", columnSize / 3, '#000000', nColumns - 1, i, table);
+			}
+		}
+	}
+
 	return table;
 }
 
 function findPositionTable(table, x, y) {
-	console.log(x, y);
+	//console.log(x, y);
 	const rect = table.canvas.getBoundingClientRect()
 	x = table.height * x / rect.height;
 	y = table.width * y / rect.width;
@@ -272,6 +289,12 @@ function checkCellClicked(c, x, y) {
 	var name = c.id.replace("clues-table-", "");
 	var table = tables.get(name);
 	var position = findPositionTable(table, x, y);
+	//console.log(name);
+	if (!table.isTutorial) {
+		if (position[0] == table.nColumns - 1)
+		return;
+	}
+
 	//console.log(table.data);
 	var value = table.data[position[0]][position[1]];
     if (value == "")

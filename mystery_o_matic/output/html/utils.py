@@ -82,27 +82,6 @@ def get_card(title, inner_html, index):
     html_template = Template(html_template)
     return html_template.substitute(title=title, innerHTML=inner_html, index=index)
 
-
-def get_accordion(title, inner_html, index):
-    html_template = """
-	<div class="accordion" id="accordion-$index">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="panelsStayOpen-heading-$index">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#panelsStayOpen-collapse-$index" aria-controls="panelsStayOpen-collapse-$index" onClick="markedAsViewed(this)">
-        $title
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapse-$index" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-$index">
-      <div class="accordion-body" onClick="toggleClueStrikeout(this)">
-	    $innerHTML
-      </div>
-	</div>
-  </div>
-</div>"""
-    html_template = Template(html_template)
-    return html_template.substitute(title=title, innerHTML=inner_html, index=index)
-
-
 def get_char_name(name):
     if name == "NOBODY":
         return name

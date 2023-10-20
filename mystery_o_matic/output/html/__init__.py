@@ -5,7 +5,6 @@ from mystery_o_matic.output.html.utils import (
     get_bullet_list,
     get_options_selector,
     get_subtitle,
-    get_accordion,
     get_card,
     get_char_name,
 )
@@ -45,6 +44,10 @@ def produce_html_output(
     for c, p in mystery.final_locations.items():
         sub_bullets.append("{} was in the {}".format(c, p))
 
+    final_locations_map = []
+    for (c, (_, p)) in zip(mystery.get_characters(), mystery.final_locations.items()):
+        final_locations_map.append("finalLocations.set(\"{}\", \"{}\");".format(c, p))
+
     final_locations_bullets = "When the police arrived at {}:\n".format(
         mystery.final_time
     )
@@ -63,6 +66,7 @@ def produce_html_output(
     args = {}
     args["initialClues"] = initial_clues
     args["mysteryClues"] = additional_clues
+    args["finalLocationsMap"] = "\n".join(final_locations_map)
     args["selectIntervals"] = select_intervals
     args["selectSuspects"] = select_suspects
     args["selectWeapon"] = select_weapons
