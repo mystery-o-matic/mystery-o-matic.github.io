@@ -89,19 +89,8 @@ function clueWasViewed(element) {
 }
 
 function computeRank() {
-	let viewed = 0;
-	let i = 1;
-	while (true) {
-		element = document.getElementById("panelsStayOpen-collapse-" + i)
-		if (element == null)
-			break;
-
-		if (clueWasViewed(element.parentElement))
-			viewed = viewed + 1;
-
-		i = i + 1
-	}
-	viewedPercentage = 100 * viewed / i;
+	let numberClues = document.getElementById("clues").children.length;
+	viewedPercentage = 100 * currentClue / numberClues;
 	rank = ""
 	if (viewedPercentage ==  0 && tries == 0) {
 		rank += "<b>clairvoyant</b> 🧙";
