@@ -4,9 +4,10 @@ data = {
 	nColumns: 8,
 	timeOffset: 32400,
 	suspectNames: ["alice", "bob", "carol"],
-    finalLocationsMap: {
-        "bob": "kitchen",
-        "carol": "bedroom",
-        "alice": "kitchen"
-    },
+	victim: "alice",
+	finalLocationsMap: {
+		"bob": "kitchen",
+		"carol": "bedroom",
+		"alice": "kitchen"
+	},
 }

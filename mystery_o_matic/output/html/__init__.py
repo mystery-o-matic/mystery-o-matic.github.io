@@ -97,6 +97,7 @@ def produce_html_output(
     json = {}
     json["numIntervals"] = len(intervals)
     json["suspectNames"] = mystery.get_characters()
+    json["victim"] = create_template(mystery.victim).substitute(names_txt)
     json["finalLocationsMap"] = final_locations_map
     json["timeOffset"] = 9 * 3600
     json["correctAnswer"] = correct_answer

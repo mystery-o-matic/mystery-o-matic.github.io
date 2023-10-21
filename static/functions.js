@@ -133,14 +133,14 @@ function markedAsViewed(element) {
 
 var places = new Map();
 places.set("bedroom", "🛏️");
-places.set("living", "🛋️");
+places.set("living room", "🛋️");
 places.set("kitchen", "🍲");
 places.set("bathroom", "🚽");
 
 var tables = new Map();
 createCluesTable("bedroom", data.numIntervals, data.timeOffset, true, false);
 createCluesTable("kitchen", data.numIntervals, data.timeOffset, false, false);
-createCluesTable("living", data.numIntervals, data.timeOffset, false, false);
+createCluesTable("living room", data.numIntervals, data.timeOffset, false, false);
 createCluesTable("bathroom", data.numIntervals, data.timeOffset, false, false);
 createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
 createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
@@ -261,10 +261,12 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		}
 
 		for (let i = startRow; i < startRow + rowNames.length; i++) {
-			roomName = data.finalLocationsMap[rowNames[i - startRow]];
+			var character = rowNames[i - startRow];
+			roomName = data.finalLocationsMap[character];
+			var color = (character == data.victim) ? '#cc0000' : '#000000';
 			if (roomName == name) {
 				fillClueTable("█", columnSize / 3, '#cccccc', nColumns - 1, i, table);
-				fillClueTable("✓", columnSize / 3, '#000000', nColumns - 1, i, table);
+				fillClueTable("✓", columnSize / 3, color, nColumns - 1, i, table);
 			}
 		}
 	}
@@ -304,8 +306,8 @@ function checkCellClicked(c, x, y) {
 		return;
 
 	table.data[position[0]][position[1]] = value;
-	fillClueTable("█", 30, '#cccccc', position[0], position[1], table);
-	fillClueTable(value, 30, '#000000', position[0], position[1], table);
+	fillClueTable("█", table.columnSize / 3, '#cccccc', position[0], position[1], table);
+	fillClueTable(value, table.columnSize / 3, '#000000', position[0], position[1], table);
 }
 
 async function hash(message) {
