@@ -3,6 +3,7 @@ from os.path import isfile
 from shutil import copytree
 from string import Template
 from yattag import Doc, indent
+from json import dump
 
 from mystery_o_matic.output import create_template
 
@@ -20,6 +21,11 @@ def save_html(outdir, html):
 
     return filename
 
+def save_json(outdir, prefix, data):
+    filename = outdir + "/data.js"
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(prefix)
+        dump(data, f, ensure_ascii=False, indent=4)
 
 def read_story(season, date):
     filename = "story/season-" + str(season) + "/" + date + ".html"

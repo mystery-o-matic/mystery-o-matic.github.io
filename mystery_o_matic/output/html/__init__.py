@@ -7,6 +7,7 @@ from mystery_o_matic.output.html.utils import (
     get_subtitle,
     get_card,
     get_char_name,
+    save_json
 )
 
 
@@ -20,6 +21,26 @@ def produce_html_output(
     select_weapons = get_options_selector(
         map(lambda n: weapon_locations[n], locations.nodes())
     )
+
+    names_html = {}
+    for i, char in enumerate(mystery.get_characters()):
+        names_html["CHAR" + str(i + 1)] = get_char_name(char)
+    names_html["NOBODY"] = "nobody"
+
+    names_html["BEDROOM"] = "bedroom"
+    names_html["LIVING"] = "living room"
+    names_html["KITCHEN"] = "kitchen"
+    names_html["BATHROOM"] = "bathroom"
+
+    names_txt = {}
+    for i, char in enumerate(mystery.get_characters()):
+        names_txt["CHAR" + str(i + 1)] = char.lower()
+    names_txt["NOBODY"] = "nobody"
+
+    names_txt["BEDROOM"] = "bedroom"
+    names_txt["LIVING"] = "living room"
+    names_txt["KITCHEN"] = "kitchen"
+    names_txt["BATHROOM"] = "bathroom"
 
     intro = ""
     bullets = []
@@ -44,9 +65,11 @@ def produce_html_output(
     for c, p in mystery.final_locations.items():
         sub_bullets.append("{} was in the {}".format(c, p))
 
-    final_locations_map = []
-    for (c, (_, p)) in zip(mystery.get_characters(), mystery.final_locations.items()):
-        final_locations_map.append("finalLocations.set(\"{}\", \"{}\");".format(c, p))
+    final_locations_map = {}
+    for (c, p) in mystery.final_locations.items():
+        c = create_template(c).substitute(names_txt)
+        p = create_template(p).substitute(names_txt)
+        final_locations_map[c] = p
 
     final_locations_bullets = "When the police arrived at {}:\n".format(
         mystery.final_time
@@ -66,25 +89,19 @@ def produce_html_output(
     args = {}
     args["initialClues"] = initial_clues
     args["mysteryClues"] = additional_clues
-    args["finalLocationsMap"] = "\n".join(final_locations_map)
     args["selectIntervals"] = select_intervals
     args["selectSuspects"] = select_suspects
     args["selectWeapon"] = select_weapons
-    args["numIntervals"] = str(len(intervals))
-    args["suspectNames"] = str(mystery.get_characters())
-    args["correctAnswer"] = correct_answer
     args["storyClue"] = story_clue
 
+    json = {}
+    json["numIntervals"] = len(intervals)
+    json["suspectNames"] = mystery.get_characters()
+    json["finalLocationsMap"] = final_locations_map
+    json["timeOffset"] = 9 * 3600
+    json["correctAnswer"] = correct_answer
+
     html_source = html_template.substitute(args)
-    args = {}
-    for i, char in enumerate(mystery.get_characters()):
-        args["CHAR" + str(i + 1)] = get_char_name(char)
-    args["NOBODY"] = "nobody"
-
-    args["BEDROOM"] = "bedroom"
-    args["LIVING"] = "living room"
-    args["KITCHEN"] = "kitchen"
-    args["BATHROOM"] = "bathroom"
-
-    html_source = create_template(html_source).substitute(args)
+    html_source = create_template(html_source).substitute(names_html)
     build_website(out_dir, static_dir, html_source)
+    save_json(out_dir, "data = ", json)

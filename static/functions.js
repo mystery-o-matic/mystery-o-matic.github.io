@@ -138,12 +138,12 @@ places.set("kitchen", "🍲");
 places.set("bathroom", "🚽");
 
 var tables = new Map();
-createCluesTable("bedroom", nColumns, timeOffset, true, false);
-createCluesTable("kitchen", nColumns, timeOffset, false, false);
-createCluesTable("living", nColumns, timeOffset, false, false);
-createCluesTable("bathroom", nColumns, timeOffset, false, false);
-createCluesTable("kitchen-tutorial", 6, timeOffset, true, true);
-createCluesTable("bathroom-tutorial", 6, timeOffset, false, true);
+createCluesTable("bedroom", data.numIntervals, data.timeOffset, true, false);
+createCluesTable("kitchen", data.numIntervals, data.timeOffset, false, false);
+createCluesTable("living", data.numIntervals, data.timeOffset, false, false);
+createCluesTable("bathroom", data.numIntervals, data.timeOffset, false, false);
+createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
+createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
 
 function drawClueTable(table) {
 	table.ctx.fillStyle = "#cccccc";
@@ -180,14 +180,9 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	if (isTutorial) {
 		rowNames = rowNames.concat(['alice', 'bob']);
 	} else {
-		rowNames = rowNames.concat(suspectNames);
+		rowNames = rowNames.concat(data.suspectNames);
 	}
 
-	if (nColumns == null || timeOffset == null) { // Only for debug
-		nColumns = 6 + 2;
-		timeOffset = 15
-		rowNames = ['Alice', 'Bob', 'Carol'];
-	}
 	nColumns = nColumns + 2;
 	var nRows = rowNames.length;
 	if (headerVisible)
@@ -265,8 +260,8 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 			fillClueTable("✗", columnSize / 3, '#000000', nColumns - 1, i, table);
 		}
 
-		for (let i = startRow; i < rowNames.length; i++) {
-			roomName = finalLocations.get(rowNames[i - startRow]);
+		for (let i = startRow; i < startRow + rowNames.length; i++) {
+			roomName = data.finalLocationsMap[rowNames[i - startRow]];
 			if (roomName == name) {
 				fillClueTable("█", columnSize / 3, '#cccccc', nColumns - 1, i, table);
 				fillClueTable("✓", columnSize / 3, '#000000', nColumns - 1, i, table);
@@ -323,7 +318,7 @@ async function hash(message) {
 	return hashHex;
 }
 
-function checkAccusation(solution) {
+function checkAccusation() {
 	input = "";
 	let who = document.getElementById("who-selector").value;
 	let how = document.getElementById("how-selector").value;
@@ -338,7 +333,7 @@ function checkAccusation(solution) {
 	input = input + when;
 
 	hash(input).then((result) => {
-		if (result == solution) {
+		if (result == data.correctAnswer) {
 			rank = computeRank();
 			document.getElementById("accusation-lose").style.display = "none";
 			document.getElementById("accusation-win-message").innerHTML += " " + rank;
