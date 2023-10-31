@@ -66,9 +66,9 @@ jobs:
       run: |
         pip3 install .
         mystery-o-matic scenarios/simple.template.sol static out --today --workers 1
-        rm out/result.json
-        rm out/err.out
-        rm out/model.sol
+        rm -f out/result.json
+        rm -f out/err.out
+        rm -f out/model.sol
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
