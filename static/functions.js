@@ -38,6 +38,7 @@ hideClues();
 document.getElementById("span-today").innerHTML = getCurrentDate();
 var tries = 0;
 var currentClue = 1;
+var maxClue = 1;
 
 function openModal(name) {
 	let element = document.getElementById('portraitImage');
@@ -70,6 +71,7 @@ function revealAnotherClue(offset) {
 	element.style.display = "none"
 
 	currentClue = currentClue + offset;
+	maxClue = Math.max(maxClue, currentClue);
 	element = document.getElementById("clue-" + currentClue);
 	element.style.display = "block";
 
@@ -90,7 +92,7 @@ function clueWasViewed(element) {
 
 function computeRank() {
 	let numberClues = document.getElementById("clues").children.length;
-	viewedPercentage = 100 * currentClue / numberClues;
+	viewedPercentage = 100 * maxClue / numberClues;
 	rank = ""
 	if (viewedPercentage ==  0 && tries == 0) {
 		rank += "<b>clairvoyant</b> 🧙";
