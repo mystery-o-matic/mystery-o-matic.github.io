@@ -9,3 +9,18 @@ canvas {
 	width: 100%;
 	height: auto;
 }
+
+.float{
+	position:fixed;
+	width:20px;
+	height:20px;
+	bottom:20px;
+	right:20px;
+	background-color: transparent;
+	color:#000;
+	text-align:center;
+}
+
+.floating-button{
+	margin-top:22px;
+}

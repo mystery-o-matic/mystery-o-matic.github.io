@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 
 <head>
 	<!-- Google fonts -->
@@ -25,9 +25,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/sticky-notes.css" rel="stylesheet">
 
@@ -58,10 +56,14 @@
 </div>
 
 <body>
-	<div class="container p-5 text-center">
+	<div class="container p-3 text-center">
 		<h1>mystery-⚙️-matic</h1>
 		<p>A mystery a day keeps the coroner away!</p>
 	</div>
+
+	<a href="#/" onClick="switchTheme()" class="float link-underline link-underline-opacity-0">🌓
+		<i class="fa fa-plus floating-button"></i>
+	</a>
 
 	<div id="about" style="display:none">
 		<div class="container mt-5">
@@ -360,11 +362,6 @@
 
 	<script src="data.js"></script>
 	<script src="functions.js"></script>
-
-	<!-- Bootstrap Bundle with Popper -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
 </body>
 
 </html>
