@@ -349,12 +349,13 @@ function checkAccusation() {
 function switchTheme() {
 	var currentTheme = document.querySelector("html").getAttribute("data-bs-theme");
 	document.querySelector("html").setAttribute("data-bs-theme", currentTheme == "light" ? "dark" : "light");
-
+	var usingLightTheme = currentTheme == "light";
 	var links = document.getElementsByTagName("a");
 	for(let i = 0; i < links.length; i++) {
 		if(links[i].href && !links[i].classList.contains("sticky-notes")) {
-			links[i].classList.remove(currentTheme == "light" ? "link-dark" : "link-light");
-			links[i].classList.add(currentTheme == "light" ? "link-light" : "link-dark");
+			links[i].classList.remove(usingLightTheme ? "link-dark" : "link-light");
+			links[i].classList.add(usingLightTheme ? "link-light" : "link-dark");
 		}
 	}
+	document.getElementById("logoImage").src = usingLightTheme ? "images/logo_dark.png" : "images/logo_light.png"
 }
