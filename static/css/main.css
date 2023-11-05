@@ -12,15 +12,31 @@ canvas {
 
 .float{
 	position:fixed;
-	width:20px;
-	height:20px;
-	bottom:20px;
-	right:20px;
+	width:200px;
+	height:10px;
+	bottom:10px;
+	right:10px;
 	background-color: transparent;
 	color:#000;
-	text-align:center;
+	text-align:right;
 }
 
 .floating-button{
 	margin-top:22px;
+}
+
+#google_translate_element {
+	display: none;
+}
+
+body > .skiptranslate {
+    display: none;
+}
+
+/* Disable google translate original text tooltips */
+#goog-gt-tt, .goog-te-balloon-frame {
+	display: none !important;
+}
+.goog-text-highlight {
+	background: none !important; box-shadow: none !important;
 }

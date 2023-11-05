@@ -62,9 +62,16 @@
 		<img id="logoImage" src="images/logo_light.png" class="w-100" style="max-width:600px" alt="...">
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-	<a href="#/" onClick="switchTheme()" class="float link-underline link-underline-opacity-0">🌓
-		<i class="fa fa-plus floating-button"></i>
-	</a>
+
+	<div id="google_translate_element">
+	</div>
+
+	<p class="floating-button float">
+		<a href="#/" onClick="switchTheme()" class="link-underline link-underline-opacity-0">🌓
+		<a href="#/" onClick="translateContent()" class="link-underline link-underline-opacity-0">🗺️</a>
+	</p>
+
+	<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 	<div id="about" style="display:none">
 		<div class="container mt-5">

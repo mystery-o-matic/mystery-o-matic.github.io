@@ -359,3 +359,27 @@ function switchTheme() {
 	}
 	document.getElementById("logoImage").src = usingLightTheme ? "images/logo_dark.png" : "images/logo_light.png"
 }
+
+function googleTranslateElementInit() {
+	new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+
+// Create a new onchange event and trigger it
+const triggerEvent = (element,eventName) =>{
+	const event = new Event(eventName);
+	element.dispatchEvent(event);
+};
+
+function translateContent() {
+	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
+	console.log(goog_te_combo.value);
+	if (goog_te_combo.value == "" || goog_te_combo.value == "en") {
+		goog_te_combo.value = "es";
+		triggerEvent(document.querySelector('.goog-te-combo'), 'change');
+	} else {
+		goog_te_combo.value = "en";
+		document.documentElement.classList.add("notranslate");
+		triggerEvent(document.querySelector('.goog-te-combo'), 'change');
+		location.reload();
+	}
+}
