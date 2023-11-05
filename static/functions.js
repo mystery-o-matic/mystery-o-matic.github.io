@@ -370,6 +370,14 @@ const triggerEvent = (element,eventName) =>{
 	element.dispatchEvent(event);
 };
 
+function checkIfWebsiteShouldBeTranslated() {
+	language = window.navigator.languages[0];
+	language = language.split("-")[0];
+	console.log(language);
+	if (language == "es")
+		translateContent();
+}
+
 function translateContent() {
 	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
 	console.log(goog_te_combo.value);
@@ -380,6 +388,7 @@ function translateContent() {
 		goog_te_combo.value = "en";
 		document.documentElement.classList.add("notranslate");
 		triggerEvent(document.querySelector('.goog-te-combo'), 'change');
+		document.cookie = "";
 		location.reload();
 	}
 }
