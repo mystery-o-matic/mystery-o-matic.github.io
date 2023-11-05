@@ -34,7 +34,7 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-	<title>mystery-o-matic</title>
+	<title class="notranslate">mystery-o-matic</title>
 </head>
 
 <!-- Modals -->
@@ -164,7 +164,7 @@
 
 			<p>Where was Alice at 10:00 then? The location graph offers some clues:</p>
 			<img src="images/locations_tutorial.svg" style="max-width: 100%; height: 100%;" alt="...">
-			<p>Since the kitchen is connected by both the living room and the bedroom, we cannot
+			<p>Since the kitchen is connected by both the dining room and the bedroom, we cannot
 				deduce where exactly Alice was. However, we can still make a deduction:
 				<lu class="list-group">
 					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at
@@ -270,7 +270,7 @@
 				<p></p>
 				<div class="row">
 					<div class="col-md-7">
-					<canvas id="clues-table-living room" height="300", width="1200" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-dining room" height="300", width="1200" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 					</div>
 				</div>
@@ -298,7 +298,7 @@
 						<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
 							<h6 class="sticky-notes">The murderer was…</h6>
 							<select class="form-select sticky-notes" id="who-selector">
-								<option value="" disabled selected>Who?</option>
+								<option value="" disabled selected>...</option>
 								$selectSuspects
 							</select>
 						</a>
@@ -308,7 +308,7 @@
 						<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
 							<h6 class="sticky-notes">The weapon was…</h6>
 							<select class="form-select sticky-notes" id="how-selector">
-								<option value="" disabled selected>How?</option>
+								<option value="" disabled selected>...</option>
 								$selectWeapon
 							</select>
 						</a>
@@ -318,7 +318,7 @@
 						<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
 							<h6 class="sticky-notes">Time of murder was…</h6>
 							<select class="form-select sticky-notes" id="when-selector">
-								<option value="" disabled selected>When?</option>
+								<option value="" disabled selected>...</option>
 								$selectIntervals
 							</select>
 						</a>

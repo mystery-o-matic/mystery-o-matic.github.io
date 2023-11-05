@@ -16,7 +16,7 @@ def produce_html_output(
 ):
     html_template = read_html_template(static_dir + "/index.template.html")
     intervals = mystery.get_intervals()
-    select_suspects = get_options_selector(mystery.get_characters())
+    select_suspects = get_options_selector(mystery.get_characters(), notranslate=True)
     select_intervals = get_options_selector(intervals)
     select_weapons = get_options_selector(
         map(lambda n: weapon_locations[n], locations.nodes())
@@ -28,7 +28,7 @@ def produce_html_output(
     names_html["NOBODY"] = "nobody"
 
     names_html["BEDROOM"] = "bedroom"
-    names_html["LIVING"] = "living room"
+    names_html["DINING"] = "dining room"
     names_html["KITCHEN"] = "kitchen"
     names_html["BATHROOM"] = "bathroom"
 
@@ -38,7 +38,7 @@ def produce_html_output(
     names_txt["NOBODY"] = "nobody"
 
     names_txt["BEDROOM"] = "bedroom"
-    names_txt["LIVING"] = "living room"
+    names_txt["DINING"] = "dining room"
     names_txt["KITCHEN"] = "kitchen"
     names_txt["BATHROOM"] = "bathroom"
 

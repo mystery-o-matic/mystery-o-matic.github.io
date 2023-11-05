@@ -54,11 +54,14 @@ def get_bullet_list(elements, name=""):
     return indent(doc.getvalue())
 
 
-def get_options_selector(elements, name=""):
+def get_options_selector(elements, name="", notranslate=False):
     doc, tag, text, line = Doc().ttl()
 
     for i, element in enumerate(elements):
-        line("option", element, value=element)
+        if notranslate:
+            line("option", element, value=element, klass="notranslate")
+        else:
+            line("option", element, value=element)
 
     return indent(doc.getvalue())
 

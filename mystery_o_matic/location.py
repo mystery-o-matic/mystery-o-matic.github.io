@@ -3,11 +3,11 @@ from random import shuffle
 from networkx import gnr_graph, relabel_nodes
 from networkx.drawing.nx_agraph import to_agraph
 
-mansion_locations = {0: "KITCHEN", 1: "LIVING", 2: "BEDROOM", 3: "BATHROOM"}
-weapons = {"gun", "knife", "poison", "rope"}
+mansion_locations = {0: "KITCHEN", 1: "DINING", 2: "BEDROOM", 3: "BATHROOM"}
+weapons = {"pistol", "knife", "poison", "rope"}
 mansion_representations = {
     "KITCHEN": "kitchen 🍲",
-    "LIVING": "living room 🛋️",
+    "DINING": "dining room 🍽️",
     "BEDROOM": "bedroom 🛏️",
     "BATHROOM": "bathroom 🚽",
 }

@@ -124,7 +124,7 @@ function markedAsViewed(element) {
 
 var places = new Map();
 places.set("bedroom", "🛏️");
-places.set("living room", "🛋️");
+places.set("dining room", "🍽️");
 places.set("kitchen", "🍲");
 places.set("bathroom", "🚽");
 
@@ -133,7 +133,7 @@ var tables = new Map();
 function createTables() {
 	createCluesTable("bedroom", data.numIntervals, data.timeOffset, true, false);
 	createCluesTable("kitchen", data.numIntervals, data.timeOffset, false, false);
-	createCluesTable("living room", data.numIntervals, data.timeOffset, false, false);
+	createCluesTable("dining room", data.numIntervals, data.timeOffset, false, false);
 	createCluesTable("bathroom", data.numIntervals, data.timeOffset, false, false);
 	createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
 	createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);

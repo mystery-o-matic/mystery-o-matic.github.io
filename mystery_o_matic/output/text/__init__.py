@@ -109,7 +109,7 @@ def produce_text_output(
 
     args["NOBODY"] = "nobody"
     args["BEDROOM"] = "bedroom"
-    args["LIVING"] = "living room"
+    args["DINING"] = "dining room"
     args["KITCHEN"] = "kitchen"
     args["BATHROOM"] = "bathroom"
     print(mystery.get_answer())
