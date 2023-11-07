@@ -364,46 +364,36 @@ function googleTranslateElementInit() {
 
 // Create a new onchange event and trigger it
 const triggerEvent = (element,eventName) =>{
-	const event = new Event(eventName);
+	const event = new Event(eventName, {'bubbles': true});
 	element.dispatchEvent(event);
 };
 
-function checkIfWebsiteShouldBeTranslated() {
-	language = window.navigator.languages[0];
+function checkIfWebsiteShouldBeTranslated(force) {
+	language = window.navigator.language;
 	language = language.split("-")[0];
 	console.log(language);
-	if (sessionStorage.getItem("language") === null && language == "es") {
+	if (force || (sessionStorage.getItem("language") === null && language != "en")) {
 		let modal = new bootstrap.Modal(document.getElementById('languageSelector'), {});
 		modal.show();
 	}
 }
 
 function keepInEnglish() {
-	sessionStorage.setItem("language", "en");
-	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
-	goog_te_combo.value = "";
-	document.cookie = "";
-	location.reload();
-}
-
-function untranslateContent() {
-	console.log("untranslate!");
-	sessionStorage.removeItem("language");
+	sessionStorage.setItem("language", "");
 	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
 	goog_te_combo.value = "en";
 	triggerEvent(document.querySelector('.goog-te-combo'), 'change');
-	document.cookie = "";
-	location.reload();
 }
 
-function translateContent() {
+function translateContent(language) {
 	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
+	console.log(goog_te_combo);
+	goog_te_combo.value = language;
 	console.log(goog_te_combo.value);
-	if (goog_te_combo.value == "" || goog_te_combo.value == "en") {
-		goog_te_combo.value = "es";
-		sessionStorage.setItem("language", goog_te_combo.value)
-		triggerEvent(document.querySelector('.goog-te-combo'), 'change');
-	}
+	sessionStorage.setItem("language", goog_te_combo.value)
+	triggerEvent(goog_te_combo, 'change');
+	goog_te_combo.value = language;
+	triggerEvent(goog_te_combo, 'change');
 }
 
-checkIfWebsiteShouldBeTranslated();
+checkIfWebsiteShouldBeTranslated(false);
