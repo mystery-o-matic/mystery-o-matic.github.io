@@ -4,14 +4,6 @@
 <head>
 	<!-- Google fonts -->
 	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-	<script>
-	  WebFont.load({
-		google: {
-		  families: ['Raleway']
-		},
-		active: createTables()
-	  });
-	</script>
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-C7DCY6FN81"></script>
 	<script>
@@ -39,7 +31,7 @@
 
 <!-- Modals -->
 <div class="modal fade" id="portraitModal" tabindex="-1" aria-labelledby="portraitLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="portraitLabel">📸 Suspect portrait</h5>
@@ -57,6 +49,26 @@
 	</div>
 </div>
 
+<div class="modal fade" id="languageSelector" tabindex="-1" aria-labelledby="languageSelector" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title w-100 text-center notranslate" id="">
+					mystery-🌐-matic está disponible en tu idioma
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="col text-center">
+					<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="keepInEnglish()">Go back to English</button>
+					<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent()">¡Adelante!</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <body>
 	<div class="container p-3 text-center">
 		<img id="logoImage" src="images/logo_light.png" class="w-100" style="max-width:600px" alt="...">
@@ -68,7 +80,7 @@
 
 	<p class="floating-button float">
 		<a href="#/" onClick="switchTheme()" class="link-underline link-underline-opacity-0">🌓
-		<a href="#/" onClick="translateContent()" class="link-underline link-underline-opacity-0">🗺️</a>
+		<a href="#/" onClick="untranslateContent()" class="link-underline link-underline-opacity-0">🗺️</a>
 	</p>
 
 	<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -370,6 +382,14 @@
 
 	<script src="data.js"></script>
 	<script src="functions.js"></script>
+	<script>
+		WebFont.load({
+		  google: {
+			families: ['Raleway']
+		  },
+		  active: createTables()
+		});
+	</script>
 </body>
 
 </html>

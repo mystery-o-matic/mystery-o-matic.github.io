@@ -139,8 +139,6 @@ function createTables() {
 	createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
 }
 
-createTables();
-
 function drawClueTable(table) {
 	table.ctx.fillStyle = "#cccccc";
 	table.ctx.fillRect(0, 0, table.canvas.width, table.canvas.height);
@@ -374,8 +372,28 @@ function checkIfWebsiteShouldBeTranslated() {
 	language = window.navigator.languages[0];
 	language = language.split("-")[0];
 	console.log(language);
-	if (language == "es")
-		translateContent();
+	if (sessionStorage.getItem("language") === null && language == "es") {
+		let modal = new bootstrap.Modal(document.getElementById('languageSelector'), {});
+		modal.show();
+	}
+}
+
+function keepInEnglish() {
+	sessionStorage.setItem("language", "en");
+	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
+	goog_te_combo.value = "";
+	document.cookie = "";
+	location.reload();
+}
+
+function untranslateContent() {
+	console.log("untranslate!");
+	sessionStorage.removeItem("language");
+	var goog_te_combo = document.getElementsByClassName("goog-te-combo")[0];
+	goog_te_combo.value = "en";
+	triggerEvent(document.querySelector('.goog-te-combo'), 'change');
+	document.cookie = "";
+	location.reload();
 }
 
 function translateContent() {
@@ -383,12 +401,9 @@ function translateContent() {
 	console.log(goog_te_combo.value);
 	if (goog_te_combo.value == "" || goog_te_combo.value == "en") {
 		goog_te_combo.value = "es";
+		sessionStorage.setItem("language", goog_te_combo.value)
 		triggerEvent(document.querySelector('.goog-te-combo'), 'change');
-	} else {
-		goog_te_combo.value = "en";
-		document.documentElement.classList.add("notranslate");
-		triggerEvent(document.querySelector('.goog-te-combo'), 'change');
-		document.cookie = "";
-		location.reload();
 	}
 }
+
+checkIfWebsiteShouldBeTranslated();
