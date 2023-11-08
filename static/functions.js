@@ -391,6 +391,8 @@ function translateContent(language) {
 	goog_te_combo.value = language;
 	console.log(goog_te_combo.value);
 	sessionStorage.setItem("language", goog_te_combo.value)
+
+	// HACK: for some reason, this needs to be executed twice
 	triggerEvent(goog_te_combo, 'change');
 	goog_te_combo.value = language;
 	triggerEvent(goog_te_combo, 'change');

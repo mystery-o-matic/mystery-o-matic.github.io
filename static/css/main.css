@@ -13,9 +13,10 @@ canvas {
 .float{
 	position:fixed;
 	width:200px;
-	height:10px;
+	height:5vh;
 	bottom:10px;
 	right:10px;
+	font-size: 4vh;
 	background-color: transparent;
 	color:#000;
 	text-align:right;
