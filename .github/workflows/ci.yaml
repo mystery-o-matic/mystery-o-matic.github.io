@@ -1,6 +1,7 @@
 name: Generate Mystery and Deploy
 
 on:
+  workflow_call:
   schedule:
     - cron: "0 1 * * *"
   push:
