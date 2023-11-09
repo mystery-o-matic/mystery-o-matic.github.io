@@ -7,7 +7,7 @@ from mystery_o_matic.output.html.utils import (
     get_subtitle,
     get_card,
     get_char_name,
-    save_json
+    save_json,
 )
 
 
@@ -66,7 +66,7 @@ def produce_html_output(
         sub_bullets.append("{} was in the {}".format(c, p))
 
     final_locations_map = {}
-    for (c, p) in mystery.final_locations.items():
+    for c, p in mystery.final_locations.items():
         c = create_template(c).substitute(names_txt)
         p = create_template(p).substitute(names_txt)
         final_locations_map[c] = p

@@ -21,11 +21,13 @@ def save_html(outdir, html):
 
     return filename
 
+
 def save_json(outdir, prefix, data):
     filename = outdir + "/data.js"
-    with open(filename, 'w', encoding='utf-8') as f:
+    with open(filename, "w", encoding="utf-8") as f:
         f.write(prefix)
         dump(data, f, ensure_ascii=False, indent=4)
+
 
 def read_story(season, date):
     filename = "story/season-" + str(season) + "/" + date + ".html"
@@ -90,6 +92,7 @@ def get_card(title, inner_html, index):
 </div>"""
     html_template = Template(html_template)
     return html_template.substitute(title=title, innerHTML=inner_html, index=index)
+
 
 def get_char_name(name):
     if name == "NOBODY":

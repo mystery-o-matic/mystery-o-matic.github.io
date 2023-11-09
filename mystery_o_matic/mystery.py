@@ -1,5 +1,5 @@
 from datetime import timedelta
-from random import shuffle
+from random import shuffle, randint
 from hashlib import sha256
 
 from mystery_o_matic.clues import Clue
@@ -10,6 +10,12 @@ from mystery_o_matic.text import get_char_name
 def parse_time(t):
     h, m = map(int, t.split(":"))
     return h * 3600 + m * 60
+
+
+def print_time(t):
+    clock = timedelta(seconds=t)
+    h, m, s = str(clock).split(":")
+    return h + ":" + m
 
 
 def get_intervals_length_from_events(source, contract_name, events):
@@ -102,6 +108,7 @@ class Mystery:
             if clue.name == "PoliceArrived":
                 continue
             elif clue.name == "WasMurdered":
+                clue.name = "WasMurderedInitial"
                 clue.fields += [self.initial_time, self.final_time]
                 clues.append(clue)
             else:
@@ -123,7 +130,48 @@ class Mystery:
                 clue = Clue("WeaponNotUsed", [weapon])
                 self.additional_clues.append(clue)
 
+        # The player needs more hints to fully determinate when the murdered took place
+        murder_time_seconds = parse_time(self.murder_time)
+        rand_bool = randint(0, 1)
+        if rand_bool:
+            first_clue = Clue(
+                "WasMurderedInspection",
+                [
+                    self.murder_time,
+                    print_time(murder_time_seconds + self.interval_size),
+                ],
+            )
+            second_clue = Clue(
+                "WasMurderedAutopsy",
+                [
+                    print_time(murder_time_seconds - self.interval_size),
+                    self.murder_time,
+                ],
+            )
+        else:
+            first_clue = Clue(
+                "WasMurderedInspection",
+                [
+                    print_time(murder_time_seconds - self.interval_size),
+                    self.murder_time,
+                ],
+            )
+            second_clue = Clue(
+                "WasMurderedAutopsy",
+                [
+                    self.murder_time,
+                    print_time(murder_time_seconds + self.interval_size),
+                ],
+            )
+
         shuffle(self.additional_clues)
+
+        first_clue_index = randint(0, len(self.additional_clues) // 2)
+        self.additional_clues.insert(first_clue_index, first_clue)
+        second_clue_index = randint(
+            len(self.additional_clues) // 2, len(self.additional_clues)
+        )
+        self.additional_clues.insert(second_clue_index, second_clue)
 
     def get_intervals(self):
         intervals = []
@@ -131,9 +179,7 @@ class Mystery:
         final_seconds = self._time_to_seconds(self.final_time)
 
         for t in range(initial_seconds, final_seconds + 1, self.interval_size):
-            delta = timedelta(seconds=t)
-            h, m, _ = str(delta).split(":")
-            intervals.append(h + ":" + m)
+            intervals.append(print_time(t))
 
         return intervals
 

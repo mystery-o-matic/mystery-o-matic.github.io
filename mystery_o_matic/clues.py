@@ -26,10 +26,20 @@ class Clue:
             return self.print_SawWhenLeaving_clue()
         elif self.name == "NotSawWhenLeaving":
             return self.print_NotSawWhenArrivingLeaving_clue()
-        elif self.name == "WasMurdered":
+        elif self.name == "WasMurderedInitial":
             return "{} was murdered in the {} at some time between {} and {}!".format(
                 self.fields[0], self.fields[1], self.fields[2], self.fields[3]
             )
+        elif self.name == "WasMurderedInspection":
+            return "A close examination of the body reveals that the murder took place either at {} or at {}".format(
+                self.fields[0], self.fields[1]
+            )
+
+        elif self.name == "WasMurderedAutopsy":
+            return "The pathologist says that murder took place either at {} or at {}".format(
+                self.fields[0], self.fields[1]
+            )
+
         elif self.name == "PoliceArrived":
             return "Police arrived at {}!".format(self.fields[0])
         elif self.name == "Stayed":
