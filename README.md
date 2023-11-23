@@ -6,13 +6,13 @@ mystery-o-matic is a Python program used to produce the content of [mystery-o-ma
 
 Make sure all the requirements are installed. If you are using Ubuntu:
 
-```
-$ sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
+```bash
+sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
 ```
 
 Solidity 0.8.x is needed, so we can install `solc-select` for that:
 
-```
+```bash
 pip install solc-select
 solc-select install 0.8.17
 solc-select use 0.8.17
@@ -20,19 +20,26 @@ solc-select use 0.8.17
 
 Finally, install the tool from this repository:
 
+```bash
+pip install .
 ```
-$ pip install .
-```
+
+mystery-o-matic requires the usage of [echidna](https://github.com/crytic/echidna/) for obtaining a random mystery prompt and its solution, but uses [a specific PR](https://github.com/crytic/echidna/pull/1075) that was not merged yet. For convenience, there is a precompiled binary provided in the `bin` folder. Otherwise, [it can be compiled from source code using `stack` or `nix`](https://github.com/crytic/echidna#building-using-stack).
 
 ## Usage
 
-To generate a new mystery in the default scenario:
+mystery-o-matic will always generate a fresh mystery to solve, but depending on the output mode (`--mode`) will produce different results:
 
-```
-$ MysteryOMatic scenarios/simple.template.sol static out
+* `html`: it will generate a local copy of mystery-o-matic.com which contains the description of the case, some clues as well as the solution.
+* `text`: it will start an interactive version of murder mystery to solve by command It can also start a Telegram bot if an API key is provided.
+
+By default it will use the `html` output to generate a new mystery in the default scenario:
+
+```bash
+mystery-o-matic scenarios/simple.template.sol static out
 ```
 
-The tool will produce a static `index.html` file stored in the `out` directory which contains the description of the case, some clues as well as the solution.
+The tool will produce a static `index.html` file stored in the `out` directory.
 
 ## Scenarios
 
