@@ -34,7 +34,7 @@ function showPage(page) {
 	}
 }
 
-hideClues();
+prepareClues();
 document.getElementById("span-today").innerHTML = getCurrentDate();
 var tries = 0;
 var currentClue = 1;
@@ -47,16 +47,9 @@ function openModal(name) {
 	modal.show();
 }
 
-function hideClues() {
-	let i = 2;
-	while (true) {
-		element = document.getElementById("clue-" + i)
-		if (element == null)
-			break;
-
-		element.style.display = "none"
-		i = i + 1
-	}
+function prepareClues() {
+	element = document.getElementById("clue-1")
+	element.style.display = "block"
 	document.getElementById("previous-clue-button").disabled = true;
 }
 

@@ -84,7 +84,7 @@ def get_clues_list(elements):
 
 
 def get_card(title, inner_html, index):
-    html_template = """<div class="card" id="clue-$index">
+    html_template = """<div class="card" style="display:none" id="clue-$index">
   <div class="card-body">
     <h5 class="card-title">$title</h5>
     <p class="card-text" onClick="toggleClueStrikeout(this)">$innerHTML</p>
