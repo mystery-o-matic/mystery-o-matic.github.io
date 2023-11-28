@@ -2,7 +2,7 @@
 
 from sys import argv, exit
 from argparse import ArgumentParser
-from random import seed
+from random import seed, random
 from datetime import datetime
 from os.path import isfile
 
@@ -99,6 +99,8 @@ def main() -> int:
 
     if used_seed is not None:
         seed(used_seed)
+    else:
+        used_seed = abs(hash(random()))
 
     create_outdir(out_dir)
 
