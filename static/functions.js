@@ -392,3 +392,7 @@ function translateContent(language) {
 }
 
 checkIfWebsiteShouldBeTranslated(false);
+
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    switchTheme()
+}
