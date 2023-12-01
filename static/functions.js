@@ -1,3 +1,27 @@
+var ua = navigator.userAgent;
+var isKindle = /Kindle/i.test(ua);
+var emoji = null;
+if (isKindle) {
+	emoji = new EmojiConvertor();
+	emoji.img_sets['google'].path = 'images/emoji-data/img-google-64/';
+	emoji.img_set = 'google';
+	emoji.text_mode = false;
+	document.body.innerHTML = emoji.replace_unified(document.body.innerHTML);
+	document.getElementById("locations").src = "images/locations.png";
+}
+
+function getEmoji(input) {
+	if (emoji) {
+		input = emoji.replace_unified(input);
+		const parser = new DOMParser();
+		htmlDoc = parser.parseFromString(input, 'text/html');
+		codepoint = htmlDoc.getElementsByTagName("span")[0].dataset["codepoints"];
+		console.log(codepoint);
+		return document.getElementById(codepoint);
+	} else
+		return input;
+}
+
 function getCurrentDate() {
 	var options = {  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: false };
 	return String(new Date().toLocaleTimeString('en-us', options)).split(" at")[0];
@@ -79,10 +103,6 @@ function toggleClueStrikeout(element) {
 		element.style.textDecoration = "line-through";
 }
 
-function clueWasViewed(element) {
-	return element.textContent.includes("👀")
-}
-
 function computeRank() {
 	let numberClues = document.getElementById("clues").children.length;
 	viewedPercentage = 100 * maxClue / numberClues;
@@ -110,16 +130,11 @@ function computeRank() {
 	return rank;
 }
 
-function markedAsViewed(element) {
-	if (!clueWasViewed(element))
-		element.textContent += "👀";
-}
-
 var places = new Map();
-places.set("bedroom", "🛏️");
-places.set("dining room", "🍽️");
-places.set("kitchen", "🍲");
-places.set("bathroom", "🚽");
+places.set("bedroom", getEmoji("🛏️"));
+places.set("dining room", getEmoji("🍽️"));
+places.set("kitchen", getEmoji("🍲"));
+places.set("bathroom", getEmoji("🚽"));
 
 var tables = new Map();
 
@@ -158,7 +173,12 @@ function fillClueTable(text, size, color, column, row, table) {
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
-	table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
+	if (text && typeof(text) === "object") {
+		console.log(text);
+		table.ctx.drawImage(text, table.columnSize * column + table.columnSize / 2 - text.width / 2, table.rowSize * row + table.rowSize / 1.8 - text.height / 1.8);
+	} else
+		table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
+
 	table.data[column][row] = text;
 }
 
@@ -207,7 +227,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 
 	var date = new Date(null);
 	date.setSeconds(timeOffset);
-	var titles = ["🕰️"];
+	var titles = [getEmoji("🕰️")];
 	for (let i = 0; i < nColumns; i++) {
 	  title = date.toISOString().substr(11, 5);
 	  titles.push(title);

@@ -38,3 +38,5 @@ def render_locations(outdir, graph):
         fontname="Raleway", color="lightblue2", style="filled", shape="Mrecord"
     )
     g.draw(outdir + "/images/locations.svg", prog="dot")
+    g.graph_attr.update(dpi="200")
+    g.draw(outdir + "/images/locations.png", prog="dot")
