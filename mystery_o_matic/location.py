@@ -45,7 +45,7 @@ def render_locations(outdir, graph):
     g = to_agraph(relabeled_graph)
     g.graph_attr.update(bgcolor="transparent")
     g.node_attr.update(
-        fontname="Raleway", color="lightblue2", style="filled", shape="Mrecord"
+        fontname="Raleway", color="lightblue2", style="filled",  shape="Mrecord"
     )
     g.edge_attr.update(color="gray")
     g.draw(outdir + "/images/locations_big.svg", prog="dot")
