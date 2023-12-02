@@ -5,13 +5,19 @@ from networkx.drawing.nx_agraph import to_agraph
 
 mansion_locations = {0: "KITCHEN", 1: "DINING", 2: "BEDROOM", 3: "BATHROOM"}
 weapons = {"pistol", "knife", "poison", "rope"}
-mansion_representations = {
-    "KITCHEN": "kitchen 🍲",
-    "DINING": "dining room 🍽️",
-    "BEDROOM": "bedroom 🛏️",
-    "BATHROOM": "bathroom 🚽",
+mansion_names = {
+    "KITCHEN": "kitchen",
+    "DINING": "dining room",
+    "BEDROOM": "bedroom",
+    "BATHROOM": "bathroom",
 }
 
+mansion_representations = {
+    "KITCHEN": "🍲",
+    "DINING": "🍽️",
+    "BEDROOM": "🛏️",
+    "BATHROOM": "🚽",
+}
 
 def create_locations_graph(outdir, nodes):
     graph = gnr_graph(4, 0.5).to_undirected()
@@ -31,12 +37,30 @@ def create_locations_weapons():
 
 
 def render_locations(outdir, graph):
-    graph = relabel_nodes(graph, mansion_representations)
-    g = to_agraph(graph)
+    labels = {}
+    for place, name in mansion_names.items():
+        labels[place] = name + " " + mansion_representations[place]
+
+    relabeled_graph = relabel_nodes(graph, labels)
+    g = to_agraph(relabeled_graph)
     g.graph_attr.update(bgcolor="transparent")
     g.node_attr.update(
         fontname="Raleway", color="lightblue2", style="filled", shape="Mrecord"
     )
-    g.draw(outdir + "/images/locations.svg", prog="dot")
+    g.draw(outdir + "/images/locations_big.svg", prog="dot")
     g.graph_attr.update(dpi="200")
-    g.draw(outdir + "/images/locations.png", prog="dot")
+    g.draw(outdir + "/images/locations_big.png", prog="dot")
+
+    labels = {}
+    for place, name in mansion_names.items():
+        labels[place] = mansion_representations[place]
+
+    relabeled_graph = relabel_nodes(graph, labels)
+    g = to_agraph(relabeled_graph)
+    g.graph_attr.update(bgcolor="transparent", nodesep="0.1")
+    g.node_attr.update(
+        fontname="Raleway", shape="plaintext"
+    )
+    g.draw(outdir + "/images/locations_small.svg", prog="dot")
+    g.graph_attr.update(dpi="200")
+    g.draw(outdir + "/images/locations_small.png", prog="dot")

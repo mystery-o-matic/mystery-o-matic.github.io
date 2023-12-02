@@ -7,7 +7,8 @@ if (isKindle) {
 	emoji.img_set = 'google';
 	emoji.text_mode = false;
 	document.body.innerHTML = emoji.replace_unified(document.body.innerHTML);
-	document.getElementById("locations").src = "images/locations.png";
+	document.getElementById("locations-big").src = "images/locations_big.png";
+	document.getElementById("locations-small").src = "images/locations_small.png";
 }
 
 function getEmoji(input) {
