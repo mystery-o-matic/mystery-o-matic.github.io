@@ -146,6 +146,7 @@ function createTables() {
 	createCluesTable("bathroom", data.numIntervals, data.timeOffset, false, false);
 	createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
 	createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
+	createCluesTableWeapons();
 }
 
 function drawClueTable(table) {
@@ -182,6 +183,50 @@ function fillClueTable(text, size, color, column, row, table) {
 
 	table.data[column][row] = text;
 }
+
+function createCluesTableWeapons() {
+	var rowNames = []
+
+	nColumns = 4;
+	var nRows = rowNames.length + 1;
+	var name = "weapons"
+	var c = document.getElementById("clues-table-" + name);
+	var width = c.width;
+	var height = c.height;
+
+	var columnSize = width / nColumns;
+	var rowSize = height / nRows;
+
+	var ctx = c.getContext("2d");
+
+	var table = {
+		canvas: c,
+		ctx: ctx,
+		nColumns: nColumns,
+		nRows: nRows,
+		columnSize: columnSize,
+		rowSize: rowSize,
+		headerVisible: false,
+		width: width,
+		height: height,
+		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
+		extra: [...Array(nColumns)].map(e => Array(nRows).fill("")),
+		isTutorial: false,
+	};
+
+	tables.set(name, table);
+	drawClueTable(table);
+
+	fillClueTable("⚗️", columnSize / 6, '#000000', 0, 0, table);
+	table.extra[0][0] = "⚗️";
+	fillClueTable("🔪", columnSize / 6, '#000000', 1, 0, table);
+	table.extra[1][0] = "🔪";
+	fillClueTable("🔫", columnSize / 6, '#000000', 2, 0, table);
+	table.extra[2][0] = "🔫";
+	fillClueTable("🪢", columnSize / 6, '#000000', 3, 0, table);
+	table.extra[3][0] = "🪢";
+}
+
 
 function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
 	var rowNames = []
@@ -289,6 +334,27 @@ function findPositionTable(table, x, y) {
 	y = table.width * y / rect.width;
 	return [Math.trunc(x / table.columnSize), Math.trunc(y / table.rowSize)];
 }
+
+function checkWeaponClicked(c, x, y) {
+	var name = c.id.replace("clues-table-", "");
+	var table = tables.get(name);
+	var position = findPositionTable(table, x, y);
+	var value = table.data[position[0]][position[1]];
+	console.log(value);
+	fillClueTable("█", table.columnSize / 2, '#cccccc', position[0], position[1], table);
+
+	console.log(value);
+
+	weapon = table.extra[position[0]][position[1]];
+	fillClueTable(weapon, table.columnSize / 6, '#000000', position[0], position[1], table);
+
+	if (value == "🚫") {
+		// Nothing
+	} else {
+		fillClueTable("🚫", table.columnSize / 5, '#000000', position[0], position[1], table);
+	}
+}
+
 
 function checkCellClicked(c, x, y) {
 	var name = c.id.replace("clues-table-", "");
