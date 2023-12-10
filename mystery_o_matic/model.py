@@ -35,7 +35,7 @@ class Model:
             initial_locations_pairs, "currentLocation"
         )
 
-        return (initial_locations_pairs, self.weapon_location)
+        return (initial_locations_pairs, self.used_weapon_location)
 
     def generate_solidity(self):
         solidity_source = self.template.substitute(
@@ -47,13 +47,13 @@ class Model:
 
     def generate_location_connections(self):
         r = ""
-        for p0, p1 in self.locations.edges:
+        for p0, p1 in self.locations.graph.edges:
             r = r + "connection[Place.{}][Place.{}] = true;\n\t".format(p0, p1)
         return r.strip()
 
     def generate_weapon_condition(self):
-        self.weapon_location = choice(list(self.locations.nodes()))
-        return "locationWeapon = Place.{};".format(self.weapon_location)
+        self.used_weapon_location = choice(list(self.locations.graph.nodes()))
+        return "locationWeapon = Place.{};".format(self.used_weapon_location)
 
     def get_location_conditions(self):
         chars = get_enum(self.source, self.contract_name, "Char")

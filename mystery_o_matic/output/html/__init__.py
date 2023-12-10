@@ -12,14 +12,14 @@ from mystery_o_matic.output.html.utils import (
 
 
 def produce_html_output(
-    static_dir, out_dir, mystery, weapon_locations, locations, story_clue
+    static_dir, out_dir, mystery, locations, story_clue
 ):
     html_template = read_html_template(static_dir + "/index.template.html")
     intervals = mystery.get_intervals()
     select_suspects = get_options_selector(mystery.get_characters(), notranslate=True)
     select_intervals = get_options_selector(intervals)
     select_weapons = get_options_selector(
-        map(lambda n: weapon_locations[n], locations.nodes())
+        map(lambda n: locations.weapon_locations[n], locations.graph.nodes())
     )
 
     names_html = {}
@@ -52,7 +52,7 @@ def produce_html_output(
     )
 
     sub_bullets = []
-    for loc, weapon in weapon_locations.items():
+    for loc, weapon in locations.weapon_locations.items():
         sub_bullets.append("The {} from the ${}".format(weapon, loc))
 
     weapon_locations_bullets = (
