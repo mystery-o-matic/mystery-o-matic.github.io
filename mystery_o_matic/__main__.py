@@ -152,7 +152,6 @@ def main() -> int:
             static_dir,
             out_dir,
             mystery,
-            weapon_locations,
             locations,
             story_clue,
             telegram_api_key,

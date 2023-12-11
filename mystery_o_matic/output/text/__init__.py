@@ -51,9 +51,9 @@ class DetectiveShell(cmd.Cmd):
     def do_locations(self, arg):
         "Show locations"
         locations = ""
-        for src in self.locations.nodes:
+        for src in self.locations.graph.nodes:
             connections = []
-            for dst in self.locations[src]:
+            for dst in self.locations.graph[src]:
                 connections.append(dst.lower())
             locations += (
                 "* "
@@ -81,7 +81,6 @@ def produce_text_output(
     static_dir,
     out_dir,
     mystery,
-    weapon_locations,
     locations,
     story_clue,
     telegram_api_key,
@@ -95,7 +94,7 @@ def produce_text_output(
         "* The murderer was alone with their victim and the body was not moved"
     )
     txt_source.append("* The killer took the murder weapon from one of these rooms:")
-    for loc, weapon in weapon_locations.items():
+    for loc, weapon in locations.weapon_locations.items():
         txt_source.append("  - The {} from the ${}".format(weapon, loc))
 
     txt_source.append("* When the police arrived at {}:".format(mystery.final_time))
