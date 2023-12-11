@@ -22,8 +22,10 @@ mansion_representations = {
 class Locations:
     graph = None
 
-    def __init__(self, nodes, weapons):
-        self.room_map = nodes
+    def __init__(self, nodes, names, representations, weapons):
+        self.map = nodes
+        self.names = names
+        self.representations = representations
         self.weapons = weapons
         self.graph = self.create_locations_graph(nodes)
         self.weapon_locations = self.create_locations_weapons(weapons)
@@ -38,15 +40,15 @@ class Locations:
         shuffled_weapons = list(weapons)
         shuffle(shuffled_weapons)
 
-        for loc, weapon in zip(self.room_map.values(), shuffled_weapons):
+        for loc, weapon in zip(self.map.values(), shuffled_weapons):
             weapon_locations[loc] = weapon
 
         return weapon_locations
 
     def render_locations(self, outdir):
         labels = {}
-        for place, name in mansion_names.items():
-            labels[place] = name + " " + mansion_representations[place]
+        for place, name in self.names.items():
+            labels[place] = name + " " + self.representations[place]
 
         relabeled_graph = relabel_nodes(self.graph, labels)
         g = to_agraph(relabeled_graph)
@@ -60,8 +62,8 @@ class Locations:
         g.draw(outdir + "/images/locations_big.png", prog="dot")
 
         labels = {}
-        for place, name in mansion_names.items():
-            labels[place] = mansion_representations[place]
+        for place, name in self.names.items():
+            labels[place] = self.representations[place]
 
         relabeled_graph = relabel_nodes(self.graph, labels)
         g = to_agraph(relabeled_graph)

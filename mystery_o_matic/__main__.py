@@ -9,7 +9,7 @@ from os.path import isfile
 from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
 from mystery_o_matic.echidna import create_outdir
-from mystery_o_matic.location import (Locations, mansion_locations, weapons)
+from mystery_o_matic.location import (Locations, mansion_locations, mansion_names, mansion_representations, weapons)
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 
@@ -101,8 +101,7 @@ def main() -> int:
 
     while True:
         solidity_file = args.scenario
-        #locations = create_locations_graph(out_dir, mansion_locations)
-        locations = Locations(mansion_locations, weapons)
+        locations = Locations(mansion_locations, mansion_names, mansion_representations, weapons)
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
