@@ -12,14 +12,14 @@ from mystery_o_matic.output.html.utils import (
 
 
 def produce_html_output(
-    static_dir, out_dir, mystery, weapon_locations, locations, story_clue
+    static_dir, out_dir, mystery, locations, story_clue
 ):
     html_template = read_html_template(static_dir + "/index.template.html")
     intervals = mystery.get_intervals()
     select_suspects = get_options_selector(mystery.get_characters(), notranslate=True)
     select_intervals = get_options_selector(intervals)
     select_weapons = get_options_selector(
-        map(lambda n: weapon_locations[n], locations.nodes())
+        map(lambda n: locations.weapon_locations[n], locations.graph.nodes())
     )
 
     names_html = {}
@@ -52,7 +52,7 @@ def produce_html_output(
     )
 
     sub_bullets = []
-    for loc, weapon in weapon_locations.items():
+    for loc, weapon in locations.weapon_locations.items():
         sub_bullets.append("The {} from the ${}".format(weapon, loc))
 
     weapon_locations_bullets = (
@@ -70,6 +70,17 @@ def produce_html_output(
         c = create_template(c).substitute(names_txt)
         p = create_template(p).substitute(names_txt)
         final_locations_map[c] = p
+
+    representations_map = {}
+    for l, r in locations.representations.items():
+        l = create_template("$"+l).substitute(names_txt)
+        representations_map[l] = r
+
+    # the weapons map will be computed reversing the location_weapons one
+    weapons_map = {}
+    for l, w in locations.weapon_locations.items():
+        l = create_template("$"+l).substitute(names_txt)
+        weapons_map[w] = l
 
     final_locations_bullets = "When the police arrived at {}:\n".format(
         mystery.final_time
@@ -99,6 +110,8 @@ def produce_html_output(
     json["suspectNames"] = mystery.get_characters()
     json["victim"] = create_template(mystery.victim).substitute(names_txt)
     json["finalLocationsMap"] = final_locations_map
+    json["representationsMap"] = representations_map
+    json["weaponsMap"] = weapons_map
     json["timeOffset"] = 9 * 3600
     json["correctAnswer"] = correct_answer
 

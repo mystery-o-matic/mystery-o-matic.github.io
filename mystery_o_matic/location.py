@@ -19,51 +19,60 @@ mansion_representations = {
     "BATHROOM": "🚽",
 }
 
-def create_locations_graph(outdir, nodes):
-    graph = gnr_graph(4, 0.5).to_undirected()
-    graph = relabel_nodes(graph, nodes)
-    return graph
+class Locations:
+    graph = None
 
+    def __init__(self, nodes, names, representations, weapons):
+        self.map = nodes
+        self.names = names
+        self.representations = representations
+        self.weapons = weapons
+        self.graph = self.create_locations_graph(nodes)
+        self.weapon_locations = self.create_locations_weapons(weapons)
 
-def create_locations_weapons():
-    weapon_locations = {}
-    shuffled_weapons = list(weapons)
-    shuffle(shuffled_weapons)
+    def create_locations_graph(self, nodes):
+        graph = gnr_graph(4, 0.5).to_undirected()
+        graph = relabel_nodes(graph, nodes)
+        return graph
 
-    for loc, weapon in zip(mansion_locations.values(), shuffled_weapons):
-        weapon_locations[loc] = weapon
+    def create_locations_weapons(self, weapons):
+        weapon_locations = {}
+        shuffled_weapons = list(weapons)
+        shuffle(shuffled_weapons)
 
-    return weapon_locations
+        for loc, weapon in zip(self.map.values(), shuffled_weapons):
+            weapon_locations[loc] = weapon
 
+        return weapon_locations
 
-def render_locations(outdir, graph):
-    labels = {}
-    for place, name in mansion_names.items():
-        labels[place] = name + " " + mansion_representations[place]
+    def render_locations(self, outdir):
+        labels = {}
+        for place, name in self.names.items():
+            labels[place] = name + " " + self.representations[place]
 
-    relabeled_graph = relabel_nodes(graph, labels)
-    g = to_agraph(relabeled_graph)
-    g.graph_attr.update(bgcolor="transparent")
-    g.node_attr.update(
-        fontname="Raleway", color="lightblue2", style="filled", shape="Mrecord"
-    )
-    g.edge_attr.update(color="gray")
-    g.draw(outdir + "/images/locations_big.svg", prog="dot")
-    g.graph_attr.update(dpi="200")
-    g.draw(outdir + "/images/locations_big.png", prog="dot")
+        relabeled_graph = relabel_nodes(self.graph, labels)
+        g = to_agraph(relabeled_graph)
+        g.graph_attr.update(bgcolor="transparent")
+        g.node_attr.update(
+            fontname="Raleway", color="lightblue2", style="filled", shape="Mrecord"
+        )
+        g.edge_attr.update(color="gray")
+        g.draw(outdir + "/images/locations_big.svg", prog="dot")
+        g.graph_attr.update(dpi="200")
+        g.draw(outdir + "/images/locations_big.png", prog="dot")
 
-    labels = {}
-    for place, name in mansion_names.items():
-        labels[place] = mansion_representations[place]
+        labels = {}
+        for place, name in self.names.items():
+            labels[place] = self.representations[place]
 
-    relabeled_graph = relabel_nodes(graph, labels)
-    g = to_agraph(relabeled_graph)
-    g.graph_attr.update(bgcolor="transparent", nodesep="0.1", ranksep="0.1")
-    g.edge_attr.update(color="gray", labeldistance="0.1")
+        relabeled_graph = relabel_nodes(self.graph, labels)
+        g = to_agraph(relabeled_graph)
+        g.graph_attr.update(bgcolor="transparent", nodesep="0.1", ranksep="0.1")
+        g.edge_attr.update(color="gray", labeldistance="0.1")
 
-    g.node_attr.update(
-        fontname="Raleway", shape="plaintext", width="0.2", fixedsize="true"
-    )
-    g.draw(outdir + "/images/locations_small.svg", prog="dot")
-    g.graph_attr.update(dpi="200")
-    g.draw(outdir + "/images/locations_small.png", prog="dot")
+        g.node_attr.update(
+            fontname="Raleway", shape="plaintext", width="0.2", fixedsize="true"
+        )
+        g.draw(outdir + "/images/locations_small.svg", prog="dot")
+        g.graph_attr.update(dpi="200")
+        g.draw(outdir + "/images/locations_small.png", prog="dot")

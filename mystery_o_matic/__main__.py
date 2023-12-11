@@ -9,12 +9,7 @@ from os.path import isfile
 from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
 from mystery_o_matic.echidna import create_outdir
-from mystery_o_matic.location import (
-    create_locations_graph,
-    create_locations_weapons,
-    render_locations,
-    mansion_locations,
-)
+from mystery_o_matic.location import (Locations, mansion_locations, mansion_names, mansion_representations, weapons)
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 
@@ -106,11 +101,11 @@ def main() -> int:
 
     while True:
         solidity_file = args.scenario
-        locations = create_locations_graph(out_dir, mansion_locations)
-        weapon_locations = create_locations_weapons()
+        locations = Locations(mansion_locations, mansion_names, mansion_representations, weapons)
+        weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
-        (initial_locations_pairs, weapon_location) = model.generate_conditions()
+        (initial_locations_pairs, used_weapon_location) = model.generate_conditions()
         solidity_file = model.generate_solidity()
 
         print("Running the simulation..")
@@ -140,7 +135,7 @@ def main() -> int:
 
     story_clue = read_story(season, date)
 
-    weapon_used = weapon_locations[weapon_location]
+    weapon_used = locations.weapon_locations[used_weapon_location]
     mystery = Mystery(
         initial_locations_pairs, weapon_locations, weapon_used, model.source, txs
     )
@@ -149,14 +144,13 @@ def main() -> int:
 
     if mode == "html":
         produce_html_output(
-            static_dir, out_dir, mystery, weapon_locations, locations, story_clue
+            static_dir, out_dir, mystery, locations, story_clue
         )
     elif mode == "text":
         produce_text_output(
             static_dir,
             out_dir,
             mystery,
-            weapon_locations,
             locations,
             story_clue,
             telegram_api_key,
@@ -164,7 +158,7 @@ def main() -> int:
     else:
         print("Invalid mode")
         return -1
-    render_locations(out_dir, locations)
+    locations.render_locations(out_dir)
     print("Solution:")
 
     print(" Initial locations:")
