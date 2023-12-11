@@ -217,14 +217,19 @@ function createCluesTableWeapons() {
 	tables.set(name, table);
 	drawClueTable(table);
 
-	fillClueTable("⚗️", columnSize / 6, '#000000', 0, 0, table);
-	table.extra[0][0] = "⚗️";
-	fillClueTable("🔪", columnSize / 6, '#000000', 1, 0, table);
-	table.extra[1][0] = "🔪";
-	fillClueTable("🔫", columnSize / 6, '#000000', 2, 0, table);
-	table.extra[2][0] = "🔫";
-	fillClueTable("🪢", columnSize / 6, '#000000', 3, 0, table);
-	table.extra[3][0] = "🪢";
+	var place;
+	place = data.representationsMap[data.weaponsMap["poison"]];
+	fillClueTable("⚗️ "+place, columnSize / 6, '#000000', 0, 0, table);
+	table.extra[0][0] = "⚗️ "+place;
+	place = data.representationsMap[data.weaponsMap["knife"]];
+	fillClueTable("🔪 "+place, columnSize / 6, '#000000', 1, 0, table);
+	table.extra[1][0] = "🔪 "+place;
+	place = data.representationsMap[data.weaponsMap["pistol"]];
+	fillClueTable("🔫 "+place, columnSize / 6, '#000000', 2, 0, table);
+	table.extra[2][0] = "🔫 "+place;
+	place = data.representationsMap[data.weaponsMap["rope"]];
+	fillClueTable("🪢 "+place, columnSize / 6, '#000000', 3, 0, table);
+	table.extra[3][0] = "🪢 "+place;
 }
 
 
