@@ -51,6 +51,10 @@ def produce_html_output(
         "The murderer was alone with their victim and the body was not moved"
     )
 
+    bullets.append(
+        "The murderer was not caught with the body"
+    )
+
     sub_bullets = []
     for loc, weapon in locations.weapon_locations.items():
         sub_bullets.append("The {} from the ${}".format(weapon, loc))

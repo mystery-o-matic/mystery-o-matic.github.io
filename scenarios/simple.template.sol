@@ -144,15 +144,26 @@ contract StoryModel {
         emit Stayed(char, uint8(currentLocation[Char(char)]), lastMovement[Char(char)], time);
         sawEvents(char, place);
         currentLocation[Char(char)] = Place(place);
+		checkKillerNotCaught(char, place);
 		changedLocation[Char(char)] = true;
         numberOfMoves++;
         lastMovement[Char(char)] = time;
     }
 
+	function checkKillerNotCaught(uint8 char, uint8 place) internal {
+
+		if (victimIdentity == Char.NOBODY || killerIdentity == Char.NOBODY)
+			return;
+
+		if (Char(char) != killerIdentity && currentLocation[killerIdentity] == currentLocation[victimIdentity]) {
+			require(currentLocation[killerIdentity] != Place(place));
+		}
+	}
+
     function kills(uint8 char, uint8 char1) public {
         uint8 killer = char % numChars;
         uint8 victim = char1 % numChars;
-        require(Char(victimIdentity) == Char.NOBODY);
+        require(victimIdentity == Char.NOBODY);
         require(killer > 0); // No nobodies
         require(victim > 0); // No nobodies
 
@@ -181,8 +192,8 @@ contract StoryModel {
 
         // Killer leaves the crime scene
         if (
-            currentLocation[Char(killerIdentity)] ==
-            currentLocation[Char(victimIdentity)]
+            currentLocation[killerIdentity] ==
+            currentLocation[victimIdentity]
         ) return true;
 
         for (uint8 char = 1; char < numChars; char++) {
