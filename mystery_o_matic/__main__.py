@@ -9,7 +9,8 @@ from os.path import isfile
 from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
 from mystery_o_matic.echidna import create_outdir
-from mystery_o_matic.location import (Locations, mansion_locations, mansion_names, mansion_representations, weapons)
+from mystery_o_matic.location import Locations, mansion_locations, mansion_names, mansion_representations
+from mystery_o_matic.weapons import weapons
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 

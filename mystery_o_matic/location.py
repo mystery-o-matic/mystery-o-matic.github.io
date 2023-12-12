@@ -4,7 +4,6 @@ from networkx import gnr_graph, relabel_nodes
 from networkx.drawing.nx_agraph import to_agraph
 
 mansion_locations = {0: "KITCHEN", 1: "DINING", 2: "BEDROOM", 3: "BATHROOM"}
-weapons = {"pistol", "knife", "poison", "rope"}
 mansion_names = {
     "KITCHEN": "kitchen",
     "DINING": "dining room",
