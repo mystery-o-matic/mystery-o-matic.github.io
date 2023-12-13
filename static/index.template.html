@@ -275,9 +275,14 @@
 				<p>Use this table to keep track of your facts, clues and deductions. You can check the <a href="#" onClick="showPage('how-to-play')" class="link-dark">how to
 					play section</a> if you need it.</p>
 					<div class="col-sm d-flex align-items-center">
-						<div style="width: 70%"" id="clues">
-							$mysteryClues
-						</div>
+						<div style="width: 70%" id="clues">
+							<div class="card" style="height: 10rem;" id="clue">
+								<div class="card-body">
+								  <h5 id="clue-title" class="card-title">Clue</h5>
+								  <p id="clue-text" class="card-text" onClick="toggleClueStrikeout(this)">CLUE</p>
+								</div>
+							  </div>
+							</div>
 						<div class="card text-center" style="width: 40%; height: 10rem;">
 							<div class="card-body">
 							  <h5 class="card-title">Locations</h5>

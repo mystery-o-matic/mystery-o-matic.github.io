@@ -94,16 +94,15 @@ def produce_html_output(
 
     initial_clues = get_bullet_list(bullets)
 
-    additional_clues = ""
+    additional_clues = []
 
     for i, clue in enumerate(mystery.additional_clues):
-        additional_clues += get_card("Clue #{}".format(i + 1), str(clue), i + 1) + "\n"
+        additional_clues.append(create_template(str(clue)).substitute(names_html))
 
     correct_answer = mystery.get_answer_hash()
 
     args = {}
     args["initialClues"] = initial_clues
-    args["mysteryClues"] = additional_clues
     args["selectIntervals"] = select_intervals
     args["selectSuspects"] = select_suspects
     args["selectWeapon"] = select_weapons
@@ -117,6 +116,7 @@ def produce_html_output(
     json["representationsMap"] = representations_map
     json["weaponsMap"] = weapons_map
     json["timeOffset"] = 9 * 3600
+    json["additionalClues"] = additional_clues
     json["correctAnswer"] = correct_answer
 
     html_source = html_template.substitute(args)
