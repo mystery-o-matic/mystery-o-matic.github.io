@@ -2,6 +2,8 @@
 
 mystery-o-matic is a Python program used to produce the content of [mystery-o-matic.com](https://mystery-o-matic.com). It produces a random [murdery mystery](https://en.wikipedia.org/wiki/Murder_mystery) to solve using [fuzzing testing](https://en.wikipedia.org/wiki/Fuzzing). Once a mystery is generated, it produces a static html file which contains all the clues (and the solution to verify it).
 
+The mystery generation involves using a Solidity smart contract. This was used because of the nature of blockchain transactions as operations, but everything is simulated so no cryptocurrency is involved. Instead, every transaction represents a possible state change in the murder mystery (e.g. Alice walks from the kitchen to the bathroom). If the state change breaks any rule (e.g. no more than two characters can be in the same room), then the transaction reverts and the fuzzing tool keeps exploring.
+
 ## Installation
 
 Make sure all the requirements are installed. If you are using Ubuntu:
@@ -48,3 +50,7 @@ The tool provides a single scenario for creating a random murder mystery, where 
 * Create a Solidity smart contract called `StoryModel`
 * Encode the rules to advance every step of the story. Clues are generated using events such as `SawWhenLeaving` and `SawWhenArriving` but others can be added as well.
 * Add an Echidna boolean property should be added `mystery_not_solved` (which returns false when all the steps to complete a mystery are done)
+
+## Donations
+
+If you want support the development, you can donate using crypto to 0xd0FD96CD73762Fd081cf2269D79F359e4314629b (ETH, BSC, etc)
