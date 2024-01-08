@@ -146,10 +146,10 @@ function computeRank() {
 }
 
 var places = new Map();
-places.set("bedroom", getEmoji("🛏️"));
-places.set("dining room", getEmoji("🍽️"));
-places.set("kitchen", getEmoji("🍲"));
-places.set("bathroom", getEmoji("🚽"));
+places.set("bedroom", getEmoji(data.representationsMap["bedroom"]));
+places.set("dining room", getEmoji(data.representationsMap["dining room"]));
+places.set("kitchen", getEmoji(data.representationsMap["kitchen"]));
+places.set("bathroom", getEmoji(data.representationsMap["bathroom"]));
 
 var tables = new Map();
 
