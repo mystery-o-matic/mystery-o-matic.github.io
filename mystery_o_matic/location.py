@@ -13,7 +13,7 @@ mansion_names = {
 
 mansion_representations = {
     "KITCHEN": "🍲",
-    "DINING": "🍽️",
+    "DINING": "🪑",
     "BEDROOM": "🛏️",
     "BATHROOM": "🚽",
 }
