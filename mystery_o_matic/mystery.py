@@ -64,6 +64,20 @@ class Mystery:
     def get_characters(self):
         return self.characters
 
+    def get_suspects(self):
+        victimName = None
+        for i, char in enumerate(self.characters):
+            if "$CHAR" + str(i + 1) == self.victim:
+                victimName = char
+
+        suspects = []
+        for character in self.characters:
+            if character == victimName:
+                continue
+            suspects.append(character)
+
+        return suspects
+
     def load_events(self, events):
         event_calls = []
         for event in events:

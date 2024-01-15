@@ -89,7 +89,7 @@ def main() -> int:
         return -1
 
     if args.today:
-        print("Generating mystery for ", date, "(season", season, ")")
+        print(f"Generating mystery for {date} (season {season})")
         assert used_seed is None
         used_seed = abs(hash(date))
 

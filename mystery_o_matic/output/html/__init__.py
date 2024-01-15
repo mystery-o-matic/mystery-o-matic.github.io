@@ -16,7 +16,8 @@ def produce_html_output(
 ):
     html_template = read_html_template(static_dir + "/index.template.html")
     intervals = mystery.get_intervals()
-    select_suspects = get_options_selector(mystery.get_characters(), notranslate=True)
+    suspects = mystery.get_suspects()
+    select_suspects = get_options_selector(suspects, notranslate=True)
     select_intervals = get_options_selector(intervals)
     select_weapons = get_options_selector(
         map(lambda n: locations.weapon_locations[n], locations.graph.nodes())
@@ -26,6 +27,9 @@ def produce_html_output(
     for i, char in enumerate(mystery.get_characters()):
         names_html["CHAR" + str(i + 1)] = get_char_name(char)
     names_html["NOBODY"] = "nobody"
+
+    names_html["SUS0"] = suspects[0].capitalize()
+    names_html["SUS1"] = suspects[1].capitalize()
 
     names_html["BEDROOM"] = "bedroom"
     names_html["DINING"] = "dining room"
@@ -110,7 +114,7 @@ def produce_html_output(
 
     json = {}
     json["numIntervals"] = len(intervals)
-    json["suspectNames"] = mystery.get_characters()
+    json["characterNames"] = mystery.get_characters()
     json["victim"] = create_template(mystery.victim).substitute(names_txt)
     json["finalLocationsMap"] = final_locations_map
     json["representationsMap"] = representations_map

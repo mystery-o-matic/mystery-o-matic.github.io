@@ -252,7 +252,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	if (isTutorial) {
 		rowNames = rowNames.concat(['alice', 'bob']);
 	} else {
-		rowNames = rowNames.concat(data.suspectNames);
+		rowNames = rowNames.concat(data.characterNames);
 	}
 
 	nColumns = nColumns + 2;

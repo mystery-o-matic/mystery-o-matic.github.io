@@ -67,7 +67,7 @@ jobs:
     - name: Generate Murder Mystery
       run: |
         pip3 install .
-        mystery-o-matic scenarios/simple.template.sol static out --today --workers 1
+        mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 1
         rm -f out/result.json
         rm -f out/err.out
         rm -f out/model.sol
