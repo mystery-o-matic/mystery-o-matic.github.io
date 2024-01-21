@@ -211,6 +211,7 @@ function drawClueTable(table) {
 }
 
 function fillClueTable(text, size, color, column, row, table) {
+	size = Math.ceil(size / window.devicePixelRatio * 1.5)
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
@@ -230,6 +231,8 @@ function createCluesTableWeapons() {
 	var nRows = rowNames.length + 1;
 	var name = "weapons"
 	var c = document.getElementById("clues-table-" + name);
+	c.height /= window.devicePixelRatio;
+
 	var width = c.width;
 	var height = c.height;
 
@@ -289,6 +292,8 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	if (!headerVisible) {
 		c.height = c.height - 40;
 	}
+
+	c.height /= window.devicePixelRatio;
 
 	var width = c.width;
 	var height = c.height;
