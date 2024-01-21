@@ -236,14 +236,17 @@
 			mansion while investigating mysterious disappearances. Caught in a relentless time loop, they become entangled in a
 			series of murders, with one of them as the victim and the rest are suspects.
 			Assist them in solving the daily murder mystery and unravel clues to break them free from the loop!
+
+			<div class="col-12 text-center">
+				<a href="#game" class="btn btn-danger" role="button">No time to explain!</a>
+			</div>
 		</div>
 
 		<div class="container mt-5">
 			<h3>🤖 <span class="font-monospace">beep boop</span>, a new mystery is up</h3>
 			<p><span id='span-today'></span></p>
 
-			Time to step into the shoes of the lead investigator tasked with solving perplexing crimes.
-			Your objective is <strong>to deduce who commited the murder, when it was commited and which weapon was
+			Time to solve a new murder mystery. Your objective is <strong>to deduce who commited the murder, when it was commited and which weapon was
 				used</strong>.
 			Start reviewing this list of initial clues:
 			<p></p>
@@ -273,7 +276,7 @@
 			<p>Are you up for the challenge? Let the investigation begin!</p>
 		</div>
 
-		<div class="container mt-5">
+		<div id="game" class="container mt-5">
 				<h4>📔 Clues and investigator's notebook</h4>
 				<p>Use this table to keep track of your facts, clues and deductions. You can check the <a href="#" onClick="showPage('how-to-play')" class="link-dark">how to
 					play section</a> if you need it.</p>
@@ -389,8 +392,15 @@
 
 		<div id="accusation-win" class="container mt-5" style="display:none">
 			<h4>🤖 Answer is.. <span class="font-monospace">beep boop, correct!</span></h4>
-			<p>The weight of evidence against the accused was immense, leaving no room for doubt. The loop is pleased. $storyClue</p>
+			<p>The weight of evidence against the accused was immense, leaving no room for doubt. The loop is pleased. <div id="story-clue">$storyClue</div></p>
 			<p id="accusation-win-message">Congratulations on cracking the case!, you solved today's mystery with <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')">sleuth-o-meter™</a> rank of </p>
+			<p>
+			Optionally, you can use this local notebook to track down the story progression:
+
+			<div class="form-group">
+				<textarea class="form-control" id="story-notebook" rows="5"></textarea>
+			</div>
+			</p>
 			<p><b>Come back tomorrow for another challenge.</b></p>
 		</div>
 

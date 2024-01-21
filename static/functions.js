@@ -66,6 +66,31 @@ var crossClue = new Array(data.additionalClues.length).fill(false);
 var currentClue = 0;
 revealAnotherClue(0);
 
+function autosaveLocalNotebook() {
+	var editorKey = 'story-notebook';
+	var editor = document.getElementById(editorKey);
+	var cache = localStorage.getItem(editorKey);
+
+	var newValue = editor.value;
+	if (cache != newValue) {
+		cache = newValue;
+		localStorage.setItem(editorKey, cache);
+	}
+}
+
+function setLocalNotepad() {
+	var editorKey = 'story-notebook';
+	var editor = document.getElementById(editorKey);
+	var cache = localStorage.getItem(editorKey);
+
+	if (cache) {
+		editor.value = cache;
+	}
+	editor.addEventListener('input', autosaveLocalNotebook);
+}
+
+setLocalNotepad();
+
 function openModal(name) {
 	let element = document.getElementById('portraitImage');
 	element.src = "images/" + name + ".jpg";
@@ -435,6 +460,9 @@ function checkAccusation() {
 			document.getElementById("accusation-win").style.display = "block";
 			document.getElementById("accusation-win").scrollIntoView();
 			document.getElementById("accusation-button").disabled = true;
+
+			storyClue = document.getElementById("story-clue").innerHTML.replace(/(<([^>]+)>)/ig, "\n");
+			document.getElementById("story-notebook").value += "\n" + getCurrentDate() + ":\n" + storyClue;
 		} else {
 			document.getElementById("accusation-lose").style.display = "block";
 			document.getElementById("accusation-lose").scrollIntoView();
@@ -504,5 +532,5 @@ function translateContent(language) {
 checkIfWebsiteShouldBeTranslated(false);
 
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    switchTheme()
+	switchTheme()
 }
