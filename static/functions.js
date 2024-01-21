@@ -1,6 +1,13 @@
 var ua = navigator.userAgent;
 var isKindle = /Kindle/i.test(ua);
+var isMobile = /Mobi/i.test(ua);
+
 var emoji = null;
+var pixelRatio = window.devicePixelRatio;
+
+if (isMobile)
+	pixelRatio = 1;
+
 if (isKindle) {
 	emoji = new EmojiConvertor();
 	emoji.img_sets['google'].path = 'images/emoji-data/img-google-64/';
@@ -211,7 +218,7 @@ function drawClueTable(table) {
 }
 
 function fillClueTable(text, size, color, column, row, table) {
-	size = Math.ceil(size / window.devicePixelRatio * 1.5)
+	size = Math.ceil(size / pixelRatio * 1.5);
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
@@ -231,7 +238,7 @@ function createCluesTableWeapons() {
 	var nRows = rowNames.length + 1;
 	var name = "weapons"
 	var c = document.getElementById("clues-table-" + name);
-	c.height /= window.devicePixelRatio;
+	c.height /= pixelRatio;
 
 	var width = c.width;
 	var height = c.height;
@@ -293,7 +300,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		c.height = c.height - 40;
 	}
 
-	c.height /= window.devicePixelRatio;
+	c.height /= pixelRatio;
 
 	var width = c.width;
 	var height = c.height;
