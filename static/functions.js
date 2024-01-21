@@ -218,7 +218,7 @@ function drawClueTable(table) {
 }
 
 function fillClueTable(text, size, color, column, row, table) {
-	size = Math.ceil(size / pixelRatio * 1.5);
+	size = Math.ceil(size / pixelRatio * 1.2);
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
