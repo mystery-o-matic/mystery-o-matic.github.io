@@ -83,7 +83,7 @@ class Clue:
         )
 
     def print_SawWhenLeaving_clue(self):
-        r = randint(0, 3)
+        r = randint(0, 2)
         str = '{} said "'
 
         if self.fields[1] == "$NOBODY":
@@ -92,11 +92,9 @@ class Clue:
         if r == 0:
             str += "I saw "
         elif r == 1:
-            str += "I think I saw "
+            str += "I noticed "
         elif r == 2:
-            str += "I'm sure I saw "
-        elif r == 3:
-            str += "I remember seeing "
+            str += "I spotted "
         else:
             assert False
 
@@ -113,7 +111,7 @@ class Clue:
         )
 
     def print_SawWhenArriving_clue(self):
-        r = randint(0, 3)
+        r = randint(0, 2)
         str = '{} said "'
 
         if self.fields[1] == "$NOBODY":
@@ -122,11 +120,9 @@ class Clue:
         if r == 0:
             str += "I saw "
         elif r == 1:
-            str += "I think I saw "
+            str += "I noticed "
         elif r == 2:
-            str += "I'm sure I saw "
-        elif r == 3:
-            str += "I remember seeing "
+            str += "I spotted "
         else:
             assert False
 
