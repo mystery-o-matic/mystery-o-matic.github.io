@@ -157,16 +157,16 @@ function computeRank() {
 	if (viewedPercentage ==  0 && tries == 0) {
 		rank += "<b>clairvoyant</b> 🧙";
 		rank += "<br><i>Next time try guessing the lotto</i>!"
-	} else if (viewedPercentage <= 50 && tries == 0) {
+	} else if (viewedPercentage <= 65 && tries == 0) {
 		rank += "<b>super sleuth</b> 🕵️";
 		rank += "<br><i>Your deductive abilities are remarkable !</i>"
-	} else if (viewedPercentage <= 60 && tries == 0) {
+	} else if (viewedPercentage <= 75 && tries == 0) {
 		rank += "<b>seasoned P.I</b> 🕵️";
 		rank += "<br><i>Good job indeed !</i>"
-	} else if (viewedPercentage <= 70 && tries == 0) {
+	} else if (viewedPercentage <= 85 && tries == 0) {
 		rank += "<b>amateur gumshoe!</b> 👮";
 		rank += "<br><i>Keep sharpening your deductive skills!</i>"
-	} else if (viewedPercentage <= 80 && tries == 0) {
+	} else if (viewedPercentage <= 95 && tries == 0) {
 		rank += "<b>absent minded!</b> 🤷";
 		rank += "<br><i>Keep sharpening your deductive skills!</i>"
 	} else {
