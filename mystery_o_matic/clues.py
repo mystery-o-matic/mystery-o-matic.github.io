@@ -158,16 +158,25 @@ class Clue:
 
     def print_WeaponNotUsed_clue(self):
         r = randint(0, 2)
+        weapon = self.fields[0]
 
         if r == 0:
-            str = "Inspecting the body reveals that the {} was not the murderer weapon"
-            return str.format(self.fields[0])
+            str = "Inspecting the body reveals "
         elif r == 1:
-            str = "The inspection of the body indicates that the {} was not the weapon employed by the killer."
-            return str.format(self.fields[0])
+            str = "The inspection of the body indicates "
         elif r == 2:
-            str = "When inspecting the body, it becomes clear that the {} was not the weapon used by the murderer."
-            return str.format(self.fields[0])
+            str = "When inspecting the body, it becomes clear that "
+        else:
+            assert False
+
+        if weapon == "gun":
+            return str + "there are no bullet holes."
+        elif weapon == "rope":
+            return str + "no signs of strangulation."
+        elif weapon == "knife":
+            return str + "no signs of stabbing."
+        elif weapon == "poison":
+            return "The inspection of the body indicates that the poison was not the murderer weapon."
         else:
             assert False
 
