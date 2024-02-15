@@ -3,7 +3,6 @@ from random import shuffle
 from networkx import gnr_graph, relabel_nodes
 from networkx.drawing.nx_agraph import to_agraph
 
-mansion_locations = {0: "KITCHEN", 1: "DINING", 2: "BEDROOM", 3: "BATHROOM"}
 mansion_names = {
     "KITCHEN": "kitchen",
     "DINING": "dining room",
@@ -21,10 +20,23 @@ mansion_representations = {
 class Locations:
     graph = None
 
-    def __init__(self, nodes, names, representations, weapons):
+    def __init__(self, names, representations, weapons):
+        nodes = {0: "ROOM0", 1: "ROOM1", 2: "ROOM2", 3: "ROOM3"}
         self.map = nodes
-        self.names = names
-        self.representations = representations
+
+        nodes_list = list(nodes.values())
+        shuffle(nodes_list)
+        names_list = list(names.keys())
+
+        self.indices = {}
+        self.names = {}
+        self.representations = {}
+
+        for generic, concrete in zip(nodes_list, names_list):
+            self.indices[generic] = concrete
+            self.names[generic] = names[concrete]
+            self.representations[generic] = representations[concrete]
+
         self.weapons = weapons
         self.graph = self.create_locations_graph(nodes)
         self.weapon_locations = self.create_locations_weapons(weapons)

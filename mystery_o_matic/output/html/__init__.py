@@ -31,20 +31,16 @@ def produce_html_output(
     names_html["SUS0"] = suspects[0].capitalize()
     names_html["SUS1"] = suspects[1].capitalize()
 
-    names_html["BEDROOM"] = "bedroom"
-    names_html["DINING"] = "dining room"
-    names_html["KITCHEN"] = "kitchen"
-    names_html["BATHROOM"] = "bathroom"
+    for room, name in locations.names.items():
+        names_html[room] = name
 
     names_txt = {}
     for i, char in enumerate(mystery.get_characters()):
         names_txt["CHAR" + str(i + 1)] = char.lower()
     names_txt["NOBODY"] = "nobody"
 
-    names_txt["BEDROOM"] = "bedroom"
-    names_txt["DINING"] = "dining room"
-    names_txt["KITCHEN"] = "kitchen"
-    names_txt["BATHROOM"] = "bathroom"
+    for room, name in locations.names.items():
+        names_txt[room] = name
 
     intro = ""
     bullets = []

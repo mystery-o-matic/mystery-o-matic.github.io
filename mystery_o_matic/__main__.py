@@ -9,7 +9,7 @@ from os.path import isfile
 from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
 from mystery_o_matic.echidna import create_outdir
-from mystery_o_matic.location import Locations, mansion_locations, mansion_names, mansion_representations
+from mystery_o_matic.location import Locations, mansion_names, mansion_representations
 from mystery_o_matic.weapons import weapons
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
@@ -102,7 +102,7 @@ def main() -> int:
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(mansion_locations, mansion_names, mansion_representations, weapons)
+        locations = Locations(mansion_names, mansion_representations, weapons)
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
@@ -160,8 +160,16 @@ def main() -> int:
         print("Invalid mode")
         return -1
     locations.render_locations(out_dir)
-    print("Solution:")
 
+    print("Characters:")
+    for i, char in enumerate(mystery.get_characters()):
+        print("  * {} is {}".format("CHAR" + str(i + 1), char.lower()))
+
+    print("Locations:")
+    for room, name in locations.names.items():
+        print("  * {} is {}".format(room, name))
+
+    print("Solution:")
     print(" Initial locations:")
     for c, p in mystery.initial_locations:
         print("  * {} was in the {}".format(c, p))

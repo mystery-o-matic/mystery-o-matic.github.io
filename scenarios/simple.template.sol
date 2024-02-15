@@ -10,10 +10,10 @@ contract StoryModel {
     }
     uint8 numChars = 4;
     enum Place {
-        BEDROOM,
-        KITCHEN,
-        DINING,
-        BATHROOM
+        ROOM0,
+        ROOM1,
+        ROOM2,
+        ROOM3
     }
     uint8 numPlaces = 4;
 
