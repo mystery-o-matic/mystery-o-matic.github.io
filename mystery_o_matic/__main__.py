@@ -2,7 +2,7 @@
 
 from sys import argv, exit
 from argparse import ArgumentParser
-from random import seed, random
+from random import seed, random, shuffle
 from datetime import datetime
 from os.path import isfile
 
@@ -109,10 +109,15 @@ def main() -> int:
         used_seed = abs(hash(random()))
 
     create_outdir(out_dir)
+    weapons_selected = list(weapons.items())
+    shuffle(weapons_selected)
+    weapons_available = {}
+    for weapon, icon in weapons_selected[:4]:
+        weapons_available[weapon] = icon
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(mansion_names, mansion_representations, weapons.keys())
+        locations = Locations(mansion_names, mansion_representations, weapons_available.keys())
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
@@ -155,7 +160,7 @@ def main() -> int:
 
     if mode == "html":
         produce_html_output(
-            static_dir, out_dir, mystery, weapons, locations, story_clue
+            static_dir, out_dir, mystery, weapons_available, locations, story_clue
         )
     elif mode == "text":
         produce_text_output(
