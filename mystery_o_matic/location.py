@@ -121,7 +121,7 @@ class Locations:
 
         relabeled_graph = relabel_nodes(self.graph, labels)
         g = to_agraph(relabeled_graph)
-        g.graph_attr.update(bgcolor="transparent", nodesep="0.1", ranksep="0.1")
+        g.graph_attr.update(bgcolor="transparent", nodesep="0.1", ranksep="0.1", margin="0")
         g.edge_attr.update(color="gray", labeldistance="0.1")
 
         g.node_attr.update(

@@ -231,6 +231,24 @@ function fillClueTable(text, size, color, column, row, table) {
 	table.data[column][row] = text;
 }
 
+function crossClueTable(size, color, column, row, table) {
+	table.ctx.strokeStyle = color;
+	table.ctx.lineWidth = size;
+	table.ctx.beginPath();
+	table.ctx.moveTo(table.columnSize * column, table.rowSize * row);
+	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * (row + 1));
+	table.ctx.moveTo(table.columnSize * (column + 1), table.rowSize * row);
+	table.ctx.lineTo(table.columnSize * column, table.rowSize * (row + 1));
+	table.ctx.stroke();
+
+	table.extra[column][row] = "crossed";
+}
+
+function clearClueTable(column, row, table) {
+	table.ctx.clearRect(table.columnSize * column, table.rowSize * row, table.columnSize - 1, table.rowSize);
+	table.data[column][row] = null;
+}
+
 function createCluesTableWeapons() {
 	var rowNames = []
 
@@ -398,19 +416,16 @@ function checkWeaponClicked(c, x, y) {
 	var name = c.id.replace("clues-table-", "");
 	var table = tables.get(name);
 	var position = findPositionTable(table, x, y);
-	var value = table.data[position[0]][position[1]];
-	console.log(value);
-	fillClueTable("█", table.columnSize / 2, '#cccccc', position[0], position[1], table);
+	var value = table.extra[position[0]][position[1]];
+	var weapon = table.data[position[0]][position[1]];
 
-	console.log(value);
-
-	weapon = table.extra[position[0]][position[1]];
+	clearClueTable(position[0], position[1], table);
 	fillClueTable(weapon, table.columnSize / 6, '#000000', position[0], position[1], table);
 
-	if (value == "🚫") {
-		// Nothing
+	if (value == "crossed") {
+		table.extra[position[0]][position[1]] = "";
 	} else {
-		fillClueTable("🚫", table.columnSize / 5, '#000000', position[0], position[1], table);
+		crossClueTable(3, '#770000', position[0], position[1], table);
 	}
 }
 
