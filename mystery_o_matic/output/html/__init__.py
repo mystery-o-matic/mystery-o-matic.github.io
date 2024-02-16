@@ -12,7 +12,7 @@ from mystery_o_matic.output.html.utils import (
 
 
 def produce_html_output(
-    static_dir, out_dir, mystery, locations, story_clue
+    static_dir, out_dir, mystery, weapons, locations, story_clue
 ):
     html_template = read_html_template(static_dir + "/index.template.html")
     intervals = mystery.get_intervals()
@@ -112,9 +112,10 @@ def produce_html_output(
     json["numIntervals"] = len(intervals)
     json["characterNames"] = mystery.get_characters()
     json["victim"] = create_template(mystery.victim).substitute(names_txt)
-    json["finalLocationsMap"] = final_locations_map
-    json["representationsMap"] = representations_map
-    json["weaponsMap"] = weapons_map
+    json["locationMap"] = final_locations_map
+    json["locationIcons"] = representations_map
+    json["weaponMap"] = weapons_map
+    json["weaponIcons"] = weapons
     json["timeOffset"] = 9 * 3600
     json["additionalClues"] = additional_clues
     json["correctAnswer"] = correct_answer

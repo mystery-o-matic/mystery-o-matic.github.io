@@ -178,10 +178,10 @@ function computeRank() {
 }
 
 var places = new Map();
-places.set("bedroom", getEmoji(data.representationsMap["bedroom"]));
-places.set("dining room", getEmoji(data.representationsMap["dining room"]));
-places.set("kitchen", getEmoji(data.representationsMap["kitchen"]));
-places.set("bathroom", getEmoji(data.representationsMap["bathroom"]));
+places.set("bedroom", getEmoji(data.locationIcons["bedroom"]));
+places.set("dining room", getEmoji(data.locationIcons["dining room"]));
+places.set("kitchen", getEmoji(data.locationIcons["kitchen"]));
+places.set("bathroom", getEmoji(data.locationIcons["bathroom"]));
 
 var tables = new Map();
 
@@ -267,18 +267,21 @@ function createCluesTableWeapons() {
 	drawClueTable(table);
 
 	var place;
-	place = data.representationsMap[data.weaponsMap["poison"]];
-	fillClueTable("⚗️ "+place, columnSize / 6, '#000000', 0, 0, table);
-	table.extra[0][0] = "⚗️ "+place;
-	place = data.representationsMap[data.weaponsMap["knife"]];
-	fillClueTable("🔪 "+place, columnSize / 6, '#000000', 1, 0, table);
-	table.extra[1][0] = "🔪 "+place;
-	place = data.representationsMap[data.weaponsMap["pistol"]];
-	fillClueTable("🔫 "+place, columnSize / 6, '#000000', 2, 0, table);
-	table.extra[2][0] = "🔫 "+place;
-	place = data.representationsMap[data.weaponsMap["rope"]];
-	fillClueTable("🪢 "+place, columnSize / 6, '#000000', 3, 0, table);
-	table.extra[3][0] = "🪢 "+place;
+	place = data.locationIcons[data.weaponMap["poison"]];
+	fillClueTable(data.weaponIcons["poison"] + " " + place, columnSize / 6, '#000000', 0, 0, table);
+	table.extra[0][0] = data.weaponIcons["poison"] + " " + place;
+
+	place = data.locationIcons[data.weaponMap["knife"]];
+	fillClueTable(data.weaponIcons["knife"] + " " + place, columnSize / 6, '#000000', 1, 0, table);
+	table.extra[1][0] = data.weaponIcons["knife"] + " " + place;
+
+	place = data.locationIcons[data.weaponMap["pistol"]];
+	fillClueTable(data.weaponIcons["pistol"] + " " + place, columnSize / 6, '#000000', 2, 0, table);
+	table.extra[2][0] = data.weaponIcons["pistol"] + " " + place;
+
+	place = data.locationIcons	[data.weaponMap["rope"]];
+	fillClueTable(data.weaponIcons["rope"] + " " + place, columnSize / 6, '#000000', 3, 0, table);
+	table.extra[3][0] = data.weaponIcons["rope"] + " " + place;
 }
 
 
@@ -371,7 +374,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 
 		for (let i = startRow; i < startRow + rowNames.length; i++) {
 			var character = rowNames[i - startRow];
-			roomName = data.finalLocationsMap[character];
+			roomName = data.locationMap[character];
 			var color = (character == data.victim) ? '#cc0000' : '#000000';
 			if (roomName == name) {
 				fillClueTable("█", columnSize / 3, '#cccccc', nColumns - 1, i, table);

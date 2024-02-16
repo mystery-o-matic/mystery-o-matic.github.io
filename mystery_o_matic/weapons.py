@@ -1,1 +1,6 @@
-weapons = {"pistol", "knife", "poison", "rope"}
+weapons = {
+	"pistol": "🔫",
+	"knife": "🔪",
+	"poison": "⚗️",
+	"rope": "🪢"
+}

@@ -18,9 +18,28 @@ mansion_representations = {
 }
 
 class Locations:
-    graph = None
+    """
+    A class representing locations in a mystery game.
+
+    Attributes:
+    - graph: The graph representing the connections between locations.
+    - map: A dictionary mapping generic node names to concrete location names.
+    - indices: A dictionary mapping generic node names to concrete location indices.
+    - names: A dictionary mapping generic node names to concrete location names.
+    - representations: A dictionary mapping generic node names to concrete location representations.
+    - weapons: A list of weapons available in the game.
+    - weapon_locations: A dictionary mapping location names to weapons.
+    """
 
     def __init__(self, names, representations, weapons):
+        """
+        Initializes a Locations object.
+
+        Parameters:
+        - names: A dictionary mapping concrete location names to generic node names.
+        - representations: A dictionary mapping concrete location names to their representations.
+        - weapons: A list of weapons available in the game.
+        """
         nodes = {0: "ROOM0", 1: "ROOM1", 2: "ROOM2", 3: "ROOM3"}
         self.map = nodes
 
@@ -42,11 +61,29 @@ class Locations:
         self.weapon_locations = self.create_locations_weapons(weapons)
 
     def create_locations_graph(self, nodes):
+        """
+        Creates a graph representing the connections between locations.
+
+        Parameters:
+        - nodes: A dictionary mapping node indices to location names.
+
+        Returns:
+        - graph: The created graph.
+        """
         graph = gnr_graph(4, 0.5).to_undirected()
         graph = relabel_nodes(graph, nodes)
         return graph
 
     def create_locations_weapons(self, weapons):
+        """
+        Creates a dictionary mapping location names to weapons.
+
+        Parameters:
+        - weapons: A list of weapons available in the game.
+
+        Returns:
+        - weapon_locations: The created dictionary.
+        """
         weapon_locations = {}
         shuffled_weapons = list(weapons)
         shuffle(shuffled_weapons)
@@ -57,6 +94,12 @@ class Locations:
         return weapon_locations
 
     def render_locations(self, outdir):
+        """
+        Renders the locations graph and saves it as images.
+
+        Parameters:
+        - outdir: The directory where the images will be saved.
+        """
         labels = {}
         for place, name in self.names.items():
             labels[place] = name + " " + self.representations[place]

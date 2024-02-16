@@ -11,6 +11,18 @@ from mystery_o_matic.echidna import create_echidna_process, create_outdir
 
 
 class Model:
+    """
+    Represents a model for generating and solving a mystery game.
+
+    Attributes:
+        contract_name (str): The name of the contract.
+        outdir (str): The output directory.
+        source (str): The solidity source code.
+        solidity_filename (str): The filename of the solidity file.
+        weapon_location_condition (str): The condition for the weapon location.
+        connection_conditions (str): The conditions for the location connections.
+        initial_locations_conditions (str): The conditions for the initial locations.
+    """
     contract_name = ""
     outdir = ""
     source = ""

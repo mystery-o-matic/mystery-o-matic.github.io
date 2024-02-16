@@ -25,6 +25,15 @@ def read_story(season, date):
 
 
 def main() -> int:
+    """
+    The main function of the mystery-o-matic program.
+
+    Parses command line arguments, generates a mystery scenario, solves it,
+    and produces the output based on the specified mode.
+
+    Returns:
+        int: The exit code of the program.
+    """
     parser = ArgumentParser(description="mystery-o-matic")
     parser.add_argument(
         "scenario", type=str, action="store", help="path to mystery scenario"
@@ -83,6 +92,7 @@ def main() -> int:
     max_time_slots = args.max_time_slots
     telegram_api_key = args.telegram_api_key
 
+    # Check if the mode is valid
     if mode not in ["html", "text"]:
         print("Invalid mode", mode)
         print("Only html and text is accepted")
@@ -102,7 +112,7 @@ def main() -> int:
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(mansion_names, mansion_representations, weapons)
+        locations = Locations(mansion_names, mansion_representations, weapons.keys())
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
@@ -145,7 +155,7 @@ def main() -> int:
 
     if mode == "html":
         produce_html_output(
-            static_dir, out_dir, mystery, locations, story_clue
+            static_dir, out_dir, mystery, weapons, locations, story_clue
         )
     elif mode == "text":
         produce_text_output(
@@ -180,4 +190,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    exit(main())

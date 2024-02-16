@@ -8,17 +8,46 @@ from mystery_o_matic.text import get_char_name
 
 
 def parse_time(t):
+    """
+    Converts a time string in the format "hh:mm" to seconds.
+
+    Parameters:
+    t (str): The time string to be parsed.
+
+    Returns:
+    int: The time in seconds.
+    """
     h, m = map(int, t.split(":"))
     return h * 3600 + m * 60
 
 
 def print_time(t):
+    """
+    Converts a given time in seconds to a formatted string representation.
+
+    Args:
+        t (int): The time in seconds.
+
+    Returns:
+        str: The formatted time string in the format "hours:minutes".
+    """
     clock = timedelta(seconds=t)
     h, m, s = str(clock).split(":")
     return h + ":" + m
 
 
 def get_intervals_length_from_events(source, contract_name, events):
+    """
+    Calculates the length of intervals between events.
+
+    Args:
+        source (str): The source of the events.
+        contract_name (str): The name of the contract.
+        events (list): A list of events.
+
+    Returns:
+        float: The length of intervals between events in minutes.
+    """
     interval_size = 15 * 60  # 15 minutes
     initial_time = parse_time("9:00")
     for event in events:
@@ -43,6 +72,19 @@ class Mystery:
     final_time = ""
 
     def __init__(self, initial_locations, weapon_locations, weapon_used, source, txs):
+        """
+        Initialize the Mystery class.
+
+        Args:
+            initial_locations (list): List of initial locations.
+            weapon_locations (dict): Dictionary of weapon locations.
+            weapon_used (str): The weapon used.
+            source (str): The source of the smart contract.
+            txs (list): List of transactions.
+
+        Returns:
+            None
+        """
         self.source = source
         self.initial_locations = initial_locations
         self.final_locations = dict()
@@ -188,6 +230,13 @@ class Mystery:
         self.additional_clues.insert(second_clue_index, second_clue)
 
     def get_intervals(self):
+        """
+        Returns a list of time intervals between the initial_time and final_time,
+        with a specified interval size.
+
+        Returns:
+            intervals (list): A list of time intervals.
+        """
         intervals = []
         initial_seconds = self._time_to_seconds(self.initial_time)
         final_seconds = self._time_to_seconds(self.final_time)
@@ -202,10 +251,28 @@ class Mystery:
         return h * 3600 + m * 60
 
     def get_answer(self):
+        """
+        Returns the answer to the mystery based on the killer, weapon used, and murder time.
+
+        The answer is constructed by concatenating the character, weapon, and murder time
+        in the format: character-weapon-murder_time.
+
+        Returns:
+            str: The answer to the mystery.
+        """
         index = int("".join(filter(str.isdigit, self.killer))) - 1
         return self.characters[index] + "-" + self.weapon_used + "-" + self.murder_time
 
     def get_answer_hash(self):
+        """
+        Returns the SHA256 hash of the answer.
+
+        This method retrieves the answer using the `get_answer` method,
+        calculates the SHA256 hash of the answer, and returns the hash value.
+
+        Returns:
+            str: The SHA256 hash of the answer.
+        """
         answer = self.get_answer()
         print("Answer is:", answer)
         m = sha256()

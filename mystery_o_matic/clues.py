@@ -2,10 +2,26 @@ from random import randint
 
 
 class Clue:
+    """
+    Represents a clue in a mystery investigation.
+
+    Attributes:
+        name (str): The name of the clue.
+        fields (list): The fields associated with the clue.
+        foggy (bool): Indicates if the clue is foggy or not.
+    """
+
     name = ""
     fields = []
 
     def __init__(self, name, fields):
+        """
+        Initialize a Clue object.
+
+        Args:
+            name (str): The name of the clue.
+            fields (list): A list of fields associated with the clue.
+        """
         self.name = name
         self.fields = fields
         r = randint(1, 10)
@@ -51,6 +67,16 @@ class Clue:
             assert False
 
     def is_incriminating(self, killer, victim):
+        """
+        Check if the clue is incriminating based on the provided killer and victim.
+
+        Args:
+            killer (str): The name of the killer.
+            victim (str): The name of the victim.
+
+        Returns:
+            bool: True if the clue is incriminating, False otherwise.
+        """
         if (
             self.name == "SawWhenArriving"
             and self.fields[0] == killer
@@ -73,6 +99,9 @@ class Clue:
         return False
 
     def print_SawVictimWhenArriving_clue(self):
+        """
+        Returns a formatted string representing a clue about the witness who saw the victim arriving at a certain location.
+        """
         str = '{} said: "I saw '
         if not self.fields[2]:
             str += "the body of "
