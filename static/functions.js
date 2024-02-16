@@ -284,12 +284,17 @@ function createCluesTableWeapons() {
 	tables.set(name, table);
 	drawClueTable(table);
 
-	var place;
+	var placeIcon;
+	var weaponIcon;
 	weapons = Object.keys(data.weaponMap);
 	for (var i = 0; i < weapons.length; i++) {
-		place = data.locationIcons[data.weaponMap[weapons[i]]];
-		fillClueTable(data.weaponIcons[weapons[i]] + " " + place, columnSize / 6, '#000000', i, 0, table);
-		table.extra[i][0] = data.weaponIcons[weapons[i]] + " " + place;
+		placeIcon = getEmoji(data.locationIcons[data.weaponMap[weapons[i]]]);
+		weaponIcon = getEmoji(data.weaponIcons[weapons[i]]);
+
+		if (isKindle) // Kindle does not support rendering two emojis in the same cell
+			fillClueTable(weaponIcon, columnSize / 6, '#000000', i, 0, table);
+		else 
+			fillClueTable(weaponIcon + " " + placeIcon, columnSize / 6, '#000000', i, 0, table);
 	}
 }
 
