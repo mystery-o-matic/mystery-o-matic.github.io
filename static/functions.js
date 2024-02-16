@@ -285,21 +285,12 @@ function createCluesTableWeapons() {
 	drawClueTable(table);
 
 	var place;
-	place = data.locationIcons[data.weaponMap["poison"]];
-	fillClueTable(data.weaponIcons["poison"] + " " + place, columnSize / 6, '#000000', 0, 0, table);
-	table.extra[0][0] = data.weaponIcons["poison"] + " " + place;
-
-	place = data.locationIcons[data.weaponMap["knife"]];
-	fillClueTable(data.weaponIcons["knife"] + " " + place, columnSize / 6, '#000000', 1, 0, table);
-	table.extra[1][0] = data.weaponIcons["knife"] + " " + place;
-
-	place = data.locationIcons[data.weaponMap["pistol"]];
-	fillClueTable(data.weaponIcons["pistol"] + " " + place, columnSize / 6, '#000000', 2, 0, table);
-	table.extra[2][0] = data.weaponIcons["pistol"] + " " + place;
-
-	place = data.locationIcons	[data.weaponMap["rope"]];
-	fillClueTable(data.weaponIcons["rope"] + " " + place, columnSize / 6, '#000000', 3, 0, table);
-	table.extra[3][0] = data.weaponIcons["rope"] + " " + place;
+	weapons = Object.keys(data.weaponMap);
+	for (var i = 0; i < weapons.length; i++) {
+		place = data.locationIcons[data.weaponMap[weapons[i]]];
+		fillClueTable(data.weaponIcons[weapons[i]] + " " + place, columnSize / 6, '#000000', i, 0, table);
+		table.extra[i][0] = data.weaponIcons[weapons[i]] + " " + place;
+	}
 }
 
 
