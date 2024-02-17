@@ -10,7 +10,7 @@ from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
 from mystery_o_matic.echidna import create_outdir
 from mystery_o_matic.location import Locations, mansion_names, mansion_representations
-from mystery_o_matic.weapons import weapons
+from mystery_o_matic.weapons import get_available_weapons
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 
@@ -109,11 +109,7 @@ def main() -> int:
         used_seed = abs(hash(random()))
 
     create_outdir(out_dir)
-    weapons_selected = list(weapons.items())
-    shuffle(weapons_selected)
-    weapons_available = {}
-    for weapon, icon in weapons_selected[:4]:
-        weapons_available[weapon] = icon
+    weapons_available = get_available_weapons()
 
     while True:
         solidity_file = args.scenario

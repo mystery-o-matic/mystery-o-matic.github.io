@@ -198,12 +198,14 @@ class Clue:
 
         if weapon == "pistol":
             return str + "there are no bullet holes."
-        elif weapon == "rope":
+        elif weapon == "rope" or weapon == "chain":
             return str + "no signs of strangulation."
-        elif weapon == "knife":
+        elif weapon == "knife" or weapon == "dagger" or weapon == "scissors" or weapon == "axe" or weapon == "screwdriver":
             return str + "no signs of stabbing."
         elif weapon == "poison":
             return str + " that the poison was not the murderer weapon."
+        elif weapon == "hammer" or weapon == "wrench" or weapon == "candelabrum":
+            return str + " no signs of contusion"
         else:
             assert False
 
