@@ -196,7 +196,7 @@ function createTables() {
 }
 
 function drawClueTable(table) {
-	table.ctx.fillStyle = "#cccccc";
+	table.ctx.fillStyle = table.color;
 	table.ctx.fillRect(0, 0, table.canvas.width, table.canvas.height);
 
 	table.ctx.strokeStyle = "white";
@@ -235,17 +235,17 @@ function crossClueTable(size, color, column, row, table) {
 	table.ctx.strokeStyle = color;
 	table.ctx.lineWidth = size;
 	table.ctx.beginPath();
-	table.ctx.moveTo(table.columnSize * column, table.rowSize * row);
-	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * (row + 1));
-	table.ctx.moveTo(table.columnSize * (column + 1), table.rowSize * row);
-	table.ctx.lineTo(table.columnSize * column, table.rowSize * (row + 1));
+	table.ctx.moveTo(table.columnSize * column + 3, table.rowSize * row + 3);
+	table.ctx.lineTo(table.columnSize * (column + 1) - 3, table.rowSize * (row + 1) - 3);
+	table.ctx.moveTo(table.columnSize * (column + 1) - 3, table.rowSize * row + 3);
+	table.ctx.lineTo(table.columnSize * column + 3, table.rowSize * (row + 1) - 3);
 	table.ctx.stroke();
 
 	table.extra[column][row] = "crossed";
 }
 
 function clearClueTable(column, row, table) {
-	table.ctx.clearRect(table.columnSize * column, table.rowSize * row, table.columnSize - 1, table.rowSize);
+	table.ctx.clearRect(table.columnSize * column + 2, table.rowSize * row + 2, table.columnSize - 4, table.rowSize - 4);
 	table.data[column][row] = null;
 }
 
@@ -273,6 +273,7 @@ function createCluesTableWeapons() {
 		nRows: nRows,
 		columnSize: columnSize,
 		rowSize: rowSize,
+		color: '#888888',
 		headerVisible: false,
 		width: width,
 		height: height,
@@ -280,6 +281,8 @@ function createCluesTableWeapons() {
 		extra: [...Array(nColumns)].map(e => Array(nRows).fill("")),
 		isTutorial: false,
 	};
+
+	c.style.backgroundColor = table.color;
 
 	tables.set(name, table);
 	drawClueTable(table);
@@ -334,12 +337,15 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		nRows: nRows,
 		columnSize: columnSize,
 		rowSize: rowSize,
+		color: '#888888',
 		headerVisible: headerVisible,
 		width: width,
 		height: height,
 		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
 		isTutorial: isTutorial,
 	};
+
+	c.style.backgroundColor = table.color;
 
 	tables.set(name, table);
 	drawClueTable(table);
@@ -391,7 +397,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 			roomName = data.locationMap[character];
 			var color = (character == data.victim) ? '#cc0000' : '#000000';
 			if (roomName == name) {
-				fillClueTable("█", columnSize / 3, '#cccccc', nColumns - 1, i, table);
+				clearClueTable(nColumns - 1, i, table);
 				fillClueTable("✓", columnSize / 3, color, nColumns - 1, i, table);
 			}
 		}
@@ -450,7 +456,7 @@ function checkCellClicked(c, x, y) {
 		return;
 
 	table.data[position[0]][position[1]] = value;
-	fillClueTable("█", table.columnSize / 3, '#cccccc', position[0], position[1], table);
+	clearClueTable(position[0], position[1], table);
 	fillClueTable(value, table.columnSize / 3, '#000000', position[0], position[1], table);
 }
 
