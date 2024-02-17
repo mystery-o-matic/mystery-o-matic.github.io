@@ -261,6 +261,7 @@ class Mystery:
         Returns:
             str: The answer to the mystery.
         """
+        assert isinstance(self.killer, str), "Failed to determine the killer"
         index = int("".join(filter(str.isdigit, self.killer))) - 1
         return self.characters[index] + "-" + self.weapon_used + "-" + self.murder_time
 
