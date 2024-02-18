@@ -8,6 +8,7 @@ mansion_names = {
     "DINING": "dining room",
     "BEDROOM": "bedroom",
     "BATHROOM": "bathroom",
+    "GARDEN": "garden",
 }
 
 mansion_representations = {
@@ -15,6 +16,7 @@ mansion_representations = {
     "DINING": "🪑",
     "BEDROOM": "🛏️",
     "BATHROOM": "🚽",
+    "GARDEN": "🌳",
 }
 
 class Locations:
@@ -31,17 +33,24 @@ class Locations:
     - weapon_locations: A dictionary mapping location names to weapons.
     """
 
-    def __init__(self, names, representations, weapons):
+    def __init__(self, number_places, names, representations, weapons):
         """
         Initializes a Locations object.
 
         Parameters:
+        - number_places: The number of locations in the game.
         - names: A dictionary mapping concrete location names to generic node names.
         - representations: A dictionary mapping concrete location names to their representations.
         - weapons: A list of weapons available in the game.
         """
-        nodes = {0: "ROOM0", 1: "ROOM1", 2: "ROOM2", 3: "ROOM3"}
+
+        self.number_places = number_places
+        nodes = {}
+        for n in range(number_places):
+            nodes[n] = "ROOM" + str(n)
+
         self.map = nodes
+        self.number_places = len(nodes)
 
         nodes_list = list(nodes.values())
         shuffle(nodes_list)
@@ -70,7 +79,7 @@ class Locations:
         Returns:
         - graph: The created graph.
         """
-        graph = gnr_graph(4, 0.5).to_undirected()
+        graph = gnr_graph(self.number_places, 0.5).to_undirected()
         graph = relabel_nodes(graph, nodes)
         return graph
 

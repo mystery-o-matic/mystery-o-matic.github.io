@@ -34,13 +34,13 @@ var tables = new Map();
 var places = new Map();
 
 function createTables() {
-	createCluesTable("bedroom", data.numIntervals, data.timeOffset, true, false);
-	createCluesTable("kitchen", data.numIntervals, data.timeOffset, false, false);
-	createCluesTable("dining room", data.numIntervals, data.timeOffset, false, false);
-	createCluesTable("bathroom", data.numIntervals, data.timeOffset, false, false);
-	createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
-	createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
-	createCluesTableWeapons();
+    for (const location of Object.keys(data.locationIcons)) {
+        places.set(location, getEmoji(data.locationIcons[location]));
+        createCluesTable(location, data.numIntervals, data.timeOffset, location == "bedroom", false);
+    }
+    createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
+    createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
+    createCluesTableWeapons();
 }
 
 function getTableData() {
@@ -124,10 +124,11 @@ function crossClueTable(size, color, column, row, table) {
 function createCluesTableWeapons() {
 	var rowNames = []
 
-	nColumns = 4;
+	nColumns = Object.keys(data.weaponIcons).length;
 	var nRows = rowNames.length + 1;
 	var name = "weapons"
 	var c = document.getElementById("clues-table-" + name);
+	c.style.display = 'inline';
 	c.height /= pixelRatio;
 
 	var width = c.width;
@@ -187,6 +188,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		nRows = nRows + 1;
 
 	var c = document.getElementById("clues-table-" + name);
+	c.style.display = 'inline';
 	if (!headerVisible) {
 		c.height = c.height - 40;
 	}
@@ -330,8 +332,3 @@ function checkCellClicked(c, x, y) {
 	clearClueTable(position[0], position[1], table);
 	fillClueTable(value, table.columnSize / 3, '#000000', position[0], position[1], table);
 }
-
-places.set("bedroom", getEmoji(data.locationIcons["bedroom"]));
-places.set("dining room", getEmoji(data.locationIcons["dining room"]));
-places.set("kitchen", getEmoji(data.locationIcons["kitchen"]));
-places.set("bathroom", getEmoji(data.locationIcons["bathroom"]));

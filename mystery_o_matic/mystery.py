@@ -71,6 +71,7 @@ class Mystery:
     murder_time = ""
     interval_size = 15 * 60  # 15 minutes
     final_time = ""
+    number_characters = 4
 
     def __init__(self, initial_locations, weapon_locations, weapon_used, source, txs):
         """
@@ -102,7 +103,7 @@ class Mystery:
 
         self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
         shuffle(self.characters)
-        self.characters = self.characters[:3]
+        self.characters = self.characters[:self.number_characters - 1]
 
     def get_characters(self):
         return self.characters

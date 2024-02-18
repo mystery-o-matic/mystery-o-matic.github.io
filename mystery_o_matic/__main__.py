@@ -55,7 +55,7 @@ def main() -> int:
     )
 
     parser.add_argument("--season", action="store", default=1, help="season number")
-
+    parser.add_argument("--nplaces", type=int, action="store", default=4, help="number of rooms")
     parser.add_argument("--mode", action="store", default="html", help="output mode")
 
     parser.add_argument(
@@ -87,6 +87,7 @@ def main() -> int:
     used_seed = args.seed
     workers = args.workers
     season = args.season
+    number_places = args.nplaces
     date = datetime.today().strftime("%d-%m-%Y")
     mode = args.mode
     max_time_slots = args.max_time_slots
@@ -109,11 +110,11 @@ def main() -> int:
         used_seed = abs(hash(random()))
 
     create_outdir(out_dir)
-    weapons_available = get_available_weapons()
+    weapons_available = get_available_weapons(number_places)
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(mansion_names, mansion_representations, weapons_available.keys())
+        locations = Locations(number_places, mansion_names, mansion_representations, weapons_available.keys())
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)

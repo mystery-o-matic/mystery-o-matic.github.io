@@ -8,10 +8,10 @@ weapons_sets = [
     {"rope": "🪢", "chain": "⛓️"}
 ]
 
-def get_available_weapons():
+def get_available_weapons(num_weapons):
     shuffle(weapons_sets)
     weapons_available = {}
-    for weapons_icons in weapons_sets[:4]:
+    for weapons_icons in weapons_sets[:num_weapons]:
         weapons_list = list(weapons_icons.items())
         weapon, icon = choice(weapons_list)
         weapons_available[weapon] = icon

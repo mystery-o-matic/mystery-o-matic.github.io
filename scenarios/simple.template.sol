@@ -13,9 +13,10 @@ contract StoryModel {
         ROOM0,
         ROOM1,
         ROOM2,
-        ROOM3
+        ROOM3,
+	ROOM4
     }
-    uint8 numPlaces = 4;
+    uint8 numPlaces = 5;
 
     // Clues
     event SawWhenLeaving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);
