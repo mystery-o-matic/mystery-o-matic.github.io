@@ -217,6 +217,21 @@ function drawClueTable(table) {
 	}
 }
 
+function clearClueTable(column, row, table) {
+	// This function clears a cell and redraws the border lines
+	table.ctx.clearRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
+	table.data[column][row] = null;
+
+	table.ctx.strokeStyle = "white";
+	table.ctx.beginPath();
+	table.ctx.moveTo(table.columnSize * column, table.rowSize * row);
+	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * row);
+	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * (row + 1));
+	table.ctx.lineTo(table.columnSize * column, table.rowSize * (row + 1));
+	table.ctx.closePath();
+	table.ctx.stroke();
+}
+
 function fillClueTable(text, size, color, column, row, table) {
 	size = Math.ceil(size / pixelRatio * 1.2);
 	table.ctx.font = "bold " + size + "px Raleway";
@@ -242,11 +257,6 @@ function crossClueTable(size, color, column, row, table) {
 	table.ctx.stroke();
 
 	table.extra[column][row] = "crossed";
-}
-
-function clearClueTable(column, row, table) {
-	table.ctx.clearRect(table.columnSize * column + 2, table.rowSize * row + 2, table.columnSize - 4, table.rowSize - 4);
-	table.data[column][row] = null;
 }
 
 function createCluesTableWeapons() {
