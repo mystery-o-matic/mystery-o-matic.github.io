@@ -188,7 +188,7 @@ class Mystery:
                 self.additional_clues.append(clue)
 
         # The player needs more hints to fully determinate when the murdered took place
-        assert self.murder_time != '', "Murder of time is missing"
+        assert self.murder_time != '', "Time of murder is missing"
 
         murder_time_seconds = parse_time(self.murder_time)
         rand_bool = randint(0, 1)
