@@ -74,26 +74,6 @@ def get_subtitle(subtitle, name=""):
         text(subtitle)
     return indent(doc.getvalue())
 
-
-def get_clues_list(elements):
-    html = ""
-    for element in elements:
-        html += get_card(element)
-        html += "\n"
-    return html
-
-# TODO: rewrite using yattag
-def get_card(title, inner_html, index):
-    html_template = """<div class="card" style="display:none; height: 10rem;" id="clue-$index">
-  <div class="card-body">
-    <h5 class="card-title">$title</h5>
-    <p class="card-text" onClick="toggleClueStrikeout(this)">$innerHTML</p>
-  </div>
-</div>"""
-    html_template = Template(html_template)
-    return html_template.substitute(title=title, innerHTML=inner_html, index=index)
-
-
 def get_char_name(name):
     if name == "NOBODY":
         return name
