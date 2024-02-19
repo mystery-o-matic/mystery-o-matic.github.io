@@ -3,20 +3,13 @@ pragma solidity ^0.8.1;
 
 contract StoryModel {
     enum Char {
-        NOBODY,
-        CHAR1,
-        CHAR2,
-        CHAR3
+        NOBODY //$charEnum
     }
-    uint8 numChars = 4;
+    uint8 numChars = uint8(type(Char).max) + 1;
     enum Place {
-        ROOM0,
-        ROOM1,
-        ROOM2,
-        ROOM3,
-	ROOM4
+        ROOM0 //$placeEnum
     }
-    uint8 numPlaces = 5;
+    uint8 numPlaces = uint8(type(Place).max) + 1;
 
     // Clues
     event SawWhenLeaving(uint8 char0, uint8 char1, bool bool0, uint8 place, uint256 time);

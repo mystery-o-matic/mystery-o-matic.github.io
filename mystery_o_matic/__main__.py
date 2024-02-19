@@ -56,6 +56,7 @@ def main() -> int:
 
     parser.add_argument("--season", action="store", default=1, help="season number")
     parser.add_argument("--nplaces", type=int, action="store", default=4, help="number of rooms")
+    parser.add_argument("--nchars", type=int, action="store", default=3, help="number of characters")
     parser.add_argument("--mode", action="store", default="html", help="output mode")
 
     parser.add_argument(
@@ -88,6 +89,7 @@ def main() -> int:
     workers = args.workers
     season = args.season
     number_places = args.nplaces
+    number_characters = args.nchars
     date = datetime.today().strftime("%d-%m-%Y")
     mode = args.mode
     max_time_slots = args.max_time_slots
@@ -118,6 +120,7 @@ def main() -> int:
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
+        model.generate_enums(number_characters)
         (initial_locations_pairs, used_weapon_location) = model.generate_conditions()
         solidity_file = model.generate_solidity()
 

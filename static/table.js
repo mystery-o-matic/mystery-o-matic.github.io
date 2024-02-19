@@ -181,6 +181,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	} else {
 		rowNames = rowNames.concat(data.characterNames);
 	}
+	rowNames.sort();
 
 	nColumns = nColumns + 2;
 	var nRows = rowNames.length;

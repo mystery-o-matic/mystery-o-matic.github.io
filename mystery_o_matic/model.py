@@ -1,5 +1,5 @@
 from json import loads
-from random import choice
+from random import choice, shuffle
 
 from mystery_o_matic.solidity import (
     read_sol_template,
@@ -30,13 +30,35 @@ class Model:
     weapon_location_condition = ""
     connection_conditions = ""
     initial_locations_conditions = ""
+    number_characters = 0
+    char_enum = ""
 
     def __init__(self, contract_name, locations, outdir, solidity_file):
         self.contract_name = contract_name
         self.locations = locations
         self.outdir = outdir
-        self.source = read_solidity(solidity_file)
+        #self.source = read_solidity(solidity_file)
         self.template = read_sol_template(solidity_file)
+
+    def generate_chars_enum(self, number_characters):
+        r = []
+        for i in range(number_characters):
+            r.append("CHAR" + str(i + 1))
+        return r
+
+    def generate_places_enum(self, number_locations):
+        r = []
+        for i in range(number_locations):
+            r.append("ROOM" + str(i))
+        return r
+
+    def generate_enums(self, number_characters):
+        self.number_characters = number_characters
+        enum = self.generate_chars_enum(number_characters)
+        self.char_enum = "," + ", ".join(enum)
+
+        enum = self.generate_places_enum(len(self.locations.graph.nodes()))
+        self.place_enum = "," + ", ".join(enum[1:])
 
     def generate_conditions(self):
         self.connection_conditions = self.generate_location_connections()
@@ -54,8 +76,12 @@ class Model:
             connectionLocations=self.connection_conditions,
             currentLocations=self.initial_locations_conditions,
             locationWeapon=self.weapon_location_condition,
+            charEnum=self.char_enum,
+            placeEnum=self.place_enum,
         )
-        return save_solidity(self.outdir, solidity_source)
+        solidity_filename = save_solidity(self.outdir, solidity_source)
+        self.source = read_solidity(solidity_filename)
+        return solidity_filename
 
     def generate_location_connections(self):
         r = ""
@@ -68,12 +94,10 @@ class Model:
         return "locationWeapon = Place.{};".format(self.used_weapon_location)
 
     def get_location_conditions(self):
-        chars = get_enum(self.source, self.contract_name, "Char")
-        places = get_enum(self.source, self.contract_name, "Place")
-        r = []
-        for c in chars[1:]:
-            r.append((c, choice(places)))
-
+        chars = self.generate_chars_enum(self.number_characters)
+        places = self.generate_places_enum(len(self.locations.graph.nodes()))
+        shuffle(places)
+        r = list(zip(chars, places))
         return r
 
     def generate_location_conditions(self, conditions, var_name):

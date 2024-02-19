@@ -71,7 +71,7 @@ class Mystery:
     murder_time = ""
     interval_size = 15 * 60  # 15 minutes
     final_time = ""
-    number_characters = 4
+    number_characters = 0
 
     def __init__(self, initial_locations, weapon_locations, weapon_used, source, txs):
         """
@@ -92,6 +92,7 @@ class Mystery:
         self.final_locations = dict()
         self.weapon_used = weapon_used
         self.weapon_locations = weapon_locations
+        self.number_characters = len(initial_locations)
 
         for tx in txs:
             self.solution.append(get_tx(self.source, "StoryModel", tx))
@@ -103,7 +104,7 @@ class Mystery:
 
         self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
         shuffle(self.characters)
-        self.characters = self.characters[:self.number_characters - 1]
+        self.characters = self.characters[:self.number_characters]
 
     def get_characters(self):
         return self.characters

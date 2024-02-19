@@ -37,6 +37,7 @@ def get_enum(source, contract_name, typ):
 def decode_enum(enums_map, typ, index):
     typ = "".join(i for i in typ if not i.isdigit())
     enum_map = enums_map[typ.capitalize()]["members"]
+    index = index % len(enum_map)
     return "$" + enum_map[index]["name"]
 
 
@@ -75,7 +76,6 @@ def get_tx(source, contract_name, tx):
     function_call = [function_name]
     for argument, typ in zip(tx["arguments"], abi[function_name].arguments):
         index = int(argument)
-        index = index % 4
         function_call.append(decode_enum(enums_map, typ, index))
 
     return function_call
