@@ -65,10 +65,17 @@ jobs:
         rm -Rf ~/.local/share/fonts/README.txt
         fc-cache -f
 
-    - name: Generate Murder Mystery
+    - name: Install mystery-o-matic
       run: |
         pip3 install .
-        mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 1
+
+    - name: Generate Murder Mystery
+      run: |
+        if [ $(date +%u) -eq 2 ]; then # Harder puzzle on Tuesdays
+          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 1 --nplaces 5 --nchars 4
+        else
+          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 1
+        fi
         rm -f out/result.json
         rm -f out/err.out
         rm -f out/model.sol
