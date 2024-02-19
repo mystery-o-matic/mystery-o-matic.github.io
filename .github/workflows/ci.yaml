@@ -44,6 +44,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
+        sudo cp /usr/lib/x86_64-linux-gnu/libsecp256k1.so.0 /usr/lib/x86_64-linux-gnu/libsecp256k1.so.2
 
     - name: Install Echidna
       run: |
