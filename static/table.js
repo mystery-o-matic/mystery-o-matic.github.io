@@ -95,7 +95,7 @@ function clearClueTable(column, row, table) {
 }
 
 function fillClueTable(text, size, color, column, row, table) {
-	size = Math.ceil(size / pixelRatio * 1.2);
+	size = Math.ceil(size / pixelRatio);
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
