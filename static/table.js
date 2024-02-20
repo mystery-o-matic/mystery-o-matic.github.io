@@ -58,24 +58,14 @@ function getTableData() {
 }
 
 function drawClueTable(table) {
-	table.ctx.fillStyle = table.color;
+	table.ctx.fillStyle = table.colorEven;
 	table.ctx.fillRect(0, 0, table.canvas.width, table.canvas.height);
 
-	table.ctx.strokeStyle = "white";
-	for (let i = 0; i < table.nColumns + 1; i++) {
-		table.ctx.moveTo(table.columnSize * i, 0);
-		table.ctx.lineTo(table.columnSize * i, table.height);
-		table.ctx.stroke();
-	}
-
-	for (let i = 0; i < table.nRows + 1; i++) {
-		var start = table.columnSize;
-		if (i == 0 || i == table.nRows) // Draw first and last line
-			start = 0;
-
-		table.ctx.moveTo(start, table.rowSize * i);
-		table.ctx.lineTo(table.width, table.rowSize * i);
-		table.ctx.stroke();
+	for (let i = 1; i < table.nColumns; i++) {
+		for (let j = 0; j < table.nRows; j++) {
+			clearClueTable(i, j, table);
+			table.data[i][j] = "";
+		}
 	}
 }
 
@@ -83,6 +73,11 @@ function clearClueTable(column, row, table) {
 	// This function clears a cell and redraws the border lines
 	table.ctx.clearRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
 	table.data[column][row] = null;
+
+	// Determine the background color based on the row number
+	var backgroundColor = row % 2 === 0 ? table.colorEven : table.colorOdd;
+	table.ctx.fillStyle = backgroundColor;
+	table.ctx.fillRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
 
 	table.ctx.strokeStyle = "white";
 	table.ctx.beginPath();
@@ -146,7 +141,8 @@ function createCluesTableWeapons() {
 		nRows: nRows,
 		columnSize: columnSize,
 		rowSize: rowSize,
-		color: '#888888',
+		colorEven: '#888888',
+		colorOdd: '#777777',
 		headerVisible: false,
 		width: width,
 		height: height,
@@ -155,7 +151,6 @@ function createCluesTableWeapons() {
 		isTutorial: false,
 	};
 
-	c.style.backgroundColor = table.color;
 
 	tables.set(name, table);
 	drawClueTable(table);
@@ -211,15 +206,14 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		nRows: nRows,
 		columnSize: columnSize,
 		rowSize: rowSize,
-		color: '#888888',
+		colorEven: '#888888',
+		colorOdd: '#777777',
 		headerVisible: headerVisible,
 		width: width,
 		height: height,
 		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
 		isTutorial: isTutorial,
 	};
-
-	c.style.backgroundColor = table.color;
 
 	tables.set(name, table);
 	drawClueTable(table);

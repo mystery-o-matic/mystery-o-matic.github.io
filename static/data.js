@@ -1,47 +1,57 @@
 data = {
-    "numIntervals": 10,
-    "suspectNames": [
+    "numIntervals": 9,
+    "characterNames": [
         "eddie",
-        "dave",
-        "bob"
+        "frida",
+        "carol"
     ],
-    "victim": "dave",
-    "finalLocationsMap": {
+    "victim": "carol",
+    "locationMap": {
         "eddie": "kitchen",
-        "dave": "bedroom",
-        "bob": "kitchen"
+        "frida": "bathroom",
+        "carol": "kitchen"
     },
-    "representationsMap": {
+    "locationIcons": {
         "kitchen": "🍲",
-        "dining room": "🍽️",
+        "dining room": "🪑",
         "bedroom": "🛏️",
         "bathroom": "🚽"
     },
-    "weaponsMap": {
-        "knife": "kitchen",
-        "poison": "dining room",
-        "pistol": "bedroom",
-        "rope": "bathroom"
+    "weaponMap": {
+        "pistol": "kitchen",
+        "scissors": "bathroom",
+        "hammer": "bedroom",
+        "poison": "dining room"
+    },
+    "weaponIcons": {
+        "pistol": "🔫",
+        "scissors": "✂️",
+        "poison": "⚗️",
+        "hammer": "🔨"
     },
     "timeOffset": 32400,
     "additionalClues": [
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"I think <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> was not in the bedroom at 10:30\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"I think <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('dave')\">Dave</a> was not in the kitchen at 10:15\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"I was in the bedroom from 10:30 to 10:45\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> said \"I saw nobody when I was leaving the dining room at 10:00\"",
-        "Inspecting the body reveals that the poison was not the murderer weapon",
-        "When inspecting the body, it becomes clear that the pistol was not the weapon used by the murderer.",
-        "A close examination of the body reveals that the murder took place either at 10:15 or at 10:30",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"I'm sure <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('dave')\">Dave</a> was not in the kitchen at 11:00\"",
-        "Inspecting the body reveals that the rope was not the murderer weapon",
-        "The pathologist says that murder took place either at 10:30 or at 10:45",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said \"I'm sure I saw somebody when I arrived to the kitchen at 11:00\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> said: \"I was in the dining room from 9:00 to 10:00\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> was not in the bedroom at 10:45\"",
-        "\"I was in the kitchen from 9:00 to 10:15\" stated <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a>",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> said: \"I'm sure <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('dave')\">Dave</a> was not in the kitchen at 10:15\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> said \"I saw somebody when I arrived to the kitchen at 10:15\"",
-        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said \"I saw <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('bob')\">Bob</a> when I was leaving the kitchen at 10:15\""
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said \"I saw <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('carol')\">Carol</a> when I was leaving the bedroom at 9:45\"",
+        "\"I stayed in the kitchen from 10:00 to 10:15\" claimed <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a>",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('carol')\">Carol</a> was not in the bathroom at 10:30\"",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said: \"I'm sure <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> was not in the kitchen at 10:15\"",
+        "\"I stayed in the bathroom from 9:00 to 10:30\" claimed <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a>",
+        "A close examination of the body reveals that the murder took place either at 10:00 or at 10:15",
+        "Inspecting the body reveals  no signs of contusion",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said: \"<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> was not in the bedroom at 9:30\"",
+        "The inspection of the body indicates no signs of stabbing.",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said \"I saw nobody when I arrived to the kitchen at 10:00\"",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said: \"I'm sure <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> was not in the kitchen at 10:45\"",
+        "\"I was in the dining room from 9:00 to 9:15\" stated <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a>",
+        "The pathologist says that murder took place either at 10:15 or at 10:30",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said: \"<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('carol')\">Carol</a> was not in the bathroom at 10:30\"",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said \"I noticed the body of <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('carol')\">Carol</a> when I arrived to the kitchen at 10:45\"",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said \"I noticed <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> when I arrived to the bathroom at 10:30\"",
+        "\"I was in the bedroom from 9:30 to 9:45\" stated <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a>",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said: \"<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> was not in the bedroom at 9:45\"",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said \"I saw nobody when I was leaving the dining room at 9:15\"",
+        "Inspecting the body reveals  that the poison was not the murderer weapon.",
+        "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('eddie')\">Eddie</a> said \"I saw somebody when I was leaving the bathroom at 10:30\""
     ],
-    "correctAnswer": "ef1a3dcb738fc6dfe7bb98fc1de7760b92eafd538863f0c2daaa5f4405049776"
+    "correctAnswer": "9dd93d7b847c5929a6f799baf5ec54e2a1e79657ebfac2d7d4bbc2dc0c818095"
 }
