@@ -76,6 +76,11 @@ function clearClueTable(column, row, table) {
 
 	// Determine the background color based on the row number
 	var backgroundColor = row % 2 === 0 ? table.colorEven : table.colorOdd;
+	if (table.headerVisible && row === 0)
+		backgroundColor = table.colorEven;
+	else if (table.headerVisible)
+		backgroundColor = row % 2 === 0 ? table.colorOdd : table.colorEven;
+
 	table.ctx.fillStyle = backgroundColor;
 	table.ctx.fillRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
 
