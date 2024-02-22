@@ -56,7 +56,7 @@ def produce_html_output(
 
     sub_bullets = []
     for loc, weapon in locations.weapon_locations.items():
-        sub_bullets.append("The {} from the ${}".format(weapon, loc))
+        sub_bullets.append("The {} from the ${}".format(weapon + " (" + weapons[weapon] + ")", loc))
 
     weapon_locations_bullets = (
         "The killer took the murder weapon from one of these rooms:\n"
