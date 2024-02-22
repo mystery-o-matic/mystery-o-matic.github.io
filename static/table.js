@@ -95,7 +95,7 @@ function clearClueTable(column, row, table) {
 }
 
 function fillClueTable(text, size, color, column, row, table) {
-	size = Math.ceil(size / pixelRatio);
+	//size = Math.ceil(size / pixelRatio);
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
@@ -129,7 +129,15 @@ function createCluesTableWeapons() {
 	var name = "weapons"
 	var c = document.getElementById("clues-table-" + name);
 	c.style.display = 'inline';
-	c.height /= pixelRatio;
+
+	var width = Math.min(window.innerWidth * 0.92, c.width);
+	var height = c.height;
+
+	let ratio = window.devicePixelRatio;
+	c.width = width * ratio;
+	c.height = height * ratio;
+	c.style.width = width + "px";
+	c.style.height = height + "px";
 
 	var width = c.width;
 	var height = c.height;
@@ -189,15 +197,16 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		nRows = nRows + 1;
 
 	var c = document.getElementById("clues-table-" + name);
-	c.style.display = 'inline';
-	if (!headerVisible) {
-		c.height = c.height - 40;
-	}
-
-	c.height /= pixelRatio;
-
-	var width = c.width;
+	var width = Math.min(window.innerWidth * 0.92, c.width);
 	var height = c.height;
+
+	let ratio = window.devicePixelRatio;
+	c.width = width * ratio;
+	c.height = height * ratio;
+	c.style.width = width + "px";
+	c.style.height = height + "px";
+	c.style.display = 'inline';
+	c.getContext("2d").scale(ratio, ratio);
 
 	var columnSize = width / nColumns;
 	var rowSize = height / nRows;
