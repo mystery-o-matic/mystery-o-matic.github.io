@@ -95,13 +95,12 @@ function clearClueTable(column, row, table) {
 }
 
 function fillClueTable(text, size, color, column, row, table) {
-	//size = Math.ceil(size / pixelRatio);
 	table.ctx.font = "bold " + size + "px Raleway";
 	table.ctx.textAlign = "center";
 	table.ctx.fillStyle = color;
 	if (text && typeof(text) === "object") {
 		console.log(text);
-		table.ctx.drawImage(text, table.columnSize * column + table.columnSize / 2 - text.width / 2, table.rowSize * row + table.rowSize / 1.8 - text.height / 1.8);
+		table.ctx.drawImage(text, table.columnSize * column + table.columnSize / 2 - text.width / 5, table.rowSize * row / 2 + table.rowSize / 1.8 - text.height / 4, text.width / 2.5, text.height / 2.5);
 	} else
 		table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
 
