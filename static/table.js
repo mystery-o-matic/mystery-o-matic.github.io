@@ -3,10 +3,6 @@ var isKindle = /Kindle/i.test(ua);
 var isMobile = /Mobi/i.test(ua);
 
 var emoji = null;
-var pixelRatio = window.devicePixelRatio;
-
-if (isMobile)
-	pixelRatio = 1;
 
 if (isKindle) {
 	emoji = new EmojiConvertor();
@@ -127,7 +123,7 @@ function createCluesTableWeapons() {
 	var nRows = rowNames.length + 1;
 	var name = "weapons"
 	var c = document.getElementById("clues-table-" + name);
-	c.style.display = 'inline';
+	var ctx = c.getContext("2d");
 
 	var width = Math.min(window.innerWidth * 0.92, c.width);
 	var height = c.height;
@@ -137,14 +133,11 @@ function createCluesTableWeapons() {
 	c.height = height * ratio;
 	c.style.width = width + "px";
 	c.style.height = height + "px";
-
-	var width = c.width;
-	var height = c.height;
+	ctx.scale(ratio, ratio);
+	c.style.display = 'inline';
 
 	var columnSize = width / nColumns;
 	var rowSize = height / nRows;
-
-	var ctx = c.getContext("2d");
 
 	var table = {
 		canvas: c,
@@ -196,6 +189,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		nRows = nRows + 1;
 
 	var c = document.getElementById("clues-table-" + name);
+	var ctx = c.getContext("2d");
 	var width = Math.min(window.innerWidth * 0.92, c.width);
 	var height = c.height;
 
@@ -205,7 +199,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	c.style.width = width + "px";
 	c.style.height = height + "px";
 	c.style.display = 'inline';
-	c.getContext("2d").scale(ratio, ratio);
+	ctx.scale(ratio, ratio);
 
 	var columnSize = width / nColumns;
 	var rowSize = height / nRows;
