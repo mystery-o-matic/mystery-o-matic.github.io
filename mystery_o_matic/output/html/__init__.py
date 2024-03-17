@@ -47,11 +47,11 @@ def produce_html_output(
         bullets.append(str(clue))
 
     bullets.append(
-        "The murderer was alone with their victim and the body was not moved"
+        "The murderer was alone with their victim, and the body remained unmoved"
     )
 
     bullets.append(
-        "The murderer was not caught with the body"
+        "The murderer wasn't caught with the body"
     )
 
     sub_bullets = []
@@ -59,7 +59,7 @@ def produce_html_output(
         sub_bullets.append("The {} from the ${}".format(weapon + " (" + weapons[weapon] + ")", loc))
 
     weapon_locations_bullets = (
-        "The killer took the murder weapon from one of these rooms:\n"
+        "The killer retrieved the murder weapon from one of these rooms:\n"
     )
     weapon_locations_bullets += get_bullet_list(sub_bullets)
     bullets.append(weapon_locations_bullets)
@@ -85,7 +85,7 @@ def produce_html_output(
         l = create_template("$"+l).substitute(names_txt)
         weapons_map[w] = l
 
-    final_locations_bullets = "When the police arrived at {}:\n".format(
+    final_locations_bullets = "When you arrived at {}:\n".format(
         mystery.final_time
     )
     final_locations_bullets += get_bullet_list(sub_bullets)

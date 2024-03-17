@@ -190,8 +190,8 @@
 		<div class="container mt-5">
 			<h4>🎓 Understanding clues and making deductions</h4>
 
-			In our murder mystery scenario, characters can move across different rooms within 15-minute intervals. 
-			This means that we can track their movements and whereabouts during specific timeframes. 
+			In our murder mystery scenario, characters can move across different rooms within 15-minute intervals.
+			This means that we can track their movements and whereabouts during specific timeframes.
 			Each character's testimony or statement provides valuable information about their location at certain times.
 
 			<p>Let's say we have the following clue:</p>
@@ -221,9 +221,9 @@
 			<p>But where was Alice at 10:00? The location graph provides some clues:</p>
 			<img src="images/locations_tutorial.svg" style="max-width: 100%; height: 100%;" alt="Location Graph">
 
-			<p> It is important note that when a suspect declares that they are leaving from a particular room, 
-				they can only go to a <b>directly connected room</b>. In this case, since the kitchen is directly connected 
-				to both the dining room and the bedroom, we cannot determine Alice's exact location before 10:00. 
+			<p> It is important note that when a suspect declares that they are leaving from a particular room,
+				they can only go to a <b>directly connected room</b>. In this case, since the kitchen is directly connected
+				to both the dining room and the bedroom, we cannot determine Alice's exact location before 10:00.
 				However, we can make the following deduction:</p>
 
 			<lu class="list-group">
@@ -268,10 +268,12 @@
 
 	<div id="home">
 		<div class="container mt-5">
-			Step into the shoes of a group of 90s friends who, one fateful night, find themselves in an abandoned
-			mansion while investigating mysterious disappearances. Caught in a relentless time loop, they become entangled in a
-			series of murders, with one of them as the victim and the rest are suspects.
-			Assist them in solving the daily murder mystery and unravel clues to break them free from the loop!
+			Step into the shoes of a group of friends from the '90s as they stumble upon
+			an eerie abandoned mansion, drawn by the mystery surrounding unexplainable disappearances.
+			<p></p>
+			Little do they know, their curiosity plunges them into a relentless time loop. Trapped within its sinister grasp, they're thrust into a chilling series of murders, each day presenting a fresh enigma with one of them as the unfortunate victim and the rest as suspects.
+			<p></p>
+			<b>Join their quest to untangle the web of clues, solve the daily murder mystery, and ultimately break free from the suffocating grip of the loop!</b>
 			<p></p>
 			<div class="col-12 text-center">
 				<a href="#game" class="btn btn-danger" role="button">No time to explain!</a>
@@ -282,9 +284,9 @@
 			<h3>🤖 <span class="font-monospace">beep boop</span>, a new mystery is up</h3>
 			<p><span id='span-today'></span></p>
 
-			Time to solve a new murder mystery. Your objective is <strong>to deduce who commited the murder, when it was commited and which weapon was
-				used</strong>.
-			Start reviewing this list of initial clues:
+			Get ready to solve a fresh murder mystery! Your goal is to figure out <b>who</b> did it, <b>when</b> it happened, and <b>what weapon</b> was used.
+			<p></p>
+			Begin by checking out these initial clues:
 			<p></p>
 			<div class="row align-items-center">
 				<div class="col">
@@ -299,21 +301,13 @@
 		<div class="container mt-5">
 			<h4>🥾 Let the game begin!</h4>
 
-			<p>To unravel this intricate puzzle, you'll be presented with a series of clues that gradually
-				unveil the truth behind the murder. Keep in mind that <strong>the suspects won't dare lie</strong>
-				but <strong>they will be cautious about divulging anything excessively incriminating</strong>.</p>
-
-			<p>However, it's important to note that <strong>every clue you view will have an impact on your overall
-					score</strong>.
-				Exercise caution and strategic thinking as you navigate through the evidence and interrogate
-				the suspects to piece together the ultimate solution. Once you solve the daily mystery, you will receive an
-				rank from the <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')">sleuth-o-meter™</a></p>
-
-			<p>Are you up for the challenge? Let the investigation begin!</p>
+			<p>Get ready to solve this puzzle! You'll get clues that slowly uncover the truth behind the murder. Remember, <strong>the suspects won't lie</strong>, but they'll be careful about what they say.</p>
+			<p><strong>Each clue you read will affect your score</strong>. Think carefully as you search for evidence and question the suspects to solve the mystery. When you crack it, you'll get a rank from the wonderful <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')"><strong>sleuth-o-meter™</strong></a>.</p>
+			<p>Are you up for the challenge? Let's start investigating!</p>
 		</div>
 
 		<div id="game" class="container mt-5">
-				<h4>📔 Clues and investigator's notebook</h4>
+				<h4>📔 Detective’s Journal & Clues</h4>
 				<p>Use this table to keep track of your facts, clues and deductions. You can check the <a href="#" onClick="showPage('how-to-play')" class="link-dark">how to
 					play section</a> if you need it.</p>
 					<div class="d-flex justify-content-center align-items-center">
@@ -375,9 +369,8 @@
 			<div class="row align-items-center justify-content-start">
 				<h4>👉 Time for accusations</h4>
 
-				<p>After working overnight collecting evidence, analyzing clues and inferring every possible bit
-					of information, it is time to crack this case selecting
-					suspect, time of murder and weapon.
+				<p>After working overnight collecting evidence and analyzing clues, it's time to crack this case
+					by choosing the suspect, the time of murder, and the weapon.
 				</p>
 
 				<ul class="sticky-notes">
@@ -435,13 +428,10 @@
 		<div id="accusation-lose" class="container mt-5" style="display:none">
 			<h4>🤖 Answer is.. <span class="font-monospace">beep boop, wrong!</span></h4>
 
-			<p>You found yourself facing a perplexing puzzle of
-				conflicting evidence. It became evident that
-				either the <b>suspect's identity, the timing of the crime, or even the weapon involved might be
-					erroneous</b>,
-				creating a cloud of uncertainty around the investigation.</p>
-
-			<p>The loop is displeased and immediately resets leaving you with no clues for the day. <b>You can come back tomorrow for another challenge</b>.</p>
+			<p>You're confronted with a baffling puzzle filled with contradictory evidence.
+				It's clear that either the suspect's identity, the timing of the crime,
+				or even the weapon involved might be wrong, casting doubt on the investigation.</p>
+			<p>The loop is displeased and resets abruptly, leaving you without any clues for the day. You can return tomorrow for another challenge.</p>
 		</div>
 	</div>
 
