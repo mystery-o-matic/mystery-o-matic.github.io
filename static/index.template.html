@@ -182,26 +182,25 @@
 
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
-			<p>mystery-o-matic presents a daily mystery that happened in a particular location, with each suspect
-				performing actions on their own.
-				The clues offered require both spacial and temporal deductions in order to solve the case.</p>
+			<p>mystery-o-matic features a new mystery each day, set in a specific location, where each suspect
+				acts independently. The clues provided require both spatial
+				and temporal deductions to solve the case.</p>
 		</div>
 
 		<div class="container mt-5">
 			<h4>🎓 Understanding clues and making deductions</h4>
 
-			In our murder mystery scenario, characters can move across different rooms within 15-minute intervals.
-			This means that we can track their movements and whereabouts during specific timeframes.
-			Each character's testimony or statement provides valuable information about their location at certain times.
+			In our murder mystery, characters can move between rooms every 15 minutes. This helps us follow where they were at different times.
+			Their statements tell us where they were at specific times.
 
-			<p>Let's say we have the following clue:</p>
+			<p>For example, let's say we have the following clue:</p>
 
 			<div class="d-flex justify-content-center align-items-center">
 				<div style="width: 99%" id="clues-tutorial">
 					<div class="card" style="height: auto;">
 						<div class="card-body text-center">
 							<div class="row align-items-center">
-									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue</h6>
+									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #1</h6>
 									<p id="clue-text-tutorial" class="card-text">Alice said: 'I saw Bob when I arrived to the kitchen at 10:15'</p>
 							</div>
 						</div>
@@ -209,7 +208,8 @@
 				</div>
 			</div>
 
-			<p>This clue contains valuable information if we consider both spatial and temporal constraints. From this clue, we can deduce:</p>
+			<p></p>From this clue, we can deduce:
+			<p></p>
 
 			<ul class="list-group">
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was in the kitchen at 10:15</li>
@@ -217,14 +217,26 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was alive at 10:15 (if he were the victim)</li>
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 10:00</li>
 			</ul>
-
-			<p>But where was Alice at 10:00? The location graph provides some clues:</p>
+			<p></p>
+			<p>Using this information, we can complete the clue table by adding either <b>✓</b> or <b>✗</b>. Clicking on each deduction will strikethrough the text to help you focus on other clues:</p>
+			<div class="container mt-5" style="user-select: none">
+				<div class="col-12">
+						<canvas id="clues-table-kitchen:tutorial-1" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+								Your browser does not support the HTML canvas tag.</canvas>
+					</div>
+					<div class="col-12">
+						<canvas id="clues-table-bathroom:tutorial-1" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+								Your browser does not support the HTML canvas tag.</canvas>
+						</div>
+			</div>
+			<p></p>
+			<p>An important question still remains: where was Alice at 10:00? The location graph provides some clues:</p>
 			<img src="images/locations_tutorial.svg" style="max-width: 100%; height: 100%;" alt="Location Graph">
 
-			<p> It is important note that when a suspect declares that they are leaving from a particular room,
-				they can only go to a <b>directly connected room</b>. In this case, since the kitchen is directly connected
-				to both the dining room and the bedroom, we cannot determine Alice's exact location before 10:00.
-				However, we can make the following deduction:</p>
+			<p> It's important to remember that when a suspect announces leaving or arriving at a room,
+				they can only move to a room directly connected to it. In this scenario, since the kitchen
+				is directly linked to both the dining room and the bedroom, we can't pinpoint Alice's exact location before 10:00.</p>
+				<p>However, we can draw the following deduction:</p>
 
 			<lu class="list-group">
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at 10:00</li>
@@ -233,37 +245,48 @@
 			<p>Using this information, we can complete the clue tables by adding either ✓ or ✗. Clicking on each deduction will strikethrough the text to help you focus on other clues:</p>
 			<div class="container mt-5" style="user-select: none">
 				<div class="col-12">
-						<canvas id="clues-table-kitchen-tutorial" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+						<canvas id="clues-table-kitchen:tutorial-2" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 								Your browser does not support the HTML canvas tag.</canvas>
 					</div>
 					<div class="col-12">
-						<canvas id="clues-table-bathroom-tutorial" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+						<canvas id="clues-table-bathroom:tutorial-2" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 								Your browser does not support the HTML canvas tag.</canvas>
 						</div>
 					</div>
 			</div>
-			<h4>🪇 Finding the smoking gun</h4>
 
+		<div class="container mt-5">
+			<h4>🔪 Finding the smoking gun</h4>
+
+			<p> Following characters around is not enough. We need to figure out the murder weapon!</p>
+			<p>Behold!, here's the list of weapons found in our daily mystery puzzle, classified by the type of wound they cause.
+			    Keep in mind you won't see all of them being used at once.</p>
+
+			<p></p>
+			<p>Some of these groups of weapons are:</p>
+
+			<ul class="list-group">
+				<li class="list-group-item"><b>Firearm/Projectile</b>: Weapons that discharge bullets or launch projectiles: 🔫 gun</li>
+				<li class="list-group-item"><b>Sharp Force</b>: Weapons that cause injuries by cutting or piercing: 🔪 knife, 🗡️ dagger, ✂️ scissors, 🪓 axe, 🪛 screwdriver</li>
+				<li class="list-group-item"><b>Blunt Force</b>: Weapons that cause injuries through impact: 🔨 hammer, 🔧 wrench, 🕯️ candelabrum </li>
+			</ul>
+			<p>
+			<br/>
+			On occasion, you will come across a clue related to the wounds inflicted to the victim that will help you discard a certain kind of weapon. For example:
+			</p>
 			<div class="d-flex justify-content-center align-items-center">
 				<div style="width: 99%" id="clues-tutorial-weapon">
 					<div class="card" style="height: auto;">
 						<div class="card-body text-center">
 							<div class="row align-items-center">
-									<h6 id="clue-title-tutorial" class="card-title">Clue</h6>
+									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #2</h6>
 									<p id="clue-text-tutorial" class="card-text">Inspecting the body reveals no signs of stabbing</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			Some of these groups of weapons are:
-
-			<ul class="list-group">
-				<li class="list-group-item">Ballistic weapons: gun</li>
-				<li class="list-group-item">Stabbing weapons: knife, dagger, scissors, axe, screwdriver</li>
-				<li class="list-group-item">Blunt weapons: hammer, wrench, candelabrum </li>
-			</ul>
+		</div>
 	</div>
 
 	<div id="home">

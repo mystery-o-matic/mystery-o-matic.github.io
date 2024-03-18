@@ -34,9 +34,11 @@ function createTables() {
         places.set(location, getEmoji(data.locationIcons[location]));
         createCluesTable(location, data.numIntervals, data.timeOffset, location == "bedroom", false);
     }
-    createCluesTable("kitchen-tutorial", 6, data.timeOffset, true, true);
-    createCluesTable("bathroom-tutorial", 6, data.timeOffset, false, true);
-    createCluesTableWeapons();
+    createCluesTable("kitchen:tutorial-1", 6, data.timeOffset, true, true);
+    createCluesTable("bathroom:tutorial-1", 6, data.timeOffset, false, true);
+    createCluesTable("kitchen:tutorial-2", 6, data.timeOffset, true, true);
+    createCluesTable("bathroom:tutorial-2", 6, data.timeOffset, false, true);
+	createCluesTableWeapons();
 }
 
 function getTableData() {
@@ -98,7 +100,7 @@ function fillClueTable(text, size, color, column, row, table) {
 		console.log(text);
 		table.ctx.drawImage(text, table.columnSize * column + table.columnSize / 2 - text.width / 5, table.rowSize * row / 2 + table.rowSize / 1.8 - text.height / 4, text.width / 2.5, text.height / 2.5);
 	} else
-		table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.8);
+		table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.5);
 
 	table.data[column][row] = text;
 }
@@ -169,7 +171,7 @@ function createCluesTableWeapons() {
 
 		if (isKindle) // Kindle does not support rendering two emojis in the same cell
 			fillClueTable(weaponIcon, columnSize / 6, '#000000', i, 0, table);
-		else 
+		else
 			fillClueTable(weaponIcon + " " + placeIcon, columnSize / 6, '#000000', i, 0, table);
 	}
 }
@@ -252,7 +254,8 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	if (headerVisible)
 		placeLabelPosition = placeLabelPosition + 1;
 
-	fillClueTable(places.get(name.replace("-tutorial", "")), columnSize / 1.5, '#000000', 0, placeLabelPosition, table);
+	name = name.split(":")[0];
+	fillClueTable(places.get(name), columnSize / 1.5, '#000000', 0, placeLabelPosition, table);
 	table.data[0][0] = " ";
 	table.data[0][1] = " ";
 	table.data[0][2] = " ";
