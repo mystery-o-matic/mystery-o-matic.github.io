@@ -113,7 +113,11 @@ function renderTextInColumn(text, size, color, column, table) {
 	const textX = table.columnSize * column + table.columnSize / 2;
 	const textY = table.height / 2 + size / 3;
 
-	table.ctx.fillText(text, textX, textY);
+	if (text && typeof(text) === "object") {
+		console.log(text);
+		table.ctx.drawImage(text, textX - size / 2, textY - size / 1.2, text.width / 2.5, text.height / 2.5);
+	} else
+		table.ctx.fillText(text, textX, textY);
 }
 
 function crossClueTable(size, color, column, row, table) {
