@@ -105,6 +105,17 @@ function fillClueTable(text, size, color, column, row, table) {
 	table.data[column][row] = text;
 }
 
+function renderTextInColumn(text, size, color, column, table) {
+	table.ctx.font = "bold " + size + "px Raleway";
+	table.ctx.textAlign = "center";
+	table.ctx.fillStyle = color;
+
+	const textX = table.columnSize * column + table.columnSize / 2;
+	const textY = table.height / 2 + size / 3;
+
+	table.ctx.fillText(text, textX, textY);
+}
+
 function crossClueTable(size, color, column, row, table) {
 	table.ctx.strokeStyle = color;
 	table.ctx.lineWidth = size;
@@ -255,7 +266,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 		placeLabelPosition = placeLabelPosition + 1;
 
 	name = name.split(":")[0];
-	fillClueTable(places.get(name), columnSize / 1.5, '#000000', 0, placeLabelPosition, table);
+	renderTextInColumn(places.get(name), columnSize / 1.5, '#000000', 0, table);
 	table.data[0][0] = " ";
 	table.data[0][1] = " ";
 	table.data[0][2] = " ";
