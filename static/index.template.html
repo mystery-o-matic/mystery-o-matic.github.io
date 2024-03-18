@@ -265,12 +265,24 @@
 
 			<ul class="list-group">
 				<li class="list-group-item"><b>Firearm/Projectile</b>: Weapons that discharge bullets or launch projectiles: 🔫 gun</li>
-				<li class="list-group-item"><b>Sharp Force</b>: Weapons that cause injuries by cutting or piercing: 🔪 knife, 🗡️ dagger, ✂️ scissors, 🪓 axe, 🪛 screwdriver</li>
+				<li class="list-group-item"><b>Sharp Force</b>: Weapons that cause injuries by cutting, stabbing or piercing: 🔪 knife, 🗡️ dagger, ✂️ scissors, 🪓 axe, 🪛 screwdriver</li>
 				<li class="list-group-item"><b>Blunt Force</b>: Weapons that cause injuries through impact: 🔨 hammer, 🔧 wrench, 🕯️ candelabrum </li>
 			</ul>
 			<p>
 			<br/>
-			On occasion, you will come across a clue related to the wounds inflicted to the victim that will help you discard a certain kind of weapon. For example:
+			Among the initial clues, you'll find the name of the victim, the suspects' locations when the police arrived, and the
+			detail that each weapon was exclusively found in
+			 a specific room:
+			<ul id="">
+				<li>The hammer (🔨) from the bedroom</li>
+				<li>The rope (🪢) from the kitchen</li>
+				<li>The scissors (✂️) from the dining room</li>
+				<li>The pistol (🔫) from the bathroom</li>
+			</ul>
+			<br/>
+			Keep in mind that <b>weapons' location is randomized by the loop to confuse you and it holds no logical explanation</b>.
+			<br/><br/>
+			How this information can be used to solve the murder mystery? Well, on occasion, you will come across a clue related to the wounds inflicted to the victim that will help you discard a certain kind of weapon. For example:
 			</p>
 			<div class="d-flex justify-content-center align-items-center">
 				<div style="width: 99%" id="clues-tutorial-weapon">
@@ -284,6 +296,12 @@
 					</div>
 				</div>
 			</div>
+
+			<p><br/>From this clue, we can deduce:</p>
+			<lu class="list-group">
+				<li class="list-group-item" onClick="toggleClueStrikeout(this)"> 🔎 The killer didn't use any of the weapons from the “Sharp Force” group.
+				</li>
+			</lu>
 		</div>
 	</div>
 
