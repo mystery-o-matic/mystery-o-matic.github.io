@@ -8,8 +8,8 @@ tutorialData = {
     "weaponMap": {
         "hammer": "bedroom",
         "rope": "kitchen",
-        "scissors": "dining room"
-        "pistol": "bathroom",
+        "scissors": "dining room",
+        "pistol": "bathroom"
     },
     "weaponIcons": {
         "hammer": "🔨",
