@@ -138,7 +138,17 @@ function createCluesTableWeapons(name) {
 	var rowNames = []
 	var isTutorial = name.includes("tutorial");
 
-	nColumns = Object.keys(data.weaponIcons).length;
+	var weaponMap = data.weaponMap;
+	var weaponIcons = data.weaponIcons;
+	var locationIcons = data.locationIcons;
+
+	if (isTutorial) {
+		weaponMap = tutorialData.weaponMap;
+		weaponIcons = tutorialData.weaponIcons;
+		locationIcons = tutorialData.locationIcons;
+	}
+
+	nColumns = Object.keys(weaponIcons).length;
 	var nRows = rowNames.length + 1;
 
 	var c = document.getElementById("clues-table-" + name);
