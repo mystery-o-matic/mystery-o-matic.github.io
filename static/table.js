@@ -181,15 +181,6 @@ function createCluesTableWeapons(name) {
 
 	var placeIcon;
 	var weaponIcon;
-	var weaponMap = data.weaponMap;
-	var weaponIcons = data.weaponIcons;
-	var locationIcons = data.locationIcons;
-
-	if (isTutorial) {
-		weaponMap = tutorialData.weaponMap;
-		weaponIcons = tutorialData.weaponIcons;
-		locationIcons = tutorialData.locationIcons;
-	}
 
 	weapons = Object.keys(weaponMap);
 	for (var i = 0; i < weapons.length; i++) {
