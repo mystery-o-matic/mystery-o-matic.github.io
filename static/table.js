@@ -38,7 +38,8 @@ function createTables() {
     createCluesTable("bathroom:tutorial-1", 6, data.timeOffset, false, true);
     createCluesTable("kitchen:tutorial-2", 6, data.timeOffset, true, true);
     createCluesTable("bathroom:tutorial-2", 6, data.timeOffset, false, true);
-	createCluesTableWeapons();
+	createCluesTableWeapons("weapons");
+	createCluesTableWeapons("weapons:tutorial");
 }
 
 function getTableData() {
@@ -133,12 +134,13 @@ function crossClueTable(size, color, column, row, table) {
 	table.extra[column][row] = "crossed";
 }
 
-function createCluesTableWeapons() {
+function createCluesTableWeapons(name) {
 	var rowNames = []
+	var isTutorial = name.includes("tutorial");
 
 	nColumns = Object.keys(data.weaponIcons).length;
 	var nRows = rowNames.length + 1;
-	var name = "weapons"
+
 	var c = document.getElementById("clues-table-" + name);
 	var ctx = c.getContext("2d");
 
@@ -170,7 +172,7 @@ function createCluesTableWeapons() {
 		height: height,
 		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
 		extra: [...Array(nColumns)].map(e => Array(nRows).fill("")),
-		isTutorial: false,
+		isTutorial: isTutorial,
 	};
 
 
@@ -179,10 +181,20 @@ function createCluesTableWeapons() {
 
 	var placeIcon;
 	var weaponIcon;
-	weapons = Object.keys(data.weaponMap);
+	var weaponMap = data.weaponMap;
+	var weaponIcons = data.weaponIcons;
+	var locationIcons = data.locationIcons;
+
+	if (isTutorial) {
+		weaponMap = tutorialData.weaponMap;
+		weaponIcons = tutorialData.weaponIcons;
+		locationIcons = tutorialData.locationIcons;
+	}
+
+	weapons = Object.keys(weaponMap);
 	for (var i = 0; i < weapons.length; i++) {
-		placeIcon = getEmoji(data.locationIcons[data.weaponMap[weapons[i]]]);
-		weaponIcon = getEmoji(data.weaponIcons[weapons[i]]);
+		placeIcon = getEmoji(locationIcons[weaponMap[weapons[i]]]);
+		weaponIcon = getEmoji(weaponIcons[weapons[i]]);
 
 		if (isKindle) // Kindle does not support rendering two emojis in the same cell
 			fillClueTable(weaponIcon, columnSize / 6, '#000000', i, 0, table);

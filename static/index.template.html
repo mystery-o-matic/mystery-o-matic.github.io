@@ -190,10 +190,11 @@
 		<div class="container mt-5">
 			<h4>🎓 Understanding clues and making deductions</h4>
 
+			<p>
 			In our murder mystery, characters can move between rooms every 15 minutes. This helps us follow where they were at different times.
 			Their statements tell us where they were at specific times.
-
-			<p>For example, let's say we have the following clue:</p>
+			<br/>
+			For example, let's say we have the following clue:</p>
 
 			<div class="d-flex justify-content-center align-items-center">
 				<div style="width: 99%" id="clues-tutorial">
@@ -208,8 +209,7 @@
 				</div>
 			</div>
 
-			<p></p>From this clue, we can deduce:
-			<p></p>
+			<p><br/>From this clue, we can deduce:<br/></p>
 
 			<ul class="list-group">
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was in the kitchen at 10:15</li>
@@ -217,8 +217,7 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was alive at 10:15 (if he were the victim)</li>
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 10:00</li>
 			</ul>
-			<p></p>
-			<p>Using this information, we can complete the clue table by adding either <b>✓</b> or <b>✗</b>. Clicking on each deduction will strikethrough the text to help you focus on other clues:</p>
+			<p><br/>Using this information, we can complete the clue table by adding either <b>✓</b> or <b>✗</b>. Clicking on each deduction will strikethrough the text to help you focus on other clues:</p>
 			<div class="col-12 text-center">
 					<canvas id="clues-table-kitchen:tutorial-1" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Your browser does not support the HTML canvas tag.</canvas>
@@ -242,7 +241,7 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at 10:00</li>
 			</lu>
 
-			<p>Using this information, we can complete the clue tables:</p>
+			<p><br/>Using this information, we can complete the clue tables:</p>
 			<div class="col-12 text-center">
 					<canvas id="clues-table-kitchen:tutorial-2" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Your browser does not support the HTML canvas tag.</canvas>
@@ -256,12 +255,11 @@
 		<div class="container mt-5">
 			<h4>🔪 Finding the smoking gun</h4>
 
-			<p> Following characters around is not enough. We need to figure out the murder weapon!</p>
-			<p>Behold!, here's the list of weapons found in our daily mystery puzzle, classified by the type of wound they cause.
-			    Keep in mind you won't see all of them being used at once.</p>
-
-			<p></p>
-			<p>Some of these groups of weapons are:</p>
+			<p>Following characters around is not enough. We need to figure out the murder weapon!
+				<br/><br/>
+			   Behold!, here's the list of weapons found in our daily mystery puzzle, classified by the type of wound they cause.
+			   Keep in mind you won't see all of them being used at once.<br/>
+			   Some of these groups of weapons are:</p>
 
 			<ul class="list-group">
 				<li class="list-group-item"><b>Firearm/Projectile</b>: Weapons that discharge bullets or launch projectiles: 🔫 gun</li>
@@ -302,6 +300,15 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)"> 🔎 The killer didn't use any of the weapons from the “Sharp Force” group.
 				</li>
 			</lu>
+
+			<p><br/>Armed with this deduction, we can discard a weapons in the following table. Click on the weapon icon to cross it out:</p>
+
+			<div class="col-12 text-center">
+				<canvas id="clues-table-weapons:tutorial" height="40" width="500" onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
+				Your browser does not support the HTML canvas tag.</canvas>
+			</div>
+
+
 		</div>
 	</div>
 
@@ -488,6 +495,7 @@
 	</footer>
 
 	<script src="data.js"></script>
+	<script src="tutorialData.js"></script>
 	<script src="table.js"></script>
 	<script src="translation.js"></script>
 	<script src="functions.js"></script>
