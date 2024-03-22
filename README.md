@@ -1,12 +1,12 @@
 # mystery-⚙️-matic
 
-mystery-o-matic is a Python program used to produce the content of [mystery-o-matic.com](https://mystery-o-matic.com). It produces a random [murdery mystery](https://en.wikipedia.org/wiki/Murder_mystery) to solve using [fuzzing testing](https://en.wikipedia.org/wiki/Fuzzing). Once a mystery is generated, it produces a static html file which contains all the clues (and the solution to verify it).
+mystery-o-matic is a Python program used to produce the content of [mystery-o-matic.com](https://mystery-o-matic.com). It produces a random [murder mystery](https://en.wikipedia.org/wiki/Murder_mystery) to solve using [fuzzing testing](https://en.wikipedia.org/wiki/Fuzzing). Once a mystery is generated, it produces a static html file that contains all the clues (and the solution to verify it).
 
 The mystery generation involves using a Solidity smart contract. This was used because of the nature of blockchain transactions as operations, but everything is simulated so no cryptocurrency is involved. Instead, every transaction represents a possible state change in the murder mystery (e.g. Alice walks from the kitchen to the bathroom). If the state change breaks any rule (e.g. no more than two characters can be in the same room), then the transaction reverts and the fuzzing tool keeps exploring.
 
 ## Installation
 
-Make sure all the requirements are installed. If you are using Ubuntu:
+Make sure all the requirements are met. If you are using Ubuntu:
 
 ```bash
 sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
@@ -26,16 +26,16 @@ Finally, install the tool from this repository:
 pip install .
 ```
 
-mystery-o-matic requires the usage of [echidna](https://github.com/crytic/echidna/) for obtaining a random mystery prompt and its solution, but uses [a specific PR](https://github.com/crytic/echidna/pull/1075) that was not merged yet. For convenience, there is a precompiled binary provided in the `bin` folder. Otherwise, [it can be compiled from source code using `stack` or `nix`](https://github.com/crytic/echidna#building-using-stack).
+mystery-o-matic requires the usage of [echidna](https://github.com/crytic/echidna/) for obtaining a random mystery prompt and its solution but uses [a specific PR](https://github.com/crytic/echidna/pull/1075) that has not been merged yet. For convenience, there is a precompiled binary provided in the `bin` folder. Otherwise, [it can be compiled from source code using `stack` or `nix`](https://github.com/crytic/echidna#building-using-stack).
 
 ## Usage
 
 mystery-o-matic will always generate a fresh mystery to solve, but depending on the output mode (`--mode`) will produce different results:
 
-* `html`: it will generate a local copy of mystery-o-matic.com which contains the description of the case, some clues as well as the solution.
-* `text`: it will start an interactive version of murder mystery to solve by command It can also start a Telegram bot if an API key is provided.
+* `html`: it will generate a local copy of mystery-o-matic.com which contains the description of the case, some clues and the solution.
+* `text`: it will start an interactive version of a murder mystery to solve by command It can also start a Telegram bot if an API key is provided.
 
-By default it will use the `html` output to generate a new mystery in the default scenario:
+By default, it will use the `html` output to generate a new mystery in the default scenario:
 
 ```bash
 mystery-o-matic scenarios/simple.template.sol static out
@@ -45,7 +45,7 @@ The tool will produce a static `index.html` file stored in the `out` directory.
 
 ## Scenarios
 
-The tool provides a single scenario for creating a random murder mystery, where the rules are encoded in the `scenarios/simple.template.sol` file, but others could be added. In order to add a new scenario:
+The tool provides a single scenario for creating a random murder mystery, where the rules are encoded in the `scenarios/simple.template.sol` file, but others could be added. To add a new scenario:
 
 * Create a Solidity smart contract called `StoryModel`
 * Encode the rules to advance every step of the story. Clues are generated using events such as `SawWhenLeaving` and `SawWhenArriving` but others can be added as well.
@@ -53,4 +53,4 @@ The tool provides a single scenario for creating a random murder mystery, where 
 
 ## Donations
 
-If you want support the development, you can donate using crypto to 0xd0FD96CD73762Fd081cf2269D79F359e4314629b (ETH, BSC, etc)
+If you want to support the development, you can donate using crypto to 0xd0FD96CD73762Fd081cf2269D79F359e4314629b (ETH, BSC, etc)
