@@ -261,7 +261,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		isTutorial: isTutorial,
 	};
 
-	tables.set(name, table);
+	tables.set(room, table);
 	drawClueTable(table);
 
 	var date = new Date(null);
