@@ -118,7 +118,7 @@ def main() -> int:
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(number_places, location_data, weapons_available.keys())
+        locations = Locations(location_name, number_places, location_data, weapons_available.keys())
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)

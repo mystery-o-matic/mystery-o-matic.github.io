@@ -1,9 +1,9 @@
 from random import shuffle, choice
 
-from networkx import gnr_graph, relabel_nodes
+from networkx import gnr_graph, relabel_nodes, Graph
 from networkx.drawing.nx_agraph import to_agraph
 
-locations = ["mansion", "egypt", "castle"]
+locations = ["mansion", "egypt", "castle", "train"]
 
 mansion_names = {
     "KITCHEN": "kitchen",
@@ -46,13 +46,28 @@ medieval_castle_names = {
 }
 
 medieval_castle_representations = {
-    "GREAT HALL": "🪑",
+    "GREAT HALL": "🍷",
     "BED CHAMBER": "🛏️",
     "DUNGEON": "🔒",
     "ARMORY": "🛡️",
     "GARDEN": "🌳"
 }
 
+train_names = {
+    "LOCOMOTIVE": "locomotive",
+    "LUGGAGE": "luggage carriage",
+    "DINING": "dining carriage",
+    "SLEEPING": "sleeping carriage",
+    "LOUNGE": "lounge carriage"
+}
+
+train_representations = {
+    "LOCOMOTIVE": "🚂",
+    "LUGGAGE": "🧳",
+    "DINING": "🍽️",
+    "SLEEPING": "🛌",
+    "LOUNGE": "🪑"
+}
 
 def get_location_data():
     location_name = choice(locations)
@@ -64,6 +79,9 @@ def get_location_data():
         location_data = (" are transported back in time to a pyramid in the ancient Egypt!", egypt_names, egypt_representations)
     elif (location_name == "castle"):
         location_data = (" are transported back in time to a castle in the middle ages!", medieval_castle_names, medieval_castle_representations)
+    elif (location_name == "train"):
+        location_data = (" are transported back in time into the famous Orient Express during its last voyage!", train_names, train_representations)
+
     else:
         assert False, "Unknown location name: " + location_name
 
@@ -83,7 +101,7 @@ class Locations:
     - weapon_locations: A dictionary mapping location names to weapons.
     """
 
-    def __init__(self, number_places, location_data, weapons):
+    def __init__(self, location_name, number_places, location_data, weapons):
         """
         Initializes a Locations object.
 
@@ -96,6 +114,7 @@ class Locations:
         - weapons: A list of weapons available in the game.
         """
 
+        self.name = location_name
         intro, names, representations = location_data
         self.intro = intro
         self.number_places = number_places
@@ -110,9 +129,18 @@ class Locations:
         shuffle(nodes_list)
         names_list = list(names.keys())
 
+
         self.indices = {}
         self.names = {}
         self.representations = {}
+
+        if location_name == "train":
+            self.indices["ROOM0"] = "LOCOMOTIVE"
+            self.names["ROOM0"] = names["LOCOMOTIVE"]
+            self.representations["ROOM0"] = representations["LOCOMOTIVE"]
+
+            names_list = [x for x in names_list if x != "LOCOMOTIVE"]
+            nodes_list = [x for x in nodes_list if x != "ROOM0"]
 
         for generic, concrete in zip(nodes_list, names_list):
             self.indices[generic] = concrete
@@ -133,7 +161,12 @@ class Locations:
         Returns:
         - graph: The created graph.
         """
-        graph = gnr_graph(self.number_places, 0.5).to_undirected()
+        if self.name == "train":
+            graph = Graph()
+            for n in range(self.number_places - 1):
+                graph.add_edge("ROOM" + str(n), "ROOM" + str(n + 1))
+        else:
+            graph = gnr_graph(self.number_places, 0.5).to_undirected()
         graph = relabel_nodes(graph, nodes)
         return graph
 

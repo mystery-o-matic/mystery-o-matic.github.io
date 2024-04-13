@@ -32,6 +32,8 @@ def get_available_weapons(num_weapons, location_name):
         weapons_sets = ancient_egypt_weapons[:]
     elif (location_name == "castle"):
         weapons_sets = medieval_castle_weapons[:]
+    elif (location_name == "train"):
+        weapons_sets = all_weapons[:]
     else:
         assert False, "Unknown available weapons for" + location_name
 
