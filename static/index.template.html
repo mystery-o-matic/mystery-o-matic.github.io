@@ -317,13 +317,20 @@
 
 	<div id="home">
 		<div class="container mt-5">
-			Step into the shoes of a group of friends from the '90s as they stumble upon
-			an eerie abandoned mansion, drawn by the mystery surrounding unexplainable disappearances.
-			<p></p>
-			Little do they know, their curiosity plunges them into a relentless time loop. Trapped within its sinister grasp, they're thrust into a chilling series of murders, each day presenting a fresh enigma with one of them as the unfortunate victim and the rest as suspects.
-			<p></p>
-			<b>Join their quest to untangle the web of clues, solve the daily murder mystery, and ultimately break free from the suffocating grip of the loop!</b>
-			<p></p>
+			<p>
+			A group of friends stumbles upon an eerie abandoned mansion. Now confined within its sinister grasp, they find
+			 themselves thrust into a chilling series of murders. Each day brings a fresh enigma,
+			 with one of them as the unfortunate victim and the rest as suspects.
+			<br/><br/>
+			Locked in this endless cycle by malevolent forces known only as <i>the Producers</i>,
+			our heroes stumble upon a glimmer of hope that transcends both space and time, allowing
+			them to break free from the confines of the old Victorian mansion.
+			However, as they embrace this newfound freedom, the machinations of their captors persist, weaving
+			the threads of each daily murder mystery.
+			<br/><br/>
+			Their quest for freedom unfolds in the next season. Stay tuned!
+			<br/>
+			</p>
 			<div class="col-12 text-center">
 				<a href="#game" class="btn btn-danger" role="button">No time to explain!</a>
 			</div>
@@ -333,9 +340,10 @@
 			<h3>🤖 <span class="font-monospace">beep boop</span>, a new mystery is up</h3>
 			<p><span id='span-today'></span></p>
 
-			Get ready to solve a fresh murder mystery! Your goal is to figure out <b>who</b> did it, <b>when</b> it happened, and <b>what weapon</b> was used.
-			<p></p>
-			Begin by checking out these initial clues:
+			Get ready to solve a fresh murder mystery! Your goal is to figure out <b>who</b> did it, <b>when</b> it happened, and <b>what</b> weapon was used.
+			<br/>
+			$introLocation
+			Help them solve this mystery checking out these initial clues:
 			<p></p>
 			<div class="row align-items-center">
 				<div class="col">
@@ -389,23 +397,23 @@
 					</div>
 					<p></p>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-bedroom" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room0" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-kitchen" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room1" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-dining room" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room2" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-bathroom" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room3" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-garden" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room4" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">

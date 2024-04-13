@@ -1,7 +1,9 @@
-from random import shuffle
+from random import shuffle, choice
 
 from networkx import gnr_graph, relabel_nodes
 from networkx.drawing.nx_agraph import to_agraph
+
+locations = ["mansion", "egypt", "castle"]
 
 mansion_names = {
     "KITCHEN": "kitchen",
@@ -19,6 +21,54 @@ mansion_representations = {
     "GARDEN": "🌳",
 }
 
+egypt_names = {
+    "THRONE ROOM": "throne room",
+    "BURIAL PLACE": "burial chamber",
+    "TEMPLE": "temple",
+    "DESERT": "desert",
+    "GARDEN": "garden",
+}
+
+egypt_representations = {
+    "THRONE ROOM": "👑",
+    "BURIAL PLACE": "⚰️",
+    "TEMPLE": "📿",
+    "DESERT": "🏜️",
+    "GARDEN": "🌳",
+}
+
+medieval_castle_names = {
+    "GREAT HALL": "great hall",
+    "BED CHAMBER": "bed chamber",
+    "DUNGEON": "dungeon",
+    "ARMORY": "armory",
+    "GARDEN": "garden"
+}
+
+medieval_castle_representations = {
+    "GREAT HALL": "🪑",
+    "BED CHAMBER": "🛏️",
+    "DUNGEON": "🔒",
+    "ARMORY": "🛡️",
+    "GARDEN": "🌳"
+}
+
+
+def get_location_data():
+    location_name = choice(locations)
+    location_data = None
+
+    if (location_name == "mansion"):
+        location_data = (" are back into the mansion!", mansion_names, mansion_representations)
+    elif (location_name == "egypt"):
+        location_data = (" are transported back in time to a pyramid in the ancient Egypt!", egypt_names, egypt_representations)
+    elif (location_name == "castle"):
+        location_data = (" are transported back in time to a castle in the middle ages!", medieval_castle_names, medieval_castle_representations)
+    else:
+        assert False, "Unknown location name: " + location_name
+
+    return (location_name, location_data)
+
 class Locations:
     """
     A class representing locations in a mystery game.
@@ -33,17 +83,21 @@ class Locations:
     - weapon_locations: A dictionary mapping location names to weapons.
     """
 
-    def __init__(self, number_places, names, representations, weapons):
+    def __init__(self, number_places, location_data, weapons):
         """
         Initializes a Locations object.
 
         Parameters:
         - number_places: The number of locations in the game.
-        - names: A dictionary mapping concrete location names to generic node names.
-        - representations: A dictionary mapping concrete location names to their representations.
+        - location_data: A tuple containing:
+            + intro: A short sentence to introduce the location.
+            + names: A dictionary mapping concrete location names to generic node names.
+            + representations: A dictionary mapping concrete location names to their representations.
         - weapons: A list of weapons available in the game.
         """
 
+        intro, names, representations = location_data
+        self.intro = intro
         self.number_places = number_places
         nodes = {}
         for n in range(number_places):

@@ -30,14 +30,23 @@ var tables = new Map();
 var places = new Map();
 
 function createTables() {
-    for (const location of Object.keys(data.locationIcons)) {
-        places.set(location, getEmoji(data.locationIcons[location]));
-        createCluesTable(location, data.numIntervals, data.timeOffset, location == "bedroom", false);
-    }
-    createCluesTable("kitchen:tutorial-1", 6, data.timeOffset, true, true);
-    createCluesTable("bathroom:tutorial-1", 6, data.timeOffset, false, true);
-    createCluesTable("kitchen:tutorial-2", 6, data.timeOffset, true, true);
-    createCluesTable("bathroom:tutorial-2", 6, data.timeOffset, false, true);
+	locations = Object.keys(data.locationIcons)
+	for (let i = 0; i < locations.length; i++) {
+		roomName = locations[i]
+		places.set(roomName, getEmoji(data.locationIcons[roomName]));
+		createCluesTable("room"+i, roomName, data.numIntervals, data.timeOffset, i == 0, false);
+	}
+
+	locations = Object.keys(tutorialData.locationIcons)
+	for (let i = 0; i < locations.length; i++) {
+		roomName = locations[i]
+		places.set(roomName, getEmoji(tutorialData.locationIcons[roomName]));
+	}
+
+	createCluesTable("kitchen:tutorial-1", "kitchen:tutorial-1", 6, data.timeOffset, true, true);
+	createCluesTable("bathroom:tutorial-1", "bathroom:tutorial-1", 6, data.timeOffset, false, true);
+	createCluesTable("kitchen:tutorial-2", "kitchen:tutorial-2", 6, data.timeOffset, true, true);
+	createCluesTable("bathroom:tutorial-2", "bathroom:tutorial-2", 6, data.timeOffset, false, true);
 	createCluesTableWeapons("weapons");
 	createCluesTableWeapons("weapons:tutorial");
 }
@@ -204,7 +213,7 @@ function createCluesTableWeapons(name) {
 	}
 }
 
-function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial) {
+function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTutorial) {
 	var rowNames = []
 	if (isTutorial) {
 		rowNames = rowNames.concat(['alice', 'bob']);
@@ -218,7 +227,7 @@ function createCluesTable(name, nColumns, timeOffset, headerVisible, isTutorial)
 	if (headerVisible)
 		nRows = nRows + 1;
 
-	var c = document.getElementById("clues-table-" + name);
+	var c = document.getElementById("clues-table-" + room);
 	var ctx = c.getContext("2d");
 	var width = Math.min(window.innerWidth * 0.92, c.width);
 	var height = c.height;

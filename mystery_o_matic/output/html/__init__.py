@@ -22,6 +22,10 @@ def produce_html_output(
         map(lambda n: locations.weapon_locations[n], locations.graph.nodes())
     )
 
+    characters = list(map(lambda char: char.capitalize(), mystery.get_characters()))
+    introLocation = ", ".join(characters[:-1]) + " and " + characters[-1]
+    introLocation += locations.intro
+
     names_html = {}
     for i, char in enumerate(mystery.get_characters()):
         names_html["CHAR" + str(i + 1)] = get_char_name(char)
@@ -101,6 +105,7 @@ def produce_html_output(
     correct_answer = mystery.get_answer_hash()
 
     args = {}
+    args["introLocation"] = introLocation
     args["initialClues"] = initial_clues
     args["selectIntervals"] = select_intervals
     args["selectSuspects"] = select_suspects

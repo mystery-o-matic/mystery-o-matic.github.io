@@ -196,18 +196,18 @@ class Clue:
         else:
             assert False
 
-        if weapon == "pistol":
+        if weapon == "pistol" or weapon == "archery bow":
             return str + "there are no bullet holes."
         elif weapon == "rope" or weapon == "chain":
             return str + "no signs of strangulation."
-        elif weapon == "knife" or weapon == "dagger" or weapon == "scissors" or weapon == "axe" or weapon == "screwdriver":
+        elif weapon == "knife" or weapon == "dagger" or weapon == "scissors" or weapon == "axe" or weapon == "screwdriver" or weapon == "trident" or weapon == "sword":
             return str + "no signs of stabbing."
-        elif weapon == "poison":
-            return str + " that the poison was not the murderer weapon."
-        elif weapon == "hammer" or weapon == "wrench" or weapon == "candelabrum":
+        elif weapon == "poison" or weapon == "curse":
+            return str + " that the "+ weapon + " was not the murderer weapon."
+        elif weapon == "rock" or weapon == "hammer" or weapon == "wrench" or weapon == "candelabrum":
             return str + " no signs of contusion"
         else:
-            assert False
+            assert False, "Unknown type of weapon: "+ weapon
 
     def print_Stayed_clue(self):
         r = randint(0, 2)

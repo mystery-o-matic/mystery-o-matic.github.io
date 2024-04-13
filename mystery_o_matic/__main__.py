@@ -9,7 +9,7 @@ from os.path import isfile
 from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
 from mystery_o_matic.echidna import create_outdir
-from mystery_o_matic.location import Locations, mansion_names, mansion_representations
+from mystery_o_matic.location import Locations, get_location_data
 from mystery_o_matic.weapons import get_available_weapons
 from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
@@ -112,11 +112,13 @@ def main() -> int:
         used_seed = abs(hash(random()))
 
     create_outdir(out_dir)
-    weapons_available = get_available_weapons(number_places)
+    location_name, location_data = get_location_data()
+    print("Location selected is:", location_name)
+    weapons_available = get_available_weapons(number_places, location_name)
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(number_places, mansion_names, mansion_representations, weapons_available.keys())
+        locations = Locations(number_places, location_data, weapons_available.keys())
         weapon_locations = locations.weapon_locations
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
