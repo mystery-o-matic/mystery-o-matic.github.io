@@ -43,3 +43,18 @@ def get_available_weapons(num_weapons, location_name):
         weapons_available[weapon] = icon
 
     return weapons_available
+
+def get_weapon_type(weapon):
+    if weapon == "pistol" or weapon == "archery bow":
+        return "projectile"
+    elif weapon == "rope" or weapon == "chain":
+        return "strangulation"
+    elif weapon == "knife" or weapon == "dagger" or weapon == "scissors" or weapon == "axe" or weapon == "screwdriver" or weapon == "trident" or weapon == "sword":
+        return "sharp force"
+    elif weapon == "poison" or weapon == "curse":
+        return "poisoning"
+    elif weapon == "rock" or weapon == "hammer" or weapon == "wrench" or weapon == "candelabrum":
+        return "blunt force"
+    else:
+        assert False, "Unknown type of weapon: "+ weapon
+

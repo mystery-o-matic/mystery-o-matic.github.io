@@ -1,5 +1,5 @@
 from random import randint
-
+from mystery_o_matic.weapons import get_weapon_type
 
 class Clue:
     """
@@ -196,16 +196,17 @@ class Clue:
         else:
             assert False
 
-        if weapon == "pistol" or weapon == "archery bow":
-            return str + "there are no bullet holes."
-        elif weapon == "rope" or weapon == "chain":
+        weapon_type = get_weapon_type(weapon)
+        if weapon_type == "projectile":
+            return str + "there are no holes."
+        elif weapon_type == "strangulation":
             return str + "no signs of strangulation."
-        elif weapon == "knife" or weapon == "dagger" or weapon == "scissors" or weapon == "axe" or weapon == "screwdriver" or weapon == "trident" or weapon == "sword":
+        elif weapon_type == "sharp force":
             return str + "no signs of stabbing."
-        elif weapon == "poison" or weapon == "curse":
+        elif weapon_type == "poisoning":
             return str + " that the "+ weapon + " was not the murderer weapon."
-        elif weapon == "rock" or weapon == "hammer" or weapon == "wrench" or weapon == "candelabrum":
-            return str + " no signs of contusion"
+        elif weapon_type == "blunt force":
+            return str + " no signs of contusion."
         else:
             assert False, "Unknown type of weapon: "+ weapon
 
