@@ -74,14 +74,13 @@ def get_location_data():
     location_data = None
 
     if (location_name == "mansion"):
-        location_data = (" are back into the mansion!", mansion_names, mansion_representations)
+        location_data = (" are back into <b>the mansion where everything started</b>!", mansion_names, mansion_representations)
     elif (location_name == "egypt"):
-        location_data = (" are transported back in time to a pyramid in the ancient Egypt!", egypt_names, egypt_representations)
+        location_data = (" are transported back in time to a <b>pyramid in the Ancient Egypt</b>!", egypt_names, egypt_representations)
     elif (location_name == "castle"):
-        location_data = (" are transported back in time to a castle in the middle ages!", medieval_castle_names, medieval_castle_representations)
+        location_data = (" are transported back in time to a <b>castle in the Middle Ages</b>!", medieval_castle_names, medieval_castle_representations)
     elif (location_name == "train"):
-        location_data = (" are transported back in time into the famous Orient Express during its last voyage!", train_names, train_representations)
-
+        location_data = (" are transported back in time into <b>the famous Orient Express</b> during its last voyage!", train_names, train_representations)
     else:
         assert False, "Unknown location name: " + location_name
 
