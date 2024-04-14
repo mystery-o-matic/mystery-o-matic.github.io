@@ -1,0 +1,22 @@
+name: Archive website
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install waybackpy
+      run: |
+        pip install waybackpy
+
+    - name: Archive current version of mystery-o-matic
+      run: |
+        waybackpy --url https://mystery-o-matic.com/ --save
