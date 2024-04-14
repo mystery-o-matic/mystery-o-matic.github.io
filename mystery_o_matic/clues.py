@@ -36,8 +36,8 @@ class Clue:
             return self.print_NotSawWhenArrivingLeaving_clue()
         elif self.name == "SawVictimWhenArriving":
             return self.print_SawVictimWhenArriving_clue()
-        # 	elif (name == "SawVictimWhenLeaving"):
-        # 		return "{} said: \"I saw {} leaving to {} at {}\"".format(clue[1], clue[2], clue[3], clue[4])
+        elif self.name == "SawVictimWhenLeaving":
+            return self.print_SawVictimWhenLeaving_clue()
         elif self.name == "SawWhenLeaving":
             return self.print_SawWhenLeaving_clue()
         elif self.name == "NotSawWhenLeaving":
@@ -104,9 +104,21 @@ class Clue:
         """
         str = '{} said: "I saw '
         if not self.fields[2]:
+            # This should never happen, since the victim produced this clue
+            # when they were alive
             str += "the body of "
 
         str += '{} arriving to the {} at {}"'
+        return str.format(
+            self.fields[0], self.fields[1], self.fields[3], self.fields[4]
+        )
+
+    def print_SawVictimWhenLeaving_clue(self):
+        """
+        Returns a formatted string representing a clue about the witness who saw the victim leaving a certain location.
+        """
+        str = '{} said: "I saw '
+        str += '{} leaving the {} at {}"'
         return str.format(
             self.fields[0], self.fields[1], self.fields[3], self.fields[4]
         )

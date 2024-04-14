@@ -125,28 +125,37 @@ class Mystery:
 
     def load_events(self, events):
         event_calls = []
+        # Load all the events from the model
         for event in events:
             event_calls.append(get_event(self.source, "StoryModel", event))
 
         for call in event_calls:
+            # Skip the clues that are produced by the victim
             if call[0].startswith("NotSaw") and call[1] == self.victim:
                 continue
-            # victim clues should be modified
+            elif call[0].startswith("Stayed") and call[1] == self.victim:
+                continue
+
+            # Some victim clues can be reused, but changing the subject
             elif call[0].startswith("Saw") and call[1] == self.victim:
-                if call[2] == "$NOBODY":  # No witnesses
+                print(call)
+                # If the victim was alone, discard the clue,
+                # since there are no other witness to use as subjects
+                if call[2] == "$NOBODY":
                     continue
-                elif call[0] == "SawWhenLeaving":  # TODO
-                    continue
+                elif call[0] == "SawWhenLeaving":
+                    call[0] = "SawVictimWhenLeaving"
+                    call[1] = call[2]
+                    call[2] = self.victim
                 else:
                     call[0] = "SawVictimWhenArriving"
                     call[1] = call[2]
                     call[2] = self.victim
-            elif call[0].startswith("Stayed") and call[1] == self.victim:
-                continue
             elif call[0] == "FinalLocation":
                 self.final_locations[call[1]] = call[2]
                 continue
 
+            # The "WasMurdered" and "PoliceArrived" clues are considered initial clues
             if call[0] == "WasMurdered":
                 self.initial_clues.append(Clue(call[0], [call[1], call[2]]))
                 self.murder_time = call[3]
