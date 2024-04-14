@@ -3,6 +3,8 @@ name: Archive website
 on:
   workflow_dispatch:
   workflow_call:
+  schedule:
+    - cron: "0 3 * * *"
 
 jobs:
   build:
