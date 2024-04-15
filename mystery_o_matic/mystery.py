@@ -1,5 +1,5 @@
 from datetime import timedelta
-from random import shuffle, randint
+from random import shuffle, randint, choice
 from hashlib import sha256
 
 from mystery_o_matic.clues import Clue
@@ -73,7 +73,7 @@ class Mystery:
     final_time = ""
     number_characters = 0
 
-    def __init__(self, initial_locations, weapon_locations, weapon_used, source, txs):
+    def __init__(self, initial_locations, weapon_locations, weapon_used, activities, source, txs):
         """
         Initialize the Mystery class.
 
@@ -105,6 +105,8 @@ class Mystery:
         self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
         shuffle(self.characters)
         self.characters = self.characters[:self.number_characters]
+        self.cplaceholders = ["$CHAR" + str(i + 1) for i in range(self.number_characters)]
+        self.activities = activities
 
     def get_characters(self):
         return self.characters
@@ -134,11 +136,10 @@ class Mystery:
             if call[0].startswith("NotSaw") and call[1] == self.victim:
                 continue
             elif call[0].startswith("Stayed") and call[1] == self.victim:
-                continue
+                pass # This is handled later
 
             # Some victim clues can be reused, but changing the subject
             elif call[0].startswith("Saw") and call[1] == self.victim:
-                print(call)
                 # If the victim was alone, discard the clue,
                 # since there are no other witness to use as subjects
                 if call[2] == "$NOBODY":
@@ -161,6 +162,28 @@ class Mystery:
                 self.murder_time = call[3]
             elif call[0] == "PoliceArrived":
                 self.initial_clues.append(Clue(call[0], call[1:]))
+            elif call[0] == "Stayed":
+                # Add the Stayed clue as expected, except when the victim is the subject
+                if call[1] != self.victim:
+                    self.additional_clues.append(Clue(call[0], call[1:]))
+                # Duplicate the clue, but with some changes
+                clue = Clue("Heard", call[1:4])
+                char = clue.fields[0]
+                place = clue.fields[1].replace("$", "")
+
+                was_replaced = False
+                # Subject must be changed to any other non-victim character
+                for placeholder in self.cplaceholders:
+                    if char != placeholder and placeholder != self.victim:
+                        clue.fields[0] = placeholder
+                        was_replaced = True
+                        break
+
+                assert was_replaced, "Failed to change subject in clue " + call
+                if place in self.activities:
+                    clue.fields[1] = choice(self.activities[place])
+                    #print(clue)
+                    self.additional_clues.append(clue)
             else:
                 self.additional_clues.append(Clue(call[0], call[1:]))
 

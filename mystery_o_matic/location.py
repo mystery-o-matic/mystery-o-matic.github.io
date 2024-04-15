@@ -21,6 +21,13 @@ mansion_representations = {
     "GARDEN": "🌳",
 }
 
+mansion_activities = {
+    "KITCHEN": ["saw someone cooking", "heard someone washing the dishes"],
+    "BATHROOM": ["heard someone brushing their teeth", "heard someone flushing the toilet"],
+    "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
+    "DINING": ["heard someone playing the piano in the dining room"],
+}
+
 egypt_names = {
     "THRONE ROOM": "throne room",
     "BURIAL PLACE": "burial chamber",
@@ -35,6 +42,14 @@ egypt_representations = {
     "TEMPLE": "📿",
     "DESERT": "🏜️",
     "GARDEN": "🌳",
+}
+
+egypt_activities = {
+    "THRONE ROOM": ["saw someone sitting on the throne", "saw someone polishing the throne"],
+    "BURIAL PLACE": ["saw someone praying in the burial chamber"],
+    "TEMPLE": ["saw someone praying in the temple", "saw someone lighting candles in the temple"],
+    "DESERT": ["saw someone riding a camel in the desert"],
+    "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
 }
 
 medieval_castle_names = {
@@ -53,6 +68,12 @@ medieval_castle_representations = {
     "GARDEN": "🌳"
 }
 
+medieval_castle_activities = {
+    "GREAT HALL": ["saw someone playing the harp in the great hall", "saw someone dancing in the great hall"],
+    "ARMORY": ["saw someone sharpening a sword in the armory", "saw someone polishing a shield in the armory"],
+    "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
+}
+
 train_names = {
     "LOCOMOTIVE": "locomotive",
     "LUGGAGE": "luggage carriage",
@@ -69,18 +90,28 @@ train_representations = {
     "LOUNGE": "🪑"
 }
 
-def get_location_data():
-    location_name = choice(locations)
+train_activities = {
+    "LOCOMOTIVE": ["saw someone fueling the locomotive", "heard the whistle of the locomotive"],
+    "LUGGAGE": ["saw someone opening a suitcase in the luggage carriage"],
+    "DINING": ["saw someone eating in the dining carriage", "heard someone playing the piano in the dining carriage"],
+    "LOUNGE": ["saw someone reading in the lounge carriage"],
+}
+
+def get_location_data(selected_location):
+    if selected_location is None:
+        location_name = choice(locations)
+    else:
+        location_name = selected_location
     location_data = None
 
     if (location_name == "mansion"):
-        location_data = (" are back into <b>the mansion where everything started</b>!", mansion_names, mansion_representations)
+        location_data = (" are back into <b>the mansion where everything started</b>!", mansion_names, mansion_representations, mansion_activities)
     elif (location_name == "egypt"):
-        location_data = (" are transported back in time to a <b>pyramid in the Ancient Egypt</b>!", egypt_names, egypt_representations)
+        location_data = (" are transported back in time to a <b>pyramid in the Ancient Egypt</b>!", egypt_names, egypt_representations, egypt_activities)
     elif (location_name == "castle"):
-        location_data = (" are transported back in time to a <b>castle in the Middle Ages</b>!", medieval_castle_names, medieval_castle_representations)
+        location_data = (" are transported back in time to a <b>castle in the Middle Ages</b>!", medieval_castle_names, medieval_castle_representations, medieval_castle_activities)
     elif (location_name == "train"):
-        location_data = (" are transported back in time into <b>the famous Orient Express</b> during its last voyage!", train_names, train_representations)
+        location_data = (" are transported back in time into <b>the famous Orient Express</b> during its last voyage!", train_names, train_representations, train_activities)
     else:
         assert False, "Unknown location name: " + location_name
 
@@ -114,8 +145,9 @@ class Locations:
         """
 
         self.name = location_name
-        intro, names, representations = location_data
+        intro, names, representations, activities = location_data
         self.intro = intro
+        self.activities = activities
         self.number_places = number_places
         nodes = {}
         for n in range(number_places):
@@ -225,3 +257,17 @@ class Locations:
         g.draw(outdir + "/images/locations_small.svg", prog="dot")
         g.graph_attr.update(dpi="200")
         g.draw(outdir + "/images/locations_small.png", prog="dot")
+
+    def get_activities(self):
+        """
+        Returns the activities associated with each location.
+
+        Returns:
+        - activities: A dictionary mapping location names to activities.
+        """
+        activities = {}
+        for generic, concrete in self.indices.items():
+            if concrete in self.activities:
+                activities[generic] = self.activities[concrete]
+
+        return activities

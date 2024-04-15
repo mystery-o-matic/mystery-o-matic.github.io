@@ -255,6 +255,31 @@
 				<canvas id="clues-table-bathroom:tutorial-2" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
+
+				<p>Other types of clues do not indicate clearly where each character is, but they can still be useful.
+					For instance:</p>
+				<div class="d-flex justify-content-center align-items-center">
+					<div style="width: 99%" id="clues-tutorial">
+						<div class="card" style="height: auto;">
+							<div class="card-body text-center">
+								<div class="row align-items-center">
+										<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #2</h6>
+										<p id="clue-text-tutorial" class="card-text">Alice said: "I heard someone cooking at 9:00"</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<p>With this clue, we can draw the following deductions:</p>
+
+				<lu class="list-group">
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 9:00</li>
+					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Someone, except Alice, was in the kitchen at 9:00</li>
+				</lu>
+
+				<p>It can be tempting to try to guess Alice location, but it unclear from this kind of clues, as we cannot deduce how near or far she was from the location graph.</p>
+
 			</div>
 
 		<div class="container mt-5">
@@ -290,7 +315,7 @@
 					<div class="card" style="height: auto;">
 						<div class="card-body text-center">
 							<div class="row align-items-center">
-									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #2</h6>
+									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #3</h6>
 									<p id="clue-text-tutorial" class="card-text">Inspecting the body reveals no signs of stabbing</p>
 							</div>
 						</div>

@@ -57,6 +57,7 @@ def main() -> int:
     parser.add_argument("--season", action="store", default=1, help="season number")
     parser.add_argument("--nplaces", type=int, action="store", default=4, help="number of rooms")
     parser.add_argument("--nchars", type=int, action="store", default=3, help="number of characters")
+    parser.add_argument("--location", action="store", default=None, help="use a specific location")
     parser.add_argument("--mode", action="store", default="html", help="output mode")
 
     parser.add_argument(
@@ -112,7 +113,7 @@ def main() -> int:
         used_seed = abs(hash(random()))
 
     create_outdir(out_dir)
-    location_name, location_data = get_location_data()
+    location_name, location_data = get_location_data(args.location)
     print("Location selected is:", location_name)
     weapons_available = get_available_weapons(number_places, location_name)
 
@@ -120,6 +121,7 @@ def main() -> int:
         solidity_file = args.scenario
         locations = Locations(location_name, number_places, location_data, weapons_available.keys())
         weapon_locations = locations.weapon_locations
+        activities = locations.get_activities()
 
         model = Model("StoryModel", locations, out_dir, solidity_file)
         model.generate_enums(number_characters)
@@ -155,7 +157,7 @@ def main() -> int:
 
     weapon_used = locations.weapon_locations[used_weapon_location]
     mystery = Mystery(
-        initial_locations_pairs, weapon_locations, weapon_used, model.source, txs
+        initial_locations_pairs, weapon_locations, weapon_used, activities, model.source, txs
     )
     mystery.load_events(events)
     mystery.process_clues()

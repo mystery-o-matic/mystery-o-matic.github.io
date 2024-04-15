@@ -60,6 +60,8 @@ class Clue:
             return "Police arrived at {}!".format(self.fields[0])
         elif self.name == "Stayed":
             return self.print_Stayed_clue()
+        elif self.name == "Heard":
+            return self.print_Heard_clue()
         elif self.name == "WeaponNotUsed":
             return self.print_WeaponNotUsed_clue()
         else:
@@ -242,3 +244,13 @@ class Clue:
             )
         else:
             assert False
+
+    def print_Heard_clue(self):
+        r = randint(0, 1)
+
+        if r == 0:
+            str = '{} said: "I {} at {}"'
+            return str.format(self.fields[0], self.fields[1], self.fields[2])
+        elif r == 1:
+            str = '"I {} at {}" said {}'
+            return str.format(self.fields[1], self.fields[2], self.fields[0])

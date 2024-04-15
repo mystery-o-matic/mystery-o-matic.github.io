@@ -94,6 +94,7 @@ def produce_html_output(
     )
     final_locations_bullets += get_bullet_list(sub_bullets)
     bullets.append(final_locations_bullets)
+    bullets.append("No one else was present in the location.")
 
     initial_clues = get_bullet_list(bullets)
 
