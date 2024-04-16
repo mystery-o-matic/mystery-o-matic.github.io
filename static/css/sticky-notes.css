@@ -3,6 +3,7 @@ body.sticky-notes {
 	font-size: 100%;
 	margin: 3em;
 	background: #666;
+	text-align: center;
 	color: #fff;
 }
 
@@ -43,7 +44,12 @@ li.sticky-notes {
 
 ul.sticky-notes {
 	overflow: hidden;
-	padding: 3em;
+	padding-top: 1em;
+	padding-bottom: 2em;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 ul li a.sticky-notes {
