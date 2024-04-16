@@ -4,6 +4,7 @@ from sys import argv, exit
 from argparse import ArgumentParser
 from random import seed, random, shuffle
 from datetime import datetime
+from hashlib import sha256
 from os.path import isfile
 
 from mystery_o_matic.output.html import produce_html_output
@@ -23,6 +24,9 @@ def read_story(season, date):
     with open(filename, "r") as f:
         return f.read()
 
+def hash256(data):
+    hash_obj = sha256(data.encode("utf-8"))
+    return int(hash_obj.hexdigest(), 16)
 
 def main() -> int:
     """
@@ -105,12 +109,12 @@ def main() -> int:
     if args.today:
         print(f"Generating mystery for {date} (season {season})")
         assert used_seed is None
-        used_seed = abs(hash(date))
+        used_seed = abs(hash256(str(date)))
 
     if used_seed is not None:
         seed(used_seed)
     else:
-        used_seed = abs(hash(random()))
+        used_seed = abs(hash256(random()))
 
     create_outdir(out_dir)
     location_name, location_data = get_location_data(args.location)

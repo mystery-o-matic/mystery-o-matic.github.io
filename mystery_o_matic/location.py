@@ -69,7 +69,7 @@ medieval_castle_representations = {
 }
 
 medieval_castle_activities = {
-    "GREAT HALL": ["saw someone playing the harp in the great hall", "saw someone dancing in the great hall"],
+    "GREAT HALL": ["heard someone playing the harp in the great hall", "saw someone dancing in the great hall"],
     "ARMORY": ["saw someone sharpening a sword in the armory", "saw someone polishing a shield in the armory"],
     "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
 }
@@ -91,10 +91,10 @@ train_representations = {
 }
 
 train_activities = {
-    "LOCOMOTIVE": ["saw someone fueling the locomotive", "heard the whistle of the locomotive"],
-    "LUGGAGE": ["saw someone opening a suitcase in the luggage carriage"],
-    "DINING": ["saw someone eating in the dining carriage", "heard someone playing the piano in the dining carriage"],
-    "LOUNGE": ["saw someone reading in the lounge carriage"],
+    "LOCOMOTIVE": ["glanced out my window and saw someone fueling the locomotive", "heard the whistle of the locomotive"],
+    "LUGGAGE": ["heard someone rummaging in the luggage carriage"],
+    "DINING": ["glanced out my window and saw someone eating in the dining carriage", "heard someone playing the piano in the dining carriage"],
+    "LOUNGE": ["glanced out my window and saw someone reading in the lounge carriage"],
 }
 
 def get_location_data(selected_location):

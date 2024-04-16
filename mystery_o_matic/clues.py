@@ -52,7 +52,7 @@ class Clue:
             )
 
         elif self.name == "WasMurderedAutopsy":
-            return "The pathologist says that murder took place either at {} or at {}".format(
+            return "A blood-curdling scream of the victim was heard either at {} or at {}".format(
                 self.fields[0], self.fields[1]
             )
 
