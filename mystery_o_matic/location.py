@@ -48,8 +48,8 @@ egypt_activities = {
     "THRONE ROOM": ["saw someone sitting on the throne", "saw someone polishing the throne"],
     "BURIAL PLACE": ["saw someone praying in the burial chamber"],
     "TEMPLE": ["saw someone praying in the temple", "saw someone lighting candles in the temple"],
-    "DESERT": ["saw someone riding a camel in the desert"],
-    "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
+    "DESERT": ["looked outside and saw someone riding a camel in the desert"],
+    "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
 }
 
 medieval_castle_names = {
@@ -71,7 +71,7 @@ medieval_castle_representations = {
 medieval_castle_activities = {
     "GREAT HALL": ["heard someone playing the harp in the great hall", "saw someone dancing in the great hall"],
     "ARMORY": ["saw someone sharpening a sword in the armory", "saw someone polishing a shield in the armory"],
-    "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
+    "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
 }
 
 train_names = {
