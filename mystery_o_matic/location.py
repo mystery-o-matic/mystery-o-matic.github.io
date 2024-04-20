@@ -22,9 +22,9 @@ mansion_representations = {
 }
 
 mansion_activities = {
-    "KITCHEN": ["saw someone cooking", "heard someone washing the dishes"],
+    "KITCHEN": ["noticed someone cooking", "heard someone washing the dishes"],
     "BATHROOM": ["heard someone brushing their teeth", "heard someone flushing the toilet"],
-    "GARDEN": ["heard someone whistling in the garden", "saw someone pruning the bushes"],
+    "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
     "DINING": ["heard someone playing the piano in the dining room"],
 }
 
@@ -45,9 +45,9 @@ egypt_representations = {
 }
 
 egypt_activities = {
-    "THRONE ROOM": ["saw someone sitting on the throne", "saw someone polishing the throne"],
-    "BURIAL PLACE": ["saw someone praying in the burial chamber"],
-    "TEMPLE": ["saw someone praying in the temple", "saw someone lighting candles in the temple"],
+    "THRONE ROOM": ["saw someone from a distance sitting on the throne", "saw someone from afar polishing the throne"],
+    "BURIAL PLACE": ["saw someone at a distane praying in the burial chamber"],
+    "TEMPLE": ["saw someone at a distance praying in the temple", "saw someone from afar lighting candles in the temple"],
     "DESERT": ["looked outside and saw someone riding a camel in the desert"],
     "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
 }
@@ -69,8 +69,8 @@ medieval_castle_representations = {
 }
 
 medieval_castle_activities = {
-    "GREAT HALL": ["heard someone playing the harp in the great hall", "saw someone dancing in the great hall"],
-    "ARMORY": ["saw someone sharpening a sword in the armory", "saw someone polishing a shield in the armory"],
+    "GREAT HALL": ["heard someone playing the harp in the great hall", "saw someone from a distance dancing in the great hall"],
+    "ARMORY": ["saw someone from afar sharpening a sword in the armory", "saw someone at a distance polishing a shield in the armory"],
     "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
 }
 

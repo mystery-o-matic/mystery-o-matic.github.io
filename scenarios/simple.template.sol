@@ -17,6 +17,7 @@ contract StoryModel {
     event NotSawWhenLeaving(uint8 char0, uint8 char1, uint8 place, uint256 time);
     event NotSawWhenArriving(uint8 char0, uint8 char1, uint8 place, uint256 time);
     event Stayed(uint8 char0, uint8 place, uint256 time0, uint256 time1);
+    event Heard(uint8 char0, uint8 place, uint256 time);
     event WasMurdered(uint8 char0, uint8 place, uint256 time);
     event FinalLocation(uint8 char0, uint8 place);
     event PoliceArrived(uint256 time);
@@ -124,6 +125,24 @@ contract StoryModel {
         numberOfMoves++;
     }
 
+    function someoneHeards(uint char, uint8 place) public {
+        for (uint8 c = 1; c < numChars; c++) {
+            if (Char(c) == victimIdentity)
+                continue;   // Character was victim, select another one.
+                            // This needs to be checked again later, since we don't always know the victim
+
+            if (c == char)
+                continue; // Character was the same that stayed, select another one
+            if (currentLocation[Char(c)] == Place(place))
+                continue; // Character was in the same room, select another one
+            if (uint8(currentLocation[Char(c)]) % 2 == 0)
+                continue; // Pseudo random check to avoid always use the same character
+
+            emit Heard(c, place, time);
+            break;
+        }
+    }
+
     function move(uint8 char, uint8 place) public {
         require(char > 0);
         char = char % numChars;
@@ -136,6 +155,7 @@ contract StoryModel {
             stay();
 
         emit Stayed(char, uint8(currentLocation[Char(char)]), lastMovement[Char(char)], time);
+        someoneHeards(char, uint8(currentLocation[Char(char)]));
         sawEvents(char, place);
         currentLocation[Char(char)] = Place(place);
         checkKillerNotCaught(char, place);
@@ -144,7 +164,7 @@ contract StoryModel {
         lastMovement[Char(char)] = time;
     }
 
-    function checkKillerNotCaught(uint8 char, uint8 place) internal {
+    function checkKillerNotCaught(uint8 char, uint8 place) internal view {
 
         if (victimIdentity == Char.NOBODY || killerIdentity == Char.NOBODY)
             return;

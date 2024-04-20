@@ -162,28 +162,24 @@ class Mystery:
                 self.murder_time = call[3]
             elif call[0] == "PoliceArrived":
                 self.initial_clues.append(Clue(call[0], call[1:]))
+            elif call[0] == "Heard":
+                # Add the Heard clue as expected, except when the victim is the subject
+                if call[1] == self.victim:
+                    continue
+
+                # Create the clue but with some changes
+                clue = Clue(call[0], call[1:])
+                place = clue.fields[1].replace("$", "")
+
+                if place in self.activities:
+                    clue.fields[1] = choice(self.activities[place])
+                    print(clue)
+                    self.additional_clues.append(clue)
+
             elif call[0] == "Stayed":
                 # Add the Stayed clue as expected, except when the victim is the subject
                 if call[1] != self.victim:
                     self.additional_clues.append(Clue(call[0], call[1:]))
-                # Duplicate the clue, but with some changes
-                clue = Clue("Heard", call[1:4])
-                char = clue.fields[0]
-                place = clue.fields[1].replace("$", "")
-
-                was_replaced = False
-                # Subject must be changed to any other non-victim character
-                for placeholder in self.cplaceholders:
-                    if char != placeholder and placeholder != self.victim:
-                        clue.fields[0] = placeholder
-                        was_replaced = True
-                        break
-
-                assert was_replaced, "Failed to change subject in clue " + call
-                if place in self.activities:
-                    clue.fields[1] = choice(self.activities[place])
-                    #print(clue)
-                    self.additional_clues.append(clue)
             else:
                 self.additional_clues.append(Clue(call[0], call[1:]))
 
