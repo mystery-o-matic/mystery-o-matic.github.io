@@ -173,7 +173,7 @@ class Mystery:
 
                 if place in self.activities:
                     clue.fields[1] = choice(self.activities[place])
-                    print(clue)
+                    #print(clue)
                     self.additional_clues.append(clue)
 
             elif call[0] == "Stayed":
