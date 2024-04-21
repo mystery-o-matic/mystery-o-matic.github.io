@@ -3,7 +3,7 @@ from random import shuffle, choice
 from networkx import gnr_graph, relabel_nodes, Graph
 from networkx.drawing.nx_agraph import to_agraph
 
-locations = ["mansion", "egypt", "castle", "train"]
+locations = ["egypt", "castle", "train", "ship"]
 
 mansion_names = {
     "KITCHEN": "kitchen",
@@ -26,6 +26,29 @@ mansion_activities = {
     "BATHROOM": ["heard someone brushing their teeth", "heard someone flushing the toilet"],
     "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
     "DINING": ["heard someone playing the piano in the dining room"],
+}
+
+ship_names = {
+    "GALLEY": "galley",
+    "NAVIGATION ROOM": "navigation room",
+    "CAPTIAN CABIN": "captian cabin",
+    "MAIN DECK": "main deck",
+    "CARGO HOLD": "cargo hold"
+}
+
+ship_representations = {
+    "GALLEY": "🍲",
+    "NAVIGATION ROOM": "🧭",
+    "CAPTIAN CABIN": "🛏️",
+    "MAIN DECK": "⚓",
+    "CARGO HOLD": "📦"
+}
+
+ship_activities = {
+    "GALLEY": ["noticed someone cooking", "heard someone washing the dishes"],
+    "NAVIGATION ROOM": ["saw someone looking at a map"],
+    "MAIN DECK": ["heard someone loading a cannon", "heard someone adjusting the sails"],
+    "CARGO HOLD": ["heard someone rummaging in the cargo hold"],
 }
 
 egypt_names = {
@@ -106,6 +129,8 @@ def get_location_data(selected_location):
 
     if (location_name == "mansion"):
         location_data = (" are back into <b>the mansion where everything started</b>!", mansion_names, mansion_representations, mansion_activities)
+    elif (location_name == "ship"):
+        location_data = (" are transported back in time to a <b>a pirate ship sailing in the Caribbean</b>!", ship_names, ship_representations, ship_activities)
     elif (location_name == "egypt"):
         location_data = (" are transported back in time to a <b>pyramid in the Ancient Egypt</b>!", egypt_names, egypt_representations, egypt_activities)
     elif (location_name == "castle"):

@@ -8,6 +8,14 @@ all_weapons = [
     {"rope": "🪢", "chain": "⛓️"}
 ]
 
+ship_weapons = [
+    {"archery bow": "🏹"},
+    {"dagger": "🗡️", "trident": "🔱", "sword": "⚔️"},
+    {"poison": "⚗️"},
+    {"hammer": "🔨", "wrench": "🔧", "candelabrum": "🕯️"},
+    {"rope": "🪢", "chain": "⛓️"}
+]
+
 ancient_egypt_weapons = [
     {"archery bow": "🏹"},
     {"dagger": "🗡️"},
@@ -28,6 +36,8 @@ def get_available_weapons(num_weapons, location_name):
 
     if (location_name == "mansion"):
         weapons_sets = all_weapons[:]
+    elif (location_name == "ship"):
+        weapons_sets = ship_weapons[:]
     elif (location_name == "egypt"):
         weapons_sets = ancient_egypt_weapons[:]
     elif (location_name == "castle"):
