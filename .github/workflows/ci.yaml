@@ -71,9 +71,9 @@ jobs:
     - name: Generate Murder Mystery
       run: |
         if [ $(( $(date +%u) % 2 )) -eq 1 ]; then # Harder puzzles half of the days
-          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 1 --nplaces 5 --nchars 4
+          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 2 --nplaces 5 --nchars 4
         else
-          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 1
+          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 2
         fi
         rm -f out/result.json
         rm -f out/err.out
