@@ -164,8 +164,8 @@ function checkAccusation() {
 			document.getElementById("accusation-win").scrollIntoView();
 			document.getElementById("accusation-button").disabled = true;
 
-			storyClue = document.getElementById("story-clue").innerHTML.replace(/(<([^>]+)>)/ig, "\n");
-			document.getElementById("story-notebook").value += "\n" + getCurrentDate() + ":\n" + storyClue;
+			storyClue = document.getElementById("story-clue").textContent;
+			document.getElementById("story-notebook").value += "\n" + getCurrentDate() + ":\n" + storyClue + "\n";
 		} else {
 			document.getElementById("accusation-lose").style.display = "block";
 			document.getElementById("accusation-lose").scrollIntoView();
