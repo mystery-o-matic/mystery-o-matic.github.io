@@ -2,8 +2,6 @@
 
 mystery-o-matic is a Python program used to produce the content of [mystery-o-matic.com](https://mystery-o-matic.com). It produces a random [murder mystery](https://en.wikipedia.org/wiki/Murder_mystery) to solve using [fuzzing testing](https://en.wikipedia.org/wiki/Fuzzing). Once a mystery is generated, it produces a static html file that contains all the clues (and the solution to verify it).
 
-The mystery generation involves using a Solidity smart contract. This was used because of the nature of blockchain transactions as operations, but everything is simulated so no cryptocurrency is involved. Instead, every transaction represents a possible state change in the murder mystery (e.g. Alice walks from the kitchen to the bathroom). If the state change breaks any rule (e.g. no more than two characters can be in the same room), then the transaction reverts and the fuzzing tool keeps exploring.
-
 ## Installation
 
 Make sure all the requirements are met. If you are using Ubuntu:
@@ -43,7 +41,40 @@ mystery-o-matic scenarios/simple.template.sol static out
 
 The tool will produce a static `index.html` file stored in the `out` directory.
 
+## Integrations
+
+While the code is open-source, I'm aware of the difficulties of using or integrating other people's code. If you don't know or don't want to run this code directly, but you are still interested in using the output of this tool in your work of fiction (e.g. novel, game, film), please feel free to contact me so I can do that for you. The generated mystery will look like this:
+
+```
+Characters:
+  * CHAR1 is bob
+  * CHAR2 is carol
+  * CHAR3 is eddie
+
+Final Locations:
+  * ROOM3 is kitchen
+  * ROOM2 is dining room
+  * ROOM0 is bedroom
+  * ROOM1 is bathroom
+
+Solution:
+ Initial Locations:
+  * CHAR1 was in the ROOM1
+  * CHAR2 was in the ROOM2
+  * CHAR3 was in the ROOM3
+
+Actions:
+1. takesWeapon($CHAR3)
+2. move($CHAR3, $ROOM0)
+3. move($CHAR2, $ROOM1)
+4. move($CHAR1, $ROOM0)
+5. kills($CHAR3, $CHAR1)
+6. move($CHAR3, $ROOM1)
+```
+
 ## Scenarios
+
+The mystery generation involves using a Solidity smart contract. This was used because of the nature of blockchain transactions as operations, but everything is simulated so no cryptocurrency is involved. Instead, every transaction represents a possible state change in the murder mystery (e.g. Alice walks from the kitchen to the bathroom). If the state change breaks any rule (e.g. no more than two characters can be in the same room), then the transaction reverts and the fuzzing tool keeps exploring.
 
 The tool provides a single scenario for creating a random murder mystery, where the rules are encoded in the `scenarios/simple.template.sol` file, but others could be added. To add a new scenario:
 
