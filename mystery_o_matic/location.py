@@ -31,7 +31,7 @@ mansion_activities = {
 ship_names = {
     "GALLEY": "galley",
     "NAVIGATION ROOM": "navigation room",
-    "CAPTIAN CABIN": "captian cabin",
+    "CAPTAIN CABIN": "captain cabin",
     "MAIN DECK": "main deck",
     "CARGO HOLD": "cargo hold"
 }
@@ -39,7 +39,7 @@ ship_names = {
 ship_representations = {
     "GALLEY": "🍲",
     "NAVIGATION ROOM": "🧭",
-    "CAPTIAN CABIN": "🛏️",
+    "CAPTAIN CABIN": "🛏️",
     "MAIN DECK": "⚓",
     "CARGO HOLD": "📦"
 }
