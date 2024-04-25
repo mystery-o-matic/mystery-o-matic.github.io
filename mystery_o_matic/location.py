@@ -3,7 +3,7 @@ from random import shuffle, choice
 from networkx import gnr_graph, relabel_nodes, Graph
 from networkx.drawing.nx_agraph import to_agraph
 
-locations = ["egypt", "castle", "train", "ship"]
+locations = ["egypt", "castle", "train", "ship", "space station"]
 
 mansion_names = {
     "KITCHEN": "kitchen",
@@ -120,6 +120,24 @@ train_activities = {
     "LOUNGE": ["glanced out my window and saw someone reading in the lounge carriage"],
 }
 
+space_station_names = {
+    "COMMAND": "command module",
+    "LAB": "lab module",
+    "AIRLOCK": "airlock module",
+    "SLEEPING": "sleeping module",
+    "GARDEN": "garden module"
+}
+
+space_station_representations = {
+    "COMMAND": "🕹",
+    "LAB": "🔬",
+    "AIRLOCK": "🔒",
+    "SLEEPING": "🛌",
+    "GARDEN": "🥔"
+}
+
+space_station_activities = {}
+
 def get_location_data(selected_location):
     if selected_location is None:
         location_name = choice(locations)
@@ -137,6 +155,8 @@ def get_location_data(selected_location):
         location_data = (" are transported back in time to a <b>castle in the Middle Ages</b>!", medieval_castle_names, medieval_castle_representations, medieval_castle_activities)
     elif (location_name == "train"):
         location_data = (" are transported back in time into <b>the famous Orient Express</b> during its last voyage!", train_names, train_representations, train_activities)
+    elif (location_name == "space station"):
+        location_data = (" are transported into the future to <b>a high-tech space station</b> orbiting an unknown planet!", space_station_names, space_station_representations, space_station_activities)
     else:
         assert False, "Unknown location name: " + location_name
 

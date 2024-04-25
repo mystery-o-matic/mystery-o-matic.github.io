@@ -32,6 +32,14 @@ medieval_castle_weapons = [
     {"rope": "🪢", "chain": "⛓️"}
 ]
 
+space_station_weapons = [
+    {"pistol": "🔫"},
+    {"knife": "🔪", "scissors": "✂️", "axe": "🪓", "screwdriver": "🪛"},
+    {"poison": "⚗️"},
+    {"hammer": "🔨", "wrench": "🔧"},
+    {"rope": "🪢", "chain": "⛓️"}
+]
+
 def get_available_weapons(num_weapons, location_name):
 
     if (location_name == "mansion"):
@@ -44,6 +52,8 @@ def get_available_weapons(num_weapons, location_name):
         weapons_sets = medieval_castle_weapons[:]
     elif (location_name == "train"):
         weapons_sets = all_weapons[:]
+    elif (location_name == "space station"):
+        weapons_sets = space_station_weapons[:]
     else:
         assert False, "Unknown available weapons for" + location_name
 
