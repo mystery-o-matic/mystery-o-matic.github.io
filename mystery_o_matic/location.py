@@ -129,7 +129,7 @@ space_station_names = {
 }
 
 space_station_representations = {
-    "COMMAND": "🕹",
+    "COMMAND": "🕹️",
     "LAB": "🔬",
     "AIRLOCK": "🔒",
     "SLEEPING": "🛌",
