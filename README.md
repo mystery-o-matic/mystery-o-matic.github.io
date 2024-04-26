@@ -43,7 +43,7 @@ The tool will produce a static `index.html` file stored in the `out` directory.
 
 ## Integrations
 
-While the code is open-source, I'm aware of the difficulties of using or integrating other people's code. If you don't know or don't want to run this code directly, but you are still interested in using the output of this tool in your work of fiction (e.g. novel, game, film), please feel free to contact me so I can do that for you. The generated mystery will look like this:
+While the code is open-source, I'm aware of the difficulties of using or integrating other people's code. If you don't know or don't want to run this code directly, but you are still interested in using the output of this tool in your work of fiction (e.g. novel, game, film), please feel free to [contact me](https://forms.gle/dvA4Wr8LiuHFmDZN7) so I can do that for you. The generated mystery will look like this:
 
 ```
 Characters:
