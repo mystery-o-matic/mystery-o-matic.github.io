@@ -18,6 +18,7 @@ canvas {
 	background-color: transparent;
 	color:#000;
 	text-align:right;
+	z-index: 1000;
 }
 
 .floating-button{
