@@ -11,6 +11,7 @@ if (isKindle) {
 	emoji.text_mode = false;
 	document.body.innerHTML = emoji.replace_unified(document.body.innerHTML);
 	document.getElementById("locations-big").src = "images/locations_big.png";
+	document.getElementById("locations-big").style.height = 'auto';
 	document.getElementById("locations-small").src = "images/locations_small.png";
 }
 
