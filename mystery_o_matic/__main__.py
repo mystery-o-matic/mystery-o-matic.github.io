@@ -25,7 +25,7 @@ def read_story(season, date):
         return f.read()
 
 def hash256(data):
-    hash_obj = sha256(data.encode("utf-8"))
+    hash_obj = sha256(str(data).encode("utf-8"))
     return int(hash_obj.hexdigest(), 16)
 
 def main() -> int:
