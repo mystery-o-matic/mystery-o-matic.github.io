@@ -80,7 +80,7 @@ def main() -> int:
         "--max-time-slots",
         type=int,
         action="store",
-        default=8,
+        default=10,
         help="max number of time slots",
     )
 

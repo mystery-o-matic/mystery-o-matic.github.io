@@ -197,6 +197,7 @@ contract StoryModel {
         victimIdentity = Char(victim);
         killerIdentity = Char(killer);
         emit WasMurdered(victim, uint8(currentLocation[Char(killer)]), time);
+        stay();
     }
 
     function mysteryNotSolved() public returns (bool) {

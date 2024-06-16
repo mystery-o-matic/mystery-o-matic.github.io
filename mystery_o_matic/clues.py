@@ -1,5 +1,6 @@
-from random import randint
+from random import randint, choice
 from mystery_o_matic.weapons import get_weapon_type
+from mystery_o_matic.time import parse_time
 
 class Clue:
     """
@@ -68,16 +69,18 @@ class Clue:
             print("Invalid clue!", self.name, self.fields)
             assert False
 
-    def is_incriminating(self, killer, victim):
+    def is_incriminating(self, killer, victim, place, time):
         """
         Check if the clue is incriminating based on the provided killer and victim.
 
         Args:
             killer (str): The name of the killer.
             victim (str): The name of the victim.
+            place (str): The place where the murder happened
+            time (str): The time when the murdered happened
 
         Returns:
-            bool: True if the clue is incriminating, False otherwise.
+            bool: if the clue is incriminating or not
         """
         if (
             self.name == "SawWhenArriving"
@@ -89,7 +92,6 @@ class Clue:
             self.name == "SawWhenLeaving"
             and self.fields[0] == killer
             and self.fields[1] == victim
-            and not self.fields[2]
         ):
             return True
         elif (
@@ -98,7 +100,74 @@ class Clue:
             and self.fields[1] == victim
         ):
             return True
+        elif (self.name == "Stayed"
+            and self.fields[0] == killer
+            and self.fields[1] == place
+            and parse_time(self.fields[2]) <= parse_time(time)
+            and parse_time(self.fields[3]) >= parse_time(time)):
+            return True
         return False
+
+    def manipulate(self, killer, victim, alibi_place):
+        """
+        Manipulate the clue to avoid accusations based on the provided killer and victim.
+        Args:
+            killer (str): The name of the killer.
+            victim (str): The name of the victim.
+            places (list): A list of places in the mystery.
+            alibi_place (str): The place where the killer has an alibi.
+        """
+        #r = randint(0, 9)
+        #if r <= 2: # 30% chance of hiding it
+        #    return None
+
+        if (
+            self.name == "SawWhenArriving"
+            and self.fields[0] == killer
+            and self.fields[1] == victim
+        ):
+            if not self.fields[2]:
+                # If the body was seen, it is too suspicious to change
+                return None
+
+            #r = randint(0, 1)
+            #if r == 0:
+            self.fields[1] = "$NOBODY"
+            #elif r == 1:
+            self.fields[3] = alibi_place
+
+            print("manipulated clue", self)
+            return self
+        elif (
+            self.name == "SawWhenLeaving"
+            and self.fields[0] == killer
+            and self.fields[1] == victim
+        ):
+            if not self.fields[2]:
+                # If the body was seen, it is too suspicious to change
+                return None
+
+            #r = randint(0, 1)
+            #if r == 0:
+            self.fields[1] = "$NOBODY"
+            #elif r == 1:
+            self.fields[3] = alibi_place
+
+            return self
+        elif (
+            self.name == "SawVictimWhenArriving"
+            and self.fields[0] == killer
+            and self.fields[1] == victim
+        ):
+            self.name = "SawVictimWhenLeaving"
+            self.fields[3] = alibi_place
+            return self
+        elif self.name == "Stayed":
+            self.fields[1] = alibi_place
+            return self
+        else:
+            print("Invalid clue!", self.name, self.fields)
+            assert False
 
     def print_SawVictimWhenArriving_clue(self):
         """
@@ -126,10 +195,11 @@ class Clue:
         )
 
     def print_SawWhenLeaving_clue(self):
+        fields = list(self.fields)
         r = randint(0, 2)
         str = '{} said "'
 
-        if self.fields[1] == "$NOBODY":
+        if fields[1] == "$NOBODY":
             r = 0
 
         if r == 0:
@@ -141,23 +211,22 @@ class Clue:
         else:
             assert False
 
-        if not self.fields[2]:
+        if not fields[2]:
             str += "the body of "
 
-        if self.foggy and self.fields[2]:
-            if self.fields[1] != "$NOBODY":
-                self.fields[1] = "somebody"
+        if self.foggy and fields[2]:
+            if fields[1] != "$NOBODY":
+                fields[1] = "somebody"
 
         str += '{} when I was leaving the {} at {}"'
-        return str.format(
-            self.fields[0], self.fields[1], self.fields[3], self.fields[4]
-        )
+        return str.format(fields[0], fields[1], fields[3], fields[4])
 
     def print_SawWhenArriving_clue(self):
+        fields = list(self.fields)
         r = randint(0, 2)
         str = '{} said "'
 
-        if self.fields[1] == "$NOBODY":
+        if fields[1] == "$NOBODY":
             r = 0
 
         if r == 0:
@@ -169,17 +238,15 @@ class Clue:
         else:
             assert False
 
-        if not self.fields[2]:
+        if not fields[2]:
             str += "the body of "
 
-        if self.foggy and self.fields[2]:
-            if self.fields[1] != "$NOBODY":
-                self.fields[1] = "somebody"
+        if self.foggy and fields[2]:
+            if fields[1] != "$NOBODY":
+                fields[1] = "somebody"
 
         str += '{} when I arrived to the {} at {}"'
-        return str.format(
-            self.fields[0], self.fields[1], self.fields[3], self.fields[4]
-        )
+        return str.format(fields[0], fields[1], fields[3], fields[4])
 
     def print_NotSawWhenArrivingLeaving_clue(self):
         r = randint(0, 2)

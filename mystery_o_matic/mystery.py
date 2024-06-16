@@ -1,40 +1,10 @@
-from datetime import timedelta
 from random import shuffle, randint, choice
 from hashlib import sha256
 
 from mystery_o_matic.clues import Clue
 from mystery_o_matic.solidity import get_tx, get_event
 from mystery_o_matic.text import get_char_name
-
-
-def parse_time(t):
-    """
-    Converts a time string in the format "hh:mm" to seconds.
-
-    Parameters:
-    t (str): The time string to be parsed.
-
-    Returns:
-    int: The time in seconds.
-    """
-    h, m = map(int, t.split(":"))
-    return h * 3600 + m * 60
-
-
-def print_time(t):
-    """
-    Converts a given time in seconds to a formatted string representation.
-
-    Args:
-        t (int): The time in seconds.
-
-    Returns:
-        str: The formatted time string in the format "hours:minutes".
-    """
-    clock = timedelta(seconds=t)
-    h, m, s = str(clock).split(":")
-    return h + ":" + m
-
+from mystery_o_matic.time import parse_time, print_time
 
 def get_intervals_length_from_events(source, contract_name, events):
     """
@@ -65,6 +35,8 @@ class Mystery:
     weapon_locations = {}
     killer = None
     victim = None
+    murder_place = None
+    alibi_place = None
     initial_clues = []
     additional_clues = []
     initial_time = "9:00"
@@ -203,11 +175,21 @@ class Mystery:
 
         self.initial_clues = clues
 
+        # The killer selects a place for their alibi
+        self.murder_place = self.final_locations[self.victim]
+        places = list(self.weapon_locations.keys())
+        newPlace = choice(places)
+        while newPlace == self.murder_place:
+            newPlace = choice(places)
+        self.alibi_place = "$"+newPlace
+
         # Filter additional clues
         clues = []
         for clue in self.additional_clues:
-            if clue.is_incriminating(self.killer, self.victim):
-                continue
+            if clue.is_incriminating(self.killer, self.victim, self.murder_place, self.murder_time):
+                clue = clue.manipulate(self.killer, self.victim, self.alibi_place)
+                if clue is not None:
+                    clues.append(clue)
             else:
                 clues.append(clue)
 
