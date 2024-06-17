@@ -103,6 +103,11 @@ def produce_html_output(
     for i, clue in enumerate(mystery.additional_clues):
         additional_clues.append(create_template(str(clue)).substitute(names_html))
 
+    additional_clues_with_lies = []
+
+    for i, clue in enumerate(mystery.additional_clues_with_lies):
+        additional_clues_with_lies.append(create_template(str(clue)).substitute(names_html))
+
     correct_answer = mystery.get_answer_hash()
 
     args = {}
@@ -123,6 +128,7 @@ def produce_html_output(
     json["weaponIcons"] = weapons
     json["timeOffset"] = 9 * 3600
     json["additionalClues"] = additional_clues
+    json["additionalCluesWithLies"] = additional_clues_with_lies
     json["correctAnswer"] = correct_answer
 
     html_source = html_template.substitute(args)

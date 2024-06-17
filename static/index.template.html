@@ -418,8 +418,16 @@
 						<div style="width: 99%" id="clues">
 							<div class="card" style="height: auto;">
 								<div class="card-body text-center">
-									<div class="row align-items-center">
-										<div class="col-9">
+
+									<div id="selection-clues-box" class="align-items-center" style="display:block">
+										<p>Choose whether the killer is allowed to lie (harder) or not allowed to lie (easier).</p>
+										<button id="without-lies-button" type="button" class="btn btn-outline-secondary"
+											onclick="selectClues(false)">No lies 🕊️</button>
+										<button id="with-lies-button" type="button" class="btn btn-outline-secondary"
+											onclick="selectClues(true)">Lie to me 👹</button>
+									</div>
+									<div id="clues-box" class="row align-items-center" style="display:none">
+										<div class="col-9" display="none">
 											<h6 id="clue-title" class="card-title">Clue</h6>
 											<p id="clue-text" class="card-text" onClick="toggleClueStrikeout(this)">CLUE</p>
 										</div>
@@ -434,7 +442,7 @@
 						</div>
 					</div>
 					<p></p>
-					<div class="row align-items-center justify-content-start text-center">
+					<div id="clues-buttons" class="row align-items-center justify-content-start text-center" style="display:none">
 						<div class="col">
 							<button id="previous-clue-button" type="button" class="btn btn-outline-secondary"
 								onclick="revealAnotherClue(-1)">Previous clue</button>

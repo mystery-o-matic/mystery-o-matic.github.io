@@ -39,6 +39,7 @@ class Mystery:
     alibi_place = None
     initial_clues = []
     additional_clues = []
+    additional_clues_with_lies = []
     initial_time = "9:00"
     murder_time = ""
     interval_size = 15 * 60  # 15 minutes
@@ -184,20 +185,24 @@ class Mystery:
         self.alibi_place = "$"+newPlace
 
         # Filter additional clues
-        clues = []
+        clues_with_lies = []
+        clues_without_lies = []
         for clue in self.additional_clues:
             if clue.is_incriminating(self.killer, self.victim, self.murder_place, self.murder_time):
                 clue = clue.manipulate(self.killer, self.victim, self.alibi_place)
                 if clue is not None:
-                    clues.append(clue)
+                    clues_with_lies.append(clue)
             else:
-                clues.append(clue)
+                clues_without_lies.append(clue)
+                clues_with_lies.append(clue)
 
-        self.additional_clues = clues
+        self.additional_clues = clues_without_lies
+        self.additional_clues_with_lies = clues_with_lies
         for weapon in self.weapon_locations.values():
             if weapon != self.weapon_used:
                 clue = Clue("WeaponNotUsed", [weapon])
                 self.additional_clues.append(clue)
+                self.additional_clues_with_lies.append(clue)
 
         # The player needs more hints to fully determinate when the murdered took place
         assert self.murder_time != '', "Time of murder is missing"
@@ -236,6 +241,7 @@ class Mystery:
             )
 
         shuffle(self.additional_clues)
+        shuffle(self.additional_clues_with_lies)
 
         first_clue_index = randint(0, len(self.additional_clues) // 2)
         self.additional_clues.insert(first_clue_index, first_clue)
@@ -243,6 +249,13 @@ class Mystery:
             len(self.additional_clues) // 2, len(self.additional_clues)
         )
         self.additional_clues.insert(second_clue_index, second_clue)
+
+        first_clue_index = randint(0, len(self.additional_clues_with_lies) // 2)
+        self.additional_clues_with_lies.insert(first_clue_index, first_clue)
+        second_clue_index = randint(
+            len(self.additional_clues_with_lies) // 2, len(self.additional_clues_with_lies)
+        )
+        self.additional_clues_with_lies.insert(second_clue_index, second_clue)
 
     def get_intervals(self):
         """

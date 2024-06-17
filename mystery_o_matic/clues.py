@@ -136,7 +136,6 @@ class Clue:
             #elif r == 1:
             self.fields[3] = alibi_place
 
-            print("manipulated clue", self)
             return self
         elif (
             self.name == "SawWhenLeaving"

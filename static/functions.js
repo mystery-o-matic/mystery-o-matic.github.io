@@ -23,9 +23,26 @@ function showPage(page) {
 document.getElementById("span-today").innerHTML = getCurrentDate();
 var tries = 0;
 var maxClue = 1;
-var crossClue = new Array(data.additionalClues.length).fill(false);
+var clues = [];
+var crossClue = [];
 var currentClue = 0;
-revealAnotherClue(0);
+
+function selectClues(withLies) {
+	var element;
+
+	element = document.getElementById("selection-clues-box");
+	element.style.display = "none";
+
+	element = document.getElementById("clues-box");
+	element.style.removeProperty("display");
+
+	element = document.getElementById("clues-buttons");
+	element.style.removeProperty("display");
+
+	clues = withLies ? data.additionalCluesWithLies : data.additionalClues;
+	new Array(clues.length).fill(false);
+	revealAnotherClue(0);
+}
 
 function autosaveLocalNotebook() {
 	var editorKey = 'story-notebook';
@@ -63,13 +80,13 @@ function revealAnotherClue(offset) {
 	if (currentClue == 0 && offset < 0)
 		return;
 
-	if (currentClue == data.additionalClues.length - 1 && offset > 0)
+	if (currentClue == clues.length - 1 && offset > 0)
 		return;
 
 	currentClue = currentClue + offset;
 	maxClue = Math.max(maxClue, currentClue);
 	element = document.getElementById("clue-text");
-	element.innerHTML = data.additionalClues[currentClue];
+	element.innerHTML = clues[currentClue];
 	changeClueStrikeout(crossClue[currentClue], element);
 
 	var currentTheme = document.querySelector("html").getAttribute("data-bs-theme");
@@ -85,7 +102,7 @@ function revealAnotherClue(offset) {
 	element.innerHTML = "Clue #" + (currentClue + 1).toString();
 
 	document.getElementById("previous-clue-button").disabled = (currentClue == 0);
-	document.getElementById("next-clue-button").disabled = (currentClue == data.additionalClues.length - 1);
+	document.getElementById("next-clue-button").disabled = (currentClue == clues.length - 1);
 }
 
 function toggleClueStrikeout(element) {
@@ -105,7 +122,7 @@ function changeClueStrikeout(strike, element) {
 }
 
 function computeRank() {
-	let numberClues = data.additionalClues.length;
+	let numberClues = clues.length;
 	viewedPercentage = 100 * maxClue / numberClues;
 	rank = ""
 	if (viewedPercentage ==  0 && tries == 0) {
