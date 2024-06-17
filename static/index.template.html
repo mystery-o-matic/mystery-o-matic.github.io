@@ -410,17 +410,17 @@
 			<p>Are you up for the challenge? Let's start investigating!</p>
 		</div>
 
-		<div id="game" class="container mt-5">
+		<div class="container mt-5">
 				<h4>📔 Detective’s Journal & Clues</h4>
 				<p>Use this table to keep track of your facts, clues and deductions. You can check the <a href="#" onClick="showPage('how-to-play')" class="link-dark">how to
 					play section</a> if you need it.</p>
 					<div class="d-flex justify-content-center align-items-center">
 						<div style="width: 99%" id="clues">
 							<div class="card" style="height: auto;">
-								<div class="card-body text-center">
+								<div id="game" class="card-body text-center">
 
 									<div id="selection-clues-box" class="align-items-center" style="display:block">
-										<p>Choose whether the killer never lies (easier) or is allowed to lie (harder).</p>
+										<p>Start choosing whether the killer never lies (easier) or is allowed to lie (harder).</p>
 										<button id="without-lies-button" type="button" class="btn btn-outline-secondary"
 											onclick="selectClues(false)">No lies 🕊️</button>
 										<button id="with-lies-button" type="button" class="btn btn-outline-secondary"
