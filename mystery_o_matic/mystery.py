@@ -1,7 +1,7 @@
 from random import shuffle, randint, choice
 from hashlib import sha256
 
-from mystery_o_matic.clues import Clue
+from mystery_o_matic.clues import *
 from mystery_o_matic.solidity import get_tx, get_event
 from mystery_o_matic.text import get_char_name
 from mystery_o_matic.time import parse_time, print_time
@@ -131,46 +131,44 @@ class Mystery:
 
             # The "WasMurdered" and "PoliceArrived" clues are considered initial clues
             if call[0] == "WasMurdered":
-                self.initial_clues.append(Clue(call[0], [call[1], call[2]]))
+                self.initial_clues.append(create_clue(call))
                 self.murder_time = call[3]
             elif call[0] == "PoliceArrived":
-                self.initial_clues.append(Clue(call[0], call[1:]))
+                self.initial_clues.append(create_clue(call))
             elif call[0] == "Heard":
                 # Add the Heard clue as expected, except when the victim is the subject
                 if call[1] == self.victim:
                     continue
 
                 # Create the clue but with some changes
-                clue = Clue(call[0], call[1:])
-                place = clue.fields[1].replace("$", "")
+                #clue = create_clue(call)
+                place = call[2].replace("$", "")
 
                 if place in self.activities:
-                    clue.fields[1] = choice(self.activities[place])
+                    activity = choice(self.activities[place])
                     #print(clue)
-                    self.additional_clues.append(clue)
+                    self.additional_clues.append(HeardClue(call[1], activity, call[3]))
 
             elif call[0] == "Stayed":
                 # Add the Stayed clue as expected, except when the victim is the subject
                 if call[1] != self.victim:
-                    self.additional_clues.append(Clue(call[0], call[1:]))
+                    self.additional_clues.append(create_clue(call))
             else:
-                self.additional_clues.append(Clue(call[0], call[1:]))
+                self.additional_clues.append(create_clue(call))
 
     def process_clues(self):
         # Process initial clues
         for clue in self.initial_clues:
-            if clue.name == "PoliceArrived":
-                self.final_time = clue.fields[0]
+            if isinstance(clue, PoliceArrivedClue):
+                self.final_time = clue.time
 
         # Filter initial clues
         clues = []
         for clue in self.initial_clues:
-            if clue.name == "PoliceArrived":
-                continue
-            elif clue.name == "WasMurdered":
-                clue.name = "WasMurderedInitial"
-                clue.fields += [self.initial_time, self.final_time]
-                clues.append(clue)
+            if isinstance(clue, PoliceArrivedClue):
+                continue # Discard
+            elif isinstance(clue, WasMurderedClue):
+                clues.append(WasMurderedInitialClue(clue.object, clue.place, self.initial_time, self.final_time))
             else:
                 clues.append(clue)
 
@@ -200,7 +198,7 @@ class Mystery:
         self.additional_clues_with_lies = clues_with_lies
         for weapon in self.weapon_locations.values():
             if weapon != self.weapon_used:
-                clue = Clue("WeaponNotUsed", [weapon])
+                clue = WeaponNotUsedClue(weapon)
                 self.additional_clues.append(clue)
                 self.additional_clues_with_lies.append(clue)
 
@@ -210,34 +208,34 @@ class Mystery:
         murder_time_seconds = parse_time(self.murder_time)
         rand_bool = randint(0, 1)
         if rand_bool:
-            first_clue = Clue(
-                "WasMurderedInspection",
+            first_clue = create_clue(
                 [
+                    "WasMurderedInspection",
                     self.murder_time,
                     print_time(murder_time_seconds + self.interval_size),
-                ],
+                ]
             )
-            second_clue = Clue(
-                "WasMurderedAutopsy",
+            second_clue = create_clue(
                 [
+                    "WasMurderedAutopsy",
                     print_time(murder_time_seconds - self.interval_size),
                     self.murder_time,
-                ],
+                ]
             )
         else:
-            first_clue = Clue(
-                "WasMurderedInspection",
+            first_clue = create_clue(
                 [
+                    "WasMurderedInspection",
                     print_time(murder_time_seconds - self.interval_size),
                     self.murder_time,
-                ],
+                ]
             )
-            second_clue = Clue(
-                "WasMurderedAutopsy",
+            second_clue = create_clue(
                 [
+                    "WasMurderedAutopsy",
                     self.murder_time,
                     print_time(murder_time_seconds + self.interval_size),
-                ],
+                ]
             )
 
         shuffle(self.additional_clues)
