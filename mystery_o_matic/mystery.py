@@ -3,7 +3,6 @@ from hashlib import sha256
 
 from mystery_o_matic.clues import *
 from mystery_o_matic.solidity import get_tx, get_event
-from mystery_o_matic.text import get_char_name
 from mystery_o_matic.time import parse_time, print_time
 
 def get_intervals_length_from_events(source, contract_name, events):
