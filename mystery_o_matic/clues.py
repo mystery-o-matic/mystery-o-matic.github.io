@@ -444,7 +444,6 @@ class WeaponNotUsedClue(AbstractClue):
             assert False, "Unknown type of weapon: "+ weapon
 
 def create_clue(call):
-    print(call)
     if call[0] == "SawWhenArriving":
         assert len(call) == 6
         return SawWhenArrivingClue(call[1], call[2], call[3], call[4], call[5])
