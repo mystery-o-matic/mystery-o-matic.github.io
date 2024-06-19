@@ -35,7 +35,7 @@ def produce_html_output(
     names_html["SUS1"] = suspects[1].capitalize()
 
     for room, name in locations.names.items():
-        names_html[room] = name
+        names_html[room] = name + " (" + locations.representations[room] + ")"
 
     names_txt = {}
     for i, char in enumerate(mystery.get_characters()):
