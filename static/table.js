@@ -356,7 +356,7 @@ function restoreCell(table, position, value) {
 	fillClueTable(value, table.columnSize / 3, '#000000', position[0], position[1], table);
 }
 
-function checkCellClicked(c, x, y) {
+async function checkCellClicked(c, x, y) {
 	var name = c.id.replace("clues-table-", "");
 	var table = tables.get(name);
 	var position = findPositionTable(table, x, y);
@@ -368,7 +368,7 @@ function checkCellClicked(c, x, y) {
 
 	//console.log(table.data);
 	var value = table.data[position[0]][position[1]];
-    if (value == "")
+	if (value == "")
 		value = "✓";
 	else if (value == "✓")
 		value = "✗";
@@ -387,16 +387,15 @@ function checkCellClicked(c, x, y) {
 	name = table.data[1][position[1]]
 	clearClueTable(1, position[1], table);
 	fillClueTable(name, table.columnSize / 2.6, highligthColor, 1, position[1], table);
-	sleep(400).then(() => {
-		restoreCell(table, [1, position[1]], name);
-	});
 
 	var ftable = tables.get("room0");
-	time = ftable.data[position[0]][0]
+	var time = ftable.data[position[0]][0]
 	clearClueTable(position[0], 0, ftable);
 	fillClueTable(time, ftable.columnSize / 2.6, highligthColor, position[0], 0, ftable);
 
-	sleep(400).then(() => {
-		restoreCell(ftable, [position[0], 0], time);
-	});
+	await sleep(300);
+
+	// Restore cells in both tables
+	restoreCell(table, [1, position[1]], name);
+	restoreCell(ftable, [position[0], 0], time);
 }
