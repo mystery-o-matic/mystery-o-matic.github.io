@@ -347,6 +347,14 @@ function checkWeaponClicked(c, x, y) {
 	}
 }
 
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function restoreCell(table, position, value) {
+	clearClueTable(position[0], position[1], table);
+	fillClueTable(value, table.columnSize / 3, '#000000', position[0], position[1], table);
+}
 
 function checkCellClicked(c, x, y) {
 	var name = c.id.replace("clues-table-", "");
@@ -374,4 +382,21 @@ function checkCellClicked(c, x, y) {
 	table.data[position[0]][position[1]] = value;
 	clearClueTable(position[0], position[1], table);
 	fillClueTable(value, table.columnSize / 3, '#000000', position[0], position[1], table);
+
+	var highligthColor = '#2222FF'
+	name = table.data[1][position[1]]
+	clearClueTable(1, position[1], table);
+	fillClueTable(name, table.columnSize / 2.6, highligthColor, 1, position[1], table);
+	sleep(400).then(() => {
+		restoreCell(table, [1, position[1]], name);
+	});
+
+	var ftable = tables.get("room0");
+	time = ftable.data[position[0]][0]
+	clearClueTable(position[0], 0, ftable);
+	fillClueTable(time, ftable.columnSize / 2.6, highligthColor, position[0], 0, ftable);
+
+	sleep(400).then(() => {
+		restoreCell(ftable, [position[0], 0], time);
+	});
 }
