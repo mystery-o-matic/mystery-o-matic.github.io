@@ -182,6 +182,16 @@ class Mystery:
             self.alibi_place = "$"+choice(places)
 
         # Filter additional clues
+        additional_clues = []
+        print(self.final_locations)
+        for clue in self.additional_clues:
+            if isinstance(clue, EvidenceClue):
+                if self.final_locations[clue.subject] == clue.place:
+                    continue
+
+            additional_clues.append(clue)
+
+        self.additional_clues = additional_clues
         clues_with_lies = []
         clues_without_lies = []
         for clue in self.additional_clues:

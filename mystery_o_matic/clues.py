@@ -344,6 +344,30 @@ class PoliceArrivedClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+class EvidenceClue(AbstractClue):
+    def __init__(self, subject, place):
+        self.subject = subject
+        self.place = place
+        super().__init__()
+
+    def __str__(self):
+        r = randint(0, 2)
+
+        if r == 0:
+            return "A recent footstep matching {} shoes was found in the {}!".format(self.subject, self.place)
+        elif r == 1:
+            return "A fingerprint of {} was found in the {}. It looks very fresh".format(self.subject, self.place)
+        elif r == 2:
+            return "A strand of hair matching {} was found in the {}".format(self.subject, self.place)
+        else:
+            assert False
+
+    def is_incriminating(self, killer, victim, place, time):
+        return False
+
+    def manipulate(self, killer, victim, alibi_place):
+        assert False, "Not implemented"
+
 class StayedClue(AbstractClue):
     def __init__(self, subject, place, time_start, time_end):
         self.subject = subject
@@ -480,6 +504,10 @@ def create_clue(call):
     elif call[0] == "Stayed":
         assert len(call) == 5
         return StayedClue(call[1], call[2], call[3], call[4])
+    elif call[0] == "Evidence":
+        assert len(call) == 3
+        return EvidenceClue(call[1], call[2])
+
     # Heard is missing
     else:
         assert False, "Invalid clue!: " + str(call)

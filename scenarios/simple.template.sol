@@ -21,6 +21,7 @@ contract StoryModel {
     event WasMurdered(uint8 char0, uint8 place, uint256 time);
     event FinalLocation(uint8 char0, uint8 place);
     event PoliceArrived(uint256 time);
+    event Evidence(uint8 char0, uint8 place);
 
     mapping(Char => Place) private currentLocation;
     mapping(Char => uint256) private lastMovement;
@@ -155,6 +156,7 @@ contract StoryModel {
             stay();
 
         emit Stayed(char, uint8(currentLocation[Char(char)]), lastMovement[Char(char)], time);
+        emit Evidence(char, place); // Some evidence was left
         someoneHeards(char, uint8(currentLocation[Char(char)]));
         sawEvents(char, place);
         currentLocation[Char(char)] = Place(place);
