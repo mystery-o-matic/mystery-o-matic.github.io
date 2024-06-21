@@ -3,7 +3,7 @@ from hashlib import sha256
 
 from mystery_o_matic.clues import *
 from mystery_o_matic.solidity import get_tx, get_event
-from mystery_o_matic.time import parse_time, print_time
+from mystery_o_matic.time import Time #parse_time, print_time
 
 def get_intervals_length_from_events(source, contract_name, events):
     """
@@ -18,12 +18,11 @@ def get_intervals_length_from_events(source, contract_name, events):
         float: The length of intervals between events in minutes.
     """
     interval_size = 15 * 60  # 15 minutes
-    initial_time = parse_time("9:00")
     for event in events:
-        event = get_event(source, contract_name, event)
+        event = get_event(source, contract_name, event, Time(0))
         if event[0] == "PoliceArrived":
-            final_time = parse_time(event[1])
-            return (final_time - initial_time) / interval_size
+            final_time = event[1]
+            return final_time.seconds / interval_size
 
     assert False, "No police arrived event found"
 
@@ -39,7 +38,7 @@ class Mystery:
     initial_clues = []
     additional_clues = []
     additional_clues_with_lies = []
-    initial_time = "9:00"
+    initial_time = ""
     murder_time = ""
     interval_size = 15 * 60  # 15 minutes
     final_time = ""
@@ -65,6 +64,8 @@ class Mystery:
         self.weapon_used = weapon_used
         self.weapon_locations = weapon_locations
         self.number_characters = len(initial_locations)
+
+        self.initial_time = Time(str(choice(range(1, 9))) + ":00")
 
         for tx in txs:
             self.solution.append(get_tx(self.source, "StoryModel", tx))
@@ -101,7 +102,7 @@ class Mystery:
         event_calls = []
         # Load all the events from the model
         for event in events:
-            event_calls.append(get_event(self.source, "StoryModel", event))
+            event_calls.append(get_event(self.source, "StoryModel", event, self.initial_time))
 
         for call in event_calls:
             # Skip the clues that are produced by the victim
@@ -203,20 +204,19 @@ class Mystery:
         # The player needs more hints to fully determinate when the murdered took place
         assert self.murder_time != '', "Time of murder is missing"
 
-        murder_time_seconds = parse_time(self.murder_time)
         rand_bool = randint(0, 1)
         if rand_bool:
             first_clue = create_clue(
                 [
                     "WasMurderedInspection",
                     self.murder_time,
-                    print_time(murder_time_seconds + self.interval_size),
+                    Time(self.murder_time.seconds + self.interval_size),
                 ]
             )
             second_clue = create_clue(
                 [
                     "WasMurderedAutopsy",
-                    print_time(murder_time_seconds - self.interval_size),
+                    Time(self.murder_time.seconds - self.interval_size),
                     self.murder_time,
                 ]
             )
@@ -224,7 +224,7 @@ class Mystery:
             first_clue = create_clue(
                 [
                     "WasMurderedInspection",
-                    print_time(murder_time_seconds - self.interval_size),
+                    Time(self.murder_time.seconds - self.interval_size),
                     self.murder_time,
                 ]
             )
@@ -232,7 +232,7 @@ class Mystery:
                 [
                     "WasMurderedAutopsy",
                     self.murder_time,
-                    print_time(murder_time_seconds + self.interval_size),
+                    Time(self.murder_time.seconds + self.interval_size),
                 ]
             )
 
@@ -262,17 +262,13 @@ class Mystery:
             intervals (list): A list of time intervals.
         """
         intervals = []
-        initial_seconds = self._time_to_seconds(self.initial_time)
-        final_seconds = self._time_to_seconds(self.final_time)
+        initial_seconds = self.initial_time.seconds
+        final_seconds = self.final_time.seconds
 
         for t in range(initial_seconds, final_seconds + 1, self.interval_size):
-            intervals.append(print_time(t))
+            intervals.append(str(Time(t)))
 
         return intervals
-
-    def _time_to_seconds(self, t):
-        h, m = map(int, t.split(":"))
-        return h * 3600 + m * 60
 
     def get_answer(self):
         """
@@ -286,7 +282,7 @@ class Mystery:
         """
         assert isinstance(self.killer, str), "Failed to determine the killer"
         index = int("".join(filter(str.isdigit, self.killer))) - 1
-        return self.characters[index] + "-" + self.weapon_used + "-" + self.murder_time
+        return self.characters[index] + "-" + self.weapon_used + "-" + str(self.murder_time)
 
     def get_answer_hash(self):
         """

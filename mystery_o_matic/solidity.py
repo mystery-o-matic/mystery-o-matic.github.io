@@ -2,6 +2,7 @@ from string import Template
 from datetime import timedelta
 from solidity_parser import parser
 
+from mystery_o_matic.time import Time
 
 class SolidityTemplate(Template):
     delimiter = "//$"
@@ -41,7 +42,7 @@ def decode_enum(enums_map, typ, index):
     return "$" + enum_map[index]["name"]
 
 
-def get_event(source, contract_name, event):
+def get_event(source, contract_name, event, initial_time_offset):
     abi = source.contracts[contract_name].events
     enums_map = source.contracts[contract_name].enums
     event = event.split(" from:")[0]
@@ -58,9 +59,7 @@ def get_event(source, contract_name, event):
 
         index = int(argument)
         if typ == "time":
-            clock = timedelta(seconds=9 * 3600 + index)
-            h, m, s = str(clock).split(":")
-            event_call.append(h + ":" + m)
+            event_call.append(Time(index + initial_time_offset.seconds))
         else:
             index = index % len(get_enum(source, contract_name, typ))
             event_call.append(decode_enum(enums_map, typ, index))

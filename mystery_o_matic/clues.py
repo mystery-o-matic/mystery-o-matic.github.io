@@ -1,6 +1,6 @@
 from random import randint, choice
 from mystery_o_matic.weapons import get_weapon_type
-from mystery_o_matic.time import parse_time
+from mystery_o_matic.time import Time #parse_time
 
 class AbstractClue:
     subject = None
@@ -378,8 +378,8 @@ class StayedClue(AbstractClue):
         if (
             self.subject == killer
             and self.place == place
-            and parse_time(self.time_start) <= parse_time(time)
-            and parse_time(self.time_end) >= parse_time(time)
+            and self.time_start.seconds <= time.seconds
+            and self.time_end.seconds >= time.seconds
         ):
             return True
         return False

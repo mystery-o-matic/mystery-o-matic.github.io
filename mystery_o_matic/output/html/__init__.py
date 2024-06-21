@@ -126,7 +126,7 @@ def produce_html_output(
     json["locationIcons"] = representations_map
     json["weaponMap"] = weapons_map
     json["weaponIcons"] = weapons
-    json["timeOffset"] = 9 * 3600
+    json["timeOffset"] = mystery.initial_time.seconds
     json["additionalClues"] = additional_clues
     json["additionalCluesWithLies"] = additional_clues_with_lies
     json["correctAnswer"] = correct_answer
