@@ -4,6 +4,7 @@ from solidity_parser import parser
 
 from mystery_o_matic.time import Time
 
+
 class SolidityTemplate(Template):
     delimiter = "//$"
 

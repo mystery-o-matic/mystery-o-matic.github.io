@@ -23,8 +23,14 @@ mansion_representations = {
 
 mansion_activities = {
     "KITCHEN": ["noticed someone cooking", "heard someone washing the dishes"],
-    "BATHROOM": ["heard someone brushing their teeth", "heard someone flushing the toilet"],
-    "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
+    "BATHROOM": [
+        "heard someone brushing their teeth",
+        "heard someone flushing the toilet",
+    ],
+    "GARDEN": [
+        "heard someone whistling in the garden",
+        "looked outside and saw someone pruning the bushes",
+    ],
     "DINING": ["heard someone playing the piano in the dining room"],
 }
 
@@ -33,7 +39,7 @@ ship_names = {
     "NAVIGATION ROOM": "navigation room",
     "CAPTAIN CABIN": "captain cabin",
     "MAIN DECK": "main deck",
-    "CARGO HOLD": "cargo hold"
+    "CARGO HOLD": "cargo hold",
 }
 
 ship_representations = {
@@ -41,13 +47,16 @@ ship_representations = {
     "NAVIGATION ROOM": "🧭",
     "CAPTAIN CABIN": "🛏️",
     "MAIN DECK": "⚓",
-    "CARGO HOLD": "📦"
+    "CARGO HOLD": "📦",
 }
 
 ship_activities = {
     "GALLEY": ["noticed someone cooking", "heard someone washing the dishes"],
     "NAVIGATION ROOM": ["saw someone looking at a map"],
-    "MAIN DECK": ["heard someone loading a cannon", "heard someone adjusting the sails"],
+    "MAIN DECK": [
+        "heard someone loading a cannon",
+        "heard someone adjusting the sails",
+    ],
     "CARGO HOLD": ["heard someone rummaging in the cargo hold"],
 }
 
@@ -68,11 +77,20 @@ egypt_representations = {
 }
 
 egypt_activities = {
-    "THRONE ROOM": ["saw someone from a distance sitting on the throne", "saw someone from afar polishing the throne"],
+    "THRONE ROOM": [
+        "saw someone from a distance sitting on the throne",
+        "saw someone from afar polishing the throne",
+    ],
     "BURIAL PLACE": ["saw someone at a distane praying in the burial chamber"],
-    "TEMPLE": ["saw someone at a distance praying in the temple", "saw someone from afar lighting candles in the temple"],
+    "TEMPLE": [
+        "saw someone at a distance praying in the temple",
+        "saw someone from afar lighting candles in the temple",
+    ],
     "DESERT": ["looked outside and saw someone riding a camel in the desert"],
-    "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
+    "GARDEN": [
+        "heard someone whistling in the garden",
+        "looked outside and saw someone pruning the bushes",
+    ],
 }
 
 medieval_castle_names = {
@@ -80,7 +98,7 @@ medieval_castle_names = {
     "BED CHAMBER": "bed chamber",
     "DUNGEON": "dungeon",
     "ARMORY": "armory",
-    "GARDEN": "garden"
+    "GARDEN": "garden",
 }
 
 medieval_castle_representations = {
@@ -88,13 +106,22 @@ medieval_castle_representations = {
     "BED CHAMBER": "🛏️",
     "DUNGEON": "🔒",
     "ARMORY": "🛡️",
-    "GARDEN": "🌳"
+    "GARDEN": "🌳",
 }
 
 medieval_castle_activities = {
-    "GREAT HALL": ["heard someone playing the harp in the great hall", "saw someone from a distance dancing in the great hall"],
-    "ARMORY": ["saw someone from afar sharpening a sword in the armory", "saw someone at a distance polishing a shield in the armory"],
-    "GARDEN": ["heard someone whistling in the garden", "looked outside and saw someone pruning the bushes"],
+    "GREAT HALL": [
+        "heard someone playing the harp in the great hall",
+        "saw someone from a distance dancing in the great hall",
+    ],
+    "ARMORY": [
+        "saw someone from afar sharpening a sword in the armory",
+        "saw someone at a distance polishing a shield in the armory",
+    ],
+    "GARDEN": [
+        "heard someone whistling in the garden",
+        "looked outside and saw someone pruning the bushes",
+    ],
 }
 
 train_names = {
@@ -102,7 +129,7 @@ train_names = {
     "LUGGAGE": "luggage carriage",
     "DINING": "dining carriage",
     "SLEEPING": "sleeping carriage",
-    "LOUNGE": "lounge carriage"
+    "LOUNGE": "lounge carriage",
 }
 
 train_representations = {
@@ -110,13 +137,19 @@ train_representations = {
     "LUGGAGE": "🧳",
     "DINING": "🍽️",
     "SLEEPING": "🛌",
-    "LOUNGE": "🪑"
+    "LOUNGE": "🪑",
 }
 
 train_activities = {
-    "LOCOMOTIVE": ["glanced out my window and saw someone fueling the locomotive", "heard the whistle of the locomotive"],
+    "LOCOMOTIVE": [
+        "glanced out my window and saw someone fueling the locomotive",
+        "heard the whistle of the locomotive",
+    ],
     "LUGGAGE": ["heard someone rummaging in the luggage carriage"],
-    "DINING": ["glanced out my window and saw someone eating in the dining carriage", "heard someone playing the piano in the dining carriage"],
+    "DINING": [
+        "glanced out my window and saw someone eating in the dining carriage",
+        "heard someone playing the piano in the dining carriage",
+    ],
     "LOUNGE": ["glanced out my window and saw someone reading in the lounge carriage"],
 }
 
@@ -125,7 +158,7 @@ space_station_names = {
     "LAB": "lab module",
     "AIRLOCK": "airlock module",
     "SLEEPING": "sleeping module",
-    "GARDEN": "garden module"
+    "GARDEN": "garden module",
 }
 
 space_station_representations = {
@@ -133,10 +166,11 @@ space_station_representations = {
     "LAB": "🔬",
     "AIRLOCK": "🔒",
     "SLEEPING": "🛌",
-    "GARDEN": "🥔"
+    "GARDEN": "🥔",
 }
 
 space_station_activities = {}
+
 
 def get_location_data(selected_location):
     if selected_location is None:
@@ -145,22 +179,53 @@ def get_location_data(selected_location):
         location_name = selected_location
     location_data = None
 
-    if (location_name == "mansion"):
-        location_data = (" are back into <b>the mansion where everything started</b>!", mansion_names, mansion_representations, mansion_activities)
-    elif (location_name == "ship"):
-        location_data = (" are transported back in time to a <b>a pirate ship sailing in the Caribbean</b>!", ship_names, ship_representations, ship_activities)
-    elif (location_name == "egypt"):
-        location_data = (" are transported back in time to a <b>pyramid in the Ancient Egypt</b>!", egypt_names, egypt_representations, egypt_activities)
-    elif (location_name == "castle"):
-        location_data = (" are transported back in time to a <b>castle in the Middle Ages</b>!", medieval_castle_names, medieval_castle_representations, medieval_castle_activities)
-    elif (location_name == "train"):
-        location_data = (" are transported back in time into <b>the famous Orient Express</b> during its last voyage!", train_names, train_representations, train_activities)
-    elif (location_name == "space station"):
-        location_data = (" are transported into the future to <b>a high-tech space station</b> orbiting an unknown planet!", space_station_names, space_station_representations, space_station_activities)
+    if location_name == "mansion":
+        location_data = (
+            " are back into <b>the mansion where everything started</b>!",
+            mansion_names,
+            mansion_representations,
+            mansion_activities,
+        )
+    elif location_name == "ship":
+        location_data = (
+            " are transported back in time to a <b>a pirate ship sailing in the Caribbean</b>!",
+            ship_names,
+            ship_representations,
+            ship_activities,
+        )
+    elif location_name == "egypt":
+        location_data = (
+            " are transported back in time to a <b>pyramid in the Ancient Egypt</b>!",
+            egypt_names,
+            egypt_representations,
+            egypt_activities,
+        )
+    elif location_name == "castle":
+        location_data = (
+            " are transported back in time to a <b>castle in the Middle Ages</b>!",
+            medieval_castle_names,
+            medieval_castle_representations,
+            medieval_castle_activities,
+        )
+    elif location_name == "train":
+        location_data = (
+            " are transported back in time into <b>the famous Orient Express</b> during its last voyage!",
+            train_names,
+            train_representations,
+            train_activities,
+        )
+    elif location_name == "space station":
+        location_data = (
+            " are transported into the future to <b>a high-tech space station</b> orbiting an unknown planet!",
+            space_station_names,
+            space_station_representations,
+            space_station_activities,
+        )
     else:
         assert False, "Unknown location name: " + location_name
 
     return (location_name, location_data)
+
 
 class Locations:
     """
@@ -204,7 +269,6 @@ class Locations:
         nodes_list = list(nodes.values())
         shuffle(nodes_list)
         names_list = list(names.keys())
-
 
         self.indices = {}
         self.names = {}
@@ -293,7 +357,9 @@ class Locations:
 
         relabeled_graph = relabel_nodes(self.graph, labels)
         g = to_agraph(relabeled_graph)
-        g.graph_attr.update(bgcolor="transparent", nodesep="0.1", ranksep="0.1", margin="0")
+        g.graph_attr.update(
+            bgcolor="transparent", nodesep="0.1", ranksep="0.1", margin="0"
+        )
         g.edge_attr.update(color="gray", labeldistance="0.1")
 
         g.node_attr.update(

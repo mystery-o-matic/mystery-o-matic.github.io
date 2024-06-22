@@ -10,9 +10,7 @@ from mystery_o_matic.output.html.utils import (
 )
 
 
-def produce_html_output(
-    static_dir, out_dir, mystery, weapons, locations, story_clue
-):
+def produce_html_output(static_dir, out_dir, mystery, weapons, locations, story_clue):
     html_template = read_html_template(static_dir + "/index.template.html")
     intervals = mystery.get_intervals()
     suspects = mystery.get_suspects()
@@ -54,13 +52,13 @@ def produce_html_output(
         "The murderer was alone with their victim, and the body remained unmoved"
     )
 
-    bullets.append(
-        "The murderer wasn't caught with the body"
-    )
+    bullets.append("The murderer wasn't caught with the body")
 
     sub_bullets = []
     for loc, weapon in locations.weapon_locations.items():
-        sub_bullets.append("The {} from the ${}".format(weapon + " (" + weapons[weapon] + ")", loc))
+        sub_bullets.append(
+            "The {} from the ${}".format(weapon + " (" + weapons[weapon] + ")", loc)
+        )
 
     weapon_locations_bullets = (
         "The killer retrieved the murder weapon from one of these rooms:\n"
@@ -80,18 +78,16 @@ def produce_html_output(
 
     representations_map = {}
     for l, r in locations.representations.items():
-        l = create_template("$"+l).substitute(names_txt)
+        l = create_template("$" + l).substitute(names_txt)
         representations_map[l] = r
 
     # the weapons map will be computed reversing the location_weapons one
     weapons_map = {}
     for l, w in locations.weapon_locations.items():
-        l = create_template("$"+l).substitute(names_txt)
+        l = create_template("$" + l).substitute(names_txt)
         weapons_map[w] = l
 
-    final_locations_bullets = "When you arrived at {}:\n".format(
-        mystery.final_time
-    )
+    final_locations_bullets = "When you arrived at {}:\n".format(mystery.final_time)
     final_locations_bullets += get_bullet_list(sub_bullets)
     bullets.append(final_locations_bullets)
     bullets.append("No one else was present in the location.")
@@ -106,7 +102,9 @@ def produce_html_output(
     additional_clues_with_lies = []
 
     for i, clue in enumerate(mystery.additional_clues_with_lies):
-        additional_clues_with_lies.append(create_template(str(clue)).substitute(names_html))
+        additional_clues_with_lies.append(
+            create_template(str(clue)).substitute(names_html)
+        )
 
     correct_answer = mystery.get_answer_hash()
 

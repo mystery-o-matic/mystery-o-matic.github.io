@@ -1,6 +1,7 @@
 from random import randint, choice
 from mystery_o_matic.weapons import get_weapon_type
-from mystery_o_matic.time import Time #parse_time
+from mystery_o_matic.time import Time  # parse_time
+
 
 class AbstractClue:
     subject = None
@@ -15,6 +16,7 @@ class AbstractClue:
         self.foggy = False
         if r <= 5:
             self.foggy = True
+
 
 class SawWhenArrivingClue(AbstractClue):
     def __init__(self, subject, object, object_is_alive, place, time):
@@ -53,30 +55,25 @@ class SawWhenArrivingClue(AbstractClue):
         return str.format(self.subject, object, self.place, self.time)
 
     def is_incriminating(self, killer, victim, place, time):
-        if (
-            self.subject == killer
-            and self.object == victim
-        ):
+        if self.subject == killer and self.object == victim:
             return True
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        if (
-            self.subject == killer
-            and self.object == victim
-        ):
+        if self.subject == killer and self.object == victim:
             if not self.object_is_alive:
                 # If the body was seen, it is too suspicious to change
                 return None
 
-            #r = randint(0, 1)
-            #if r == 0:
+            # r = randint(0, 1)
+            # if r == 0:
             self.object = "$NOBODY"
-            #elif r == 1:
+            # elif r == 1:
             self.place = alibi_place
 
             return self
         assert False, "Not implemented"
+
 
 class NotSawWhenArrivingLeavingClue(AbstractClue):
     def __init__(self, subject, object, place, time):
@@ -108,6 +105,7 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class SawVictimWhenArrivingClue(AbstractClue):
     def __init__(self, subject, object, object_is_alive, place, time):
         self.subject = subject
@@ -126,20 +124,19 @@ class SawVictimWhenArrivingClue(AbstractClue):
 
         str += '{} arriving to the {} at {}"'
         return str.format(self.subject, self.object, self.place, self.time)
+
     def is_incriminating(self, killer, victim, place, time):
-        if (
-            self.subject == killer
-            and self.object == victim
-        ):
+        if self.subject == killer and self.object == victim:
             return True
         return False
+
     def manipulate(self, killer, victim, alibi_place):
-        if (
-            self.subject == killer
-            and self.object == victim
-        ):
-            return SawVictimWhenLeavingClue(self.subject, self.object, self.object_is_alive, alibi_place, self.time)
+        if self.subject == killer and self.object == victim:
+            return SawVictimWhenLeavingClue(
+                self.subject, self.object, self.object_is_alive, alibi_place, self.time
+            )
         assert False, "Not implemented"
+
 
 class SawVictimWhenLeavingClue(AbstractClue):
     def __init__(self, subject, object, object_is_alive, place, time):
@@ -154,11 +151,13 @@ class SawVictimWhenLeavingClue(AbstractClue):
         str = '{} said: "I saw '
         str += '{} leaving the {} at {}"'
         return str.format(self.subject, self.object, self.place, self.time)
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
+
 
 class SawWhenLeavingClue(AbstractClue):
     def __init__(self, subject, object, object_is_alive, place, time):
@@ -168,6 +167,7 @@ class SawWhenLeavingClue(AbstractClue):
         self.place = place
         self.time = time
         super().__init__()
+
     def __str__(self):
         object = self.object
         r = randint(0, 2)
@@ -196,30 +196,25 @@ class SawWhenLeavingClue(AbstractClue):
         return str.format(self.subject, object, self.place, self.time)
 
     def is_incriminating(self, killer, victim, place, time):
-        if (
-            self.subject == killer
-            and self.object == victim
-        ):
+        if self.subject == killer and self.object == victim:
             return True
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        if (
-            self.subject == killer
-            and self.object == victim
-        ):
+        if self.subject == killer and self.object == victim:
             if not self.object_is_alive:
                 # If the body was seen, it is too suspicious to change
                 return None
 
-            #r = randint(0, 1)
-            #if r == 0:
+            # r = randint(0, 1)
+            # if r == 0:
             self.object = "$NOBODY"
-            #elif r == 1:
+            # elif r == 1:
             self.place = alibi_place
 
             return self
         assert False, "Not implemented"
+
 
 class NotSawWhenLeavingClue(AbstractClue):
     def __init__(self, subject, object, place, time):
@@ -251,6 +246,7 @@ class NotSawWhenLeavingClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class WasMurderedClue(AbstractClue):
     def __init__(self, victim, place, time):
         self.subject = None
@@ -269,9 +265,11 @@ class WasMurderedClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class WasMurderedInitialClue(AbstractClue):
     time_start = None
     time_end = None
+
     def __init__(self, victim, place, time_start, time_end):
         self.subject = victim
         self.object = place
@@ -292,9 +290,11 @@ class WasMurderedInitialClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class WasMurderedInspectionClue(AbstractClue):
     time1 = None
     time2 = None
+
     def __init__(self, time1, time2):
         self.time1 = time1
         self.time2 = time2
@@ -311,9 +311,11 @@ class WasMurderedInspectionClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class WasMurderedAutopsyClue(AbstractClue):
     time1 = None
     time2 = None
+
     def __init__(self, time1, time2):
         self.time1 = time1
         self.time2 = time2
@@ -330,6 +332,7 @@ class WasMurderedAutopsyClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class PoliceArrivedClue(AbstractClue):
     def __init__(self, time):
         self.time = time
@@ -344,6 +347,7 @@ class PoliceArrivedClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class EvidenceClue(AbstractClue):
     def __init__(self, subject, place):
         self.subject = subject
@@ -354,11 +358,19 @@ class EvidenceClue(AbstractClue):
         r = randint(0, 2)
 
         if r == 0:
-            return "A recent footstep matching {} shoes was found in the {}!".format(self.subject, self.place)
+            return "A recent footstep matching {} shoes was found in the {}!".format(
+                self.subject, self.place
+            )
         elif r == 1:
-            return "A fingerprint of {} was found in the {}. It looks very fresh".format(self.subject, self.place)
+            return (
+                "A fingerprint of {} was found in the {}. It looks very fresh".format(
+                    self.subject, self.place
+                )
+            )
         elif r == 2:
-            return "A strand of hair matching {} was found in the {}".format(self.subject, self.place)
+            return "A strand of hair matching {} was found in the {}".format(
+                self.subject, self.place
+            )
         else:
             assert False
 
@@ -367,6 +379,7 @@ class EvidenceClue(AbstractClue):
 
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
+
 
 class StayedClue(AbstractClue):
     def __init__(self, subject, place, time_start, time_end):
@@ -382,19 +395,13 @@ class StayedClue(AbstractClue):
 
         if r == 0:
             str = '{} said: "I was in the {} from {} to {}"'
-            return str.format(
-                self.subject, self.place, self.time_start, self.time_end
-            )
+            return str.format(self.subject, self.place, self.time_start, self.time_end)
         elif r == 1:
             str = '"I was in the {} from {} to {}" stated {}'
-            return str.format(
-                self.place, self.time_start, self.time_end, self.subject
-            )
+            return str.format(self.place, self.time_start, self.time_end, self.subject)
         elif r == 2:
             str = '"I stayed in the {} from {} to {}" claimed {}'
-            return str.format(
-                self.place, self.time_start, self.time_end, self.subject
-            )
+            return str.format(self.place, self.time_start, self.time_end, self.subject)
         else:
             assert False
 
@@ -411,6 +418,7 @@ class StayedClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         self.place = alibi_place
         return self
+
 
 class HeardClue(AbstractClue):
     def __init__(self, subject, action, time):
@@ -437,6 +445,7 @@ class HeardClue(AbstractClue):
     def manipulate(self, killer, victim, alibi_place):
         assert False, "Not implemented"
 
+
 class WeaponNotUsedClue(AbstractClue):
     def __init__(self, weapon):
         self.weapon = weapon
@@ -461,11 +470,12 @@ class WeaponNotUsedClue(AbstractClue):
         elif weapon_type == "sharp force":
             return str + "no signs of stabbing."
         elif weapon_type == "poisoning":
-            return str + " that the "+ weapon + " was not the murderer weapon."
+            return str + " that the " + weapon + " was not the murderer weapon."
         elif weapon_type == "blunt force":
             return str + " no signs of contusion."
         else:
-            assert False, "Unknown type of weapon: "+ weapon
+            assert False, "Unknown type of weapon: " + weapon
+
 
 def create_clue(call):
     if call[0] == "SawWhenArriving":

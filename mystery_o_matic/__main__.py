@@ -24,9 +24,11 @@ def read_story(season, date):
     with open(filename, "r") as f:
         return f.read()
 
+
 def hash256(data):
     hash_obj = sha256(str(data).encode("utf-8"))
     return int(hash_obj.hexdigest(), 16)
+
 
 def main() -> int:
     """
@@ -59,9 +61,15 @@ def main() -> int:
     )
 
     parser.add_argument("--season", action="store", default=1, help="season number")
-    parser.add_argument("--nplaces", type=int, action="store", default=4, help="number of rooms")
-    parser.add_argument("--nchars", type=int, action="store", default=3, help="number of characters")
-    parser.add_argument("--location", action="store", default=None, help="use a specific location")
+    parser.add_argument(
+        "--nplaces", type=int, action="store", default=4, help="number of rooms"
+    )
+    parser.add_argument(
+        "--nchars", type=int, action="store", default=3, help="number of characters"
+    )
+    parser.add_argument(
+        "--location", action="store", default=None, help="use a specific location"
+    )
     parser.add_argument("--mode", action="store", default="html", help="output mode")
 
     parser.add_argument(
@@ -123,7 +131,9 @@ def main() -> int:
 
     while True:
         solidity_file = args.scenario
-        locations = Locations(location_name, number_places, location_data, weapons_available.keys())
+        locations = Locations(
+            location_name, number_places, location_data, weapons_available.keys()
+        )
         weapon_locations = locations.weapon_locations
         activities = locations.get_activities()
 
@@ -161,7 +171,12 @@ def main() -> int:
 
     weapon_used = locations.weapon_locations[used_weapon_location]
     mystery = Mystery(
-        initial_locations_pairs, weapon_locations, weapon_used, activities, model.source, txs
+        initial_locations_pairs,
+        weapon_locations,
+        weapon_used,
+        activities,
+        model.source,
+        txs,
     )
     mystery.load_events(events)
     mystery.process_clues()

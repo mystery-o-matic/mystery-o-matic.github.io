@@ -25,7 +25,14 @@ setup(
     [console_scripts]
     mystery-o-matic = mystery_o_matic.__main__:main
     """,
-    install_requires=["solidity_parser", "slither_analyzer", "pygraphviz", "networkx", "yattag", "python-telegram-bot"],
+    install_requires=[
+        "solidity_parser",
+        "slither_analyzer",
+        "pygraphviz",
+        "networkx",
+        "yattag",
+        "python-telegram-bot",
+    ],
     extras_require=extra_require,
     url="https://github.com/mystery-o-matic/mystery-o-matic.github.io",
 )

@@ -1,7 +1,9 @@
 from datetime import timedelta
 
+
 class Time:
     seconds = 0
+
     def __parse_time(self, t):
         """
         Converts a time string in the format "hh:mm" to seconds.

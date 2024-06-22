@@ -74,6 +74,7 @@ def get_subtitle(subtitle, name=""):
         text(subtitle)
     return indent(doc.getvalue())
 
+
 def get_char_name(name):
     if name == "NOBODY":
         return name
