@@ -28,10 +28,10 @@ mansion_activities = {
         "heard someone flushing the toilet",
     ],
     "GARDEN": [
-        "heard someone whistling in the garden",
+        "heard someone whistling in the garden (🌳)",
         "looked outside and saw someone pruning the bushes",
     ],
-    "DINING": ["heard someone playing the piano in the dining room"],
+    "DINING": ["heard someone playing the piano in the dining room (🪑)"],
 }
 
 ship_names = {
@@ -57,7 +57,7 @@ ship_activities = {
         "heard someone loading a cannon",
         "heard someone adjusting the sails",
     ],
-    "CARGO HOLD": ["heard someone rummaging in the cargo hold"],
+    "CARGO HOLD": ["heard someone rummaging in the cargo hold (📦)"],
 }
 
 egypt_names = {
@@ -81,14 +81,14 @@ egypt_activities = {
         "saw someone from a distance sitting on the throne",
         "saw someone from afar polishing the throne",
     ],
-    "BURIAL PLACE": ["saw someone at a distane praying in the burial chamber"],
+    "BURIAL PLACE": ["saw someone at a distane praying in the burial chamber (⚰️)"],
     "TEMPLE": [
-        "saw someone at a distance praying in the temple",
-        "saw someone from afar lighting candles in the temple",
+        "saw someone at a distance praying in the temple (📿)",
+        "saw someone from afar lighting candles in the temple (📿)",
     ],
-    "DESERT": ["looked outside and saw someone riding a camel in the desert"],
+    "DESERT": ["looked outside and saw someone riding a camel in the desert (🏜️)"],
     "GARDEN": [
-        "heard someone whistling in the garden",
+        "heard someone whistling in the garden (🌳)",
         "looked outside and saw someone pruning the bushes",
     ],
 }
@@ -111,15 +111,15 @@ medieval_castle_representations = {
 
 medieval_castle_activities = {
     "GREAT HALL": [
-        "heard someone playing the harp in the great hall",
-        "saw someone from a distance dancing in the great hall",
+        "heard someone playing the harp in the great hall (🍷)",
+        "saw someone from a distance dancing in the great hall (🍷)",
     ],
     "ARMORY": [
-        "saw someone from afar sharpening a sword in the armory",
-        "saw someone at a distance polishing a shield in the armory",
+        "saw someone from afar sharpening a sword in the armory (🛡️)",
+        "saw someone at a distance polishing a shield in the armory (🛡️)",
     ],
     "GARDEN": [
-        "heard someone whistling in the garden",
+        "heard someone whistling in the garden (🌳)",
         "looked outside and saw someone pruning the bushes",
     ],
 }
@@ -142,15 +142,15 @@ train_representations = {
 
 train_activities = {
     "LOCOMOTIVE": [
-        "glanced out my window and saw someone fueling the locomotive",
+        "glanced out my window and saw someone fueling the locomotive (🚂)",
         "heard the whistle of the locomotive",
     ],
-    "LUGGAGE": ["heard someone rummaging in the luggage carriage"],
+    "LUGGAGE": ["heard someone rummaging in the luggage carriage (🧳)"],
     "DINING": [
-        "glanced out my window and saw someone eating in the dining carriage",
-        "heard someone playing the piano in the dining carriage",
+        "glanced out my window and saw someone eating in the dining carriage (🍽️)",
+        "heard someone playing the piano in the dining carriage (🍽️)",
     ],
-    "LOUNGE": ["glanced out my window and saw someone reading in the lounge carriage"],
+    "LOUNGE": ["glanced out my window and saw someone reading in the lounge carriage (🪑)"],
 }
 
 space_station_names = {

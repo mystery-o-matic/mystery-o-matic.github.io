@@ -278,6 +278,24 @@ class Mystery:
         )
         self.additional_clues_with_lies.insert(second_clue_index, second_clue)
 
+        # Load additional initial clues
+        self.initial_clues.append(MurderWasAloneStatement())
+        self.initial_clues.append(MurderWasNotFoundWithBodyStatement())
+
+        self.weapon_locations_intro = WeaponLocationsIntroStatement()
+        self.weapon_locations_clues = []
+        # Load weapon locations clues
+        for loc, weapon in self.weapon_locations.items():
+            self.weapon_locations_clues.append(
+                "The {} from the ${}".format(weapon, loc)
+            )
+
+        self.final_locations_intro = FinalLocationsIntroStatement(self.final_time)
+        self.final_locations_clues = []
+        # Load final locations clues
+        for c, p in self.final_locations.items():
+            self.final_locations_clues.append(CharacterLocationStatement(c, p))
+
     def get_intervals(self):
         """
         Returns a list of time intervals between the initial_time and final_time,

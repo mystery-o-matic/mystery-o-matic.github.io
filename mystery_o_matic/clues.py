@@ -3,6 +3,52 @@ from mystery_o_matic.weapons import get_weapon_type
 from mystery_o_matic.time import Time  # parse_time
 
 
+class AbstractStatement:
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        assert False, "Not implemented"
+
+class MurderWasAloneStatement(AbstractStatement):
+    def __str__(self):
+        return "The murderer was alone with their victim, and the body remained unmoved"
+
+class MurderWasNotFoundWithBodyStatement(AbstractStatement):
+    def __str__(self):
+        return "The murderer wasn't caught with the body"
+
+class WeaponLocationStatement(AbstractStatement):
+    def __init__(self, weapon, place):
+        self.place = place
+        self.weapon = weapon
+    def __str__(self):
+        return "The {} from the ${}".format(self.weapon, self.place)
+
+class CharacterLocationStatement(AbstractStatement):
+    def __init__(self, subject, place):
+        self.subject = subject
+        self.place = place
+
+    def __str__(self):
+        return "{} was in the {}".format(self.subject, self.place)
+
+class NoOneElseStatement(AbstractStatement):
+    def __str__(self):
+        return "No one else was present in the location."
+
+class WeaponLocationsIntroStatement(AbstractStatement):
+    def __str__(self):
+        return "The killer retrieved the murder weapon from one of these rooms:\n"
+
+class FinalLocationsIntroStatement(AbstractStatement):
+    def __init__(self, time):
+        self.time = time
+
+    def __str__(self):
+        return "When you arrived at {}:\n".format(self.time)
+
+
 class AbstractClue:
     subject = None
     object = None
