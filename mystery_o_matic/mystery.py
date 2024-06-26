@@ -195,7 +195,7 @@ class Mystery:
 
         # Filter additional clues
         additional_clues = []
-        print(self.final_locations)
+        #print(self.final_locations)
         for clue in self.additional_clues:
             if isinstance(clue, EvidenceClue):
                 if self.final_locations[clue.subject] == clue.place:
@@ -287,7 +287,7 @@ class Mystery:
         # Load weapon locations clues
         for loc, weapon in self.weapon_locations.items():
             self.weapon_locations_clues.append(
-                "The {} from the ${}".format(weapon, loc)
+                WeaponLocationStatement(weapon, loc)
             )
 
         self.final_locations_intro = FinalLocationsIntroStatement(self.final_time)
@@ -295,6 +295,24 @@ class Mystery:
         # Load final locations clues
         for c, p in self.final_locations.items():
             self.final_locations_clues.append(CharacterLocationStatement(c, p))
+
+        # Convert all statements/clues to strings
+        self.weapon_locations_intro = self.weapon_locations_intro.string()
+        for i, clue in enumerate(self.weapon_locations_clues):
+            self.weapon_locations_clues[i] = clue.string()
+
+        self.final_locations_intro = self.final_locations_intro.string()
+        for i, clue in enumerate(self.final_locations_clues):
+            self.final_locations_clues[i] = clue.string()
+
+        for i, clue in enumerate(self.initial_clues):
+            self.initial_clues[i] = clue.string()
+
+        for i, clue in enumerate(self.additional_clues):
+            self.additional_clues[i] = clue.string()
+
+        for i, clue in enumerate(self.additional_clues_with_lies):
+            self.additional_clues_with_lies[i] = clue.string()
 
     def get_intervals(self):
         """
@@ -325,10 +343,11 @@ class Mystery:
         """
         assert isinstance(self.killer, str), "Failed to determine the killer"
         index = int("".join(filter(str.isdigit, self.killer))) - 1
+        weapon = self.weapon_used.replace("$", "").lower()
         return (
             self.characters[index]
             + "-"
-            + self.weapon_used
+            + weapon
             + "-"
             + str(self.murder_time)
         )

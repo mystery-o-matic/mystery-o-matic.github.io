@@ -14,8 +14,8 @@ def read_html_template(filename):
         return template
 
 
-def save_html(outdir, html):
-    filename = outdir + "/index.html"
+def save_html(outdir, language, html):
+    filename = outdir + f"/{language}/index.html"
     with open(filename, "w") as f:
         f.write(html)
 
@@ -38,10 +38,10 @@ def read_story(season, date):
         return f.read()
 
 
-def build_website(outdir, static_dir, html):
-    save_html(outdir, html)
+def build_website(outdir, static_dir, language, html):
     copytree(static_dir, outdir, dirs_exist_ok=True)
-    remove(outdir + "/index.template.html")
+    save_html(outdir, language, html)
+    remove(outdir + f"/{language}/index.template.html")
 
 
 def get_bullet_list(elements, name=""):
@@ -59,11 +59,8 @@ def get_bullet_list(elements, name=""):
 def get_options_selector(elements, name="", notranslate=False):
     doc, tag, text, line = Doc().ttl()
 
-    for i, element in enumerate(elements):
-        if notranslate:
-            line("option", element, value=element, klass="notranslate")
-        else:
-            line("option", element, value=element)
+    for label, value in elements:
+        line("option", label, value=value)
 
     return indent(doc.getvalue())
 
