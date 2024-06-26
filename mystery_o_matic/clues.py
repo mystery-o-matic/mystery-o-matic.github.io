@@ -137,15 +137,21 @@ class SawWhenArrivingClue(AbstractClue):
         r = randint(0, 2)
         str = '{} dijo "'
 
-        if object == "$NOBODY":
-            r = 0
-
         if r == 0:
-            str += "Vi "
+            if object == "$NOBODY":
+                str += "No vi "
+            else:
+                str += "Vi "
         elif r == 1:
-            str += "Noté "
+            if object == "$NOBODY":
+                str += "No noté "
+            else:
+                str += "Noté "
         elif r == 2:
-            str += "Reconocí "
+            if object == "$NOBODY":
+                str += "No distinguí "
+            else:
+                str += "Distinguí "
         else:
             assert False
 
@@ -236,6 +242,7 @@ class SawVictimWhenArrivingClue(AbstractClue):
 
     def string_spanish(self):
         str = '{} dijo: "Vi '
+
         if not self.object_is_alive:
             # This should never happen, since the victim produced this clue
             # when they were alive
@@ -323,15 +330,21 @@ class SawWhenLeavingClue(AbstractClue):
         r = randint(0, 2)
         str = '{} dijo "'
 
-        if object == "$NOBODY":
-            r = 0
-
         if r == 0:
-            str += "Vi "
+            if object == "$NOBODY":
+                str += "No vi "
+            else:
+                str += "Vi "
         elif r == 1:
-            str += "Noté "
+            if object == "$NOBODY":
+                str += "No noté "
+            else:
+                str += "Noté "
         elif r == 2:
-            str += "Distinguí "
+            if object == "$NOBODY":
+                str += "No distinguí "
+            else:
+                str += "Distinguí "
         else:
             assert False
 

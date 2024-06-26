@@ -102,7 +102,16 @@ function revealAnotherClue(offset) {
 	}
 
 	element = document.getElementById("clue-title");
-	element.innerHTML = "Clue #" + (currentClue + 1).toString();
+	language = sessionStorage.getItem("language");
+	switch (language) {
+		case "en":
+			element.innerHTML = "Clue";
+			break;
+		case "es":
+			element.innerHTML = "Pista";
+			break;
+	}
+	element.innerHTML += " #" + (currentClue + 1).toString();
 
 	document.getElementById("previous-clue-button").disabled = (currentClue == 0);
 	document.getElementById("next-clue-button").disabled = (currentClue == clues.length - 1);

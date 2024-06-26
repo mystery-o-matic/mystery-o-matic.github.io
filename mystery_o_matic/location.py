@@ -82,13 +82,22 @@ ship_representations = {
 }
 
 ship_activities = {
-    "GALLEY": ["noticed someone cooking", "heard someone washing the dishes"],
-    "NAVIGATION ROOM": ["saw someone looking at a map"],
-    "MAIN DECK": [
-        "heard someone loading a cannon",
-        "heard someone adjusting the sails",
+    "GALLEY": [
+        { "en" : "noticed someone cooking",
+          "es" : "noté a alguien cocinando" },
+        { "en" : "heard someone washing the dishes",
+          "es" : "escuché a alguien lavando los platos" }
     ],
-    "CARGO HOLD": ["heard someone rummaging in the cargo hold (📦)"],
+    "NAVIGATION ROOM": [
+        { "en" : "saw someone looking at a map", "es" : "vi a alguien mirando un mapa" },
+    ],
+    "MAIN DECK": [
+        { "en" : "heard someone loading a cannon", "es" : "escuché a alguien cargando un cañón" },
+        { "en" : "heard someone adjusting the sails", "es" : "escuché a alguien ajustando las velas" }
+    ],
+    "CARGO HOLD": [
+        { "en" : "heard someone rummaging in the cargo hold (📦)", "es" : "escuché a alguien revisando la bodega de carga (📦)" }
+    ],
 }
 
 egypt_intro = {}
@@ -122,18 +131,22 @@ egypt_representations = {
 
 egypt_activities = {
     "THRONE ROOM": [
-        "saw someone from a distance sitting on the throne",
-        "saw someone from afar polishing the throne",
+        { "en" : "saw someone from a distance sitting on the throne", "es" : "vi a alguien sentado en el trono a lo lejos" },
+        { "en" : "saw someone from afar polishing the throne", "es" : "vi a alguien puliendo el trono a lo lejos" }
     ],
-    "BURIAL PLACE": ["saw someone at a distane praying in the burial chamber (⚰️)"],
+    "BURIAL PLACE": [
+        {"en" : "saw someone at a distance praying in the burial chamber (⚰️)", "es" : "vi a alguien rezando en la cámara funeraria a lo lejos (⚰️)"},
+        ],
     "TEMPLE": [
-        "saw someone at a distance praying in the temple (📿)",
-        "saw someone from afar lighting candles in the temple (📿)",
+        { "en" : "saw someone at a distance praying in the temple (📿)", "es" : "vi a alguien a la distancia rezando en el templo (📿)"},
+        { "en" : "saw someone from afar lighting candles in the temple (📿)", "es" : "vi a alguien a la distancia encendiendo velas en el templo (📿)"}
     ],
-    "DESERT": ["looked outside and saw someone riding a camel in the desert (🏜️)"],
+    "DESERT": [
+        {"en" : "looked outside and saw someone riding a camel in the desert (🏜️)", "es" : "miré afuera y vi a alguien montando un camello en el desierto (🏜️)"},
+        ],
     "GARDEN": [
-        "heard someone whistling in the garden (🌳)",
-        "looked outside and saw someone pruning the bushes",
+        { "en" : "heard someone whistling in the garden (🌳)", "es" : "escuché a alguien silbando en el jardín (🌳)" },
+        { "en" : "looked outside and saw someone pruning the bushes", "es" : "miré afuera y vi a alguien podando los arbustos" }
     ],
 }
 
@@ -168,16 +181,16 @@ medieval_castle_representations = {
 
 medieval_castle_activities = {
     "GREAT HALL": [
-        "heard someone playing the harp in the great hall (🍷)",
-        "saw someone from a distance dancing in the great hall (🍷)",
+        { "en": "heard someone playing the harp in the great hall (🍷)", "es" : "escuché a alguien tocando el arpa en el gran salón (🍷)" },
+        { "en": "saw someone from a distance dancing in the great hall (🍷)", "es" : "vi a alguien bailando en el gran salón (🍷) a lo lejos" }
     ],
     "ARMORY": [
-        "saw someone from afar sharpening a sword in the armory (🛡️)",
-        "saw someone at a distance polishing a shield in the armory (🛡️)",
+        { "en": "saw someone from afar sharpening a sword in the armory (🛡️)", "es" : "vi a alguien afilando una espada en la armería (🛡️) a lo lejos " },
+        { "en": "saw someone at a distance polishing a shield in the armory (🛡️)", "es" : "vi a alguien puliendo un escudo en la armería (🛡️) a lo lejos" }
     ],
     "GARDEN": [
-        "heard someone whistling in the garden (🌳)",
-        "looked outside and saw someone pruning the bushes",
+        { "en" : "heard someone whistling in the garden (🌳)", "es" : "escuché a alguien silbando en el jardín (🌳)" },
+        { "en" : "looked outside and saw someone pruning the bushes", "es" : "miré afuera y vi a alguien podando los arbustos" }
     ],
 }
 
@@ -212,15 +225,19 @@ train_representations = {
 
 train_activities = {
     "LOCOMOTIVE": [
-        "glanced out my window and saw someone fueling the locomotive (🚂)",
-        "heard the whistle of the locomotive",
+        { "en" : "glanced out my window and saw someone fueling the locomotive (🚂)", "es" : "miré por la ventana y vi a alguien repostando la locomotora (🚂)" },
+        { "en" : "heard the whistle of the locomotive", "es" : "escuché el silbido de la locomotora" }
     ],
-    "LUGGAGE": ["heard someone rummaging in the luggage carriage (🧳)"],
+    "LUGGAGE": [
+        { "en" : "heard someone rummaging in luggage carriage (🧳)", "es" : "escuché a alguien revisando el vagón de carga (🧳)" }
+    ],
     "DINING": [
-        "glanced out my window and saw someone eating in the dining carriage (🍽️)",
-        "heard someone playing the piano in the dining carriage (🍽️)",
+        { "en" : "glanced out my window and saw someone eating in the dining carriage (🍽️)", "es" : "miré por la ventana y vi a alguien comiendo en el vagón comedor (🍽️)"},
+        { "en" : "heard someone playing the piano in the dining carriage (🍽️)", "es" : "escuché a alguien tocando el piano en el vagón comedor (🍽️)" },
     ],
-    "LOUNGE": ["glanced out my window and saw someone reading in the lounge carriage (🪑)"],
+    "LOUNGE": [
+        { "en" : "glanced out my window and saw someone reading in the lounge carriage (🪑)", "es" : "miré por la ventana y vi a alguien leyendo en el vagón salón (🪑)"},
+    ],
 }
 
 space_station_intro = {}
@@ -353,6 +370,7 @@ class Locations:
         names_list = list(names['en'].keys())
 
         self.names = names
+        print(self.names)
         self.indices = {}
         #self.names = {}
         self.representations = {}
