@@ -109,10 +109,10 @@
 				</div>
 				<div class="modal-body">
 					<div class="col text-center">
-						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="keepInEnglish()">English 🗽</button>
+						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('en')">English 🗽</button>
 						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('es')">Español 💃</button>
-						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('pt')">Português 🦜</button>
-						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('ca')">Català 🌹</button>
+						<!-- <button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('pt')">Português 🦜</button>
+						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('ca')">Català 🌹</button> -->
 					</div>
 				</div>
 			</div>
@@ -560,7 +560,9 @@
 		</ul>
 		<p class="text-center text-muted">© 2024 Gabbo Industries 🏭 Inc.</p>
 	</footer>
-
+	<script>
+		sessionStorage.language = "en";
+	</script>
 	<script src="../data.js"></script>
 	<script src="../tutorialData.js"></script>
 	<script src="../table.js"></script>

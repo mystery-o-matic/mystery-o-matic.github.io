@@ -103,7 +103,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title w-100 text-center notranslate" id="">
-						Switch language
+						Cambiar idioma
 					</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
@@ -111,8 +111,8 @@
 					<div class="col text-center">
 						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="keepInEnglish()">English 🗽</button>
 						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('es')">Español 💃</button>
-						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('pt')">Português 🦜</button>
-						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('ca')">Català 🌹</button>
+						<!-- <button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('pt')">Português 🦜</button>
+						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('ca')">Català 🌹</button> -->
 					</div>
 				</div>
 			</div>
@@ -134,8 +134,6 @@
 		<a href="#/" onClick="checkIfWebsiteShouldBeTranslated(true)" class="link-underline link-underline-opacity-0">🗺️</a>
 	</p>
 
-	<!-- <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
-
 	<div id="about" style="display:none">
 		<div class="container mt-5">
 			<p>mystery-o-matic es un sitio web que ofrece misterios de asesinatos gratuitos para resolver a diario.
@@ -149,13 +147,12 @@
 				ofreciendo un giro refrescante en comparación con los juegos de lógica deductiva tradicionales.
 			</p>
 
-			<p>The creators drew inspiration from popular games
-				like <a class="link-dark" href="https://en.wikipedia.org/wiki/Cluedo">Cluedo</a> (naturally), <a
-				class="link-dark" href="http://www.squidi.net/three/entry.php?id=69">Squidi's "Infinite Detective"</a> and
-				<a class="link-dark" href="https://murdle.com/">Murdle</a> to shape the captivating world of mystery-o-matic.
-				The code that automatically produces the daily puzzles, as well as the rest of the website <a class="link-dark" href="https://github.com/mystery-o-matic/mystery-o-matic.github.io">is open-source</a>!
+			<p>Los creadores se inspiraron en juegos populares como <a class="link-dark" href="https://es.wikipedia.org/wiki/Cluedo">Cluedo</a> (naturalmente), <a
+				class="link-dark" href="http://www.squidi.net/three/entry.php?id=69">"Infinite Detective" de Squidi</a> y
+				<a class="link-dark" href="https://murdle.com/">Murdle</a> para dar forma al cautivador mundo de mystery-o-matic.
+				El código que produce automáticamente los rompecabezas diarios, así como el resto del sitio web, <a class="link-dark" href="https://github.com/mystery-o-matic/mystery-o-matic.github.io">es de código abierto</a>!
 
-				Images from suspects are from Freepik: <a href="https://www.freepik.com/free-vector/detective-office-interior-flat-cartoon-composition-with-crime-scene-diagram-board-computer-monitor-criminal-profile-illustration_16399785.htm#query=detective%20background&position=2&from_view=search&track=ais">[1]</a>,
+				Las imágenes de los sospechosos son de Freepik: <a href="https://www.freepik.com/free-vector/detective-office-interior-flat-cartoon-composition-with-crime-scene-diagram-board-computer-monitor-criminal-profile-illustration_16399785.htm#query=detective%20background&position=2&from_view=search&track=ais">[1]</a>,
 				<a href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_24555042.htm#&position=8&from_view=collections">[2]</a>
 				<a href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_24555045.htm#&position=9&from_view=collections">[3]</a>
 				<a href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23669474.htm#&position=3&from_view=collections">[4]</a>
@@ -164,10 +161,10 @@
 				<a href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23985544.htm#&position=4&from_view=collections">[7]</a>
 			</p>
 
-			<p>The website is still in beta, therefore, rules, interface and design are subject to change!
-				Please feel free to <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">provide feedback here</a> or in <a
-				class="link-dark" href="https://www.reddit.com/r/mystery_o_matic/">our subreddit</a>.
-				If you like the website, you can donate cryptocurrency to: 0xd0FD96CD73762Fd081cf2269D79F359e4314629b
+			<p>El sitio web aún está en beta, por lo tanto, las reglas, la interfaz y el diseño están sujetos a cambios.
+				No dudes en <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">proporcionar comentarios aquí</a> o en <a
+				class="link-dark" href="https://www.reddit.com/r/mystery_o_matic/">nuestro subreddit</a>.
+				Si te gusta el sitio web, puedes donar criptomonedas a: 0xd0FD96CD73762Fd081cf2269D79F359e4314629b
 			</p>
 		</div>
 	</div>
@@ -559,7 +556,9 @@
 		</ul>
 		<p class="text-center text-muted">© 2024 Industrias Gabbo 🏭 Inc.</p>
 	</footer>
-
+	<script>
+		sessionStorage.language = "es";
+	</script>
 	<script src="../data.js"></script>
 	<script src="../tutorialData.js"></script>
 	<script src="../table.js"></script>
