@@ -195,7 +195,7 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        str = '{} dijo: "No recuerdo que {} estuviese en {} a las {}"'
+        str = '{} dijo: "No recuerdo que {} estuviese conmigo en {} a las {}"'
         return str.format(self.subject, self.object, self.place, self.time)
 
     def string_english(self):
@@ -211,7 +211,7 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
         else:
             assert False
 
-        str += '{} was not in the {} at {}"'
+        str += '{} was not with me in the {} at {}"'
         return str.format(self.subject, self.object, self.place, self.time)
 
     def is_incriminating(self, killer, victim, place, time):
@@ -342,9 +342,9 @@ class SawWhenLeavingClue(AbstractClue):
                 str += "Noté "
         elif r == 2:
             if object == "$NOBODY":
-                str += "No distinguí "
+                str += "No recuerdo "
             else:
-                str += "Distinguí "
+                str += "Recuerdo "
         else:
             assert False
 
@@ -400,7 +400,7 @@ class NotSawWhenLeavingClue(AbstractClue):
         else:
             assert False
 
-        str += '{} no estaba en {} {} a las {}"'
+        str += '{} no estaba conmigo en {} a las {}"'
         return str.format(self.subject, self.object, self.place, self.time)
 
     def string_english(self):
@@ -416,7 +416,7 @@ class NotSawWhenLeavingClue(AbstractClue):
         else:
             assert False
 
-        str += '{} was not in the {} at {}"'
+        str += '{} was not with me in the {} at {}"'
         return str.format(self.subject, self.object, self.place, self.time)
 
     def is_incriminating(self, killer, victim, place, time):
@@ -514,7 +514,7 @@ class WasMurderedAutopsyClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        return "Un grito espeluznante de la víctima se escuchó a las {} o  a las {}".format(
+        return "Un grito espeluznante de la víctima se escuchó a las {} o a las {}".format(
             self.time1, self.time2
         )
 
@@ -578,7 +578,7 @@ class EvidenceClue(AbstractClue):
         r = randint(0, 2)
 
         if r == 0:
-            return "A recent footstep matching {} shoes was found in the {}!".format(
+            return "A recent footstep matching {} shoes was found in the {}".format(
                 self.subject, self.place
             )
         elif r == 1:
@@ -588,7 +588,7 @@ class EvidenceClue(AbstractClue):
                 )
             )
         elif r == 2:
-            return "A strand of hair matching {} was found in the {}".format(
+            return "A strand of hair matching {} was found in the {}, indicating that they were recently in that place".format(
                 self.subject, self.place
             )
         else:
@@ -611,15 +611,18 @@ class StayedClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        r = randint(0, 2)
+        r = randint(0, 3)
 
         if r == 0:
             str = '{} dijo: "Estuve en {} desde las {} hasta las {}"'
             return str.format(self.subject, self.place, self.time_start, self.time_end)
         elif r == 1:
+            str = '{} dijo: "Me quedé en {} desde las {} hasta las {}"'
+            return str.format(self.subject, self.place, self.time_start, self.time_end)
+        elif r == 2:
             str = '"Estuve en {} desde las {} hasta las {}" afirmó {}'
             return str.format(self.place, self.time_start, self.time_end, self.subject)
-        elif r == 2:
+        elif r == 3:
             str = '"Estuve en {} desde las {} hasta las {}" aseguró {}'
             return str.format(self.place, self.time_start, self.time_end, self.subject)
         else:
