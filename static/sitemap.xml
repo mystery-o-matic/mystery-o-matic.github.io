@@ -6,7 +6,12 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://mystery-o-matic.com/</loc>
+  <loc>https://mystery-o-matic.com/en</loc>
+  <lastmod>${DATE}</lastmod>
+</url>
+
+<url>
+  <loc>https://mystery-o-matic.com/es</loc>
   <lastmod>${DATE}</lastmod>
 </url>
 
