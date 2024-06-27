@@ -39,7 +39,10 @@ function selectClues(withLies) {
 	element = document.getElementById("clues-buttons");
 	element.style.removeProperty("display");
 
-	clues = withLies ? data.additionalCluesWithLies : data.additionalClues;
+	language = sessionStorage.getItem("language");
+	language = language ? language : "en";
+
+	clues = withLies ? data.additionalCluesWithLies[language] : data.additionalClues[language];
 	new Array(clues.length).fill(false);
 	revealAnotherClue(0);
 }
@@ -71,7 +74,7 @@ setLocalNotepad();
 
 function openModal(name) {
 	let element = document.getElementById('portraitImage');
-	element.src = "images/" + name + ".jpg";
+	element.src = "../images/" + name + ".jpg";
 	let modal = new bootstrap.Modal(document.getElementById('portraitModal'), {});
 	modal.show();
 }
@@ -99,7 +102,16 @@ function revealAnotherClue(offset) {
 	}
 
 	element = document.getElementById("clue-title");
-	element.innerHTML = "Clue #" + (currentClue + 1).toString();
+	language = sessionStorage.getItem("language");
+	switch (language) {
+		case "en":
+			element.innerHTML = "Clue";
+			break;
+		case "es":
+			element.innerHTML = "Pista";
+			break;
+	}
+	element.innerHTML += " #" + (currentClue + 1).toString();
 
 	document.getElementById("previous-clue-button").disabled = (currentClue == 0);
 	document.getElementById("next-clue-button").disabled = (currentClue == clues.length - 1);
@@ -206,7 +218,7 @@ function switchTheme() {
 			toggleLinkTheme(usingLightTheme, links[i]);
 		}
 	}
-	document.getElementById("logoImage").src = usingLightTheme ? "images/logo_dark.png" : "images/logo_light.png"
+	document.getElementById("logoImage").src = usingLightTheme ? "../images/logo_dark.png" : "../images/logo_light.png"
 }
 
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {

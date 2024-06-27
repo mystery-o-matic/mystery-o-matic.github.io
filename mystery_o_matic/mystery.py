@@ -3,7 +3,8 @@ from hashlib import sha256
 
 from mystery_o_matic.clues import *
 from mystery_o_matic.solidity import get_tx, get_event
-from mystery_o_matic.time import Time #parse_time, print_time
+from mystery_o_matic.time import Time  # parse_time, print_time
+
 
 def get_intervals_length_from_events(source, contract_name, events):
     """
@@ -26,6 +27,7 @@ def get_intervals_length_from_events(source, contract_name, events):
 
     assert False, "No police arrived event found"
 
+
 class Mystery:
     source = None
     solution = []
@@ -44,7 +46,9 @@ class Mystery:
     final_time = ""
     number_characters = 0
 
-    def __init__(self, initial_locations, weapon_locations, weapon_used, activities, source, txs):
+    def __init__(
+        self, initial_locations, weapon_locations, weapon_used, activities, source, txs
+    ):
         """
         Initialize the Mystery class.
 
@@ -77,8 +81,10 @@ class Mystery:
 
         self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
         shuffle(self.characters)
-        self.characters = self.characters[:self.number_characters]
-        self.cplaceholders = ["$CHAR" + str(i + 1) for i in range(self.number_characters)]
+        self.characters = self.characters[: self.number_characters]
+        self.cplaceholders = [
+            "$CHAR" + str(i + 1) for i in range(self.number_characters)
+        ]
         self.activities = activities
 
     def get_characters(self):
@@ -102,14 +108,16 @@ class Mystery:
         event_calls = []
         # Load all the events from the model
         for event in events:
-            event_calls.append(get_event(self.source, "StoryModel", event, self.initial_time))
+            event_calls.append(
+                get_event(self.source, "StoryModel", event, self.initial_time)
+            )
 
         for call in event_calls:
             # Skip the clues that are produced by the victim
             if call[0].startswith("NotSaw") and call[1] == self.victim:
                 continue
             elif call[0].startswith("Stayed") and call[1] == self.victim:
-                pass # This is handled later
+                pass  # This is handled later
 
             # Some victim clues can be reused, but changing the subject
             elif call[0].startswith("Saw") and call[1] == self.victim:
@@ -141,12 +149,12 @@ class Mystery:
                     continue
 
                 # Create the clue but with some changes
-                #clue = create_clue(call)
+                # clue = create_clue(call)
                 place = call[2].replace("$", "")
 
                 if place in self.activities:
                     activity = choice(self.activities[place])
-                    #print(clue)
+                    # print(clue)
                     self.additional_clues.append(HeardClue(call[1], activity, call[3]))
 
             elif call[0] == "Stayed":
@@ -166,9 +174,13 @@ class Mystery:
         clues = []
         for clue in self.initial_clues:
             if isinstance(clue, PoliceArrivedClue):
-                continue # Discard
+                continue  # Discard
             elif isinstance(clue, WasMurderedClue):
-                clues.append(WasMurderedInitialClue(clue.object, clue.place, self.initial_time, self.final_time))
+                clues.append(
+                    WasMurderedInitialClue(
+                        clue.object, clue.place, self.initial_time, self.final_time
+                    )
+                )
             else:
                 clues.append(clue)
 
@@ -177,13 +189,13 @@ class Mystery:
         # The killer selects a place for their alibi
         self.murder_place = self.final_locations[self.victim]
         places = list(self.weapon_locations.keys())
-        self.alibi_place = "$"+choice(places)
+        self.alibi_place = "$" + choice(places)
         while self.alibi_place == self.murder_place:
-            self.alibi_place = "$"+choice(places)
+            self.alibi_place = "$" + choice(places)
 
         # Filter additional clues
         additional_clues = []
-        print(self.final_locations)
+        #print(self.final_locations)
         for clue in self.additional_clues:
             if isinstance(clue, EvidenceClue):
                 if self.final_locations[clue.subject] == clue.place:
@@ -195,7 +207,9 @@ class Mystery:
         clues_with_lies = []
         clues_without_lies = []
         for clue in self.additional_clues:
-            if clue.is_incriminating(self.killer, self.victim, self.murder_place, self.murder_time):
+            if clue.is_incriminating(
+                self.killer, self.victim, self.murder_place, self.murder_time
+            ):
                 clue = clue.manipulate(self.killer, self.victim, self.alibi_place)
                 if clue is not None:
                     clues_with_lies.append(clue)
@@ -212,7 +226,7 @@ class Mystery:
                 self.additional_clues_with_lies.append(clue)
 
         # The player needs more hints to fully determinate when the murdered took place
-        assert self.murder_time != '', "Time of murder is missing"
+        assert self.murder_time != "", "Time of murder is missing"
 
         rand_bool = randint(0, 1)
         if rand_bool:
@@ -259,9 +273,46 @@ class Mystery:
         first_clue_index = randint(0, len(self.additional_clues_with_lies) // 2)
         self.additional_clues_with_lies.insert(first_clue_index, first_clue)
         second_clue_index = randint(
-            len(self.additional_clues_with_lies) // 2, len(self.additional_clues_with_lies)
+            len(self.additional_clues_with_lies) // 2,
+            len(self.additional_clues_with_lies),
         )
         self.additional_clues_with_lies.insert(second_clue_index, second_clue)
+
+        # Load additional initial clues
+        self.initial_clues.append(MurderWasAloneStatement())
+        self.initial_clues.append(MurderWasNotFoundWithBodyStatement())
+
+        self.weapon_locations_intro = WeaponLocationsIntroStatement()
+        self.weapon_locations_clues = []
+        # Load weapon locations clues
+        for loc, weapon in self.weapon_locations.items():
+            self.weapon_locations_clues.append(
+                WeaponLocationStatement(weapon, loc)
+            )
+
+        self.final_locations_intro = FinalLocationsIntroStatement(self.final_time)
+        self.final_locations_clues = []
+        # Load final locations clues
+        for c, p in self.final_locations.items():
+            self.final_locations_clues.append(CharacterLocationStatement(c, p))
+
+        # Convert all statements/clues to strings
+        self.weapon_locations_intro = self.weapon_locations_intro.string()
+        for i, clue in enumerate(self.weapon_locations_clues):
+            self.weapon_locations_clues[i] = clue.string()
+
+        self.final_locations_intro = self.final_locations_intro.string()
+        for i, clue in enumerate(self.final_locations_clues):
+            self.final_locations_clues[i] = clue.string()
+
+        for i, clue in enumerate(self.initial_clues):
+            self.initial_clues[i] = clue.string()
+
+        for i, clue in enumerate(self.additional_clues):
+            self.additional_clues[i] = clue.string()
+
+        for i, clue in enumerate(self.additional_clues_with_lies):
+            self.additional_clues_with_lies[i] = clue.string()
 
     def get_intervals(self):
         """
@@ -292,7 +343,14 @@ class Mystery:
         """
         assert isinstance(self.killer, str), "Failed to determine the killer"
         index = int("".join(filter(str.isdigit, self.killer))) - 1
-        return self.characters[index] + "-" + self.weapon_used + "-" + str(self.murder_time)
+        weapon = self.weapon_used.replace("$", "").lower()
+        return (
+            self.characters[index]
+            + "-"
+            + weapon
+            + "-"
+            + str(self.murder_time)
+        )
 
     def get_answer_hash(self):
         """

@@ -78,6 +78,8 @@ jobs:
         rm -f out/result.json
         rm -f out/err.out
         rm -f out/model.sol
+        rm -f out/en/index.template.html
+        rm -f out/es/index.template.html
         sed -ie "s/\${DATE}/$(date -I)/" out/sitemap.xml
 
     - name: Upload artifact

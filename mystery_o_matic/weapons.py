@@ -1,58 +1,100 @@
 from random import shuffle, choice
 
 all_weapons = [
-    {"pistol": "🔫"},
-    {"knife": "🔪", "scissors": "✂️", "axe": "🪓", "screwdriver": "🪛"},
-    {"poison": "⚗️"},
-    {"hammer": "🔨", "wrench": "🔧", "candelabrum": "🕯️"},
-    {"rope": "🪢", "chain": "⛓️"}
+    {"$PISTOL": "🔫"},
+    {"$KNIFE": "🔪", "$SCISSORS": "✂️", "$AXE": "🪓", "$SCREWDRIVER": "🪛"},
+    {"$POISON": "⚗️"},
+    {"$HAMMER": "🔨", "$WRENCH": "🔧", "$CANDELABRUM": "🕯️"},
+    {"$ROPE": "🪢", "$CHAIN": "⛓️"},
 ]
 
+weapon_labels = {}
+
+weapon_labels['en'] = {
+    "$PISTOL": "pistol",
+    "$KNIFE": "knife",
+    "$SCISSORS": "scissors",
+    "$AXE": "axe",
+    "$SCREWDRIVER": "screwdriver",
+    "$POISON": "poison",
+    "$HAMMER": "hammer",
+    "$WRENCH": "wrench",
+    "$CANDELABRUM": "candelabrum",
+    "$ROPE": "rope",
+    "$CHAIN": "chain",
+    "$ARCHERY_BOW": "archery bow",
+    "$DAGGER": "dagger",
+    "$TRIDENT": "trident",
+    "$SWORD": "sword",
+    "$ROCK": "rock",
+    "$CURSE": "curse"
+}
+
+weapon_labels['es'] = {
+    "$PISTOL": "la pistola",
+    "$KNIFE": "el cuchillo",
+    "$SCISSORS": "las tijeras",
+    "$AXE": "el hacha",
+    "$SCREWDRIVER": "el destornillador",
+    "$POISON": "el veneno",
+    "$HAMMER": "el martillo",
+    "$WRENCH": "la llave inglesa",
+    "$CANDELABRUM": "el candelabro",
+    "$ROPE": "la soga",
+    "$CHAIN": "la cadena",
+    "$ARCHERY_BOW": "el arco",
+    "$DAGGER": "la daga",
+    "$TRIDENT": "el tridente",
+    "$SWORD": "la espada",
+    "$ROCK": "la roca",
+    "$CURSE": "la maldición"
+}
+
 ship_weapons = [
-    {"archery bow": "🏹"},
-    {"dagger": "🗡️", "trident": "🔱", "sword": "⚔️"},
-    {"poison": "⚗️"},
-    {"hammer": "🔨", "wrench": "🔧", "candelabrum": "🕯️"},
-    {"rope": "🪢", "chain": "⛓️"}
+    {"$ARCHERY_BOW": "🏹"},
+    {"$DAGGER": "🗡️", "$TRIDENT": "🔱", "$SWORD": "⚔️"},
+    {"$POISON": "⚗️"},
+    {"$HAMMER": "🔨", "$WRENCH": "🔧", "$CANDELABRUM": "🕯️"},
+    {"$ROPE": "🪢", "$CHAIN": "⛓️"},
 ]
 
 ancient_egypt_weapons = [
-    {"archery bow": "🏹"},
-    {"dagger": "🗡️"},
-    {"poison": "⚗️", "curse": "📜"},
-    {"rock": "🪨", "candelabrum": "🕯️"},
-    {"rope": "🪢", "chain": "⛓️"}
+    {"$ARCHERY_BOW": "🏹"},
+    {"$DAGGER": "🗡️"},
+    {"$POISON": "⚗️", "$CURSE": "📜"},
+    {"$ROCK": "🪨", "$CANDELABRUM": "🕯️"},
+    {"$ROPE": "🪢", "$CHAIN": "⛓️"},
 ]
 
 medieval_castle_weapons = [
-    {"archery bow": "🏹"},
-    {"dagger": "🗡️", "trident": "🔱", "sword": "⚔️"},
-    {"poison": "⚗️"},
-    {"rock": "🪨", "candelabrum": "🕯️"},
-    {"rope": "🪢", "chain": "⛓️"}
+    {"$ARCHERY_BOW": "🏹"},
+    {"$DAGGER": "🗡️", "$TRIDENT": "🔱", "$SWORD": "⚔️"},
+    {"$POISON": "⚗️"},
+    {"$ROCK": "🪨", "$CANDELABRUM": "🕯️"},
+    {"$ROPE": "🪢", "$CHAIN": "⛓️"},
 ]
 
 space_station_weapons = [
-    {"pistol": "🔫"},
-    {"knife": "🔪", "scissors": "✂️", "axe": "🪓", "screwdriver": "🪛"},
-    {"poison": "⚗️"},
-    {"hammer": "🔨", "wrench": "🔧"},
-    {"rope": "🪢", "chain": "⛓️"}
+    {"$PISTOL": "🔫"},
+    {"$KNIFE": "🔪", "$SCISSORS": "✂️", "$AXE": "🪓", "$SCREWDRIVER": "🪛"},
+    {"$POISON": "⚗️"},
+    {"$HAMMER": "🔨", "$WRENCH": "🔧"},
+    {"$ROPE": "🪢", "$CHAIN": "⛓️"},
 ]
 
 def get_available_weapons(num_weapons, location_name):
 
-    if (location_name == "mansion"):
+    if location_name == "mansion":
         weapons_sets = all_weapons[:]
-    elif (location_name == "ship"):
+    elif location_name == "ship":
         weapons_sets = ship_weapons[:]
-    elif (location_name == "egypt"):
+    elif location_name == "egypt":
         weapons_sets = ancient_egypt_weapons[:]
-    elif (location_name == "castle"):
+    elif location_name == "castle":
         weapons_sets = medieval_castle_weapons[:]
-    elif (location_name == "train"):
+    elif location_name == "train":
         weapons_sets = all_weapons[:]
-    elif (location_name == "space station"):
+    elif location_name == "space station":
         weapons_sets = space_station_weapons[:]
     else:
         assert False, "Unknown available weapons for" + location_name
@@ -64,19 +106,32 @@ def get_available_weapons(num_weapons, location_name):
         weapon, icon = choice(weapons_list)
         weapons_available[weapon] = icon
 
-    return weapons_available
+    return weapons_available, weapon_labels
+
 
 def get_weapon_type(weapon):
-    if weapon == "pistol" or weapon == "archery bow":
+    if weapon == "$PISTOL" or weapon == "$ARCHERY_BOW":
         return "projectile"
-    elif weapon == "rope" or weapon == "chain":
+    elif weapon == "$ROPE" or weapon == "$CHAIN":
         return "strangulation"
-    elif weapon == "knife" or weapon == "dagger" or weapon == "scissors" or weapon == "axe" or weapon == "screwdriver" or weapon == "trident" or weapon == "sword":
+    elif (
+        weapon == "$KNIFE"
+        or weapon == "$DAGGER"
+        or weapon == "$SCISSORS"
+        or weapon == "$AXE"
+        or weapon == "$SCREWDRIVER"
+        or weapon == "$TRIDENT"
+        or weapon == "$SWORD"
+    ):
         return "sharp force"
-    elif weapon == "poison" or weapon == "curse":
+    elif weapon == "$POISON" or weapon == "$CURSE":
         return "poisoning"
-    elif weapon == "rock" or weapon == "hammer" or weapon == "wrench" or weapon == "candelabrum":
+    elif (
+        weapon == "$ROCK"
+        or weapon == "$HAMMER"
+        or weapon == "$WRENCH"
+        or weapon == "$CANDELABRUM"
+    ):
         return "blunt force"
     else:
-        assert False, "Unknown type of weapon: "+ weapon
-
+        assert False, "Unknown type of weapon: " + weapon

@@ -23,6 +23,7 @@ class Model:
         connection_conditions (str): The conditions for the location connections.
         initial_locations_conditions (str): The conditions for the initial locations.
     """
+
     contract_name = ""
     outdir = ""
     source = ""
@@ -37,7 +38,7 @@ class Model:
         self.contract_name = contract_name
         self.locations = locations
         self.outdir = outdir
-        #self.source = read_solidity(solidity_file)
+        # self.source = read_solidity(solidity_file)
         self.template = read_sol_template(solidity_file)
 
     def generate_chars_enum(self, number_characters):
