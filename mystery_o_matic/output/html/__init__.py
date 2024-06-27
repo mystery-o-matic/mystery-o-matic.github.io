@@ -30,8 +30,6 @@ def produce_html_output(static_dir, out_dir, languages, mystery, weapons, weapon
     for room, name in locations.indices.items():
         names_txt[room] = locations.names['en'][name]
 
-    intro = ""
-
     final_locations_map = {}
     for c, p in mystery.final_locations.items():
         c = create_template(c).substitute(names_txt)

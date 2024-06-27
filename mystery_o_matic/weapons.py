@@ -27,7 +27,6 @@ weapon_labels['en'] = {
     "$TRIDENT": "trident",
     "$SWORD": "sword",
     "$ROCK": "rock",
-    "$POISON": "poison",
     "$CURSE": "curse"
 }
 
@@ -48,7 +47,6 @@ weapon_labels['es'] = {
     "$TRIDENT": "el tridente",
     "$SWORD": "la espada",
     "$ROCK": "la roca",
-    "$POISON": "el veneno",
     "$CURSE": "la maldición"
 }
 

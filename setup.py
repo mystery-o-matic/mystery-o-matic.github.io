@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 from setuptools import setup
 
 lint_deps = ["black==20.8b1", "mypy==0.790"]
@@ -32,7 +30,6 @@ setup(
         "networkx",
         "yattag",
         "python-telegram-bot",
-        "spacy",
     ],
     extras_require=extra_require,
     url="https://github.com/mystery-o-matic/mystery-o-matic.github.io",

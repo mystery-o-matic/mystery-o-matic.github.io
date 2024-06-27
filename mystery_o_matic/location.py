@@ -370,7 +370,6 @@ class Locations:
         names_list = list(names['en'].keys())
 
         self.names = names
-        print(self.names)
         self.indices = {}
         #self.names = {}
         self.representations = {}
