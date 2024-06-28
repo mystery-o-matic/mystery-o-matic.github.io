@@ -97,7 +97,7 @@ def get_available_weapons(num_weapons, location_name):
     elif location_name == "space station":
         weapons_sets = space_station_weapons[:]
     else:
-        assert False, "Unknown available weapons for" + location_name
+        raise ValueError("Unknown available weapons for" + location_name)
 
     shuffle(weapons_sets)
     weapons_available = {}
@@ -134,4 +134,4 @@ def get_weapon_type(weapon):
     ):
         return "blunt force"
     else:
-        assert False, "Unknown type of weapon: " + weapon
+        raise ValueError("Unknown type of weapon: " + weapon)

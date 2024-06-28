@@ -4,7 +4,6 @@ from mystery_o_matic.output.html.utils import (
     build_website,
     get_bullet_list,
     get_options_selector,
-    get_subtitle,
     get_char_name,
     save_json,
 )

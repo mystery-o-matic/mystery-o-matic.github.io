@@ -321,7 +321,7 @@ def get_location_data(selected_location):
             space_station_activities,
         )
     else:
-        assert False, "Unknown location name: " + location_name
+        raise ValueError("Unknown location name: " + location_name)
 
     return (location_name, location_data)
 
