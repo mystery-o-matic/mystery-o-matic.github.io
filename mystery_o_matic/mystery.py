@@ -25,7 +25,7 @@ def get_intervals_length_from_events(source, contract_name, events):
             final_time = event[1]
             return final_time.seconds / interval_size
 
-    assert False, "No police arrived event found"
+    raise ValueError("No police arrived event found")
 
 
 class Mystery:

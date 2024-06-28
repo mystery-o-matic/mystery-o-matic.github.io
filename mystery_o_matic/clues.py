@@ -1,15 +1,19 @@
+from abc import ABC, abstractmethod
 from random import randint, choice
+
 from mystery_o_matic.weapons import get_weapon_type
 from mystery_o_matic.time import Time  # parse_time
 
 
-class AbstractStatement:
+class AbstractStatement(ABC):
     def __init__(self):
         pass
 
+    @abstractmethod
     def string_english(self):
         return ""
 
+    @abstractmethod
     def string_spanish(self):
         return ""
 
@@ -73,7 +77,7 @@ class FinalLocationsIntroStatement(AbstractStatement):
     def string_spanish(self):
         return "Cuando llegaste, a las {}:\n".format(self.time)
 
-class AbstractClue:
+class AbstractClue(ABC):
     subject = None
     object = None
     object_is_alive = None
@@ -87,9 +91,11 @@ class AbstractClue:
         if r <= 5:
             self.foggy = True
 
+    @abstractmethod
     def string_english(self):
         return ""
 
+    @abstractmethod
     def string_spanish(self):
         return ""
 
@@ -120,7 +126,7 @@ class SawWhenArrivingClue(AbstractClue):
         elif r == 2:
             str += "I spotted "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
             str += "the body of "
@@ -153,7 +159,7 @@ class SawWhenArrivingClue(AbstractClue):
             else:
                 str += "Distinguí "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
             str += "el cuerpo de "
@@ -183,7 +189,7 @@ class SawWhenArrivingClue(AbstractClue):
             self.place = alibi_place
 
             return self
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class NotSawWhenArrivingLeavingClue(AbstractClue):
@@ -209,7 +215,7 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
         elif r == 2:
             str += "I'm sure "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         str += '{} was not with me in the {} at {}"'
         return str.format(self.subject, self.object, self.place, self.time)
@@ -218,7 +224,7 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class SawVictimWhenArrivingClue(AbstractClue):
@@ -261,7 +267,7 @@ class SawVictimWhenArrivingClue(AbstractClue):
             return SawVictimWhenLeavingClue(
                 self.subject, self.object, self.object_is_alive, alibi_place, self.time
             )
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class SawVictimWhenLeavingClue(AbstractClue):
@@ -286,7 +292,7 @@ class SawVictimWhenLeavingClue(AbstractClue):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class SawWhenLeavingClue(AbstractClue):
@@ -313,7 +319,7 @@ class SawWhenLeavingClue(AbstractClue):
         elif r == 2:
             str += "I spotted "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
             str += "the body of "
@@ -346,7 +352,7 @@ class SawWhenLeavingClue(AbstractClue):
             else:
                 str += "Recuerdo "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
             str += "el cuerpo de "
@@ -376,7 +382,7 @@ class SawWhenLeavingClue(AbstractClue):
             self.place = alibi_place
 
             return self
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class NotSawWhenLeavingClue(AbstractClue):
@@ -398,7 +404,7 @@ class NotSawWhenLeavingClue(AbstractClue):
         elif r == 2:
             str += "Estoy seguro que "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         str += '{} no estaba conmigo en {} a las {}"'
         return str.format(self.subject, self.object, self.place, self.time)
@@ -414,7 +420,7 @@ class NotSawWhenLeavingClue(AbstractClue):
         elif r == 2:
             str += "I'm sure "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         str += '{} was not with me in the {} at {}"'
         return str.format(self.subject, self.object, self.place, self.time)
@@ -423,7 +429,7 @@ class NotSawWhenLeavingClue(AbstractClue):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class WasMurderedClue(AbstractClue):
@@ -436,16 +442,16 @@ class WasMurderedClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        assert False, "Not implemented"
+        raise ValueError("Not implemented")
 
     def string_english(self):
-        assert False, "Not implemented"
+        raise ValueError("Not implemented")
 
     def is_incriminating(self, killer, victim, place, time):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class WasMurderedInitialClue(AbstractClue):
@@ -475,7 +481,7 @@ class WasMurderedInitialClue(AbstractClue):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class WasMurderedInspectionClue(AbstractClue):
@@ -501,8 +507,7 @@ class WasMurderedInspectionClue(AbstractClue):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
-
+        raise ValueError("Invalid manipulation: " + str(self))
 
 class WasMurderedAutopsyClue(AbstractClue):
     time1 = None
@@ -527,8 +532,7 @@ class WasMurderedAutopsyClue(AbstractClue):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
-
+        raise ValueError("Invalid manipulation: " + str(self))
 
 class PoliceArrivedClue(AbstractClue):
     def __init__(self, time):
@@ -536,16 +540,16 @@ class PoliceArrivedClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        assert False, "Not implemented"
+        raise ValueError("Not implemented")
 
     def string_english(self):
-        assert False, "Not implemented"
+        raise ValueError("Not implemented")
 
     def is_incriminating(self, killer, victim, place, time):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
+        raise ValueError("Invalid manipulation: " + str(self))
 
 
 class EvidenceClue(AbstractClue):
@@ -572,7 +576,7 @@ class EvidenceClue(AbstractClue):
                 self.subject, self.place
             )
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
     def string_english(self):
         r = randint(0, 2)
@@ -592,14 +596,13 @@ class EvidenceClue(AbstractClue):
                 self.subject, self.place
             )
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
     def is_incriminating(self, killer, victim, place, time):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
-
+        raise ValueError("Invalid manipulation: " + str(self))
 
 class StayedClue(AbstractClue):
     def __init__(self, subject, place, time_start, time_end):
@@ -626,7 +629,7 @@ class StayedClue(AbstractClue):
             str = '"Estuve en {} desde las {} hasta las {}" aseguró {}'
             return str.format(self.place, self.time_start, self.time_end, self.subject)
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
     def string_english(self):
         r = randint(0, 2)
@@ -641,7 +644,7 @@ class StayedClue(AbstractClue):
             str = '"I stayed in the {} from {} to {}" claimed {}'
             return str.format(self.place, self.time_start, self.time_end, self.subject)
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
     def is_incriminating(self, killer, victim, place, time):
         if (
@@ -676,7 +679,7 @@ class HeardClue(AbstractClue):
             str = '"Yo {} a las {}" afirmó {}'
             return str.format(self.activity["es"], self.time, self.subject)
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
     def string_english(self):
         r = randint(0, 1)
@@ -688,14 +691,13 @@ class HeardClue(AbstractClue):
             str = '"I {} at {}" said {}'
             return str.format(self.activity["en"], self.time, self.subject)
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
     def is_incriminating(self, killer, victim, place, time):
         return False
 
     def manipulate(self, killer, victim, alibi_place):
-        assert False, "Not implemented"
-
+        raise ValueError("Invalid manipulation: " + str(self))
 
 class WeaponNotUsedClue(AbstractClue):
     def __init__(self, weapon):
@@ -725,7 +727,7 @@ class WeaponNotUsedClue(AbstractClue):
         elif weapon_type == "blunt force":
             return str + " que no había signos de una contusión mortal."
         else:
-            assert False, "Unknown type of weapon: " + weapon
+            raise ValueError("Unknown type of weapon: " + weapon)
 
     def string_english(self):
         r = randint(0, 1)
@@ -736,7 +738,7 @@ class WeaponNotUsedClue(AbstractClue):
         elif r == 1:
             str = "The inspection of the body indicates "
         else:
-            assert False
+            raise ValueError("Invalid random number: " + str(r))
 
         weapon_type = get_weapon_type(weapon)
         if weapon_type == "projectile":
@@ -750,7 +752,7 @@ class WeaponNotUsedClue(AbstractClue):
         elif weapon_type == "blunt force":
             return str + " no signs of contusion."
         else:
-            assert False, "Unknown type of weapon: " + weapon
+            raise ValueError("Unknown type of weapon: " + weapon)
 
 
 def create_clue(call):
@@ -796,4 +798,4 @@ def create_clue(call):
 
     # Heard is missing
     else:
-        assert False, "Invalid clue!: " + str(call)
+        raise ValueError("Invalid clue!: " + str(call))
