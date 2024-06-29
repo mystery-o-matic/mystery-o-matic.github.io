@@ -22,6 +22,7 @@ contract StoryModel {
     event FinalLocation(uint8 char0, uint8 place);
     event PoliceArrived(uint256 time);
     event Evidence(uint8 char0, uint8 place);
+    event Interacted(uint8 char0, uint8 char1, uint8 place, uint256 time);
 
     mapping(Char => Place) private currentLocation;
     mapping(Char => uint256) private lastMovement;
@@ -124,6 +125,17 @@ contract StoryModel {
     function stay() internal {
         time = time + 15 minutes;
         numberOfMoves++;
+
+        for (uint8 c0 = 1; c0 < numChars; c0++) {
+            for (uint8 c1 = c0; c1 < numChars; c1++) {
+                if (c0 == c1)
+                    continue;
+                if (Char(c0) == victimIdentity || Char(c1) == victimIdentity)
+                    continue; // No interaction with the dead
+                if (currentLocation[Char(c0)] == currentLocation[Char(c1)])
+                    emit Interacted(c0, c1, uint8(currentLocation[Char(c0)]), time);
+            }
+        }
     }
 
     function someoneHeards(uint char, uint8 place) public {

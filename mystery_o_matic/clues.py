@@ -350,9 +350,9 @@ class SawWhenLeavingClue(AbstractClue):
                 s += "Noté "
         elif r == 2:
             if object == "$NOBODY":
-                s += "No recuerdo "
+                s += "No recuerdo haber visto "
             else:
-                s += "Recuerdo "
+                s += "Recuerdo haber visto "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -627,6 +627,41 @@ class StayedClue(AbstractClue):
         self.place = alibi_place
         return self
 
+class InteractedClue(AbstractClue):
+    def __init__(self, subject0, subject1, place, time):
+        self.subject0 = subject0
+        self.subject1 = subject1
+        self.place = place
+        self.time = time
+        super().__init__()
+
+    def string_spanish(self):
+        return f'{self.subject0} dijo: "Hablé con {self.subject1} en {self.place}"'
+
+    def string_english(self):
+        r = randint(0, 2)
+        if r == 0:
+            return f'{self.subject0} said: "I talked with {self.subject1} in the {self.place}"'
+        elif r == 1:
+            return f'"I talked with {self.subject1} in the {self.place}" said {self.subject0}'
+        elif r == 2:
+            return f'{self.subject0} said: "I chatted with {self.subject1} in the {self.place}"'
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+    def is_incriminating(self, killer, victim, place, time):
+        if (
+            self.subject0 == killer
+            and self.subject1 == victim
+            and self.place == place
+            and self.time.seconds <= time.seconds
+        ):
+            return True
+        return False
+
+    def manipulate(self, killer, victim, alibi_place):
+        return None # This clue is not incriminating to lie, just omitting information
+
 class HeardClue(AbstractClue):
     def __init__(self, subject, activity, time):
         self.subject = subject
@@ -755,6 +790,9 @@ def create_clue(call):
     elif call[0] == "Stayed":
         assert len(call) == 5
         return StayedClue(call[1], call[2], call[3], call[4])
+    elif call[0] == "Interacted":
+        assert len(call) == 5
+        return InteractedClue(call[1], call[2], call[3], call[4])
     elif call[0] == "Evidence":
         assert len(call) == 3
         return EvidenceClue(call[1], call[2])

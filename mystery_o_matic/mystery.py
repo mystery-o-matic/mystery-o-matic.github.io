@@ -116,6 +116,11 @@ class Mystery:
             # Skip the clues that are produced by the victim
             if call[0].startswith("NotSaw") and call[1] == self.victim:
                 continue
+            if call[0].startswith("Interacted") and call[1] == self.victim:
+                # Let's swap the subjects
+                call[1] = call[2]
+                call[2] = self.victim
+
             elif call[0].startswith("Stayed") and call[1] == self.victim:
                 pass  # This is handled later
 
