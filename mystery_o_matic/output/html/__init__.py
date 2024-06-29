@@ -81,9 +81,12 @@ def produce_html_output(static_dir, out_dir, languages, mystery, weapons, weapon
                 continue # skip any missing place
             index = locations.rindices[room]
             names_html[index] = name + " (" + locations.representations[index] + ")"
-
         for weapon, label in weapon_labels[language].items():
-            names_html[weapon.replace("$", "")] = label
+            if weapon not in weapons:
+                continue
+            if language == "es":
+                label = label.capitalize()
+            names_html[weapon.replace("$", "")] = label + " (" + weapons[weapon] + ")"
 
         #print(names_html)
         bullets = []
