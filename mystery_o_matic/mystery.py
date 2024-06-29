@@ -287,7 +287,7 @@ class Mystery:
         # Load weapon locations clues
         for loc, weapon in self.weapon_locations.items():
             self.weapon_locations_clues.append(
-                WeaponLocationStatement(weapon, loc)
+                WeaponLocationStatement(weapon, "$"+loc)
             )
 
         self.final_locations_intro = FinalLocationsIntroStatement(self.final_time)

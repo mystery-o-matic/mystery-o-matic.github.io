@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 from random import randint, choice
 
 from mystery_o_matic.weapons import get_weapon_type
-from mystery_o_matic.time import Time  # parse_time
-
 
 class AbstractStatement(ABC):
     def __init__(self):
@@ -18,7 +16,10 @@ class AbstractStatement(ABC):
         return ""
 
     def string(self):
-        return {'en': self.string_english(), 'es': self.string_spanish()}
+        return {
+            'en': self.string_english(),
+            'es': self.string_spanish()
+        }
 
 class MurderWasAloneStatement(AbstractStatement):
     def string_english(self):
@@ -34,14 +35,14 @@ class MurderWasNotFoundWithBodyStatement(AbstractStatement):
         return "El asesino no fue encontrado con el cuerpo"
 
 class WeaponLocationStatement(AbstractStatement):
-    def __init__(self, weapon, place):
-        self.place = place
+    def __init__(self, weapon, vplace):
+        self.vplace = vplace
         self.weapon = weapon
     def string_english(self):
-        return "The {} from the ${}".format(self.weapon, self.place)
+        return f"The {self.weapon} from the {self.vplace}"
 
     def string_spanish(self):
-        return "{} en ${}".format(self.weapon, self.place)
+        return f"{self.weapon} en {self.vplace}"
 
 class CharacterLocationStatement(AbstractStatement):
     def __init__(self, subject, place):
@@ -49,10 +50,10 @@ class CharacterLocationStatement(AbstractStatement):
         self.place = place
 
     def string_english(self):
-        return "{} was in the {}".format(self.subject, self.place)
+        return f"{self.subject} was in the {self.place}"
 
     def string_spanish(self):
-        return "{} estaba en {}".format(self.subject, self.place)
+        return f"{self.subject} estaba en {self.place}"
 
 class NoOneElseStatement(AbstractStatement):
     def string_english(self):
@@ -72,10 +73,10 @@ class FinalLocationsIntroStatement(AbstractStatement):
         self.time = time
 
     def string_english(self):
-        return "When you arrived at {}:\n".format(self.time)
+        return f"When you arrived at {self.time}:\n"
 
     def string_spanish(self):
-        return "Cuando llegaste, a las {}:\n".format(self.time)
+        return f"Cuando llegaste, a las {self.time}:\n"
 
 class AbstractClue(ABC):
     subject = None
@@ -100,7 +101,10 @@ class AbstractClue(ABC):
         return ""
 
     def string(self):
-        return {'en': self.string_english(), 'es': self.string_spanish()}
+        return {
+            'en': self.string_english(),
+            'es': self.string_spanish()
+        }
 
 class SawWhenArrivingClue(AbstractClue):
     def __init__(self, subject, object, object_is_alive, place, time):
@@ -114,62 +118,62 @@ class SawWhenArrivingClue(AbstractClue):
     def string_english(self):
         object = self.object
         r = randint(0, 2)
-        str = '{} said "'
+        s = f'{self.subject} said "'
 
         if object == "$NOBODY":
             r = 0
 
         if r == 0:
-            str += "I saw "
+            s += "I saw "
         elif r == 1:
-            str += "I noticed "
+            s += "I noticed "
         elif r == 2:
-            str += "I spotted "
+            s += "I spotted "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
-            str += "the body of "
+            s += "the body of "
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "somebody"
 
-        str += '{} when I arrived to the {} at {}"'
-        return str.format(self.subject, object, self.place, self.time)
+        s += f'{object} when I arrived to the {self.place} at {self.time}"'
+        return s
 
     def string_spanish(self):
         object = self.object
         r = randint(0, 2)
-        str = '{} dijo "'
+        s = f'{self.subject} dijo "'
 
         if r == 0:
             if object == "$NOBODY":
-                str += "No vi "
+                s += "No vi "
             else:
-                str += "Vi "
+                s += "Vi "
         elif r == 1:
             if object == "$NOBODY":
-                str += "No noté "
+                s += "No noté "
             else:
-                str += "Noté "
+                s += "Noté "
         elif r == 2:
             if object == "$NOBODY":
-                str += "No distinguí "
+                s += "No distinguí "
             else:
-                str += "Distinguí "
+                s += "Distinguí "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
-            str += "el cuerpo de "
+            s += "el cuerpo de "
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "alguien"
 
-        str += 'a {} cuando llegaba a {} a las {}"'
-        return str.format(self.subject, object, self.place, self.time)
+        s += f'a {object} cuando llegué a {self.place} a las {self.time}"'
+        return s
 
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
@@ -201,24 +205,23 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        str = '{} dijo: "No recuerdo que {} estuviese conmigo en {} a las {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        return f'{self.subject} dijo: "No recuerdo que {self.object} estuviese conmigo en {self.place} a las {self.time}"'
 
     def string_english(self):
         r = randint(0, 2)
-        str = '{} said: "'
+        s = f'{self.subject} said: "'
 
         if r == 0:
-            str += ""
+            s += ""
         elif r == 1:
-            str += "I think "
+            s += "I think "
         elif r == 2:
-            str += "I'm sure "
+            s += "I'm sure "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
-        str += '{} was not with me in the {} at {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s += f'{self.object} was not with me in the {self.place} at {self.time}"'
+        return s
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -237,25 +240,25 @@ class SawVictimWhenArrivingClue(AbstractClue):
         super().__init__()
 
     def string_english(self):
-        str = '{} said: "I saw '
+        s = f'{self.subject} said: "I saw '
         if not self.object_is_alive:
             # This should never happen, since the victim produced this clue
             # when they were alive
-            str += "the body of "
+            s += "the body of "
 
-        str += '{} arriving to the {} at {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s += f'{self.object} arriving to the {self.place} at {self.time}"'
+        return s
 
     def string_spanish(self):
-        str = '{} dijo: "Vi '
+        s = f'{self.subject} dijo: "Vi '
 
         if not self.object_is_alive:
             # This should never happen, since the victim produced this clue
             # when they were alive
-            str += "el cuerpo de "
+            s += "el cuerpo de "
 
-        str += 'a {} llegando a {} a las {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s += f'a {self.object} llegando a {self.place} a las {self.time}"'
+        return s
 
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
@@ -280,13 +283,12 @@ class SawVictimWhenLeavingClue(AbstractClue):
         super().__init__()
 
     def string_english(self):
-        str = '{} said: "I saw '
-        str += '{} leaving the {} at {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s = f'{self.subject} said: "I saw {self.object} leaving the {self.place} at {self.time}"'
+        return s
 
     def string_spanish(self):
-        str = '{} dijo: "Vi a {} yendose de {} a las {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s = f'{self.subject} dijo: "Vi a {self.object} yendose de {self.place} a las {self.time}"'
+        return s
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -307,62 +309,62 @@ class SawWhenLeavingClue(AbstractClue):
     def string_english(self):
         object = self.object
         r = randint(0, 2)
-        str = '{} said "'
+        s = f'{self.subject} said "'
 
         if object == "$NOBODY":
             r = 0
 
         if r == 0:
-            str += "I saw "
+            s += "I saw "
         elif r == 1:
-            str += "I noticed "
+            s += "I noticed "
         elif r == 2:
-            str += "I spotted "
+            s += "I spotted "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
-            str += "the body of "
+            s += "the body of "
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "somebody"
 
-        str += '{} when I was leaving the {} at {}"'
-        return str.format(self.subject, object, self.place, self.time)
+        s += f'{object} when I was leaving the {self.place} at {self.time}"'
+        return s
 
     def string_spanish(self):
         object = self.object
         r = randint(0, 2)
-        str = '{} dijo "'
+        s = f'{self.subject} dijo "'
 
         if r == 0:
             if object == "$NOBODY":
-                str += "No vi "
+                s += "No vi "
             else:
-                str += "Vi "
+                s += "Vi "
         elif r == 1:
             if object == "$NOBODY":
-                str += "No noté "
+                s += "No noté "
             else:
-                str += "Noté "
+                s += "Noté "
         elif r == 2:
             if object == "$NOBODY":
-                str += "No recuerdo "
+                s += "No recuerdo "
             else:
-                str += "Recuerdo "
+                s += "Recuerdo "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
-            str += "el cuerpo de "
+            s += "el cuerpo de "
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "alguien"
 
-        str += 'a {} cuando me iba de {} a las {}"'
-        return str.format(self.subject, object, self.place, self.time)
+        s += f'a {object} cuando me fui de {self.place} a las {self.time}"'
+        return s
 
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
@@ -395,35 +397,35 @@ class NotSawWhenLeavingClue(AbstractClue):
 
     def string_spanish(self):
         r = randint(0, 2)
-        str = '{} dijo: "'
+        s = f'{self.subject} dijo: "'
 
         if r == 0:
-            str += ""
+            s += ""
         elif r == 1:
-            str += "Recuerdo que "
+            s += "Recuerdo que "
         elif r == 2:
-            str += "Estoy seguro que "
+            s += "Estoy seguro que "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
-        str += '{} no estaba conmigo en {} a las {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s += f'{self.object} no estaba conmigo en {self.place} a las {self.time}"'
+        return s
 
     def string_english(self):
         r = randint(0, 2)
-        str = '{} said: "'
+        s = f'{self.subject} said: "'
 
         if r == 0:
-            str += ""
+            s += ""
         elif r == 1:
-            str += "I think "
+            s += "I think "
         elif r == 2:
-            str += "I'm sure "
+            s += "I'm sure "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
-        str += '{} was not with me in the {} at {}"'
-        return str.format(self.subject, self.object, self.place, self.time)
+        s += f'{self.object} was not with me in the {self.place} at {self.time}"'
+        return s
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -468,14 +470,10 @@ class WasMurderedInitialClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        return "{} fue asesinado en {} en algún momento entre las {} y las {}".format(
-            self.subject, self.object, self.time_start, self.time_end
-        )
+        return f"{self.subject} fue asesinado en {self.object} en algún momento entre las {self.time_start} y las {self.time_end}"
 
     def string_english(self):
-        return "{} was murdered in the {} at some time between {} and {}".format(
-            self.subject, self.object, self.time_start, self.time_end
-        )
+        return f"{self.subject} was murdered in the {self.object} at some time between {self.time_start} and {self.time_end}"
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -494,14 +492,10 @@ class WasMurderedInspectionClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        return "Un examen minusioso del cuerpo revela que el asesinato tuvo lugar a las {} o las {}".format(
-            self.time1, self.time2
-        )
+        return f"Un examen minusioso del cuerpo revela que el asesinato tuvo lugar a las {self.time1} o las {self.time2}"
 
     def string_english(self):
-        return "A close examination of the body reveals that the murder took place either at {} or at {}".format(
-            self.time1, self.time2
-        )
+        return f"A close examination of the body reveals that the murder took place either at {self.time1} or at {self.time2}"
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -519,14 +513,10 @@ class WasMurderedAutopsyClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        return "Un grito espeluznante de la víctima se escuchó a las {} o a las {}".format(
-            self.time1, self.time2
-        )
+        return f"Un grito espeluznante de la víctima se escuchó a las {self.time1} o a las {self.time2}"
 
     def string_english(self):
-        return "A blood-curdling scream of the victim was heard either at {} or at {}".format(
-            self.time1, self.time2
-        )
+        return f"A blood-curdling scream of the victim was heard either at {self.time1} or at {self.time2}"
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -562,19 +552,11 @@ class EvidenceClue(AbstractClue):
         r = randint(0, 2)
 
         if r == 0:
-            return "Una pisada reciente, compatible con el calzado de {} fue encontrada en {}".format(
-                self.subject, self.place
-            )
+            return f"Una pisada reciente, compatible con el calzado de {self.subject} fue encontrada en {self.place}"
         elif r == 1:
-            return (
-                "Una huella digital de {} fue identificada {}. Se ve muy reciente".format(
-                    self.subject, self.place
-                )
-            )
+            return f"Una huella digital de {self.subject} fue identificada {self.place}. Se ve muy reciente"
         elif r == 2:
-            return "Un hebra de pelo de {} fue encontrada en {} indicando que estuvo reciente ahí".format(
-                self.subject, self.place
-            )
+            return f"Un hebra de pelo de {self.subject} fue encontrada en {self.place} indicando que estuvo reciente ahí"
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -582,19 +564,11 @@ class EvidenceClue(AbstractClue):
         r = randint(0, 2)
 
         if r == 0:
-            return "A recent footstep matching {} shoes was found in the {}".format(
-                self.subject, self.place
-            )
+            return f"A recent footstep matching {self.subject} shoes was found in the {self.place}"
         elif r == 1:
-            return (
-                "A fingerprint of {} was found in the {}. It looks very fresh".format(
-                    self.subject, self.place
-                )
-            )
+            return f"A fingerprint of {self.subject} was found in the {self.place}. It looks very fresh"
         elif r == 2:
-            return "A strand of hair matching {} was found in the {}, indicating that they were recently in that place".format(
-                self.subject, self.place
-            )
+            return f"A strand of hair matching {self.subject} was found in the {self.place}, indicating that they were recently there"
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -617,17 +591,13 @@ class StayedClue(AbstractClue):
         r = randint(0, 3)
 
         if r == 0:
-            str = '{} dijo: "Estuve en {} desde las {} hasta las {}"'
-            return str.format(self.subject, self.place, self.time_start, self.time_end)
+            return f'{self.subject} dijo: "Estuve en {self.place} desde las {self.time_start} hasta las {self.time_end}"'
         elif r == 1:
-            str = '{} dijo: "Me quedé en {} desde las {} hasta las {}"'
-            return str.format(self.subject, self.place, self.time_start, self.time_end)
+            return f'{self.subject} dijo: "Me quedé en {self.place} desde las {self.time_start} hasta las {self.time_end}"'
         elif r == 2:
-            str = '"Estuve en {} desde las {} hasta las {}" afirmó {}'
-            return str.format(self.place, self.time_start, self.time_end, self.subject)
+            return f'"Estuve en {self.place} desde las {self.time_start} hasta las {self.time_end}" afirmó {self.subject}'
         elif r == 3:
-            str = '"Estuve en {} desde las {} hasta las {}" aseguró {}'
-            return str.format(self.place, self.time_start, self.time_end, self.subject)
+            return f'"Estuve en {self.place} desde las {self.time_start} hasta las {self.time_end}" aseguró {self.subject}'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -635,14 +605,11 @@ class StayedClue(AbstractClue):
         r = randint(0, 2)
 
         if r == 0:
-            str = '{} said: "I was in the {} from {} to {}"'
-            return str.format(self.subject, self.place, self.time_start, self.time_end)
+            return f'{self.subject} said: "I was in the {self.place} from {self.time_start} to {self.time_end}"'
         elif r == 1:
-            str = '"I was in the {} from {} to {}" stated {}'
-            return str.format(self.place, self.time_start, self.time_end, self.subject)
+            return f'"I was in the {self.place} from {self.time_start} to {self.time_end}" stated {self.subject}'
         elif r == 2:
-            str = '"I stayed in the {} from {} to {}" claimed {}'
-            return str.format(self.place, self.time_start, self.time_end, self.subject)
+            return f'"I stayed in the {self.place} from {self.time_start} to {self.time_end}" claimed {self.subject}'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -673,11 +640,9 @@ class HeardClue(AbstractClue):
         r = randint(0, 1)
 
         if r == 0:
-            str = '{} dijo: "Yo {} a las {}"'
-            return str.format(self.subject, self.activity["es"], self.time)
+            return f'{self.subject} dijo: "Yo {self.activity["es"]} a las {self.time}"'
         elif r == 1:
-            str = '"Yo {} a las {}" afirmó {}'
-            return str.format(self.activity["es"], self.time, self.subject)
+            return f'"Yo {self.activity["es"]} a las {self.time}" afirmó {self.subject}'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -685,11 +650,9 @@ class HeardClue(AbstractClue):
         r = randint(0, 1)
 
         if r == 0:
-            str = '{} said: "I {} at {}"'
-            return str.format(self.subject, self.activity["en"], self.time)
+            return f'{self.subject} said: "I {self.activity["en"]} at {self.time}"'
         elif r == 1:
-            str = '"I {} at {}" said {}'
-            return str.format(self.activity["en"], self.time, self.subject)
+            return f'"I {self.activity["en"]} at {self.time}" said {self.subject}'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -709,23 +672,23 @@ class WeaponNotUsedClue(AbstractClue):
         weapon = self.weapon
 
         if r == 0:
-            str = "Una inspección del cuerpo revela "
+            s = "Una inspección del cuerpo revela "
         elif r == 1:
-            str = "La inspección del cuerpo indica "
+            s = "La inspección del cuerpo indica "
         else:
             assert False
 
         weapon_type = get_weapon_type(weapon)
         if weapon_type == "projectile":
-            return str + "que no había orificio de bala."
+            return s + "que no había orificio de bala."
         elif weapon_type == "strangulation":
-            return str + "que no había signos de estrangulamiento."
+            return s + "que no había signos de estrangulamiento."
         elif weapon_type == "sharp force":
-            return str + "que no había puñaladas."
+            return s + "que no había puñaladas."
         elif weapon_type == "poisoning":
-            return str + " que " + weapon + " no era el arma homicida."
+            return s + " que " + weapon + " no era el arma homicida."
         elif weapon_type == "blunt force":
-            return str + " que no había signos de una contusión mortal."
+            return s + " que no había signos de una contusión mortal."
         else:
             raise ValueError("Unknown type of weapon: " + weapon)
 
@@ -734,23 +697,23 @@ class WeaponNotUsedClue(AbstractClue):
         weapon = self.weapon
 
         if r == 0:
-            str = "Inspecting the body reveals "
+            s = "Inspecting the body reveals "
         elif r == 1:
-            str = "The inspection of the body indicates "
+            s = "The inspection of the body indicates "
         else:
             raise ValueError("Invalid random number: " + str(r))
 
         weapon_type = get_weapon_type(weapon)
         if weapon_type == "projectile":
-            return str + "there are no projectile holes."
+            return s + "there are no projectile holes."
         elif weapon_type == "strangulation":
-            return str + "no signs of strangulation."
+            return s + "no signs of strangulation."
         elif weapon_type == "sharp force":
-            return str + "no signs of stabbing."
+            return s + "no signs of stabbing."
         elif weapon_type == "poisoning":
-            return str + " that the " + weapon + " was not the murderer weapon."
+            return s + " that the " + weapon + " was not the murderer weapon."
         elif weapon_type == "blunt force":
-            return str + " no signs of contusion."
+            return s + " no signs of contusion."
         else:
             raise ValueError("Unknown type of weapon: " + weapon)
 

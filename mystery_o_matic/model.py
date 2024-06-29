@@ -87,12 +87,12 @@ class Model:
     def generate_location_connections(self):
         r = ""
         for p0, p1 in self.locations.graph.edges:
-            r = r + "connection[Place.{}][Place.{}] = true;\n\t".format(p0, p1)
+            r = r + f"connection[Place.{p0}][Place.{p1}] = true;\n\t"
         return r.strip()
 
     def generate_weapon_condition(self):
         self.used_weapon_location = choice(list(self.locations.graph.nodes()))
-        return "locationWeapon = Place.{};".format(self.used_weapon_location)
+        return f"locationWeapon = Place.{self.used_weapon_location};"
 
     def get_location_conditions(self):
         chars = self.generate_chars_enum(self.number_characters)
@@ -106,7 +106,7 @@ class Model:
         for c, p in conditions:
             c = c.replace("$", "")
             p = p.replace("$", "")
-            r = r + "{}[Char.{}] = Place.{};\n\t".format(var_name, c, p)
+            r = r + f"{var_name}[Char.{c}] = Place.{p};\n\t"
 
         return r.strip()
 
