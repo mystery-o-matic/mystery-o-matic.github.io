@@ -1,6 +1,6 @@
 function getCurrentDate() {
 	var options = {  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: false };
-	return String(new Date().toLocaleTimeString('en-us', options)).split(" at")[0];
+	return String(new Date().toLocaleDateString(sessionStorage.language, options));
 }
 
 function showPage(page) {
