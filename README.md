@@ -2,6 +2,11 @@
 
 mystery-o-matic is a Python program used to produce the content of [mystery-o-matic.com](https://mystery-o-matic.com). It produces a random [murder mystery](https://en.wikipedia.org/wiki/Murder_mystery) to solve using [fuzzing testing](https://en.wikipedia.org/wiki/Fuzzing). Once a mystery is generated, it produces a static html file that contains all the clues (and the solution to verify it).
 
+mystery-o-matic supports the following languages:
+
+* English
+* Spanish
+
 ## Installation
 
 Make sure all the requirements are met. If you are using Ubuntu:

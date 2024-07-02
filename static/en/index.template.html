@@ -204,9 +204,23 @@
 
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
-			<p>mystery-o-matic features a new mystery each day, set in a specific location, where each suspect
+			<p class="fst-italic"> The gang gathers around a dusty tome adorned with whimsical golden
+				letters on the cover that read <b>"mystery-o-matic"</b>.</p>
+			<p class="fst-italic">
+				"Why do they want us to read this?"
+				Alice asks, blowing the dust off the cover.
+			</p>
+			<p class="fst-italic">
+				Eddie starts coughing and pulls out his inhaler.
+				"Could you be more careful and considerate? Also, give me that!"
+				he says, snatching the book from her.
+			</p>
+			<hr class="styled-hr">
+			  	<p>
+				<b>mystery-o-matic</b> features a new mystery each day, set in a specific location, where each suspect
 				acts independently. The clues provided require both spatial
-				and temporal deductions to solve the case.</p>
+				and temporal deductions to solve the case.
+				</p>
 		</div>
 
 		<div class="container mt-5">
@@ -215,7 +229,6 @@
 			<p>
 			In our murder mystery, characters can move between rooms every 15 minutes. This helps us follow where they were at different times.
 			Their statements tell us where they were at specific times.
-			<br/>
 			For example, let's say we have the following clue:</p>
 
 			<div class="d-flex justify-content-center align-items-center">
@@ -248,7 +261,12 @@
 				<canvas id="clues-table-bathroom:tutorial-1" oncontextmenu="return false" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Your browser does not support the HTML canvas tag.</canvas>
 			</div>
-			<p></p>
+			<p>
+				<div class="col-12 text-center">
+					<a onclick="true" class="btn btn-danger" role="button">Clear ♻️</a>
+					<a onclick="true" class="btn btn-info" role="button">Check 🎯</a>
+				</div>
+			</p>
 			<p>An important question still remains: where was Alice at 10:00? The location graph provides some clues:</p>
 			<div class="text-center">
 				<img src="locations_tutorial.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Location Graph">
@@ -277,6 +295,24 @@
 				<canvas id="clues-table-bathroom:tutorial-2" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
+				<br/>
+				<hr class="styled-hr">
+				<p class="fst-italic">
+					"Hmm, aha, aha..." Eddie nods as he skims through the pages.
+				</p>
+
+				<p class="fst-italic">
+					"So? What is it?" Carol asks, unimpressed.
+				</p>
+
+				<p class="fst-italic">
+				"No idea, but look! Our names are in here. All of our names."
+				</p>
+
+				<p class="fst-italic">
+					“Pff, way to make yourself feel important, Eddie!” snaps Carol, looking over his shoulder. “Your name isn’t there. Not even mine! Only Alice and Bob are used as examples to understand this stupid game.”
+				</p><br/>
+				<hr class="styled-hr">
 
 				<p>Other types of clues do not indicate clearly where each character is, but they can still be useful.
 					For instance:</p>
@@ -293,15 +329,32 @@
 					</div>
 				</div>
 
-				<p>With this clue, we can draw the following deductions:</p>
+				<p><br/>
+					With this clue, we can draw the following deductions:</p>
 
 				<lu class="list-group">
 					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 9:00</li>
 					<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Someone, except Alice, was in the kitchen at 9:00</li>
 				</lu>
 
-				<p>It can be tempting to try to guess Alice location, but it unclear from this kind of clues, as we cannot deduce how near or far she was from the location graph.</p>
+				<p>
+					<br/>
+					It can be tempting to try to guess Alice location, but it unclear from this kind of clues, as we cannot deduce how near or far she was from the location graph.</p>
+					<hr class="styled-hr">
+					<p class="fst-italic">
+						“Why did they leave me out of the tutorial?” groaned Dave, crossing his arms in disgust. “I’m a much more interesting character than Bob, anyway!”
+					</p>
+					<p class="fst-italic">
+						“And I can't wait to 'murder' you in the game” mutters Frida, unfazed.
+					</p>
+					<p class="fst-italic">
+					“Guys, there's even a list of weapons in here!” whimpers Bob, who ended up with the book.
+					</p>
 
+					<p class="fst-italic">
+					“Awesome,” says Frida coolly. “Can I take a look-see?”
+					</p>
+					<hr class="styled-hr">
 			</div>
 
 		<div class="container mt-5">
@@ -357,7 +410,8 @@
 				<canvas id="clues-table-weapons:tutorial" oncontextmenu="return false" height="40" width="500" onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
 				Your browser does not support the HTML canvas tag.</canvas>
 			</div>
-
+			<br/>
+			By mastering these techniques and honing your deductive reasoning, you'll become a top detective. Happy sleuthing!
 
 		</div>
 	</div>

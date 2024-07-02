@@ -33,10 +33,20 @@ body > .skiptranslate {
 	display: none;
 }
 
-/* Disable google translate original text tooltips */
-#goog-gt-tt, .goog-te-balloon-frame {
-	display: none !important;
+/* Glyph, by Harry Roberts */
+
+hr.styled-hr {
+    overflow: visible; /* For IE */
+    padding: 0;
+    border: none;
+    border-top: medium double var(--bs-gray);
+    text-align: center;
 }
-.goog-text-highlight {
-	background: none !important; box-shadow: none !important;
+hr.styled-hr:after {
+    content: "⚙️";
+    display: inline-block;
+    position: relative;
+    top: -0.9em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
 }
