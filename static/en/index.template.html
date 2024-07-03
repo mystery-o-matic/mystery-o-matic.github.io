@@ -485,11 +485,19 @@
 											onclick="selectClues(true)">Lie to me 👹</button>
 									</div>
 									<div id="clues-box" class="row align-items-center" style="display:none">
-										<div class="col-9" display="none">
+										<div class="col-9 border-end" display="none">
 											<h6 id="clue-title" class="card-title">Clue</h6>
 											<p id="clue-text" class="card-text" onClick="toggleClueStrikeout(this)">CLUE</p>
+											<div id="clues-buttons" class="row align-items-center justify-content-start text-center" style="display:none">
+												<div class="col">
+													<button id="previous-clue-button" type="button" class="btn btn-outline-secondary btn-sm"
+														onclick="revealAnotherClue(-1)">Previous clue</button>
+													<button id="next-clue-button" type="button" class="btn btn-outline-secondary btn-sm"
+														onclick="revealAnotherClue(1)">Next clue</button>
+												</div>
+											</div>
 										</div>
-										<div class="col-3 border-start">
+										<div class="col-3">
 											<div class="d-flex justify-content-center align-items-center">
 												<img id="locations-small" src="locations_small.svg" class="align-middle" style="max-height: 100%; max-width: 100%; object-fit: contain; display: block;" alt="...">
 											</div>
@@ -500,33 +508,24 @@
 						</div>
 					</div>
 					<p></p>
-					<div id="clues-buttons" class="row align-items-center justify-content-start text-center" style="display:none">
-						<div class="col">
-							<button id="previous-clue-button" type="button" class="btn btn-outline-secondary"
-								onclick="revealAnotherClue(-1)">Previous clue</button>
-							<button id="next-clue-button" type="button" class="btn btn-outline-secondary"
-								onclick="revealAnotherClue(1)">Next clue</button>
-						</div>
-					</div>
-					<p></p>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room0" oncontextmenu="return false" height="120" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room0" oncontextmenu="return false" height="115" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room1" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room1" oncontextmenu="return false" height="95" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room2" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room2" oncontextmenu="return false" height="95" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room3" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room3" oncontextmenu="return false" height="95" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room4" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room4" oncontextmenu="return false" height="95" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
