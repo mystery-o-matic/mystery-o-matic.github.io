@@ -397,3 +397,53 @@ async function checkCellClicked(c, x, y) {
 	clearClueTable(position[0], 0, ftable);
 	fillClueTable(time, table.columnSize / 3.3, '#000000', position[0], 0, ftable);
 }
+
+function clearTable(c) {
+	var name = c.replace("clues-table-", "");
+	var table = tables.get(name);
+
+	var data = tutorialData.expectedData[name];
+	for (let i = 0; i < table.nColumns; i++) {
+		for (let j = 0; j < table.nRows; j++) {
+			var value = table.data[i][j];
+			if (value == "✓" || value == "✗" || value == "?") {
+				clearClueTable(i, j, table);
+				fillClueTable("", table.columnSize / 3, '#000000', i, j, table);
+			}
+		}
+	}
+}
+
+function checkTutorialTable(c) {
+	var name = c.replace("clues-table-", "");
+	var table = tables.get(name);
+
+	var data = tutorialData.expectedData[name];
+
+	for (let i = 0; i < data.length; i++) {
+		console.log(data[i])
+		for (let j = 0; j < data[i].length; j++) {
+			var expectedValue = data[i][j];
+			var value = table.data[j][i];
+
+			if (expectedValue == "✓" || expectedValue == "✗") {
+				if (value == expectedValue) {
+					clearClueTable(j, i, table);
+					fillClueTable(value, table.columnSize / 3, '#025020', j, i, table);
+				} else {
+					if (value == "")
+						value = "?";
+					clearClueTable(j, i, table);
+					fillClueTable(value, table.columnSize / 3, '#502020', j, i, table);
+				}
+			} else if (expectedValue == "?") {
+				if (value == "?" || value == "") {
+					//Nothing
+				} else {
+					clearClueTable(j, i, table);
+					fillClueTable(value, table.columnSize / 3, '#502020', j, i, table);
+				}
+			}
+		}
+	}
+}

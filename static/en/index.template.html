@@ -263,8 +263,8 @@
 			</div>
 			<p>
 				<div class="col-12 text-center">
-					<a onclick="true" class="btn btn-danger" role="button">Clear ♻️</a>
-					<a onclick="true" class="btn btn-info" role="button">Check 🎯</a>
+					<a onclick="clearTable('kitchen:tutorial-1'); clearTable('bathroom:tutorial-1')" class="btn btn-danger" role="button">Clear ♻️</a>
+					<a onclick="checkTutorialTable('kitchen:tutorial-1'); checkTutorialTable('bathroom:tutorial-1')" class="btn btn-info" role="button">Check 🎯</a>
 				</div>
 			</p>
 			<p>An important question still remains: where was Alice at 10:00? The location graph provides some clues:</p>
@@ -295,6 +295,12 @@
 				<canvas id="clues-table-bathroom:tutorial-2" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
+				<p>
+					<div class="col-12 text-center">
+						<a onclick="clearTable('kitchen:tutorial-2'); clearTable('bathroom:tutorial-2')" class="btn btn-danger" role="button">Clear ♻️</a>
+						<a onclick="checkTutorialTable('kitchen:tutorial-2'); checkTutorialTable('bathroom:tutorial-2')" class="btn btn-info" role="button">Check 🎯</a>
+					</div>
+				</p>
 				<br/>
 				<hr class="styled-hr">
 				<p class="fst-italic">
@@ -504,23 +510,23 @@
 					</div>
 					<p></p>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room0" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room0" oncontextmenu="return false" height="120" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room1" oncontextmenu="return false" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room1" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room2" oncontextmenu="return false" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room2" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room3" oncontextmenu="return false" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room3" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
-					<canvas id="clues-table-room4" oncontextmenu="return false" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+					<canvas id="clues-table-room4" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Your browser does not support the HTML canvas tag.</canvas>
 				</div>
 				<div class="col-12 text-center">
