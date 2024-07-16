@@ -349,6 +349,7 @@ class Mystery:
         assert isinstance(self.killer, str), "Failed to determine the killer"
         index = int("".join(filter(str.isdigit, self.killer))) - 1
         weapon = self.weapon_used.replace("$", "").lower()
+        weapon = weapon.replace("_", " ")
         return (
             self.characters[index]
             + "-"
