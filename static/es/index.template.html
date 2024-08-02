@@ -194,26 +194,33 @@
 			</div>
 
 			<p>Cada pista revelada disminuirá tu puntaje. Ten en cuenta que el sitio web aún está en beta, por lo que este sistema de puntuación, la interfaz o el diseño están sujetos a cambios.
-				Siéntete libre de proporcionar comentarios <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">aquí</a> o en <a
+				No dudes en enviarnos tus comentarios <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">aquí</a> o en <a
 				class="link-dark" href="https://www.reddit.com/r/mystery_o_matic/">nuestro subreddit</a>.
 			</p>
 		</div>
 	</div>
 
 
-	<div id="how-to-play" style="display:none">
+	<div id="how-to-play">
 		<div class="container mt-5">
-			<p>mystery-o-matic presenta un nuevo misterio cada día, ambientado en un lugar específico, donde cada sospechoso
-				actúa de forma independiente. Las pistas proporcionadas requieren deducciones espaciales
-				espaciales y temporales para resolver el caso.</p>
+			<p class="fst-italic"> La pandilla se reúne alrededor de un tomo polvoriento adornado con extravagantes letras doradas en la portada que dicen <b>"Mystery-o-Matic"</b>.</p>
+			<p class="fst-italic">
+				—¿Por qué quieren que leamos esto? —pregunta Alice mientras sopla el polvo de la tapa.
+			</p>
+			<p class="fst-italic">
+				Eddie comienza a toser y saca su inhalador. "¿Podrías ser más cuidadosa y considerada? ¡Y dame eso!", exclama, mientras le arrebata el libro.
+			</p>
+			<hr class="styled-hr">
+			<p>
+				<b>mystery-o-matic</b> presenta un nuevo misterio cada día, ambientado en un lugar específico, donde cada sospechoso actúa de forma independiente. Las pistas proporcionadas requieren deducciones tanto espaciales como temporales para resolver el caso.
+			</p>
 		</div>
 
 		<div class="container mt-5">
-			<h4>🎓 Entendiendo las pistas y haciendo deducciones</h4>
+			<h4>🎓 Comprender las pistas y hacer deducciones</h4>
 
 			<p>
-			En nuestro misterio de asesinato, los personajes pueden moverse entre habitaciones cada 15 minutos. Esto nos ayuda a seguir dónde estaban en diferentes momentos.
-			Sus declaraciones nos dicen dónde estaban a horas específicas.
+				En nuestro misterio de asesinato, los personajes se mueven de una habitación a otra cada 15 minutos, lo que nos permite rastrear su ubicación a lo largo del tiempo a través de sus declaraciones.
 			<br/>
 			Por ejemplo, digamos que tenemos la siguiente pista:</p>
 
@@ -222,7 +229,7 @@
 					<div class="card" style="height: auto;">
 						<div class="card-body text-center">
 							<div class="row align-items-center">
-									<h6 id="clue-title-tutorial" class="card-title">Pista de Tutorial #1</h6>
+									<h6 id="clue-title-tutorial" class="card-title">Pista del Tutorial #1</h6>
 									<p id="clue-text-tutorial" class="card-text">Alice dijo: "Vi a Bob cuando llegué a la cocina a las 10:15"</p>
 							</div>
 						</div>
@@ -248,14 +255,12 @@
 							Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
 			</div>
 			<p></p>
-			<p>Aún queda una pregunta importante: ¿dónde estaba Alice a las 10:00? El gráfico de ubicación proporciona algunas pistas:</p>
+			<p>Aún queda una pregunta importante: ¿dónde estaba Alice a las 10:00? El gráfico de ubicación también proporciona algunas pistas:</p>
 			<div class="text-center">
 				<img src="locations_tutorial.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Gráfico de Ubicaciones">
 			</div>
 
-			<p> Es importante recordar que cuando un sospechoso anuncia que deja o llega a una habitación,
-				solo puede moverse a una habitación directamente conectada a ella. En este escenario, dado que la cocina
-				está directamente conectada tanto al comedor como al dormitorio, no podemos determinar la ubicación exacta de Alice antes de las 10:00.</p>
+			<p> Cuando un sospechoso anuncia que sale o llega a una habitación, solo puede trasladarse a una habitación conectada directamente. Como la cocina está conectada tanto con el comedor como con el dormitorio, no podemos determinar la ubicación exacta de Alice antes de las 10:00.</p>
 
 				<div class="text-center">
 					<img src="locations_tutorial_highlighted.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Gráfico de Ubicaciones">
@@ -267,7 +272,7 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice NO estaba en el baño a las 10:00</li>
 			</ul>
 
-			<p><br/>Usando esta información, podemos completar las tablas de pistas:</p>
+			<p><br/>Usando esta información, podemos completar la tabla de pistas:</p>
 			<div class="col-12 text-center">
 					<canvas id="clues-table-kitchen:tutorial-2" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
@@ -276,15 +281,39 @@
 				<canvas id="clues-table-bathroom:tutorial-2" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 						Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
 				</div>
+				<p>
+					<div class="col-12 text-center">
+						<a onclick="clearTable('kitchen:tutorial-2'); clearTable('bathroom:tutorial-2')" class="btn btn-danger" role="button">Borrar ♻️</a>
+						<a onclick="checkTutorialTable('kitchen:tutorial-2'); checkTutorialTable('bathroom:tutorial-2')" class="btn btn-info" role="button">Verificar 🎯</a>
+					</div>
+				</p>
+				<br/>
+				<hr class="styled-hr">
+				<p class="fst-italic">
+					"Hmm, ajá, ajá..." Eddie asiente mientras hojea las páginas.
+				</p>
 
-				<p>Otros tipos de pistas no indican claramente dónde está cada personaje, pero aún pueden ser útiles.
+				<p class="fst-italic">
+					—Entonces, ¿qué es? —pregunta Carol, poco impresionada.
+				</p>
+
+				<p class="fst-italic">
+					"No tengo idea, pero ¡mira! Nuestros nombres están aquí. Todos nuestros nombres".
+				</p>
+
+				<p class="fst-italic">
+					"¡Pff, qué manera de sentirte importante, Eddie!" —espeta Carol, mirando por encima de su hombro—. “Tu nombre no aparece. ¡Ni el mío! Solo Alice y Bob sirven de ejemplo para entender este estúpido juego."
+				</p><br/>
+				<hr class="styled-hr">
+
+				<p>Otro tipo de pistas no indican claramente dónde está cada personaje, pero aún pueden ser útiles.
 					Por ejemplo:</p>
 				<div class="d-flex justify-content-center align-items-center">
 					<div style="width: 99%" id="clues-tutorial">
 						<div class="card" style="height: auto;">
 							<div class="card-body text-center">
 								<div class="row align-items-center">
-										<h6 id="clue-title-tutorial" class="card-title">Pista de Tutorial #2</h6>
+										<h6 id="clue-title-tutorial" class="card-title">Pista del Tutorial #2</h6>
 										<p id="clue-text-tutorial" class="card-text">Alice dijo: "Escuché a alguien cocinando a las 9:00"</p>
 								</div>
 							</div>
