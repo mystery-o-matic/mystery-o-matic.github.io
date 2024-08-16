@@ -210,21 +210,23 @@
 				—¿Por qué quieren que leamos esto? —pregunta Alice mientras sopla el polvo de la tapa.
 			</p>
 			<p class="fst-italic">
-				Eddie comienza a toser y saca su inhalador. "¿Podrías ser más cuidadosa y considerada? ¡Y dame eso!", exclama, mientras le arrebata el libro.
+				Eddie comienza a toser y saca su inhalador. 
+			</p>—¿Podrías ser más cuidadosa y considerada? ¡Y dame eso! —exclama, mientras le arrebata el libro.
 			</p>
 			<hr class="styled-hr">
 			<p>
-				<b>mystery-o-matic</b> presenta un nuevo misterio cada día, ambientado en un lugar específico, donde cada sospechoso actúa de forma independiente. Las pistas proporcionadas requieren deducciones tanto espaciales como temporales para resolver el caso.
+				<b>mystery-o-matic</b> presenta un nuevo misterio cada día, ambientado en un lugar específico, donde cada sospechoso actúa de forma independiente. 
+				Las pistas proporcionadas requieren deducciones tanto espaciales como temporales para resolver el caso.
 			</p>
 		</div>
 
 		<div class="container mt-5">
-			<h4>🎓 Comprender las pistas y hacer deducciones</h4>
+			<h4>🎓 Cómo interpretar las pistas y hacer deducciones</h4>
 
 			<p>
 				En nuestro misterio de asesinato, los personajes se mueven de una habitación a otra cada 15 minutos, lo que nos permite rastrear su ubicación a lo largo del tiempo a través de sus declaraciones.
 			<br/>
-			Por ejemplo, digamos que tenemos la siguiente pista:</p>
+			Por ejemplo, supongamos que tenemos la siguiente pista:</p>
 
 			<div class="d-flex justify-content-center align-items-center">
 				<div style="width: 99%" id="clues-tutorial">
@@ -247,7 +249,8 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob estaba vivo a las 10:15 (si él fuera la víctima)</li>
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice NO estaba en la cocina a las 10:00</li>
 			</ul>
-			<p><br/>Usando esta información, podemos completar la tabla de pistas añadiendo <b>✓</b> o <b>✗</b>. Al hacer clic en cada deducción, el texto se tachará para ayudarte a enfocarte en otras pistas:</p>
+			<p><br/>Haz clic en cada deducción para tachar el texto, lo cual te ayudará a concentrarte en otras pistas. (¡Pruébalo con las pistas mostradas arriba junto a la lupa!).</p>
+			<p>Usando las cuatro deducciones anteriores, podemos completar la tabla de pistas añadiendo <b>✓</b> o <b>✗</b>:</p>
 			<div class="col-12 text-center">
 					<canvas id="clues-table-kitchen:tutorial-1" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
@@ -256,12 +259,17 @@
 				<canvas id="clues-table-bathroom:tutorial-1" oncontextmenu="return false" height="70" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
 			</div>
-			<p></p>
+			<p>
+				<div class="text-center"></div>
+				<a onclick="clearTable('kitchen:tutorial-1'); clearTable('bathroom:tutorial-1')" class="btn btn-danger" role="button">Borrar ♻️</a>	
+				<a onclick="checkTutorialTable('kitchen:tutorial-1'); checkTutorialTable('bathroom:tutorial-1')" class="btn btn-info" role="button">Verificar 🎯</a>
+				</div>
+			</p>
 			<p>Aún queda una pregunta importante: ¿dónde estaba Alice a las 10:00? El gráfico de ubicación también proporciona algunas pistas:</p>
 			<div class="text-center">
 				<img src="locations_tutorial.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Gráfico de Ubicaciones">
 			</div>
-
+			
 			<p> Cuando un sospechoso anuncia que sale o llega a una habitación, solo puede trasladarse a una habitación conectada directamente. Como la cocina está conectada tanto con el comedor como con el dormitorio, no podemos determinar la ubicación exacta de Alice antes de las 10:00.</p>
 
 				<div class="text-center">
