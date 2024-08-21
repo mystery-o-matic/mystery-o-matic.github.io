@@ -147,7 +147,7 @@
 				ofreciendo un giro refrescante en comparación con los juegos tradicionales de lógica deductiva.
 			</p>
 
-			<p>Los creadores se inspiraron en juegos populares 
+			<p>Los creadores se inspiraron en juegos populares
 				como <a class="link-dark" href="https://es.wikipedia.org/wiki/Cluedo">Cluedo</a> (obviamente), <a
 				class="link-dark" href="http://www.squidi.net/three/entry.php?id=69">"Infinite Detective" de Squidi</a> y
 				<a class="link-dark" href="https://murdle.com/">Murdle</a> para dar forma al cautivador mundo de mystery-o-matic.
@@ -201,7 +201,7 @@
 			</p>
 		</div>
 	</div>
-	
+
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
 			<p class="fst-italic"> La pandilla se reúne alrededor de un tomo polvoriento adornado con extravagantes letras doradas en la portada que dicen <b>"Mystery-o-Matic"</b>.</p>
@@ -209,12 +209,12 @@
 				—¿Por qué quieren que leamos esto? —pregunta Alice mientras sopla el polvo de la tapa.
 			</p>
 			<p class="fst-italic">
-				Eddie comienza a toser y saca su inhalador. 
+				Eddie comienza a toser y saca su inhalador.
 			</p>—¿Podrías ser más cuidadosa y considerada? ¡Y dame eso! —exclama, mientras le arrebata el libro.
 			</p>
 			<hr class="styled-hr">
 			<p>
-				<b>mystery-o-matic</b> presenta un nuevo misterio cada día, ambientado en un lugar específico, donde cada sospechoso actúa de forma independiente. 
+				<b>mystery-o-matic</b> presenta un nuevo misterio cada día, ambientado en un lugar específico, donde cada sospechoso actúa de forma independiente.
 				Las pistas proporcionadas requieren deducciones tanto espaciales como temporales para resolver el caso.
 			</p>
 		</div>
@@ -259,16 +259,17 @@
 							Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
 			</div>
 			<p>
-				<div class="text-center"></div>
-				<a onclick="clearTable('kitchen:tutorial-1'); clearTable('bathroom:tutorial-1')" class="btn btn-danger" role="button">Borrar ♻️</a>	
+				<div class="text-center">
+				<a onclick="clearTable('kitchen:tutorial-1'); clearTable('bathroom:tutorial-1')" class="btn btn-danger" role="button">Borrar ♻️</a>
 				<a onclick="checkTutorialTable('kitchen:tutorial-1'); checkTutorialTable('bathroom:tutorial-1')" class="btn btn-info" role="button">Verificar 🎯</a>
 				</div>
+
 			</p>
 			<p>Aún queda una pregunta importante: ¿dónde estaba Alice a las 10:00? El gráfico de ubicación también proporciona algunas pistas:</p>
 			<div class="text-center">
 				<img src="locations_tutorial.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Gráfico de Ubicaciones">
 			</div>
-			
+
 			<p> Cuando un sospechoso anuncia que sale o llega a una habitación, solo puede trasladarse a una habitación conectada directamente. Como la cocina está conectada tanto con el comedor como con el dormitorio, no podemos determinar la ubicación exacta de Alice antes de las 10:00.</p>
 
 				<div class="text-center">
@@ -356,66 +357,64 @@
 						—Genial —dice Frida con calma—. ¿Puedo echarle un vistazo?
 					</p>
 					<hr class="styled-hr">
-			</div>
-			
-		<div class="container mt-5">
-			<h4>🔪 Cómo encontrar el arma del crimen</h4>
 
-			<p>Seguir a los personajes no es suficiente. ¡Necesitamos descubrir cuál fue el arma del crimen!
-				<br/><br/>
-				¡Atención! Aquí tienes la lista de armas encontradas en nuestro enigma misterioso, clasificadas según el tipo de herida que causan.
-				<p>Ten en cuenta que no verás todas las armas siendo usadas a la vez en el mismo juego.</p>
-				</p>
+					<h4>🔪 Cómo encontrar el arma del crimen</h4>
 
-			<ul class="list-group">
-				<li class="list-group-item"><b>Arma de fuego o proyectil</b>: Disparan balas o lanzan proyectiles: 🔫 pistola</li>
-				<li class="list-group-item"><b>Fuerza cortante</b>: Causan heridas cortando, apuñalando o perforando: 🔪 cuchillo, 🗡️ daga, ✂️ tijeras, 🪓 hacha, 🪛 destornillador</li>
-				<li class="list-group-item"><b>Fuerza bruta</b>: Causan heridas a través de impacto: 🔨 martillo, 🔧 llave inglesa, 🕯️ candelabro</li>
-			</ul>
-			<p>
-			<br/>
-			Entre las pistas iniciales, encontrarás el nombre de la víctima, las ubicaciones de los sospechosos cuando llegaste y dónde se encontró cada arma:
-			<ul id="">
-				<li>El martillo (🔨) del dormitorio</li>
-				<li>La cuerda (🪢) de la cocina</li>
-				<li>Las tijeras (✂️) del comedor</li>
-				<li>La pistola (🔫) del baño</li>
-			</ul>
-			<br/>
-			Recuerda que <b>la ubicación de las armas es aleatoria por decisión del bucle</b> para confundirte y no tiene una explicación lógica.
-			<br/><br/>
-			¿Cómo se puede usar esta información para resolver el misterio? Bueno, en ocasiones, te encontrarás con una pista relacionada con las heridas infligidas a la víctima que te ayudará a descartar un tipo de arma. Por ejemplo:
-			</p>
-			<div class="d-flex justify-content-center align-items-center">
-				<div style="width: 99%" id="clues-tutorial-weapon">
-					<div class="card" style="height: auto;">
-						<div class="card-body text-center">
-							<div class="row align-items-center">
-									<h6 id="clue-title-tutorial" class="card-title">Pista del Tutorial #3</h6>
-									<p id="clue-text-tutorial" class="card-text">Al inspeccionar el cuerpo, se revela que no hay signos de apuñalamiento</p>
+					<p>Seguir a los personajes no es suficiente. ¡Necesitamos descubrir cuál fue el arma del crimen!
+						<br/><br/>
+						¡Atención! Aquí tienes la lista de armas encontradas en nuestro enigma misterioso, clasificadas según el tipo de herida que causan.
+						<p>Ten en cuenta que no verás todas las armas siendo usadas a la vez en el mismo juego.</p>
+						</p>
+
+					<ul class="list-group">
+						<li class="list-group-item"><b>Arma de fuego o proyectil</b>: Disparan balas o lanzan proyectiles: 🔫 pistola</li>
+						<li class="list-group-item"><b>Fuerza cortante</b>: Causan heridas cortando, apuñalando o perforando: 🔪 cuchillo, 🗡️ daga, ✂️ tijeras, 🪓 hacha, 🪛 destornillador</li>
+						<li class="list-group-item"><b>Fuerza bruta</b>: Causan heridas a través de impacto: 🔨 martillo, 🔧 llave inglesa, 🕯️ candelabro</li>
+					</ul>
+					<p>
+					<br/>
+					Entre las pistas iniciales, encontrarás el nombre de la víctima, las ubicaciones de los sospechosos cuando llegaste y dónde se encontró cada arma:
+					<ul id="">
+						<li>El martillo (🔨) del dormitorio</li>
+						<li>La cuerda (🪢) de la cocina</li>
+						<li>Las tijeras (✂️) del comedor</li>
+						<li>La pistola (🔫) del baño</li>
+					</ul>
+					<br/>
+					Recuerda que <b>la ubicación de las armas es aleatoria por decisión del bucle</b> para confundirte y no tiene una explicación lógica.
+					<br/><br/>
+					¿Cómo se puede usar esta información para resolver el misterio? Bueno, en ocasiones, te encontrarás con una pista relacionada con las heridas infligidas a la víctima que te ayudará a descartar un tipo de arma. Por ejemplo:
+					</p>
+					<div class="d-flex justify-content-center align-items-center">
+						<div style="width: 99%" id="clues-tutorial-weapon">
+							<div class="card" style="height: auto;">
+								<div class="card-body text-center">
+									<div class="row align-items-center">
+											<h6 id="clue-title-tutorial" class="card-title">Pista del Tutorial #3</h6>
+											<p id="clue-text-tutorial" class="card-text">Al inspeccionar el cuerpo, se revela que no hay signos de apuñalamiento</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+
+					<p><br/>De esta pista, podemos deducir:</p>
+					<ul class="list-group">
+						<li class="list-group-item" onClick="toggleClueStrikeout(this)"> 🔎 El asesino no usó ninguna de las armas del grupo “Fuerza cortante”.
+						</li>
+					</ul>
+
+					<p><br/>Con esta deducción, podemos descartar un arma en la siguiente tabla. Solo tienes que hacer clic en el ícono del arma para tacharla:</p>
+
+					<div class="col-12 text-center">
+						<canvas id="clues-table-weapons:tutorial" oncontextmenu="return false" height="40" width="500" onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
+						Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
+					</div>
+					<br/>
+					Si dominas estas técnicas y perfeccionas tu razonamiento deductivo, te convertirás en un detective de primera categoría. ¡Feliz investigación!
+
 				</div>
-			</div>
-
-			<p><br/>De esta pista, podemos deducir:</p>
-			<ul class="list-group">
-				<li class="list-group-item" onClick="toggleClueStrikeout(this)"> 🔎 El asesino no usó ninguna de las armas del grupo “Fuerza cortante”.
-				</li>
-			</ul>
-
-			<p><br/>Con esta deducción, podemos descartar un arma en la siguiente tabla. Solo tienes que hacer clic en el ícono del arma para tacharla:</p>
-
-			<div class="col-12 text-center">
-				<canvas id="clues-table-weapons:tutorial" oncontextmenu="return false" height="40" width="500" onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
-				Tu navegador no soporta la etiqueta canvas de HTML.</canvas>
-			</div>
-			<br/>
-			Si dominas estas técnicas y perfeccionas tu razonamiento deductivo, te convertirás en un detective de primera categoría. ¡Feliz investigación!
-		</div>
 	</div>
-
 	<div id="home">
 		<div class="container mt-5">
 			<p>
