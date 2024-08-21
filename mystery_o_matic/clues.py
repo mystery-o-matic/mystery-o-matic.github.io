@@ -167,12 +167,14 @@ class SawWhenArrivingClue(AbstractClue):
 
         if not self.object_is_alive:
             s += "el cuerpo de "
+        else:
+            s += "a "
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "alguien"
 
-        s += f'a {object} cuando llegué a {self.place} a las {self.time}"'
+        s += f'{object} cuando llegué a {self.place} a las {self.time}"'
         return s
 
     def is_incriminating(self, killer, victim, place, time):
@@ -358,12 +360,14 @@ class SawWhenLeavingClue(AbstractClue):
 
         if not self.object_is_alive:
             s += "el cuerpo de "
+        else:
+            s += "a "
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "alguien"
 
-        s += f'a {object} cuando me fui de {self.place} a las {self.time}"'
+        s += f'{object} cuando me fui de {self.place} a las {self.time}"'
         return s
 
     def is_incriminating(self, killer, victim, place, time):
@@ -492,7 +496,7 @@ class WasMurderedInspectionClue(AbstractClue):
         super().__init__()
 
     def string_spanish(self):
-        return f"Un examen minusioso del cuerpo revela que el asesinato tuvo lugar a las {self.time1} o las {self.time2}"
+        return f"Un examen minucioso del cuerpo revela que el asesinato tuvo lugar a las {self.time1} o las {self.time2}"
 
     def string_english(self):
         return f"A close examination of the body reveals that the murder took place either at {self.time1} or at {self.time2}"
