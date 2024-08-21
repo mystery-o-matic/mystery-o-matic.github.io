@@ -137,8 +137,8 @@
 	<div id="about" style="display:none">
 		<div class="container mt-5">
 			<p>mystery-o-matic is a website that offers free murder mysteries for daily solving.
-				It was created by two enthusiastic individuals who share a profound passion for mystery and a strong
-				commitment to providing a distinctive experience for fellow detectives.</p>
+				It was created by two passionate individuals who share a deep love for mystery and a strong
+				dedication to offering a unique experience to fellow detectives.</p>
 
 			<p> Unlike typical games, the daily mysteries on this website require deductive thinking, but they are
 				designed to mirror the unpredictability of real-life scenarios, making them more challenging and
@@ -165,7 +165,8 @@
 			<p>The website is still in beta, therefore, rules, interface and design are subject to change!
 				Please feel free to <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">provide feedback here</a> or in <a
 				class="link-dark" href="https://www.reddit.com/r/mystery_o_matic/">our subreddit</a>.
-				If you like the website, you can donate cryptocurrency to: 0xd0FD96CD73762Fd081cf2269D79F359e4314629b
+			</p>
+				<p>If you enjoy the website and wish to support our work, you can donate cryptocurrency to: 0xd0FD96CD73762Fd081cf2269D79F359e4314629b
 			</p>
 		</div>
 	</div>
@@ -183,7 +184,7 @@
 									<lu class="list-group">
 											<li class="list-group-item list-group-item-danger">Super Sleuth</li>
 											<li class="list-group-item list-group-item-warning">Seasoned P.I.</li>
-											<li class="list-group-item list-group-item-success"><i class="notranslate">Amateur Gumshoe</i></li>
+											<li class="list-group-item list-group-item-success">Amateur Gumshoe</li>
 											<li class="list-group-item list-group-item-info">Absent Minded</li>
 											<li class="list-group-item list-group-item-primary">Barely Conscious</li>
 									</lu>
@@ -194,7 +195,7 @@
 				</div>
 			</div>
 
-			<p>Each clue revealed will decrease your score. Keep in mind that the website is still in beta, so this scoring system, the interface or design is subject to change!
+			<p>Each clue revealed will decrease your score. Keep in mind that the website is still in beta, so this scoring system, the interface or design is subject to change.
 				Please feel free to provide feedback <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">here</a> or in <a
 				class="link-dark" href="https://www.reddit.com/r/mystery_o_matic/">our subreddit</a>.
 			</p>
@@ -204,22 +205,18 @@
 
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
-			<p class="fst-italic"> The gang gathers around a dusty tome adorned with whimsical golden
-				letters on the cover that read <b>"mystery-o-matic"</b>.</p>
+			<p class="fst-italic"> The gang gathers around a dusty tome adorned with whimsical golden letters on the cover that read <b>"mystery-o-matic"</b>.</p>
 			<p class="fst-italic">
-				"Why do they want us to read this?"
-				Alice asks, blowing the dust off the cover.
+				"Why do they want us to read this?" Alice asks, blowing the dust off the cover.
 			</p>
 			<p class="fst-italic">
 				Eddie starts coughing and pulls out his inhaler.
-				"Could you be more careful and considerate? Also, give me that!"
-				he says, snatching the book from her.
+				"Could you be more careful and considerate? Also, give me that!" he says, snatching the book from her.
 			</p>
 			<hr class="styled-hr">
 			  	<p>
-				<b>mystery-o-matic</b> features a new mystery each day, set in a specific location, where each suspect
-				acts independently. The clues provided require both spatial
-				and temporal deductions to solve the case.
+				<b>mystery-o-matic</b> features a new mystery each day, set in a specific location, where each suspect acts independently. 
+				The clues provided require both spatial and temporal deductions to solve the case.
 				</p>
 		</div>
 
@@ -227,9 +224,9 @@
 			<h4>🎓 Understanding clues and making deductions</h4>
 
 			<p>
-			In our murder mystery, characters can move between rooms every 15 minutes. This helps us follow where they were at different times.
-			Their statements tell us where they were at specific times.
-			For example, let's say we have the following clue:</p>
+				In our murder mystery, characters move between rooms every 15 minutes, allowing us to track their locations over time through their statements.
+				<br/>
+				For example, let's say we have the following clue:</p>
 
 			<div class="d-flex justify-content-center align-items-center">
 				<div style="width: 99%" id="clues-tutorial">
@@ -252,7 +249,8 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob was alive at 10:15 (if he were the victim)</li>
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the kitchen at 10:00</li>
 			</ul>
-			<p><br/>Using this information, we can complete the clue table by adding either <b>✓</b> or <b>✗</b>. Clicking on each deduction will strikethrough the text to help you focus on other clues:</p>
+			<p><br/>Click on each deduction to strikethrough the text, which will help you focus on other clues. (Try it with the clues shown above next to the magnifying glass!).</p>
+			</p> Using the past four deductions, we can complete the clue table by adding either <b>✓</b> or <b>✗</b>:</p>
 			<div class="col-12 text-center">
 					<canvas id="clues-table-kitchen:tutorial-1" oncontextmenu="return false" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Your browser does not support the HTML canvas tag.</canvas>
@@ -267,14 +265,12 @@
 					<a onclick="checkTutorialTable('kitchen:tutorial-1'); checkTutorialTable('bathroom:tutorial-1')" class="btn btn-info" role="button">Check 🎯</a>
 				</div>
 			</p>
-			<p>An important question still remains: where was Alice at 10:00? The location graph provides some clues:</p>
+			<p>An important question still remains: where was Alice at 10:00? The location graph also provides some clues:</p>
 			<div class="text-center">
 				<img src="locations_tutorial.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Location Graph">
 			</div>
 
-			<p> It's important to remember that when a suspect announces leaving or arriving at a room,
-				they can only move to a room directly connected to it. In this scenario, since the kitchen
-				is directly linked to both the dining room and the bedroom, we can't pinpoint Alice's exact location before 10:00.</p>
+			<p> When a suspect announces leaving or arriving at a room, they can only move to a directly connected room. Since the kitchen is linked to both the dining room and the bedroom, we can't determine Alice's exact location before 10:00.</p>
 
 				<div class="text-center">
 					<img src="locations_tutorial_highlighted.svg" class="mx-auto" style="max-width: 100%; height: 100%;" alt="Location Graph">
@@ -286,7 +282,7 @@
 				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bathroom at 10:00</li>
 			</lu>
 
-			<p><br/>Using this information, we can complete the clue tables:</p>
+			<p><br/>Using this information, we can complete the clue table:</p>
 			<div class="col-12 text-center">
 					<canvas id="clues-table-kitchen:tutorial-2" height="100" width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
 							Your browser does not support the HTML canvas tag.</canvas>
@@ -369,8 +365,8 @@
 			<p>Following characters around is not enough. We need to figure out the murder weapon!
 				<br/><br/>
 			   Behold!, here's the list of weapons found in our daily mystery puzzle, classified by the type of wound they cause.
-			   Keep in mind you won't see all of them being used at once.<br/>
-			   Some of these groups of weapons are:</p>
+			   <p>Keep in mind you won't see all of them being used at once.</p>
+			   </p>
 
 			<ul class="list-group">
 				<li class="list-group-item"><b>Firearm/Projectile</b>: Weapons that discharge bullets or launch projectiles: 🔫 gun</li>
@@ -387,7 +383,7 @@
 				<li>The pistol (🔫) from the bathroom</li>
 			</ul>
 			<br/>
-			Keep in mind that <b>weapons' location is randomized by the loop to confuse you and it holds no logical explanation</b>.
+			Keep in mind that <b>weapons' location is randomized by the loop</b> to confuse you and it holds no logical explanation.
 			<br/><br/>
 			How can this information be used to solve the murder mystery? Well, on occasion, you will come across a clue related to the wounds inflicted on the victim that will help you discard a certain kind of weapon. For example:
 			</p>
@@ -410,7 +406,7 @@
 				</li>
 			</lu>
 
-			<p><br/>Armed with this deduction, we can discard a weapon in the following table. Click on the weapon icon to cross it out:</p>
+			<p><br/>Armed with this deduction, we can discard a weapon in the following table. Just click on the weapon icon to cross it out:</p>
 
 			<div class="col-12 text-center">
 				<canvas id="clues-table-weapons:tutorial" oncontextmenu="return false" height="40" width="500" onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
@@ -418,16 +414,13 @@
 			</div>
 			<br/>
 			By mastering these techniques and honing your deductive reasoning, you'll become a top detective. Happy sleuthing!
-
 		</div>
 	</div>
 
 	<div id="home">
 		<div class="container mt-5">
 			<p>
-			A group of friends stumbles upon an eerie abandoned mansion. Now confined within its sinister grasp, they find
-			 themselves thrust into a chilling series of murders. Each day brings a fresh enigma,
-			 with one of them as the unfortunate victim and the rest as suspects.
+			A group of friends stumbles upon an eerie abandoned mansion. Now confined within its sinister grasp, they find themselves thrust into a chilling series of murders. Each day brings a fresh enigma, with one of them as the unfortunate victim and the rest as suspects.
 			<br/><br/>
 			Locked in this endless cycle by malevolent forces known only as <i>the Producers</i>,
 			our heroes stumble upon a glimmer of hope that transcends both space and time, allowing
