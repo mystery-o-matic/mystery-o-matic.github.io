@@ -3,7 +3,7 @@ from random import shuffle, choice
 from networkx import gnr_graph, relabel_nodes, Graph
 from networkx.drawing.nx_agraph import to_agraph
 
-locations = ["egypt", "castle", "train", "ship", "space station"]
+locations = ["egypt", "castle", "train", "ship", "space station", "mansion"]
 
 mansions_labels = {}
 mansions_labels['en'] = {
