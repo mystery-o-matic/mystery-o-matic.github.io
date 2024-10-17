@@ -429,19 +429,19 @@ function checkTutorialTable(c) {
 			if (expectedValue == "✓" || expectedValue == "✗") {
 				if (value == expectedValue) {
 					clearClueTable(j, i, table);
-					fillClueTable(value, table.columnSize / 3, '#025020', j, i, table);
+					fillClueTable(value, table.columnSize / 3, '#02FF20', j, i, table);
 				} else {
 					if (value == "")
 						value = "?";
 					clearClueTable(j, i, table);
-					fillClueTable(value, table.columnSize / 3, '#502020', j, i, table);
+					fillClueTable(value, table.columnSize / 3, '#FF2020', j, i, table);
 				}
 			} else if (expectedValue == "?") {
 				if (value == "?" || value == "") {
 					//Nothing
 				} else {
 					clearClueTable(j, i, table);
-					fillClueTable(value, table.columnSize / 3, '#502020', j, i, table);
+					fillClueTable(value, table.columnSize / 3, '#FF2020', j, i, table);
 				}
 			}
 		}
