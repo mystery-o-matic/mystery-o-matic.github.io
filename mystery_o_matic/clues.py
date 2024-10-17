@@ -68,6 +68,13 @@ class WeaponLocationsIntroStatement(AbstractStatement):
     def string_spanish(self):
         return "El asesino consiguió el arma homicida de uno de los siguientes lugares:\n"
 
+class WeaponLocationsOutroStatement(AbstractStatement):
+    def string_english(self):
+        return "No one saw the killer retriving the murder weapon"
+
+    def string_spanish(self):
+        return "Nadie vió al asesino tomar el arma homicida"
+
 class FinalLocationsIntroStatement(AbstractStatement):
     def __init__(self, time):
         self.time = time

@@ -100,6 +100,7 @@ def produce_html_output(static_dir, out_dir, languages, mystery, weapons, weapon
         weapon_locations_bullets = mystery.weapon_locations_intro[language]
         weapon_locations_bullets += get_bullet_list(sub_bullets, language)
         bullets.append(weapon_locations_bullets)
+        bullets.append(mystery.weapon_locations_outro[language])
 
         sub_bullets = []
         for clue in mystery.final_locations_clues:

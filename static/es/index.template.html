@@ -130,8 +130,9 @@
 	</div>
 
 	<p class="floating-button float">
-		<a href="#/" onClick="switchTheme()" class="link-underline link-underline-opacity-0">🌓</a>
-		<a href="#/" onClick="checkIfWebsiteShouldBeTranslated(true)" class="link-underline link-underline-opacity-0">🗺️</a>
+		<a href="#/" id="home-button" style="display:none" onClick="showPage('home')" class="link-underline link-underline-opacity-0">🧩</a>
+		<a href="#/" id="switch-theme-button" onClick="switchTheme()" class="link-underline link-underline-opacity-0">🌓</a>
+		<a href="#/" id="translate-button" onClick="checkIfWebsiteShouldBeTranslated(true)" class="link-underline link-underline-opacity-0">🗺️</a>
 	</p>
 
 	<div id="about" style="display:none">
@@ -204,6 +205,10 @@
 
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
+			<p>Esta sección ofrece consejos y trucos útiles para resolver el misterio diario.
+			<emph>Para regresar al juego, simplemente haz clic en el ícono 🧩 en la esquina inferior derecha de la pantalla.</emph>
+			</p>
+
 			<p class="fst-italic"> La pandilla se reúne alrededor de un tomo polvoriento adornado con extravagantes letras doradas en la portada que dicen <b>"Mystery-o-Matic"</b>.</p>
 			<p class="fst-italic">
 				—¿Por qué quieren que leamos esto? —pregunta Alice mientras sopla el polvo de la tapa.

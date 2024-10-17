@@ -130,8 +130,9 @@
 	</div>
 
 	<p class="floating-button float">
-		<a href="#/" onClick="switchTheme()" class="link-underline link-underline-opacity-0">🌓</a>
-		<a href="#/" onClick="checkIfWebsiteShouldBeTranslated(true)" class="link-underline link-underline-opacity-0">🗺️</a>
+		<a href="#/" id="home-button" style="display:none" onClick="showPage('home')" class="link-underline link-underline-opacity-0">🧩</a>
+		<a href="#/" id="switch-theme-button" onClick="switchTheme()" class="link-underline link-underline-opacity-0">🌓</a>
+		<a href="#/" id="translate-button" onClick="checkIfWebsiteShouldBeTranslated(true)" class="link-underline link-underline-opacity-0">🗺️</a>
 	</p>
 
 	<div id="about" style="display:none">
@@ -175,6 +176,12 @@
 		<div class="container mt-5">
 			<h3>🌡️ Sleuth-o-meter</h3>
 
+			<p>This section shows the different scoring levels that you can get after solving a daily mystery.
+				<emph>To return to the game, simply click the 🧩 icon in the bottom-right corner of the screen.</emph>
+			</p>
+
+			<hr class="styled-hr">
+
 			<p>mystery-o-matic brings back the venerable <a class="link-dark" href="https://www.benshoof.org/blog/super-sleuth">sleuth-o-meter™</a> from
 				<a class="link-dark" href="https://www.mobygames.com/game/461/the-colonels-bequest/">Laura Bow's mysteries</a> to keep track of your score:</p>
 
@@ -205,6 +212,10 @@
 
 	<div id="how-to-play" style="display:none">
 		<div class="container mt-5">
+			<p>This section provides helpful tips and tricks to solve the daily mystery.
+			<emph>To return to the game, simply click the 🧩 icon in the bottom-right corner of the screen.</emph>
+			</p>
+			<hr class="styled-hr">
 			<p class="fst-italic"> The gang gathers around a dusty tome adorned with whimsical golden letters on the cover that read <b>"mystery-o-matic"</b>.</p>
 			<p class="fst-italic">
 				"Why do they want us to read this?" Alice asks, blowing the dust off the cover.

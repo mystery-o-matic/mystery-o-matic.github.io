@@ -288,6 +288,7 @@ class Mystery:
         self.initial_clues.append(MurderWasNotFoundWithBodyStatement())
 
         self.weapon_locations_intro = WeaponLocationsIntroStatement()
+        self.weapon_locations_outro = WeaponLocationsOutroStatement()
         self.weapon_locations_clues = []
         # Load weapon locations clues
         for loc, weapon in self.weapon_locations.items():
@@ -303,6 +304,7 @@ class Mystery:
 
         # Convert all statements/clues to strings
         self.weapon_locations_intro = self.weapon_locations_intro.string()
+        self.weapon_locations_outro = self.weapon_locations_outro.string()
         for i, clue in enumerate(self.weapon_locations_clues):
             self.weapon_locations_clues[i] = clue.string()
 

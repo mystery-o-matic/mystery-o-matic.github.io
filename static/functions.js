@@ -18,6 +18,16 @@ function showPage(page) {
 			tables[i].getRow(row).getCells()[col].setValue(value);
 		}
 	}
+
+	if (page != "home") {
+		document.getElementById("home-button").style.removeProperty("display");
+		document.getElementById("switch-theme-button").style.display = "none";
+		document.getElementById("translate-button").style.display = "none";
+	} else {
+		document.getElementById("home-button").style.display = "none";
+		document.getElementById("switch-theme-button").style.removeProperty("display");
+		document.getElementById("translate-button").style.removeProperty("display");
+	}
 }
 
 document.getElementById("span-today").innerHTML = getCurrentDate();
