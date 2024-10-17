@@ -44,10 +44,10 @@ function createTables() {
 		places.set(roomName, getEmoji(tutorialData.locationIcons[roomName]));
 	}
 
-	createCluesTable("kitchen:tutorial-1", "kitchen:tutorial-1", 6, data.timeOffset, true, true);
-	createCluesTable("bathroom:tutorial-1", "bathroom:tutorial-1", 6, data.timeOffset, false, true);
-	createCluesTable("kitchen:tutorial-2", "kitchen:tutorial-2", 6, data.timeOffset, true, true);
-	createCluesTable("bathroom:tutorial-2", "bathroom:tutorial-2", 6, data.timeOffset, false, true);
+	createCluesTable("kitchen:tutorial-1", "kitchen:tutorial-1", 6, tutorialData.timeOffset, true, true);
+	createCluesTable("bathroom:tutorial-1", "bathroom:tutorial-1", 6, tutorialData.timeOffset, false, true);
+	createCluesTable("kitchen:tutorial-2", "kitchen:tutorial-2", 6, tutorialData.timeOffset, true, true);
+	createCluesTable("bathroom:tutorial-2", "bathroom:tutorial-2", 6, tutorialData.timeOffset, false, true);
 	createCluesTableWeapons("weapons");
 	createCluesTableWeapons("weapons:tutorial");
 }
