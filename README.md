@@ -4,8 +4,8 @@ mystery-o-matic is a Python program used to produce the content of [mystery-o-ma
 
 mystery-o-matic supports the following languages:
 
-* English
-* Spanish
+* [English](https://mystery-o-matic.com/en)
+* [Spanish](https://mystery-o-matic.com/es)
 
 ## Installation
 
@@ -36,7 +36,7 @@ mystery-o-matic requires the usage of [echidna](https://github.com/crytic/echidn
 mystery-o-matic will always generate a fresh mystery to solve, but depending on the output mode (`--mode`) will produce different results:
 
 * `html`: it will generate a local copy of mystery-o-matic.com which contains the description of the case, some clues and the solution.
-* `text`: it will start an interactive version of a murder mystery to solve by command It can also start a Telegram bot if an API key is provided.
+* `text`: it will start an interactive version of a murder mystery to solve by specific commands. It can also start a Telegram bot if an API key is provided.
 
 By default, it will use the `html` output to generate a new mystery in the default scenario:
 
