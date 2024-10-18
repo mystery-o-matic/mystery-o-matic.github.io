@@ -216,12 +216,10 @@
 			<emph>To return to the game, simply click the 🧩 icon in the bottom-right corner of the screen.</emph>
 			</p>
 			<hr class="styled-hr">
-			<p class="fst-italic"> The gang gathers around a dusty tome adorned with whimsical golden letters on the cover that read <b>"mystery-o-matic"</b>.</p>
 			<p class="fst-italic">
-				"Why do they want us to read this?" Alice asks, blowing the dust off the cover.
-			</p>
-			<p class="fst-italic">
-				Eddie starts coughing and pulls out his inhaler.
+				The gang gathers around a dusty tome adorned with whimsical golden letters on the cover that read <b>"mystery-o-matic"</b>. <br/>
+				"Why do they want us to read this?" Alice asks, blowing the dust off the cover. <br/>
+				Eddie starts coughing and pulls out his inhaler.  <br/>
 				"Could you be more careful and considerate? Also, give me that!" he says, snatching the book from her.
 			</p>
 			<hr class="styled-hr">
@@ -311,19 +309,10 @@
 				<br/>
 				<hr class="styled-hr">
 				<p class="fst-italic">
-					"Hmm, aha, aha..." Eddie nods as he skims through the pages.
-				</p>
-
-				<p class="fst-italic">
-					"So? What is it?" Carol asks, unimpressed.
-				</p>
-
-				<p class="fst-italic">
-				"No idea, but look! Our names are in here. All of our names."
-				</p>
-
-				<p class="fst-italic">
-					“Pff, way to make yourself feel important, Eddie!” snaps Carol, looking over his shoulder. “Your name isn’t there. Not even mine! Only Alice and Bob are used as examples to understand this stupid game.”
+					"Hmm, aha, aha..." Eddie nods as he skims through the pages.<br/>
+					"So? What is it?" Carol asks, unimpressed. <br/>
+					"No idea, but look! Our names are in here. All of our names." <br/>
+					“Pff, way to make yourself feel important, Eddie!” snaps Carol, looking over his shoulder. “Your name isn’t there. Not even mine! Only Alice and Bob are used as examples to understand this stupid game.” <br/>
 				</p><br/>
 				<hr class="styled-hr">
 
@@ -355,20 +344,60 @@
 					It can be tempting to try to guess Alice location, but it unclear from this kind of clues, as we cannot deduce how near or far she was from the location graph.</p>
 					<hr class="styled-hr">
 					<p class="fst-italic">
-						“Why did they leave me out of the tutorial?” groaned Dave, crossing his arms in disgust. “I’m a much more interesting character than Bob, anyway!”
-					</p>
-					<p class="fst-italic">
-						“And I can't wait to 'murder' you in the game” mutters Frida, unfazed.
-					</p>
-					<p class="fst-italic">
-					“Guys, there's even a list of weapons in here!” whimpers Bob, who ended up with the book.
-					</p>
-
-					<p class="fst-italic">
-					“Awesome,” says Frida coolly. “Can I take a look-see?”
+						“Why did they leave me out of the tutorial?” groaned Dave, crossing his arms in disgust. “I’m a much more interesting character than Bob, anyway!”<br/>
+						“And I can't wait to 'murder' you in the game” mutters Frida, unfazed.<br/>
+						“Guys, there's even a list of weapons in here!” whimpers Bob, who ended up with the book.<br/>
+						“Awesome,” says Frida coolly. “Can I take a look-see?”<br/>
 					</p>
 					<hr class="styled-hr">
+		</div>
+
+		<div class="container mt-5">
+			<h4>🤥 True lies</h4>
+			<p>
+				Daily mysteries can be played in <b>two modes depending if the killer can lie or not.</b>
+				In both of them the solution will be the same, but some of the clues will change. <br/>
+				Lying during a crime investigatin is a serious business! The killer must be very careful since the rest of suspects
+				will always tell the truth. During each daily mystery, <b>the killer will only lie if it helps to cover their tracks during the time and place of the murder</b>.
+				<br/>
+				While identifying the killer using unreliable information is usually harder since we don't know if the statements are true or not, the rest of the suspect will always
+				tell the true, making easier to spot any contradiction.
+				<br/>
+				Detecting a lie is easy: <b>we need to look for a contradition in two statements</b>. Let's see an example:
+				<br/>
+			</p>
+
+			<div class="d-flex justify-content-center align-items-center">
+				<div style="width: 99%" id="clues-tutorial">
+					<div class="card" style="height: auto;">
+						<div class="card-body text-center">
+							<div class="row align-items-center">
+									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #3</h6>
+									<p id="clue-text-tutorial" class="card-text">Alice said: "I was in the kitchen from 9:00 to 10:00"</p>
+									<hr>
+									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #4</h6>
+									<p id="clue-text-tutorial" class="card-text">Bob said "I saw nobody when I arrived to the kitchen at 9:30""</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+
+			<p>
+				<br/>
+				Once we spot a contradition, we know that exactly one of the following statements must be true:<br/>
+			</p>
+
+			<lu class="list-group">
+				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice is the killer</li>
+				<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob is the killer</li>
+			</lu>
+
+			<p>
+				<br/>
+				Using deductions like these you are closer to catch the killer!
+			</p>
+		</div>
 
 		<div class="container mt-5">
 			<h4>🔪 Finding the smoking gun</h4>
@@ -403,7 +432,7 @@
 					<div class="card" style="height: auto;">
 						<div class="card-body text-center">
 							<div class="row align-items-center">
-									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #3</h6>
+									<h6 id="clue-title-tutorial" class="card-title">Tutorial Clue #5</h6>
 									<p id="clue-text-tutorial" class="card-text">Inspecting the body reveals no signs of stabbing</p>
 							</div>
 						</div>
