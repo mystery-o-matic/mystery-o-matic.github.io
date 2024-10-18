@@ -49,7 +49,8 @@ function createTables() {
 	createCluesTable("kitchen:tutorial-2", "kitchen:tutorial-2", 6, tutorialData.timeOffset, true, true);
 	createCluesTable("bathroom:tutorial-2", "bathroom:tutorial-2", 6, tutorialData.timeOffset, false, true);
 	createCluesTableWeapons("weapons");
-	createCluesTableWeapons("weapons:tutorial");
+	createCluesTableWeapons("weapons:tutorial-1");
+	createCluesTableWeapons("weapons:tutorial-2");
 }
 
 function getTableData() {

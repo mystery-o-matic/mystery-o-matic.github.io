@@ -31,7 +31,7 @@
      showgrid="false"
      inkscape:zoom="1.2035412"
      inkscape:cx="108.43002"
-     inkscape:cy="181.13214"
+     inkscape:cy="81.426377"
      inkscape:window-width="1280"
      inkscape:window-height="644"
      inkscape:window-x="0"
@@ -80,7 +80,7 @@
      id="edge1"
      class="edge"
      transform="translate(4,187)"
-     style="fill:#008000;stroke:#49b776;stroke-opacity:1">
+     style="fill:#008000;stroke:#49b776;stroke-opacity:1;stroke-width:2.99999994;stroke-dasharray:none;stroke-linejoin:round;stroke-linecap:round">
     <title
        id="title3">kitchen 🍲--dining room 🍽️</title>
     <path
@@ -88,7 +88,7 @@
        stroke="#808080"
        d="m 104.49,-146.31 c -9.75,11.16 -22.4,25.65 -32.12,36.78"
        id="path3"
-       style="fill:#008000;stroke:#49b776;stroke-opacity:1" />
+       style="fill:#008000;stroke:#49b776;stroke-opacity:1;stroke-width:2.99999994;stroke-dasharray:none;stroke-linejoin:round;stroke-linecap:round" />
   </g>
   <g
      id="node3"
@@ -113,7 +113,7 @@
      id="edge2"
      class="edge"
      transform="translate(4,187)"
-     style="stroke:#49b776;stroke-opacity:1;fill:#008000">
+     style="stroke:#49b776;stroke-opacity:1;fill:#008000;stroke-width:2.99999994;stroke-dasharray:none;stroke-linecap:round">
     <title
        id="title5">kitchen 🍲--bedroom 🛏️</title>
     <path
@@ -121,7 +121,7 @@
        stroke="#808080"
        d="m 134.51,-146.31 c 9.75,11.16 22.4,25.65 32.12,36.78"
        id="path5"
-       style="stroke:#49b776;stroke-opacity:1;fill:#008000" />
+       style="stroke:#49b776;stroke-opacity:1;fill:#008000;stroke-width:2.99999994;stroke-dasharray:none;stroke-linecap:round" />
   </g>
   <g
      id="node4"
@@ -146,7 +146,7 @@
      id="edge3"
      class="edge"
      transform="translate(4,187)"
-     style="fill:#ff2a2a;stroke-width:1.00063;stroke-dasharray:none"
+     style="fill:#ff2a2a;stroke-width:2.99999994;stroke-dasharray:none"
      inkscape:highlight-color="#ff5555">
     <title
        id="title7">bedroom 🛏️--bathroom 🚽</title>
@@ -155,6 +155,6 @@
        stroke="#808080"
        d="m 181.5,-73.31 c 0,11.16 0,25.65 0,36.78"
        id="path7"
-       style="fill:#ff2a2a;stroke-width:1.00063;stroke-dasharray:none;stroke:#ff0101;stroke-opacity:1" />
+       style="fill:#ff2a2a;stroke-width:2.99999994;stroke-dasharray:none;stroke:#ff0101;stroke-opacity:1" />
   </g>
 </svg>
