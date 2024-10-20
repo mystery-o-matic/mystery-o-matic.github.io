@@ -15,14 +15,20 @@ if (isKindle) {
 	document.getElementById("locations-small").src = "locations_small.png";
 }
 
+function preload_image(url) {
+	let img = new Image();
+	console.log("preloading: " + url)
+	img.src = url;
+	return img;
+}
+
 function getEmoji(input) {
 	if (emoji) {
 		input = emoji.replace_unified(input);
 		const parser = new DOMParser();
 		htmlDoc = parser.parseFromString(input, 'text/html');
 		codepoint = htmlDoc.getElementsByTagName("span")[0].dataset["codepoints"];
-		console.log(codepoint);
-		return document.getElementById(codepoint);
+		return preload_image("../images/emoji-data/img-google-64/" + codepoint + ".png");
 	} else
 		return input;
 }
