@@ -100,6 +100,9 @@ function revealAnotherClue(offset) {
 	maxClue = Math.max(maxClue, currentClue);
 	element = document.getElementById("clue-text");
 	element.innerHTML = clues[currentClue];
+	if (emoji) {
+		element.innerHTML = emoji.replace_unified(element.innerHTML);
+	}
 	changeClueStrikeout(crossClue[currentClue], element);
 
 	var currentTheme = document.querySelector("html").getAttribute("data-bs-theme");
