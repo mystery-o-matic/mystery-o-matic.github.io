@@ -13,6 +13,7 @@ if (isKindle) {
 	document.getElementById("locations-big").src = "locations_big.png";
 	document.getElementById("locations-big").style.height = 'auto';
 	document.getElementById("locations-small").src = "locations_small.png";
+	document.getElementById("locations-small").style.height = '10vh';
 }
 
 function preload_image(url) {
@@ -100,7 +101,7 @@ function clearClueTable(column, row, table) {
 	table.ctx.fillStyle = backgroundColor;
 	table.ctx.fillRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
 
-	table.ctx.strokeStyle = "white";
+	table.ctx.strokeStyle = table.lineColor;
 	table.ctx.beginPath();
 	table.ctx.moveTo(table.columnSize * column, table.rowSize * row);
 	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * row);
@@ -194,6 +195,7 @@ function createCluesTableWeapons(name) {
 		rowSize: rowSize,
 		colorEven: '#888888',
 		colorOdd: '#777777',
+		lineColor: '#FFFFFF',
 		headerVisible: false,
 		width: width,
 		height: height,
@@ -202,6 +204,11 @@ function createCluesTableWeapons(name) {
 		isTutorial: isTutorial,
 	};
 
+	if (isKindle) {
+		table.colorEven = '#FFFFFF';
+		table.colorOdd = '#FFFFFF';
+		table.lineColor = '#000000';
+	}
 
 	tables.set(name, table);
 	drawClueTable(table);
@@ -262,12 +269,19 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		rowSize: rowSize,
 		colorEven: '#888888',
 		colorOdd: '#777777',
+		lineColor: '#FFFFFF',
 		headerVisible: headerVisible,
 		width: width,
 		height: height,
 		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
 		isTutorial: isTutorial,
 	};
+
+	if (isKindle) {
+		table.colorEven = '#EEEEEE';
+		table.colorOdd = '#DDDDDD';
+		table.lineColor = '#000000';
+	}
 
 	tables.set(room, table);
 	drawClueTable(table);
@@ -319,9 +333,10 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 			var character = rowNames[i - startRow];
 			roomName = data.locationMap[character];
 			var color = (character == data.victim) ? '#cc0000' : '#000000';
+			var symbol = (character == data.victim && isKindle) ? "☠︎" : "✓";
 			if (roomName == name) {
 				clearClueTable(nColumns - 1, i, table);
-				fillClueTable("✓", columnSize / 3, color, nColumns - 1, i, table);
+				fillClueTable(symbol, columnSize / 3, color, nColumns - 1, i, table);
 			}
 		}
 	}
