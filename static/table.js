@@ -13,7 +13,7 @@ if (isKindle) {
 	document.getElementById("locations-big").src = "locations_big.png";
 	document.getElementById("locations-big").style.height = 'auto';
 	document.getElementById("locations-small").src = "locations_small.png";
-	document.getElementById("locations-small").style.height = '10vh';
+	document.getElementById("locations-small").style.height = '25vh';
 }
 
 function preload_image(url) {
@@ -78,7 +78,9 @@ function drawClueTable(table) {
 	table.ctx.fillStyle = table.colorEven;
 	table.ctx.fillRect(0, 0, table.canvas.width, table.canvas.height);
 
-	for (let i = 1; i < table.nColumns; i++) {
+	var startColumn = table.nRows == 1 ? 0 : 1;
+
+	for (let i = startColumn; i < table.nColumns; i++) {
 		for (let j = 0; j < table.nRows; j++) {
 			clearClueTable(i, j, table);
 			table.data[i][j] = "";
