@@ -149,26 +149,25 @@ function changeClueStrikeout(strike, element) {
 function computeRank() {
 	let numberClues = clues.length;
 	viewedPercentage = 100 * maxClue / numberClues;
-	rank = ""
 	if (viewedPercentage ==  0 && tries == 0) {
-		rank += "<b>clairvoyant</b> 🧙";
-		rank += "<br><i>Next time try guessing the lotto</i>!"
+		rankIndex = "clairvoyant";
 	} else if (viewedPercentage <= 65 && tries == 0) {
-		rank += "<b>super sleuth</b> 🕵️";
-		rank += "<br><i>Your deductive abilities are remarkable !</i>"
+		rankIndex = "super sleuth";
 	} else if (viewedPercentage <= 75 && tries == 0) {
-		rank += "<b>seasoned P.I</b> 🕵️";
-		rank += "<br><i>Good job indeed !</i>"
+		rankIndex = "seasoned P.I";
 	} else if (viewedPercentage <= 85 && tries == 0) {
-		rank += "<b>amateur gumshoe!</b> 👮";
-		rank += "<br><i>Keep sharpening your deductive skills!</i>"
+		rankIndex = "amateur gumshoe";
 	} else if (viewedPercentage <= 95 && tries == 0) {
-		rank += "<b>absent minded!</b> 🤷";
-		rank += "<br><i>Keep sharpening your deductive skills!</i>"
+		rankIndex = "absent minded";
 	} else {
-		rank += "<b>barely conscious</b> 🧟"
-		rank += "<br><i>Congratulations on a job.. done!</i>"
+		rankIndex = "barely conscious";
 	}
+
+	language = sessionStorage.getItem("language");
+	language = language ? language : "en";
+
+	rank = rankStrings[language][rankIndex].rank;
+	rank += rankStrings[language][rankIndex].message;
 
 	return rank;
 }
