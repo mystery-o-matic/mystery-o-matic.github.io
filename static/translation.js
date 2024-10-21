@@ -57,6 +57,10 @@ rankStrings = {
 	"es": rankStringsES
 }
 
+function getLanguage() {
+	return sessionStorage.getItem("language") || "en";
+}
+
 function checkIfWebsiteShouldBeTranslated(force) {
 	language = window.navigator.language;
 	language = language.split("-")[0];

@@ -1,6 +1,6 @@
 function getCurrentDate() {
 	var options = {  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: false };
-	return String(new Date().toLocaleDateString(sessionStorage.language, options));
+	return String(new Date().toLocaleDateString(getLanguage(), options));
 }
 
 function showPage(page) {
@@ -49,9 +49,7 @@ function selectClues(withLies) {
 	element = document.getElementById("clues-buttons");
 	element.style.removeProperty("display");
 
-	language = sessionStorage.getItem("language");
-	language = language ? language : "en";
-
+	language = getLanguage();
 	clues = withLies ? data.additionalCluesWithLies[language] : data.additionalClues[language];
 	new Array(clues.length).fill(false);
 	revealAnotherClue(0);
@@ -115,7 +113,7 @@ function revealAnotherClue(offset) {
 	}
 
 	element = document.getElementById("clue-title");
-	language = sessionStorage.getItem("language");
+	language = getLanguage();
 	switch (language) {
 		case "en":
 			element.innerHTML = "Clue";
@@ -163,9 +161,7 @@ function computeRank() {
 		rankIndex = "barely conscious";
 	}
 
-	language = sessionStorage.getItem("language");
-	language = language ? language : "en";
-
+	language = getLanguage();
 	rank = rankStrings[language][rankIndex].rank;
 	rank += rankStrings[language][rankIndex].message;
 
