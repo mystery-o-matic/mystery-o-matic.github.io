@@ -1,54 +1,54 @@
 rankStringsEN = {
 	"clairvoyant": {
 		"rank": "<b>clairvoyant</b> 🧙",
-		"message": "<i>Next time try guessing the lotto</i>!"
+		"message": "<i>Phenomenal! Would you try guessing the lottery numbers for me?</i>"
 	},
 	"super sleuth": {
 		"rank": "<b>super sleuth</b> 🕵️",
-		"message": "<i>Your deductive abilities are remarkable !</i>"
+		"message": "<i>Outstanding! I bet you could solve any cold case!</i>"
 	},
 	"seasoned P.I": {
 		"rank": "<b>seasoned P.I</b> 🕵️",
-		"message": "<i>Good job indeed !</i>"
+		"message": "<i>Impressive! I bet you never misplace your keys.</i>"
 	},
 	"amateur gumshoe": {
-		"rank": "<b>amateur gumshoe!</b> 👮",
-		"message": "<i>Keep sharpening your deductive skills!</i>"
+		"rank": "<b>amateur gumshoe</b> 👮",
+		"message": "<i>Well done! Keep sharpening your deductive skills!</i>"
 	},
 	"absent minded": {
-		"rank": "<b>absent minded!</b> 🤷",
-		"message": "<i>Keep sharpening your deductive skills!</i>"
+		"rank": "<b>absent minded</b> 🤷",
+		"message": "<i>Keep it up! There's (a lot of) room for improvement, though.</i>"
 	},
 	"barely conscious": {
 		"rank": "<b>barely conscious</b> 🧟",
-		"message": "<i>Congratulations on a job.. done!</i>"
+		"message": "<i>Fair enough! Congratulations on a job... done.</i>"
 	}
 }
 
 rankStringsES = {
 	"clairvoyant": {
 		"rank": "<b>clarividente</b> 🧙",
-		"message": "<i>¡La próxima vez intenta adivinar la lotería!</i>!"
+		"message": "<i>¡Fenomenal! ¿Podrías intentar adivinar los números de la lotería por mí?</i>"
 	},
 	"super sleuth": {
 		"rank": "<b>super detective</b> 🕵️",
-		"message": "<i>¡Tus habilidades deductivas son notables!</i>"
+		"message": "<i>¡Excelente! ¡Apuesto a que podrías resolver cualquier caso!</i>"
 	},
 	"seasoned P.I": {
 		"rank": "<b>investigador experimentado</b> 🕵️",
-		"message": "<i>¡Buen trabajo!</i>"
+		"message": "<i>¡Impresionante! Apuesto a que nunca pierdes las llaves.</i>"
 	},
 	"amateur gumshoe": {
-		"rank": "<b>sabueso novato!</b> 👮",
-		"message": "<i>¡Sigue mejorando tus habilidades deductivas!</i>"
+		"rank": "<b>sabueso novato</b> 👮",
+		"message": "<i>¡Bien hecho! ¡Sigue perfeccionando tus habilidades deductivas!</i>"
 	},
 	"absent minded": {
-		"rank": "<b>despistado!</b> 🤷",
-		"message": "<i>¡Sigue mejorando tus habilidades deductivas!</i>"
+		"rank": "<b>despistado</b> 🤷",
+		"message": "<i>¡Sigue así! Aunque hay (mucho) margen de mejora.</i>"
 	},
 	"barely conscious": {
 		"rank": "<b>semiconsciente</b> 🧟",
-		"message": "<i>¡Felicidades por un trabajo.. hecho!</i>"
+		"message": "<i>¡Está bien! Felicitaciones por un trabajo... hecho.</i>"
 	}
 }
 
