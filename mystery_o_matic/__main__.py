@@ -9,6 +9,7 @@ from os.path import isfile
 
 from mystery_o_matic.output.html import produce_html_output
 from mystery_o_matic.output.text import produce_text_output
+from mystery_o_matic.output.latex import produce_tex_output
 from mystery_o_matic.echidna import create_outdir
 from mystery_o_matic.location import Locations, get_location_data
 from mystery_o_matic.weapons import get_available_weapons
@@ -109,7 +110,7 @@ def main() -> int:
     telegram_api_key = args.telegram_api_key
 
     # Check if the mode is valid
-    if mode not in ["html", "text"]:
+    if mode not in ["html", "text", "latex"]:
         print("Invalid mode", mode)
         print("Only html and text is accepted")
         return -1
@@ -183,6 +184,10 @@ def main() -> int:
 
     if mode == "html":
         produce_html_output(
+            static_dir, out_dir, ['en', 'es'], mystery, weapons_available, weapon_labels, locations, story_clue
+        )
+    elif mode == "latex":
+        produce_tex_output(
             static_dir, out_dir, ['en', 'es'], mystery, weapons_available, weapon_labels, locations, story_clue
         )
     elif mode == "text":

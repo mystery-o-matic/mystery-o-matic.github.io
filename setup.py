@@ -17,6 +17,7 @@ setup(
         "mystery_o_matic.output",
         "mystery_o_matic.output.html",
         "mystery_o_matic.output.text",
+        "mystery_o_matic.output.latex",
     ],
     license="AGPL3",
     entry_points="""
@@ -29,6 +30,7 @@ setup(
         "pygraphviz",
         "networkx",
         "yattag",
+        "emoji",
         "python-telegram-bot",
     ],
     extras_require=extra_require,
