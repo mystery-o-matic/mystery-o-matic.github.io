@@ -130,7 +130,7 @@ def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_
         for i in range(len(mystery.get_characters())):
             args[f"CHAR{i+1}"] = names_html[f"CHAR{i+1}"]
 
-        for room in locations.names[language].keys():
+        for room in locations.names[language]:
             if room not in locations.rindices:
                 continue # skip any missing place
             index = locations.rindices[room]
