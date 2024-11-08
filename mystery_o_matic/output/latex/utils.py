@@ -1,5 +1,6 @@
-from string import Template
+from contextlib import suppress
 from os import makedirs
+from string import Template
 
 from emoji import demojize
 
@@ -10,9 +11,14 @@ def create_tex_template(str):
     return TexTemplate(str)
 
 def read_tex_template(filename):
-    with open(filename, "r") as f:
-        template = create_tex_template(f.read())
-        return template
+    try:
+        with open(filename, "r", encoding='utf-8') as f:
+            template = create_tex_template(f.read())
+            return template
+    except FileNotFoundError:
+        raise ValueError(f"Template file not found: {filename}")
+    except UnicodeDecodeError:
+        raise ValueError(f"Template file has invalid encoding: {filename}")
 
 def get_bullet_list(elements, name=""):
     r = "\\begin{itemize}\n"
@@ -29,14 +35,16 @@ def get_enumeration_list(elements, name=""):
     return r
 
 def save_tex(outdir, language, tex):
-    try:
-        makedirs(outdir + f"/{language}")
-    except OSError:
-        pass
+    output_dir = f"{outdir}/{language}"
+    with suppress(OSError):
+        makedirs(output_dir)
 
-    filename = outdir + f"/{language}/mystery.tex"
-    with open(filename, "w") as f:
-        f.write(tex)
+    filename = f"{output_dir}/mystery.tex"
+    try:
+        with open(filename, "w", encoding='utf-8') as f:
+            f.write(tex)
+    except OSError as e:
+        raise RuntimeError(f"Failed to save LaTeX file: {e}")
 
     return filename
 
@@ -99,10 +107,10 @@ def generate_latex_clue_table(name, num_columns, num_rows, include_header = True
 
     return latex_code
 
-def generate_latex_weapons_table(numer_weapons):
+def generate_latex_weapons_table(number_weapons):
     latex_code = '\\begin{tabular}{|>{\centering}p{0.172\paperwidth}|>{\centering}p{0.172\paperwidth}|>{\centering}p{0.172\paperwidth}|>{\centering}p{0.172\paperwidth}|}\n'
     latex_code += "\\hline\n"
-    for i in range(numer_weapons):
+    for i in range(number_weapons):
         latex_code += f"$$ROOM{i}WEAPONREP & "
 
     latex_code = latex_code[:-2] + " \\tabularnewline\n"
