@@ -121,16 +121,16 @@ def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_
         args["additionalClues"] = additional_clues_enumeration
         tables = ""
 
-        for i, x in enumerate(locations.weapon_locations.items()):
+        for i in range(len(locations.weapon_locations.items())):
             tables += generate_latex_clue_table(f"ROOM{i}REP", len(intervals), len(mystery.get_characters()), i == 0) + "\n"
 
         args["cluesTables"] = tables
         args["weaponsTable"] = generate_latex_weapons_table(len(weapons_options))
 
-        for (i, char) in enumerate(mystery.get_characters()):
+        for i in range(len(mystery.get_characters())):
             args[f"CHAR{i+1}"] = names_html[f"CHAR{i+1}"]
 
-        for room, name in locations.names[language].items():
+        for room in locations.names[language].keys():
             if room not in locations.rindices:
                 continue # skip any missing place
             index = locations.rindices[room]
