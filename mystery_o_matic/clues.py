@@ -436,7 +436,7 @@ class NotSawWhenLeavingClue(AbstractClue):
         elif r == 1:
             s += f'Not in the {self.place}, no. {self.object} was not there at {self.time}"'
         elif r == 2:
-            s += f'I was the {self.place} at {self.time} but {self.object} was not there with me."'
+            s += f'I was in the {self.place} at {self.time} but {self.object} was not there with me."'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
