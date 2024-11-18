@@ -103,7 +103,7 @@ def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_
 
         additional_clues = []
 
-        for i, clue in enumerate(mystery.additional_clues):
+        for clue in mystery.additional_clues:
             clue = replace_emojis(create_template(clue[language]).substitute(names_html))
             clue = replace_opening_quotes(clue)
             additional_clues.append(clue)
@@ -111,19 +111,12 @@ def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_
         additional_clues_enumeration = get_bullet_list(additional_clues, customItem="\\ding{43}")
 
         additional_clues_with_lies = []
-        for i, clue in enumerate(mystery.additional_clues_with_lies):
+        for clue in mystery.additional_clues_with_lies:
             clue = replace_emojis(create_template(clue[language]).substitute(names_html))
             clue = replace_opening_quotes(clue)
             additional_clues_with_lies.append(clue)
 
         additional_clues_with_lies_enumeration = get_bullet_list(additional_clues_with_lies, customItem="\\ding{43}")
-
-        #additional_clues_with_lies = []
-
-        #for i, clue in enumerate(mystery.additional_clues_with_lies):
-        #    additional_clues_with_lies.append(
-        #        create_template(clue[language]).substitute(names_html)
-        #    )
 
         # populate the weapon options
         weapons_options = []
