@@ -1,3 +1,5 @@
+from random import shuffle
+
 from mystery_o_matic.output import create_template
 from mystery_o_matic.output.latex.utils import generate_latex_clue_table, generate_latex_weapons_table, get_bullet_list, get_enumeration_list, read_tex_template, create_tex_template, save_tex, get_char_name, get_emoji_name, replace_emojis, replace_opening_quotes, save_solution
 from mystery_o_matic.clues import NoOneElseStatement
@@ -5,6 +7,9 @@ from mystery_o_matic.clues import NoOneElseStatement
 def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_labels, locations, story_clue):
     intervals = mystery.get_intervals()
     suspects = mystery.get_suspects()
+
+    shuffle(mystery.additional_clues)
+    shuffle(mystery.additional_clues_with_lies)
 
     names_html = {}
     for i, char in enumerate(mystery.get_characters()):
@@ -103,7 +108,15 @@ def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_
             clue = replace_opening_quotes(clue)
             additional_clues.append(clue)
 
-        additional_clues_enumeration = get_enumeration_list(additional_clues)
+        additional_clues_enumeration = get_bullet_list(additional_clues, customItem="\\ding{43}")
+
+        additional_clues_with_lies = []
+        for i, clue in enumerate(mystery.additional_clues_with_lies):
+            clue = replace_emojis(create_template(clue[language]).substitute(names_html))
+            clue = replace_opening_quotes(clue)
+            additional_clues_with_lies.append(clue)
+
+        additional_clues_with_lies_enumeration = get_bullet_list(additional_clues_with_lies, customItem="\\ding{43}")
 
         #additional_clues_with_lies = []
 
@@ -150,6 +163,14 @@ def produce_tex_output(static_dir, out_dir, languages, mystery, weapons, weapon_
             args[f"TIME{i}"] = time
 
         tex_template = read_tex_template(static_dir + f"/{language}/mystery.template.tex")
+
         tex_source = tex_template.substitute(args)
         tex_source = create_tex_template(tex_source).substitute(args)
-        save_tex(out_dir, language, tex_source)
+        save_tex(out_dir, language, tex_source, "mystery.tex")
+
+        args["additionalClues"] = additional_clues_with_lies_enumeration
+
+        tex_source = tex_template.substitute(args)
+        tex_source = create_tex_template(tex_source).substitute(args)
+        save_tex(out_dir, language, tex_source, "mystery.lies.tex")
+

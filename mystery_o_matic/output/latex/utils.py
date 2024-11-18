@@ -48,12 +48,12 @@ def save_solution(outdir, solution):
     except OSError as e:
         raise RuntimeError(f"Failed to save content to file: {e}")
 
-def save_tex(outdir, language, tex):
+def save_tex(outdir, language, tex, filename):
     output_dir = f"{outdir}/{language}"
     with suppress(OSError):
         makedirs(output_dir)
 
-    filename = f"{output_dir}/mystery.tex"
+    filename = f"{output_dir}/{filename}"
     try:
         with open(filename, "w", encoding='utf-8') as f:
             f.write(tex)
@@ -65,7 +65,7 @@ def save_tex(outdir, language, tex):
 def get_char_name(name):
     if name == "NOBODY":
         return name
-    return name.capitalize()
+    return "\\textbf{" + name.capitalize() + "}"
 
 def get_emoji_name(emoji_char):
     # Use emoji.demojize to get the name in the format ":emoji_name:"
