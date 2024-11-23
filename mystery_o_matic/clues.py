@@ -656,13 +656,11 @@ class InteractedClue(AbstractClue):
         return f'{self.subject0} dijo: "Hablé con {self.subject1} en {self.place}"'
 
     def string_english(self):
-        r = randint(0, 2)
+        r = randint(0, 1)
         if r == 0:
-            return f'{self.subject0} said: "I talked with {self.subject1} in the {self.place}"'
+            return f'{self.subject0}: "I talked with {self.subject1} in the {self.place}"'
         elif r == 1:
-            return f'"I talked with {self.subject1} in the {self.place}" said {self.subject0}'
-        elif r == 2:
-            return f'{self.subject0} said: "I chatted with {self.subject1} in the {self.place}"'
+            return f'{self.subject0}: "I chatted with {self.subject1} in the {self.place}"'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -699,14 +697,7 @@ class HeardClue(AbstractClue):
             raise ValueError("Invalid random number: " + str(r))
 
     def string_english(self):
-        r = randint(0, 1)
-
-        if r == 0:
-            return f'{self.subject} said: "I {self.activity["en"]} at {self.time}"'
-        elif r == 1:
-            return f'"I {self.activity["en"]} at {self.time}" said {self.subject}'
-        else:
-            raise ValueError("Invalid random number: " + str(r))
+        return f'{self.subject}: "I {self.activity["en"]} at {self.time}"'
 
     def is_incriminating(self, killer, victim, place, time):
         return False
