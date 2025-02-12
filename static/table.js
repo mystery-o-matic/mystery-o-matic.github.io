@@ -1,3 +1,124 @@
+class ClueTable {
+	constructor(canvas, ctx, nColumns, nRows, columnSize, rowSize, colorEven, colorOdd, lineColor, headerVisible, width, height, isTutorial, readOnly = false) {
+		this.canvas = canvas;
+		this.ctx = ctx;
+		this.nColumns = nColumns;
+		this.nRows = nRows;
+		this.columnSize = columnSize;
+		this.rowSize = rowSize;
+		this.colorEven = colorEven;
+		this.colorOdd = colorOdd;
+		this.lineColor = lineColor;
+		this.headerVisible = headerVisible;
+		this.width = width;
+		this.height = height;
+		this.isTutorial = isTutorial;
+		this.readOnly = readOnly;
+		this.data = [...Array(nColumns)].map(() => Array(nRows).fill(""));
+		this.extra = [...Array(nColumns)].map(() => Array(nRows).fill(""));
+	}
+
+	draw() {
+		this.ctx.fillStyle = this.colorEven;
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		let startColumn = this.nRows === 1 ? 0 : 1;
+		for (let i = startColumn; i < this.nColumns; i++) {
+			for (let j = 0; j < this.nRows; j++) {
+				this.clearCell(i, j);
+				this.data[i][j] = "";
+			}
+		}
+	}
+
+	clearCell(column, row) {
+		this.ctx.clearRect(
+			this.columnSize * column,
+			this.rowSize * row,
+			this.columnSize,
+			this.rowSize
+		);
+		this.data[column][row] = null;
+		let backgroundColor = row % 2 === 0 ? this.colorEven : this.colorOdd;
+		if (this.headerVisible && row === 0) backgroundColor = this.colorEven;
+		else if (this.headerVisible) backgroundColor = row % 2 === 0 ? this.colorOdd : this.colorEven;
+		this.ctx.fillStyle = backgroundColor;
+		this.ctx.fillRect(
+			this.columnSize * column,
+			this.rowSize * row,
+			this.columnSize,
+			this.rowSize
+		);
+		this.ctx.strokeStyle = this.lineColor;
+		this.ctx.beginPath();
+		this.ctx.moveTo(this.columnSize * column, this.rowSize * row);
+		this.ctx.lineTo(this.columnSize * (column + 1), this.rowSize * row);
+		this.ctx.lineTo(this.columnSize * (column + 1), this.rowSize * (row + 1));
+		this.ctx.lineTo(this.columnSize * column, this.rowSize * (row + 1));
+		this.ctx.closePath();
+		this.ctx.stroke();
+	}
+
+	fillCell(text, size, color, column, row) {
+		this.ctx.font = "bold " + size + "px Raleway";
+		this.ctx.textAlign = "center";
+		this.ctx.fillStyle = color;
+		if (text && typeof(text) === "object") {
+			this.ctx.drawImage(
+				text,
+				this.columnSize * column + this.columnSize / 2 - text.width / 5,
+				this.rowSize * row / 2 + this.rowSize / 1.8 - text.height / 4,
+				text.width / 2.5,
+				text.height / 2.5
+			);
+		} else {
+			this.ctx.fillText(
+				text,
+				this.columnSize * column + this.columnSize / 2,
+				this.rowSize * row + this.rowSize / 1.5
+			);
+		}
+		this.data[column][row] = text;
+	}
+
+	renderTextInColumn(text, size, color, column) {
+		this.ctx.font = "bold " + size + "px Raleway";
+		this.ctx.textAlign = "center";
+		this.ctx.fillStyle = color;
+		const textX = this.columnSize * column + this.columnSize / 2;
+		const textY = this.height / 2 + size / 3;
+		if (text && typeof(text) === "object") {
+			this.ctx.drawImage(
+				text,
+				textX - size / 2,
+				textY - size / 1.2,
+				text.width / 2.5,
+				text.height / 2.5
+			);
+		} else this.ctx.fillText(text, textX, textY);
+	}
+
+	cross(size, color, column, row) {
+		this.ctx.strokeStyle = color;
+		this.ctx.lineWidth = size;
+		this.ctx.beginPath();
+		this.ctx.moveTo(this.columnSize * column + 3, this.rowSize * row + 3);
+		this.ctx.lineTo(
+			this.columnSize * (column + 1) - 3,
+			this.rowSize * (row + 1) - 3
+		);
+		this.ctx.moveTo(
+			this.columnSize * (column + 1) - 3,
+			this.rowSize * row + 3
+		);
+		this.ctx.lineTo(
+			this.columnSize * column + 3,
+			this.rowSize * (row + 1) - 3
+		);
+		this.ctx.stroke();
+		this.extra[column][row] = "crossed";
+	}
+}
+
 var ua = navigator.userAgent;
 var isKindle = /Kindle/i.test(ua);
 var isMobile = /Mobi/i.test(ua);
@@ -114,83 +235,23 @@ function getTableData() {
 }
 
 function drawClueTable(table) {
-	table.ctx.fillStyle = table.colorEven;
-	table.ctx.fillRect(0, 0, table.canvas.width, table.canvas.height);
-
-	var startColumn = table.nRows == 1 ? 0 : 1;
-
-	for (let i = startColumn; i < table.nColumns; i++) {
-		for (let j = 0; j < table.nRows; j++) {
-			clearClueTable(i, j, table);
-			table.data[i][j] = "";
-		}
-	}
+	table.draw();
 }
 
 function clearClueTable(column, row, table) {
-	// This function clears a cell and redraws the border lines
-	table.ctx.clearRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
-	table.data[column][row] = null;
-
-	// Determine the background color based on the row number
-	var backgroundColor = row % 2 === 0 ? table.colorEven : table.colorOdd;
-	if (table.headerVisible && row === 0)
-		backgroundColor = table.colorEven;
-	else if (table.headerVisible)
-		backgroundColor = row % 2 === 0 ? table.colorOdd : table.colorEven;
-
-	table.ctx.fillStyle = backgroundColor;
-	table.ctx.fillRect(table.columnSize * column, table.rowSize * row, table.columnSize, table.rowSize);
-
-	table.ctx.strokeStyle = table.lineColor;
-	table.ctx.beginPath();
-	table.ctx.moveTo(table.columnSize * column, table.rowSize * row);
-	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * row);
-	table.ctx.lineTo(table.columnSize * (column + 1), table.rowSize * (row + 1));
-	table.ctx.lineTo(table.columnSize * column, table.rowSize * (row + 1));
-	table.ctx.closePath();
-	table.ctx.stroke();
+	table.clearCell(column, row);
 }
 
 function fillClueTable(text, size, color, column, row, table) {
-	table.ctx.font = "bold " + size + "px Raleway";
-	table.ctx.textAlign = "center";
-	table.ctx.fillStyle = color;
-	if (text && typeof(text) === "object") {
-		console.log(text);
-		table.ctx.drawImage(text, table.columnSize * column + table.columnSize / 2 - text.width / 5, table.rowSize * row / 2 + table.rowSize / 1.8 - text.height / 4, text.width / 2.5, text.height / 2.5);
-	} else
-		table.ctx.fillText(text, table.columnSize * column + table.columnSize / 2, table.rowSize * row + table.rowSize / 1.5);
-
-	table.data[column][row] = text;
+	table.fillCell(text, size, color, column, row);
 }
 
 function renderTextInColumn(text, size, color, column, table) {
-	table.ctx.font = "bold " + size + "px Raleway";
-	table.ctx.textAlign = "center";
-	table.ctx.fillStyle = color;
-
-	const textX = table.columnSize * column + table.columnSize / 2;
-	const textY = table.height / 2 + size / 3;
-
-	if (text && typeof(text) === "object") {
-		console.log(text);
-		table.ctx.drawImage(text, textX - size / 2, textY - size / 1.2, text.width / 2.5, text.height / 2.5);
-	} else
-		table.ctx.fillText(text, textX, textY);
+	table.renderTextInColumn(text, size, color, column);
 }
 
 function crossClueTable(size, color, column, row, table) {
-	table.ctx.strokeStyle = color;
-	table.ctx.lineWidth = size;
-	table.ctx.beginPath();
-	table.ctx.moveTo(table.columnSize * column + 3, table.rowSize * row + 3);
-	table.ctx.lineTo(table.columnSize * (column + 1) - 3, table.rowSize * (row + 1) - 3);
-	table.ctx.moveTo(table.columnSize * (column + 1) - 3, table.rowSize * row + 3);
-	table.ctx.lineTo(table.columnSize * column + 3, table.rowSize * (row + 1) - 3);
-	table.ctx.stroke();
-
-	table.extra[column][row] = "crossed";
+	table.cross(size, color, column, row);
 }
 
 function createCluesTableWeapons(name) {
@@ -227,46 +288,35 @@ function createCluesTableWeapons(name) {
 	var columnSize = width / nColumns;
 	var rowSize = height / nRows;
 
-	var table = {
-		canvas: c,
-		ctx: ctx,
-		nColumns: nColumns,
-		nRows: nRows,
-		columnSize: columnSize,
-		rowSize: rowSize,
-		colorEven: '#888888',
-		colorOdd: '#777777',
-		lineColor: '#FFFFFF',
-		headerVisible: false,
-		width: width,
-		height: height,
-		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
-		extra: [...Array(nColumns)].map(e => Array(nRows).fill("")),
-		isTutorial: isTutorial,
-		readOnly: false,
-	};
-
+	var tableColorEven = "#888888";
+	var tableColorOdd = "#777777";
+	var tableLineColor = "#FFFFFF";
 	if (isKindle) {
-		table.colorEven = '#FFFFFF';
-		table.colorOdd = '#FFFFFF';
-		table.lineColor = '#000000';
+		tableColorEven = "#FFFFFF";
+		tableColorOdd = "#FFFFFF";
+		tableLineColor = "#000000";
 	}
-
+	let table = new ClueTable(
+		c, ctx, nColumns, nRows, columnSize, rowSize,
+		tableColorEven, tableColorOdd, tableLineColor, false, width, height, isTutorial
+	);
 	tables.set(name, table);
-	drawClueTable(table);
-
-	var placeIcon;
-	var weaponIcon;
+	table.draw();
 
 	weapons = Object.keys(weaponMap);
 	for (var i = 0; i < weapons.length; i++) {
-		placeIcon = getEmoji(locationIcons[weaponMap[weapons[i]]]);
-		weaponIcon = getEmoji(weaponIcons[weapons[i]]);
-
-		if (isKindle) // Kindle does not support rendering two emojis in the same cell
-			fillClueTable(weaponIcon, columnSize / 6, '#000000', i, 0, table);
+		var placeIcon = getEmoji(locationIcons[weaponMap[weapons[i]]]);
+		var weaponIcon = getEmoji(weaponIcons[weapons[i]]);
+		if (isKindle)
+			table.fillCell(weaponIcon, columnSize / 6, "#000000", i, 0);
 		else
-			fillClueTable(weaponIcon + " " + placeIcon, columnSize / 6, '#000000', i, 0, table);
+			table.fillCell(
+				weaponIcon + " " + placeIcon,
+				columnSize / 6,
+				"#000000",
+				i,
+				0
+			);
 	}
 }
 
@@ -303,34 +353,22 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 	var columnSize = width / nColumns;
 	var rowSize = height / nRows;
 
-	var ctx = c.getContext("2d");
-
-	var table = {
-		canvas: c,
-		ctx: ctx,
-		nColumns: nColumns,
-		nRows: nRows,
-		columnSize: columnSize,
-		rowSize: rowSize,
-		colorEven: '#888888',
-		colorOdd: '#777777',
-		lineColor: '#FFFFFF',
-		headerVisible: headerVisible,
-		width: width,
-		height: height,
-		data: [...Array(nColumns)].map(e => Array(nRows).fill("")),
-		isTutorial: isTutorial,
-		readOnly: false,
-	};
-
+	var tableColorEven = "#888888";
+	var tableColorOdd = "#777777";
+	var tableLineColor = "#FFFFFF";
 	if (isKindle) {
-		table.colorEven = '#EEEEEE';
-		table.colorOdd = '#DDDDDD';
-		table.lineColor = '#000000';
+		tableColorEven = "#EEEEEE";
+		tableColorOdd = "#DDDDDD";
+		tableLineColor = "#000000";
 	}
 
+	let table = new ClueTable(
+		c, ctx, nColumns, nRows, columnSize, rowSize,
+		tableColorEven, tableColorOdd, tableLineColor,
+		headerVisible, width, height, isTutorial
+	);
 	tables.set(room, table);
-	drawClueTable(table);
+	table.draw();
 
 	var date = new Date(null);
 	date.setSeconds(timeOffset);
@@ -360,7 +398,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		placeLabelPosition = placeLabelPosition + 1;
 
 	name = name.split(":")[0];
-	renderTextInColumn(places.get(name), columnSize / 1.5, '#000000', 0, table);
+	table.renderTextInColumn(places.get(name), columnSize / 1.5, '#000000', 0);
 	table.data[0][0] = " ";
 	table.data[0][1] = " ";
 	table.data[0][2] = " ";

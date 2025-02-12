@@ -29,7 +29,7 @@ data = {
         "poison": "⚗️",
         "hammer": "🔨"
     },
-    "timeOffset": 32400,
+    "timeOffset": 27000,
     "additionalClues": [
         "<a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a> said \"I saw <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('carol')\">Carol</a> when I was leaving the bedroom at 9:45\"",
         "\"I stayed in the kitchen from 10:00 to 10:15\" claimed <a href=\"#/\" class=\"link-dark\" onClick=\"openModal('frida')\">Frida</a>",
