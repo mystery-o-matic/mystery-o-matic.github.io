@@ -407,7 +407,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		var symbol = (character == victim && isKindle) ? "☠︎" : "✓";
 		if (roomName == name) {
 			table.clearCell(nColumns - 1, i);
-			table.fillCell(symbol, columnSize / 2, color, nColumns - 1, i, table);
+			table.fillCell(symbol, columnSize / 2, color, nColumns - 1, i);
 		}
 	}
 
