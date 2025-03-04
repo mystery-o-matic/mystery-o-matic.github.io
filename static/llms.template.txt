@@ -161,7 +161,7 @@ Using this list, we can discard the scissors from the list of potential weapons 
 
 🎓 Solving your first case
 
-Time to put it all together and solve our very first murder.  Think for a while and then clsick to reveal each solution:
+Time to put it all together and solve our very first murder.  Think for a while and then click to reveal each solution:
 
 1. Who was the killer?
 
