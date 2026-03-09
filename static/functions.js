@@ -147,6 +147,9 @@ function revealAnotherClue(offset) {
 		case "es":
 			element.innerHTML = "Pista";
 			break;
+		case "ru":
+			element.innerHTML = "Подсказка";
+			break;
 	}
 	element.innerHTML += " #" + (currentClue + 1).toString();
 

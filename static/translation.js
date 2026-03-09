@@ -52,9 +52,37 @@ rankStringsES = {
 	}
 }
 
+rankStringsRU = {
+	"clairvoyant": {
+		"rank": "<b>ясновидящий</b> 🧙",
+		"message": "<i>Феноменально! Может, угадаешь номера лотереи для меня?</i>"
+	},
+	"super sleuth": {
+		"rank": "<b>супер детектив</b> 🕵️",
+		"message": "<i>Превосходно! Уверен, ты мог бы раскрыть любое дело!</i>"
+	},
+	"seasoned P.I": {
+		"rank": "<b>опытный следователь</b> 🕵️",
+		"message": "<i>Впечатляет! Держу пари, ты никогда не теряешь ключи.</i>"
+	},
+	"amateur gumshoe": {
+		"rank": "<b>начинающий сыщик</b> 👮",
+		"message": "<i>Молодец! Продолжай оттачивать дедуктивные навыки!</i>"
+	},
+	"absent minded": {
+		"rank": "<b>рассеянный</b> 🤷",
+		"message": "<i>Продолжай! Есть (немало) куда расти, впрочем.</i>"
+	},
+	"barely conscious": {
+		"rank": "<b>на автопилоте</b> 🧟",
+		"message": "<i>Ну что ж! Поздравляю с... выполненным заданием.</i>"
+	}
+}
+
 rankStrings = {
 	"en": rankStringsEN,
-	"es": rankStringsES
+	"es": rankStringsES,
+	"ru": rankStringsRU
 }
 
 function getLanguage() {

@@ -109,11 +109,31 @@ def produce_html_output(
                 label = weapon_type_labels_es[weapon_type]
                 names_html[weapon_type] = get_weapon_type_name(weapon_type, label)
                 names_txt[weapon_type] = label
+
+        elif language == "ru":
+            names_html["NOBODY"] = "никого"
+            names_txt["NOBODY"] = "никого"
+
+            weapon_type_labels_ru = {
+                "STABBING": "колото-резаное ранение",
+                "STRANGULATION": "удушение",
+                "CONTUSION": "ушиб",
+                "PROJECTILE": "огнестрельное ранение",
+            }
+            for weapon_type in ["STABBING", "STRANGULATION", "CONTUSION", "PROJECTILE"]:
+                label = weapon_type_labels_ru[weapon_type]
+                names_html[weapon_type] = get_weapon_type_name(weapon_type, label)
+                names_txt[weapon_type] = label
         else:
             raise ValueError("Unknown language: " + language)
 
         characters = list(map(lambda char: char.capitalize(), mystery.get_characters()))
-        conjunction = " y " if language == "es" else " and "
+        if language == "es":
+            conjunction = " y "
+        elif language == "ru":
+            conjunction = " и "
+        else:
+            conjunction = " and "
         introLocation = ", ".join(characters[:-1]) + conjunction + characters[-1]
         introLocation += locations.intro[language]
 

@@ -17,8 +17,12 @@ class AbstractStatement(ABC):
     def string_spanish(self):
         return ""
 
+    @abstractmethod
+    def string_russian(self):
+        return ""
+
     def string(self):
-        return {"en": self.string_english(), "es": self.string_spanish()}
+        return {"en": self.string_english(), "es": self.string_spanish(), "ru": self.string_russian()}
 
 
 class MurderWasAloneStatement(AbstractStatement):
@@ -28,6 +32,9 @@ class MurderWasAloneStatement(AbstractStatement):
     def string_spanish(self):
         return "El asesino estaba a solas con la víctima y el cuerpo no se movió"
 
+    def string_russian(self):
+        return "Убийца был наедине с жертвой, и тело осталось на месте"
+
 
 class MurderWasNotFoundWithBodyStatement(AbstractStatement):
     def string_english(self):
@@ -35,6 +42,9 @@ class MurderWasNotFoundWithBodyStatement(AbstractStatement):
 
     def string_spanish(self):
         return "El asesino no fue encontrado con el cuerpo"
+
+    def string_russian(self):
+        return "Убийцу не застали рядом с телом"
 
 
 class WeaponLocationStatement(AbstractStatement):
@@ -47,6 +57,9 @@ class WeaponLocationStatement(AbstractStatement):
 
     def string_spanish(self):
         return f"{self.weapon} en {self.vplace}"
+
+    def string_russian(self):
+        return f"{self.weapon} — {self.vplace}"
 
 
 class CharacterLocationStatement(AbstractStatement):
@@ -67,6 +80,12 @@ class CharacterLocationStatement(AbstractStatement):
         else:
             return f"{self.subject} estaba en {self.place}"
 
+    def string_russian(self):
+        if self.subject == self.victim:
+            return f"Тело {self.subject} находилось в {self.place}"
+        else:
+            return f"{self.subject} находился в {self.place}"
+
 
 class NoOneElseStatement(AbstractStatement):
     def string_english(self):
@@ -74,6 +93,9 @@ class NoOneElseStatement(AbstractStatement):
 
     def string_spanish(self):
         return "No había nadie más en el lugar"
+
+    def string_russian(self):
+        return "Никого больше не было на месте преступления."
 
 
 class WeaponLocationsIntroStatement(AbstractStatement):
@@ -85,6 +107,9 @@ class WeaponLocationsIntroStatement(AbstractStatement):
             "El asesino consiguió el arma homicida de uno de los siguientes lugares:\n"
         )
 
+    def string_russian(self):
+        return "Убийца взял орудие убийства из одного из следующих мест:\n"
+
 
 class WeaponLocationsOutroStatement(AbstractStatement):
     def string_english(self):
@@ -92,6 +117,9 @@ class WeaponLocationsOutroStatement(AbstractStatement):
 
     def string_spanish(self):
         return "Nadie vió al asesino tomar el arma homicida"
+
+    def string_russian(self):
+        return "Никто не видел, как убийца брал орудие убийства"
 
 
 class FinalLocationsIntroStatement(AbstractStatement):
@@ -103,6 +131,9 @@ class FinalLocationsIntroStatement(AbstractStatement):
 
     def string_spanish(self):
         return f"Sabemos donde estaban todos a las {self.time}:\n"
+
+    def string_russian(self):
+        return f"Нам известно, где находился каждый в {self.time}:\n"
 
 
 class AbstractClue(ABC):
@@ -127,8 +158,12 @@ class AbstractClue(ABC):
     def string_spanish(self):
         return ""
 
+    @abstractmethod
+    def string_russian(self):
+        return ""
+
     def string(self):
-        return {"en": self.string_english(), "es": self.string_spanish()}
+        return {"en": self.string_english(), "es": self.string_spanish(), "ru": self.string_russian()}
 
 
 class SawWhenArrivingClue(AbstractClue):
@@ -200,6 +235,36 @@ class SawWhenArrivingClue(AbstractClue):
         s += f'a {object} cuando llegué a {self.place} a las {self.time}"'
         return s
 
+    def string_russian(self):
+        object = self.object
+        r = randint(0, 2)
+        s = f'{self.subject}: "'
+
+        if object == "$NOBODY":
+            if r > 0:
+                s += f'В {self.place} никого не было, когда я пришёл в {self.time}"'
+                return s
+            r = 0
+
+        if r == 0:
+            s += "Увидел "
+        elif r == 1:
+            s += "Заметил "
+        elif r == 2:
+            s += "Разглядел "
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        if not self.object_is_alive:
+            return f'{self.subject}: "Я был потрясён, обнаружив тело {self.object} в {self.place} в {self.time}"'
+
+        if self.foggy and self.object_is_alive:
+            if object != "$NOBODY":
+                object = "кого-то"
+
+        s += f'{object} в {self.place} в {self.time}"'
+        return s
+
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
             return True
@@ -253,6 +318,27 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
             s += f'Mientras estaba en {self.place} a las {self.time}, {self.object} no se veía por ningún lado"'
         elif r == 5:
             s += f'Estuve en {self.place} a las {self.time} pero {self.object} no estaba ahí conmigo"'
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        return s
+
+    def string_russian(self):
+        r = randint(0, 5)
+        s = f'{self.subject}: "'
+
+        if r == 0:
+            s += f'Уверен, что {self.object} не было рядом со мной в {self.place} в {self.time}"'
+        elif r == 1:
+            s += f'Я был в {self.place} в {self.time}, но {self.object} там не было"'
+        elif r == 2:
+            s += f'{self.object} точно не было рядом со мной в {self.place} в {self.time}"'
+        elif r == 3:
+            s += f'{self.object} не было со мной в {self.place} в {self.time}"'
+        elif r == 4:
+            s += f'Пока я был в {self.place} в {self.time}, {self.object} нигде не было видно"'
+        elif r == 5:
+            s += f'Я был в {self.place} в {self.time}, но {self.object} не было рядом"'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -361,6 +447,30 @@ class SawVictimWhenArrivingClue(AbstractClue):
 
         return s
 
+    def string_russian(self):
+        r = randint(0, 2)
+        s = f'{self.subject}: "'
+        verb = None
+
+        if r == 0:
+            verb = "увидел"
+        elif r == 1:
+            verb = "заметил"
+        elif r == 2:
+            verb = "разглядел"
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        r = randint(0, 1)
+        if r == 0:
+            s += f'{verb.capitalize()} {self.object} в {self.place} в {self.time}"'
+        elif r == 1:
+            s += f'Я был в {self.place}, когда {verb} {self.object} в {self.time}"'
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        return s
+
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim and self.place == place:
             return True
@@ -423,6 +533,30 @@ class SawVictimWhenLeavingClue(AbstractClue):
             s += f'{verb.capitalize()} a {self.object} yéndose mientras estaba en {self.place} a las {self.time}"'
         elif r == 1:
             s += f'Estaba en {self.place} cuando {verb} a {self.object} yéndose a las {self.time}"'
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        return s
+
+    def string_russian(self):
+        r = randint(0, 2)
+        s = f'{self.subject}: "'
+        verb = None
+
+        if r == 0:
+            verb = "увидел"
+        elif r == 1:
+            verb = "заметил"
+        elif r == 2:
+            verb = "разглядел"
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        r = randint(0, 1)
+        if r == 0:
+            s += f'{verb.capitalize()} уходящего {self.object} из {self.place} в {self.time}"'
+        elif r == 1:
+            s += f'Я был в {self.place}, когда {verb} {self.object} уходящим в {self.time}"'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -504,6 +638,36 @@ class SawWhenLeavingClue(AbstractClue):
         s += f'a {object} cuando me iba de {self.place} a las {self.time}"'
         return s
 
+    def string_russian(self):
+        object = self.object
+        r = randint(0, 2)
+        s = f'{self.subject}: "'
+
+        if object == "$NOBODY":
+            if r > 0:
+                s += f'В {self.place} было пусто, когда я уходил в {self.time}"'
+                return s
+            r = 0
+
+        if r == 0:
+            s += "Увидел "
+        elif r == 1:
+            s += "Заметил "
+        elif r == 2:
+            s += "Разглядел "
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        if not self.object_is_alive:
+            return f'{self.subject}: "Я был потрясён, увидев тело {self.object} в {self.place} в {self.time}"'
+
+        if self.foggy and self.object_is_alive:
+            if object != "$NOBODY":
+                object = "кого-то"
+
+        s += f'{object}, уходя из {self.place} в {self.time}"'
+        return s
+
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
             return True
@@ -526,6 +690,9 @@ class WasMurderedClue(AbstractClue):
         raise ValueError("Not implemented")
 
     def string_english(self):
+        raise ValueError("Not implemented")
+
+    def string_russian(self):
         raise ValueError("Not implemented")
 
     def is_incriminating(self, killer, victim, place, time):
@@ -554,6 +721,9 @@ class WasMurderedInitialClue(AbstractClue):
     def string_english(self):
         return f"{self.subject} was murdered in the {self.object} at some time between {self.time_start} and {self.time_end}"
 
+    def string_russian(self):
+        return f"{self.subject} был убит в {self.object} в промежуток между {self.time_start} и {self.time_end}"
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -575,6 +745,9 @@ class WasMurderedBodyTwoOptionsClue(AbstractClue):
 
     def string_english(self):
         return f"A close examination of the body reveals that the murder took place either at {self.time1} or at {self.time2}"
+
+    def string_russian(self):
+        return f"Тщательный осмотр тела показывает, что убийство произошло в {self.time1} или в {self.time2}"
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -610,6 +783,15 @@ class WasVictimDeadAtClue(AbstractClue):  # UNUSED
         r += f"{self.time}"
         return r
 
+    def string_russian(self):
+        if self.alternative:
+            r = "Осмотр места преступления показывает, что жертва была мертва к "
+        else:
+            r = "Тщательный осмотр тела показывает, что жертва была мертва к "
+
+        r += f"{self.time}"
+        return r
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -640,6 +822,15 @@ class WasVictimAliveAtClue(AbstractClue):
             r = "Inspecting the crime scene reveals that the victim was alive at "
         else:
             r = "A close examination of the body reveals that the victim was alive at "
+
+        r += f"{self.time}"
+        return r
+
+    def string_russian(self):
+        if self.alternative:
+            r = "Осмотр места преступления показывает, что жертва была жива в "
+        else:
+            r = "Тщательный осмотр тела показывает, что жертва была жива в "
 
         r += f"{self.time}"
         return r
@@ -691,6 +882,20 @@ class WasMurderedAfterClue(AbstractClue):
 
         return r
 
+    def string_russian(self):
+        if self.alternative:
+            r = "Осмотр места преступления показывает, что убийство произошло "
+        else:
+            r = "Тщательный осмотр тела показывает, что убийство произошло "
+        if self.positive:
+            t = Time(self.time.seconds)
+            r += f"после {t}"
+        else:
+            t = Time(self.time.seconds + self.interval_size)
+            r += f"не раньше {t}"
+
+        return r
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -739,6 +944,21 @@ class WasMurderedBeforeClue(AbstractClue):
 
         return r
 
+    def string_russian(self):
+        if self.alternative:
+            r = "Осмотр места преступления показывает, что убийство произошло "
+        else:
+            r = "Тщательный осмотр тела показывает, что убийство произошло "
+
+        if self.positive:
+            t = Time(self.time.seconds)
+            r += f"до {t}"
+        else:
+            t = Time(self.time.seconds - self.interval_size)
+            r += f"не позже {t}"
+
+        return r
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -761,6 +981,9 @@ class WasMurderedScreamClue(AbstractClue):
     def string_english(self):
         return f"A blood-curdling scream from the victim was heard between {self.time1} and {self.time2}"
 
+    def string_russian(self):
+        return f"Леденящий кровь крик жертвы был услышан между {self.time1} и {self.time2}"
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -777,6 +1000,9 @@ class PoliceArrivedClue(AbstractClue):
         raise ValueError("Not implemented")
 
     def string_english(self):
+        raise ValueError("Not implemented")
+
+    def string_russian(self):
         raise ValueError("Not implemented")
 
     def is_incriminating(self, killer, victim, place, time):
@@ -813,6 +1039,18 @@ class EvidenceClue(AbstractClue):
             return f"A fingerprint of {self.subject} was found in the {self.place}. It looks very fresh"
         elif r == 2:
             return f"A strand of hair matching {self.subject} was found in the {self.place}, indicating that they were recently there"
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+    def string_russian(self):
+        r = randint(0, 2)
+
+        if r == 0:
+            return f"Свежий след обуви, соответствующий следам {self.subject}, был найден в {self.place}"
+        elif r == 1:
+            return f"Отпечаток пальца {self.subject} был обнаружен в {self.place}. Он выглядит совсем свежим"
+        elif r == 2:
+            return f"Прядь волос, принадлежащая {self.subject}, была найдена в {self.place}, что указывает на недавнее присутствие"
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -864,6 +1102,20 @@ class StayedClue(AbstractClue):
 
         return s
 
+    def string_russian(self):
+        r = randint(0, 2)
+        s = f'{self.subject}: "'
+        if r == 0:
+            s += f'Я был в {self.place} с {self.time_start} до {self.time_end}"'
+        elif r == 1:
+            s += f'Я не двигался с места в {self.place} между {self.time_start} и {self.time_end}"'
+        elif r == 2:
+            s += f'Оставался в {self.place} с {self.time_start} до {self.time_end}"'
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        return s
+
     def is_incriminating(self, killer, victim, place, time):
         if (
             self.subject == killer
@@ -909,6 +1161,15 @@ class InteractedClue(AbstractClue):
         else:
             raise ValueError("Invalid random number: " + str(r))
 
+    def string_russian(self):
+        r = randint(0, 1)
+        if r == 0:
+            return f'{self.subject0}: "Я разговаривал с {self.subject1} в {self.place}"'
+        elif r == 1:
+            return f'{self.subject0}: "Я болтал с {self.subject1} в {self.place}"'
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
     def is_incriminating(self, killer, victim, place, time):
         if (
             self.subject0 == killer
@@ -927,7 +1188,7 @@ class HeardClue(AbstractClue):
     def __init__(self, subject, activity, time):
         self.subject = subject
         self.activity = activity
-        assert "en" in activity and "es" in activity
+        assert "en" in activity and "es" in activity and "ru" in activity
         self.time = time
         super().__init__()
 
@@ -936,6 +1197,9 @@ class HeardClue(AbstractClue):
 
     def string_english(self):
         return f'{self.subject}: "I {self.activity["en"]} at {self.time}"'
+
+    def string_russian(self):
+        return f'{self.subject}: "Я {self.activity["ru"]} в {self.time}"'
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -1000,6 +1264,43 @@ class WeaponNotUsedClue(AbstractClue):
             return s + "that the " + weapon + " was not the murder weapon."
         elif weapon_type == "blunt force":
             return s + "no signs of $CONTUSION."
+        else:
+            raise ValueError("Unknown type of weapon: " + weapon)
+
+    def string_russian(self):
+        r = randint(0, 2)
+        weapon = self.weapon
+
+        if r == 0:
+            s = "Осмотр тела показывает "
+        elif r == 1:
+            s = "Обследование тела указывает "
+        elif r == 2:
+            s = "На теле "
+        else:
+            raise ValueError("Invalid random number: " + str(r))
+
+        weapon_type = get_weapon_type(weapon)
+        if weapon_type == "projectile":
+            if r == 2:
+                return s + "нет огнестрельных ранений ($PROJECTILE)."
+            return s + "на отсутствие огнестрельных ранений ($PROJECTILE)."
+        elif weapon_type == "strangulation":
+            if r == 2:
+                return s + "нет признаков $STRANGULATION."
+            return s + "на отсутствие признаков $STRANGULATION."
+        elif weapon_type == "sharp force":
+            if r == 2:
+                return s + "нет признаков $STABBING."
+            return s + "на отсутствие признаков $STABBING."
+        elif weapon_type == "poisoning":
+            if r == 2:
+                return s + f"нет признаков отравления {weapon}."
+            return s + f"на то, что {weapon} не является орудием убийства."
+        elif weapon_type == "blunt force":
+            if r == 2:
+                return s + "нет признаков $CONTUSION."
+            return s + "на отсутствие признаков $CONTUSION."
         else:
             raise ValueError("Unknown type of weapon: " + weapon)
 

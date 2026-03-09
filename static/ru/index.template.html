@@ -1,0 +1,1555 @@
+<!doctype html>
+<html lang="ru" data-bs-theme="light">
+
+<head>
+	<!-- Google fonts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-C7DCY6FN81"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-C7DCY6FN81', { 'anonymize_ip': true });
+	</script>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link href="../css/main.css" rel="stylesheet">
+	<link href="../css/sticky-notes.css" rel="stylesheet">
+
+	<link href="../emoji.css" rel="stylesheet" type="text/css" />
+	<script src="../emoji.js" type="text/javascript"></script>
+
+	<!-- PWA -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
+	<title class="notranslate">mystery-o-matic: разгадай тайну убийства и спаси всех!</title>
+	<link rel="canonical" href="https://mystery-o-matic.com/ru" />
+
+	<link rel="alternate" hreflang="en" href="https://mystery-o-matic.com/en" />
+	<link rel="alternate" hreflang="es" href="https://mystery-o-matic.com/es" />
+	<link rel="alternate" hreflang="ru" href="https://mystery-o-matic.com/ru" />
+
+	<!-- SEO -->
+	<meta name="description"
+		content="Разгадывай ежедневную тайну убийства всего за 5 минут и постепенно узнавай, как победить злую временную петлю" />
+	<meta property="og:description"
+		content="Разгадывай ежедневную тайну убийства всего за 5 минут и постепенно узнавай, как победить злую временную петлю" />
+	<meta property="og:image" content="https://mystery-o-matic.com/images/preview.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@mystery_o_matic">
+	<meta name="twitter:creator" content="@mystery_o_matic">
+	<meta name="twitter:title" content="mystery-🕰️-matic">
+	<meta name="twitter:description" content="Разгадывай ежедневную тайну убийства всего за 5 минут">
+
+</head>
+
+<body>
+	<!-- Modals -->
+	<div class="modal fade" id="portraitModal" tabindex="-1" aria-labelledby="portraitLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="portraitLabel">📸 Подозреваемый</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<img id="portraitImage" src="../images/alice.jpg" class="w-100" alt="...">
+				</div>
+				<div class="modal-footer">
+					<div class="col text-center">
+						<button type="button" class="close btn btn-secondary" data-bs-dismiss="modal">Достаточно</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="weaponTypeModalContusion" tabindex="-1" aria-labelledby="portraitLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="portraitLabel">👉 Орудие убийства: удар тупым предметом </h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">🔨 Когда тонкость — не ваш стиль. Отлично подходит для строительства скворечников — или для весомых напоминаний.</li>
+						<li class="list-group-item">🔧 Отлично чинит протекающие трубы. Также отлично создаёт протечки — но уже другого рода.</li>
+						<li class="list-group-item">🕯️ Ах, классика для создания атмосферы на ужине. Элегантна, изыскана и удивительно прочна в умелых руках.</li>
+						<li class="list-group-item">🪨 Просто, эффективно и доступно почти везде. Когда сомневаетесь — просто рок-н-ролл.</li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<div class="col text-center">
+						<button type="button" class="close btn btn-secondary" data-bs-dismiss="modal">Достаточно</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="weaponTypeModalStrangulation" tabindex="-1" aria-labelledby="portraitLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="portraitLabel">👉 Орудие убийства: удушение </h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">🪢 Такая универсальная! Можно привязать лодку, покорить гору или... проявить творческий подход с узлами.</li>
+						<li class="list-group-item">⛓️ Хэви-метал — это не только музыкальный жанр. Идеально для фиксации велосипедов... или тел.</li>
+						<li class="list-group-item">🔌 Это инструмент? Это ловушка? В любом случае, поражает, насколько эффективным может быть этот предмет домашнего обихода.</li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<div class="col text-center">
+						<button type="button" class="close btn btn-secondary" data-bs-dismiss="modal">Достаточно</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="weaponTypeModalProjectile" tabindex="-1" aria-labelledby="portraitLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="portraitLabel">👉 Орудие убийства: огнестрельное оружие </h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">🔫 Для тех, кто предпочитает орудовать на безопасном расстоянии. Бах! Проблема решена... если не промахнётесь.</li>
+						<li class="list-group-item">🏹 Насилие с налётом средневекового шарма. Тихо, точно и эффектно.</li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<div class="col text-center">
+						<button type="button" class="close btn btn-secondary" data-bs-dismiss="modal">Достаточно</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="weaponTypeModalStabbing" tabindex="-1" aria-labelledby="portraitLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="portraitLabel">👉 Орудие убийства: колющее/режущее </h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<ul class=”list-group list-group-flush”>
+						<li class=”list-group-item”>🔪 Классический выбор поваров... и убийц. Острый, стремительный и идеальный для нарезки не только овощей.</li>
+						<li class=”list-group-item”>🪓 Дровосеки его обожают. Люди с неразрешёнными проблемами гнева — тоже.</li>
+						<li class=”list-group-item”>✂️ Чик-чик! Будь то рукоделие или... окончательный разрыв связей — достаточно остры для любой задачи.</li>
+						<li class=”list-group-item”>🪛 Хорош для сборки мебели, вскрытия банок с краской и, очевидно, создания нераскрываемых преступлений.</li>
+						<li class=”list-group-item”>🗡️ Как нож, но изящнее и с большим шармом. Отлично для колотых ран... и эффектного вида при этом.</li>
+						<li class=”list-group-item”>⚔️ Рыцарство не умерло, но кто-то может оказаться мёртв после того, как это вынут из ножен. Элегантно, смертоносно и сложно скрыть.</li>
+						<li class=”list-group-item”>🔱 Зачем одно острие, когда можно три? Посейдон одобряет, и ваш подозреваемый тоже.</li>
+					</ul>
+				</div>
+				<div class=”modal-footer”>
+					<div class=”col text-center”>
+						<button type=”button” class=”close btn btn-secondary” data-bs-dismiss=”modal”>Достаточно</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="languageSelector" tabindex="-1" aria-labelledby="languageSelector" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title w-100 text-center notranslate" id="">
+\t\t\t\t\t\tСменить язык
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="col text-center">
+						<a href="/en" type="button" class="close btn btn-secondary notranslate">English 🗽</a>
+						<a href="/es" type="button" class="close btn btn-secondary notranslate">Español 💃</a>
+						<a href="/ru" type="button" class="close btn btn-secondary notranslate">Русский 🇷🇺</a>
+						<!-- <button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('pt')">Português 🦜</button>
+						<button type="button" class="close btn btn-secondary notranslate" data-bs-dismiss="modal" onClick="translateContent('ca')">Català 🌹</button> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container p-3 text-center">
+		<h1>
+			<img id="logoImage" src="../images/logo_light.png" class="w-100" style="max-width:600px"
+				alt="mystery-o-matic: Тайна каждый день — держит скуку прочь!">
+		</h1>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+		integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+		crossorigin="anonymous"></script>
+
+	<div id="google_translate_element">
+	</div>
+
+	<p class="floating-button float">
+		<a href="#/" id="home-button" style="display:none" onClick="showPage('home')"
+			class="link-underline link-underline-opacity-0">🧩</a>
+		<a href="#/" id="switch-theme-button" onClick="switchTheme()"
+			class="link-underline link-underline-opacity-0">🌓</a>
+		<a href="#/" id="translate-button" onClick="checkIfWebsiteShouldBeTranslated(true)"
+			class="link-underline link-underline-opacity-0">🗺️</a>
+	</p>
+
+	<div id="about" style="display:none">
+		<div class="container mt-5">
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-8">
+					<p>mystery-o-matic — это сайт, предлагающий бесплатные детективные загадки для ежедневного решения.
+						Он был создан двумя увлечёнными людьми, которые разделяют глубокую любовь к тайнам и стремятся
+						предложить уникальный опыт своим коллегам-детективам.</p>
+
+					<p>В отличие от типичных игр, ежедневные тайны на этом сайте требуют дедуктивного мышления, но
+						разработаны так, чтобы отражать непредсказуемость реальных сценариев, делая их более сложными и
+						разнообразными по уровню трудности. Вместо того чтобы следовать предопределённому пути дедукции,
+						каждая ежедневная тайна синтезируется через случайное исследование,
+						предлагая освежающий поворот по сравнению с традиционными логическими играми.
+					</p>
+
+					<p>Создатели черпали вдохновение из популярных игр,
+						таких как <a class="link-dark" href="https://ru.wikipedia.org/wiki/Cluedo">Cluedo</a> (разумеется), <a
+							class="link-dark" href="http://www.squidi.net/three/entry.php?id=69">"Infinite
+							Detective" от Squidi</a> и
+						<a class="link-dark" href="https://murdle.com/">Murdle</a>, чтобы создать захватывающий мир
+						mystery-o-matic.
+						Код, автоматически создающий ежедневные загадки, а также весь остальной сайт <a
+							class="link-dark" href="https://github.com/mystery-o-matic/mystery-o-matic.github.io">имеет
+							открытый исходный код</a>!
+
+						Изображения подозреваемых взяты с Freepik: <a
+							href="https://www.freepik.com/free-vector/detective-office-interior-flat-cartoon-composition-with-crime-scene-diagram-board-computer-monitor-criminal-profile-illustration_16399785.htm#query=detective%20background&position=2&from_view=search&track=ais">[1]</a>,
+						<a
+							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_24555042.htm#&position=8&from_view=collections">[2]</a>
+						<a
+							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_24555045.htm#&position=9&from_view=collections">[3]</a>
+						<a
+							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23669474.htm#&position=3&from_view=collections">[4]</a>
+						<a
+							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23669480.htm#&position=1&from_view=collections">[5]</a>
+						<a
+							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23985547.htm#&position=0&from_view=collections">[6]</a>
+						<a
+							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23985544.htm#&position=4&from_view=collections">[7]</a>
+					</p>
+
+					<p>Сайт всё ещё находится в стадии бета-тестирования, поэтому правила, интерфейс и дизайн могут измениться!
+						Не стесняйтесь <a class="link-dark" href="https://forms.gle/dvA4Wr8LiuHFmDZN7">оставить отзыв здесь</a> или на <a class="link-dark"
+							href="https://www.reddit.com/r/mystery_o_matic/">нашем сабреддите</a>.
+					</p>
+					<p>Если вам нравится сайт и вы хотите поддержать нашу работу, вы можете пожертвовать криптовалюту по адресу:
+						0xd0FD96CD73762Fd081cf2269D79F359e4314629b
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="sleuth-o-meter" style="display:none">
+		<div class="compact-card mt-0">
+			<div class="compact-card-body">
+
+				<div class="section-header">🌡️ Sleuth-o-meter</div>
+
+				<p>Этот раздел показывает различные уровни оценки, которые вы можете получить после решения ежедневной тайны.
+					<emph>Чтобы вернуться к игре, просто нажмите на иконку 🧩 в правом нижнем углу экрана.
+					</emph>
+				</p>
+
+
+				<p>mystery-o-matic возрождает легендарный <a class="link-dark"
+						href="https://www.benshoof.org/blog/super-sleuth">sleuth-o-meter™</a> из
+					<a class="link-dark" href="https://www.mobygames.com/game/461/the-colonels-bequest/">тайн Лоры Боу</a>, чтобы отслеживать ваш счёт:
+				</p>
+
+				<div class="container d-flex aligns-items-center justify-content-center bg-secondary bg-gradient">
+					<div class="row align-items-center">
+						<div class="col-9">
+							<lu class="list-group">
+								<li class="list-group-item list-group-item-danger">Супер детектив</li>
+								<li class="list-group-item list-group-item-warning">Опытный следователь</li>
+								<li class="list-group-item list-group-item-success">Начинающий сыщик</li>
+								<li class="list-group-item list-group-item-info">Рассеянный</li>
+								<li class="list-group-item list-group-item-primary">Едва соображающий</li>
+							</lu>
+						</div>
+						<div class="col-3">
+							<img src="../images/sleuth-o-meter.png" style="max-width: 100%; height: 50%;" alt="...">
+						</div>
+					</div>
+				</div>
+
+				<p>Каждая раскрытая подсказка будет снижать ваш счёт. Имейте в виду, что сайт всё ещё находится в бета-версии,
+					поэтому система оценок, интерфейс или дизайн могут измениться.
+					Не стесняйтесь оставлять отзывы <a class="link-dark"
+						href="https://forms.gle/dvA4Wr8LiuHFmDZN7">здесь</a> или на <a class="link-dark"
+						href="https://www.reddit.com/r/mystery_o_matic/">нашем сабреддите</a>.
+				</p>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="how-to-play" style="display:none">
+		<div class="d-flex" style="max-width: 1100px; margin: 0 auto;">
+
+			<!-- Sidebar (desktop) -->
+			<nav id="tutorial-sidebar" class="tutorial-sidebar d-none d-md-flex">
+				<button class="tutorial-sidebar-toggle" onclick="toggleTutorialSidebar()" aria-label="Toggle sidebar">&#9666;</button>
+				<ol class="list-unstyled mb-0">
+					<li class="tutorial-sidebar-item active" data-page="tut-welcome">
+						<span class="tutorial-sidebar-icon">🕵️</span>
+						<span class="tutorial-sidebar-label">Добро пожаловать, детектив!</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-timeline">
+						<span class="tutorial-sidebar-icon">🕗</span>
+						<span class="tutorial-sidebar-label">Использование доски хронологии</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-first-clue">
+						<span class="tutorial-sidebar-icon">🔎</span>
+						<span class="tutorial-sidebar-label">Ваша первая подсказка</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-deductions">
+						<span class="tutorial-sidebar-icon">🧠</span>
+						<span class="tutorial-sidebar-label">Выводы и дедукция</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-movement">
+						<span class="tutorial-sidebar-icon">🚶</span>
+						<span class="tutorial-sidebar-label">Правила передвижения</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-backtrack">
+						<span class="tutorial-sidebar-icon">↩️</span>
+						<span class="tutorial-sidebar-label">Обратный след</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-indirect">
+						<span class="tutorial-sidebar-icon">💬</span>
+						<span class="tutorial-sidebar-label">Косвенные улики</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-time-death">
+						<span class="tutorial-sidebar-icon">⌛</span>
+						<span class="tutorial-sidebar-label">Время смерти</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-weapon">
+						<span class="tutorial-sidebar-icon">🔪</span>
+						<span class="tutorial-sidebar-label">Орудие преступления</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-solved">
+						<span class="tutorial-sidebar-icon">🎓</span>
+						<span class="tutorial-sidebar-label">Решаем первое дело</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-weapons-id">
+						<span class="tutorial-sidebar-icon">🔫</span>
+						<span class="tutorial-sidebar-label">Идентификация оружия</span>
+					</li>
+					<li class="tutorial-sidebar-item" data-page="tut-liars">
+						<span class="tutorial-sidebar-icon">🤥</span>
+						<span class="tutorial-sidebar-label">Работа с лжецами</span>
+					</li>
+				</ol>
+			</nav>
+
+			<!-- Main content area -->
+			<div class="tutorial-content">
+
+				<!-- Mobile step indicator -->
+				<div class="d-md-none text-center py-2 mb-2 border-bottom">
+					<div class="tutorial-mobile-dots">
+						<span class="tutorial-step-dot active" data-page="tut-welcome">🕵️</span>
+						<span class="tutorial-step-dot" data-page="tut-timeline">🕗</span>
+						<span class="tutorial-step-dot" data-page="tut-first-clue">🔎</span>
+						<span class="tutorial-step-dot" data-page="tut-deductions">🧠</span>
+						<span class="tutorial-step-dot" data-page="tut-movement">🚶</span>
+						<span class="tutorial-step-dot" data-page="tut-backtrack">↩️</span>
+						<span class="tutorial-step-dot" data-page="tut-indirect">💬</span>
+						<span class="tutorial-step-dot" data-page="tut-time-death">⌛</span>
+						<span class="tutorial-step-dot" data-page="tut-weapon">🔪</span>
+						<span class="tutorial-step-dot" data-page="tut-solved">🎓</span>
+						<span class="tutorial-step-dot" data-page="tut-weapons-id">🔫</span>
+						<span class="tutorial-step-dot" data-page="tut-liars">🤥</span>
+					</div>
+				</div>
+
+				<!-- PAGE 1: Welcome -->
+				<div class="tutorial-page" id="tut-welcome">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🕵️ Добро пожаловать, детектив!</div>
+							<p><b>Совет:</b> чтобы вернуться к игре в любой момент, нажмите значок 🧩 в правом нижнем углу экрана.</p>
+
+							<ul>
+								<li><b>Подозреваемые</b>: вы встретите целый ряд персонажей, включая <b>Alice, Bob, Carol,
+										Dave, Frida и Eddie</b>. Один из них погиб, а некоторые другие — наши главные подозреваемые. Спойлер: в этом учебнике бедная Alice — наша жертва, поэтому мы сосредоточимся
+									на Bob и Carol как подозреваемых.</li>
+								<li><b>Преступление</b>: совершено жестокое убийство, и нам нужно выяснить, как это произошло.
+									Как только роковое деяние совершится, <b>тело жертвы останется именно там, где она упала</b> — это
+									важная деталь для вашего расследования.</li>
+								<li><b>Место действия</b>: каждое место может быть связано с другими, что позволяет персонажам свободно
+									передвигаться. В этом учебнике мы исследуем загадку, разворачивающуюся в жутком викторианском особняке,
+									где люди таинственно исчезали время от времени. Планировка меняется от дела к делу: от трёх до пяти комнат для исследования. Вот как соединены комнаты:
+									<div class="text-center">
+										<img src="locations_tutorial.svg" class="mx-auto" style="max-width: 60%; max-height: 200px;"
+											alt="Location Graph">
+									</div>
+								</li>
+								<li><b>Оружие</b>: различное оружие разбросано по всем комнатам, и <b>убийца возьмёт
+										одно из орудий перед совершением преступления</b>, но не ожидайте, что оно окажется там, где
+									«должно» быть. Тот молоток? Он может оказаться в ванной вместо мастерской. Логика здесь вам
+									не поможет!</li>
+								<li><b>Хронология</b>: убийство произошло в определённый временной промежуток (например, между 8:00 и
+									9:30). Вам нужно восстановить передвижения подозреваемых и определить, когда был нанесён роковой удар.
+									Однако есть одна важная деталь, отличающая эти головоломки от других
+									логических детективных игр. Наши загадки стараются имитировать реальную жизнь, где показания и улики часто
+									хаотичны, избыточны или неполны. В этом смысле <b>восстановление полной хронологии не
+										является обязательным для раскрытия убийства, и зачастую это невозможно!</b>.</li>
+								<li><b>Показания</b>: вы получите показания от подозреваемых и улики с места преступления.
+									<b>Все будут говорить правду, но не обязательно всю историю</b>. Вам нужно будет
+									тщательно выводить и сопоставлять факты, чтобы раскрыть правду.</li>
+
+
+							</ul>
+							</p>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 2: Timeline Board -->
+				<div class="tutorial-page" id="tut-timeline" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🕗 Работа с таблицей хронологии</div>
+							<p>В этом учебнике <b>Alice была убита до 9:30 в особняке, её тело найдено на
+									кухне (🍲)</b>. Мы будем использовать <b>таблицу хронологии</b>, чтобы восстановить это преступление. Начнём с
+								<b>некоторых основных фактов, которые мы знаем точно</b>:</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center py-2">
+
+											<div class="row align-items-center">
+												<div class="col-9 border-end">
+													<div class="text-start">
+												Мы знаем, где все находились в <b>9:30:</b><br /><br />
+												<b>Тело Alice</b> было на кухне (🍲)</br>
+												<b>Bob</b> был в ванной (🚽)</br>
+												<b>Carol</b> была в столовой (🪑)
+													</div>
+												</div>
+												<div class="col-3">
+													<div class="d-flex justify-content-center align-items-center">
+														<img id="locations-small" src="locations_tutorial_small.svg"
+															class="align-middle invert-in-dark-theme"
+															style="max-height: 60%; max-width: 100%; object-fit: contain; display: block;"
+															alt="...">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>
+								Список начальных улик описывает, где находился каждый персонаж в 9:30 — в конце хронологии. Ваша задача —
+								делать выводы, используя показания подозреваемых и другие улики:
+								кто убийца, какое оружие использовалось и когда произошло преступление. Мы можем отмечать в хронологии тремя
+								простыми
+								символами: ✓ означает, что кто-то был там, ✗ означает, что не был, а ? означает, что мы не уверены.
+							</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-0" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bedroom:tutorial-0" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-0" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bathroom:tutorial-0" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+
+								<div class="col-12 text-center">
+									<canvas id="clues-table-weapons:tutorial-0" oncontextmenu="return false" height="40" width="500"
+										onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
+										Ваш браузер не поддерживает HTML canvas.</canvas>
+									<br />
+										<a onclick="clearTable(':tutorial-0');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								</div>
+
+							</div>
+							</p>
+
+							<p>
+								В нижней части таблицы хронологии находится раздел оружия, показывающий, где находилось каждое доступное оружие.
+								Например, убийца взял орудие убийства из одного из следующих мест:
+
+							<ul>
+								<li>Молоток (🔨) из столовой (🪑)</li>
+								<li>Пистолет (🔫) из спальни (🛏️)</li>
+								<li>Ножницы (✂️) из кухни (🍲)</li>
+								<li>Верёвка (🪢) из ванной (🚽)</li>
+							</ul>
+							</p>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 3: Your First Clue -->
+				<div class="tutorial-page" id="tut-first-clue" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🔎 Ваша первая улика</div>
+
+							<p>
+								Вот где начинается самое интересное! <b>Подозреваемые могут перемещаться между комнатами каждые 15 минут</b> (они подозрительно пунктуальны), следуя планировке.
+								
+								</br>
+								Они могут перемещаться только в непосредственно связанные комнаты за каждый 15-минутный промежуток, никаких сокращённых путей.
+								допускается! Думайте об этом как о ходах на шахматной доске: нужно проходить клетки по одной.
+								
+								</br>
+								Например, если Carol хочет перейти из столовой (🪑) в спальню (🛏️), она должна:
+
+							<ol>
+								<li>Перейти из столовой (🪑) на кухню (🍲) за один 15-минутный промежуток.</li>
+
+								<li>Остаться там на любое количество 15-минутных промежутков (даже если другие подозреваемые тоже там).</li>
+
+								<li>Перейти с кухни (🍲) в спальню (🛏️) за другой 15-минутный промежуток.</li>
+							</ol>
+								Она не может телепортироваться напрямую из столовой (🪑) в спальню (🛏️), даже если они кажутся близко.
+								Это правило важно для выводов — если вы знаете, где и когда кто-то начал и закончил,
+								вы часто можете понять, где они должны были быть между этими точками!
+							<br />
+								Когда правила передвижения ясны, начнём это дело со следующего показания:
+							</p>
+
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+											<p id="clue-text-tutorial" class="card-text">☞ <b>Bob</b>: «Я видел <b>Alice</b>, когда
+												прибыл в спальню (🛏️) в 8:15»</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+								<p><br />Что мы можем из этого вывести? Довольно много на самом деле:<br /></p>
+
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice была в спальне в 8:15
+								</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob также был в спальне в
+									8:15</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob НЕ был в спальне в
+									8:00</li>
+							</ul>
+								<p><br />Нажмите на каждый вывод, чтобы зачеркнуть текст — это поможет сосредоточиться на других уликах
+									(попробуйте с уликами, показанными выше рядом с лупой!). <br />
+									Используя эти выводы, мы можем начать заполнять таблицу хронологии:
+							</p>
+							<p>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bedroom:tutorial-1" oncontextmenu="return false" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable(':tutorial-1');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('bedroom:tutorial-1', 'bedroom:tutorial-3.5');" class="btn btn-info"
+									role="button">Проверить 🎯</a>
+							</div>
+							</p>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 4: Making Deductions -->
+				<div class="tutorial-page" id="tut-deductions" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🧠 Строим выводы</div>
+
+								<p>Как только мы добавляем это в расписание, начинают появляться другие выводы! Поскольку наши
+								подозреваемые не освоили искусство быть в двух местах одновременно, мы также можем выяснить, где их
+								не было:<br /></p>
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice не была в ванной,
+									кухне или столовой в 8:15 </li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob не был в ванной,
+									кухне или столовой в 8:15</li>
+							</ul>
+							</p>
+
+								<p>Добавим пропущенные выводы:<br /></p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-2" oncontextmenu="return false" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-2" oncontextmenu="return false" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bathroom:tutorial-2" oncontextmenu="return false" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable(':tutorial-2');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('kitchen:tutorial-2', 'kitchen:tutorial-3.5'); checkTutorialTable('dining room:tutorial-2', 'dining room:tutorial-3.5'); checkTutorialTable('bathroom:tutorial-2', 'bathroom:tutorial-3.5');"
+									class="btn btn-info" role="button">Проверить 🎯</a>
+							</div>
+							</p>
+
+								<p>Но где был Bob в 8:00? Вот где нам пригодится схема комнат:</p>
+
+
+							<ul class="list-group">
+								<div class="text-center">
+									<img src="locations_tutorial_highlighted_bedroom.svg" class="mx-auto"
+										style="max-width: 60%; max-height: 200px;" alt="Location Graph">
+								</div>
+							</ul>
+
+							<p>
+									В этой схеме спальня соединена сплошными линиями с кухней и ванной. Эти сплошные
+									линии представляют прямые соединения — комнаты, между которыми персонажи могут перемещаться за один 15-минутный
+									промежуток. Пунктирная линия к столовой показывает косвенное соединение — персонажам нужно сначала пройти
+									через другую комнату, чтобы добраться туда.
+									Поскольку спальня соединена и с кухней, и с ванной, Bob мог прийти из любой из них.
+									Но вот твёрдый вывод — <b>Bob не мог быть в столовой в 8:00, потому что она не
+										соединена со спальней!</b></p>
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob не был в столовой в
+									8:00 </li>
+							</ul>
+							</p>
+							<p>
+									Используя эту информацию, мы можем добавить ещё один вывод в таблицу хронологии:
+							</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-3" oncontextmenu="return false" height="115"
+									width="500" onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable(':tutorial-3');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('dining room:tutorial-3', 'dining room:tutorial-4');"
+									class="btn btn-info" role="button">Проверить 🎯</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 5: Movement Rules -->
+				<div class="tutorial-page" id="tut-movement" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🚶 Правила передвижения</div>
+							<p>
+								Другие типы улик описывают, когда подозреваемые проводят время в определённом месте. Например:
+							</p>
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+											<p id="clue-text-tutorial" class="card-text"><b>☞ Carol</b>: «Я была в столовой
+												(🪑) с 8:00 до 8:45»</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+							<p>
+									Это говорит нам:
+
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol была в столовой с
+									8:00 до 8:45</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была ни в одной из других
+									комнат с 8:00 до 8:45</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была в столовой
+									в 9:00</li>
+							</ul>
+							</p>
+							<p>
+
+									Где была Carol в 9:00? Обратимся к схеме особняка, чтобы разобраться:
+
+							<ul class="list-group">
+								<div class="text-center">
+									<img src="locations_tutorial_highlighted_dining_room.svg" class="mx-auto"
+										style="max-width: 60%; max-height: 200px;" alt="Location Graph">
+								</div>
+							</ul>
+
+								Смотря на нашу схему комнат, <b>Carol должна была направиться на кухню в 9:00 (и, следовательно, её нет
+									в другом месте!) — это единственное место, куда она могла попасть из столовой!</b>
+							</p>
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol была на кухне в 9:00
+								</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была в спальне, столовой
+									или ванной в 9:00 </li>
+							</ul>
+							</p>
+							<p>
+									Заполним таблицу хронологии всеми этими выводами:
+							</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-4" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bedroom:tutorial-4" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-4" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bathroom:tutorial-4" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable(':tutorial-4');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('kitchen:tutorial-4', 'kitchen:tutorial-5'); checkTutorialTable('bedroom:tutorial-4', 'bedroom:tutorial-5'); checkTutorialTable('dining room:tutorial-4', 'dining room:tutorial-5'); checkTutorialTable('bathroom:tutorial-4', 'bathroom:tutorial-5');"
+									class="btn btn-info" role="button">Проверить 🎯</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 6: Backtracking -->
+				<div class="tutorial-page" id="tut-backtrack" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">↩️ Обратный анализ</div>
+
+							<p>
+								Вот ещё один интересный тип улик:
+							</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+											<p id="clue-text-tutorial" class="card-text"><b>☞ Bob</b>: «Никого не увидел, когда
+												прибыл в ванную (🚽) в 9:00»</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+							<p>
+									Разберём по частям:
+
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob был в ванной в 9:00
+								</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob НЕ был на кухне,
+									в спальне или столовой в 9:00 </li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Ни Alice, ни Carol не были
+									в ванной в 9:00 </li>
+							</ul>
+							</p>
+								<p>Что ещё мы можем получить из этой улики? Взглянем снова на схему расположения комнат:</p>
+
+							<ul class="list-group">
+								<div class="text-center">
+									<img src="locations_tutorial_highlighted_bathroom.svg" class="mx-auto"
+										style="max-width: 60%; max-height: 200px;" alt="Location Graph">
+								</div>
+							</ul>
+
+								<p>Эта улика не только помещает Bob в ванной в 9:00, но мы также можем использовать обратный анализ — <b>он должен был
+										быть в спальне в 8:45, поскольку это единственный путь в ванную!</b>
+									Другими словами:
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob был в спальне в 8:45
+								</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob НЕ был на кухне,
+									в столовой или ванной в 8:45 </li>
+							</ul>
+							</p>
+
+							<p>
+									Пора добавить наши новые выводы в таблицу хронологии:
+							</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-5" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bedroom:tutorial-5" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-5" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bathroom:tutorial-5" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable(':tutorial-5');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('kitchen:tutorial-5', 'kitchen:tutorial-6'); checkTutorialTable('bedroom:tutorial-5', 'bedroom:tutorial-6'); checkTutorialTable('dining room:tutorial-5', 'dining room:tutorial-6'); checkTutorialTable('bathroom:tutorial-5', 'bathroom:tutorial-6');"
+									class="btn btn-info" role="button">Проверить 🎯</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 7: Indirect Clues -->
+				<div class="tutorial-page" id="tut-indirect" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">💬 Косвенные улики</div>
+							<p>Наконец, иногда мы получаем расплывчатые улики от подозреваемых:</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+											<p id="clue-text-tutorial" class="card-text"><b>☞ Carol</b>: «Я слышала, как кто-то
+												моет посуду в 8:45»</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+								<p>Эта улика говорит нам, что кто-то был на кухне. Подождите, можно ли мыть посуду в
+									ванной? Нет, это совершенно нелепо (это к вам, The Sims™). Давайте посмотрим, что мы уже вывели:
+								</p>
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Кто-то был (живой!) на
+									кухне в 8:45</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была на кухне в
+									8:45</li>
+							</ul>
+							</p>
+								<p>Может возникнуть соблазн угадать, где была Carol, но это невозможно. Персонажи иногда
+									могут слышать или видеть кого-то в других комнатах, но местонахождение нельзя вывести из этого типа
+									улики.
+									Однако, используя наши предыдущие наблюдения, мы можем вывести, кто был на кухне. Явно,
+									это была не Carol (она была в другом месте в 8:45 на самом деле!). Также мы знаем, что Bob был в спальне,
+									что означает, что <b>Alice была на кухне в 8:45</b>.
+								<br />
+							<p>
+									Наша первая попытка сделать выводы была не очень, поэтому давайте пересмотрим наш предыдущий вывод и уточним
+									его:
+							</p>
+
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice была на кухне в 8:45
+								</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice НЕ была в спальне,
+									столовой или ванной в 8:45 </li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была на кухне в
+									8:45</li>
+							</ul>
+							</p>
+
+							<p>
+									Вернёмся к таблице хронологии...
+							</p>
+
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-6" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bedroom:tutorial-6" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-6" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bathroom:tutorial-6" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable(':tutorial-6');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('kitchen:tutorial-6', 'kitchen:tutorial-7'); checkTutorialTable('bedroom:tutorial-6', 'bedroom:tutorial-7'); checkTutorialTable('dining room:tutorial-6', 'dining room:tutorial-7'); checkTutorialTable('bathroom:tutorial-6', 'bathroom:tutorial-7');"
+									class="btn btn-info" role="button">Проверить 🎯</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 8: Time of Death -->
+				<div class="tutorial-page" id="tut-time-death" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">⌛ Определение времени смерти</div>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+											<p id="clue-text-tutorial" class="card-text">☞ Леденящий кровь крик жертвы
+												был слышен между 8:45 и 9:00</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>
+									Поскольку наши подозреваемые передвигаются каждые 15 минут как часы, убийство должно было произойти либо в 8:45, либо
+									в 9:00. Однако мы уже знаем, что Alice была жива в 8:45 (и мирно мыла посуду). Так что
+									единственный вариант — убийство произошло в 9:00. Помните, что после удара убийцы
+									тело жертвы никогда не перемещают, поэтому можно легко дополнить хронологию Alice до 9:30.
+								<br />
+
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice была убита в 9:00 на
+									кухне</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Тело Alice находится на кухне
+									с 9:15 до 9:30 </li>
+							</ul>
+							<br />
+
+								Отметим наши выводы в таблице хронологии:
+							</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-7" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+								<br />
+								<a onclick="clearTable('kitchen:tutorial-7');" class="btn btn-danger" role="button">Очистить ♻️</a>
+								<a onclick="checkTutorialTable('kitchen:tutorial-7', 'kitchen:tutorial-final');"
+									class="btn btn-info" role="button">Проверить 🎯</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 9: The Weapon -->
+				<div class="tutorial-page" id="tut-weapon" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🔪 В поисках улики-ключа</div>
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+											<p id="clue-text-tutorial" class="card-text">☞ Осмотр тела не выявляет признаков
+												<a href="#/" class="link-dark"
+													onClick="openModalWeaponType(event, 'stabbing')">колотых ран</a></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>
+									Чтобы исключить конкретное оружие, нам нужно знать, какие раны оно наносит. Просто нажмите на
+									тип ранения, описанный в улике (например, <a href="#/" class="link-dark"
+										onClick="openModalWeaponType(event, 'stabbing')">колотые раны</a>), и вы увидите список
+									возможных орудий.
+							</p>
+
+							<p>
+									Располагая этой информацией, мы можем исключить оружие в нижней части таблицы хронологии,
+									просто нажав на соответствующий значок оружия/места: ✂️🍲
+							</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-weapons:tutorial-1" oncontextmenu="return false" height="40" width="500"
+									onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 10: Case Solved -->
+				<div class="tutorial-page" id="tut-solved" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🎓 Раскрываем первое дело</div>
+							<p>Пора свести всё воедино и раскрыть наше первое дело. <b>Ниже представлена таблица хронологии со всеми нашими выводами</b>:</p>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-kitchen:tutorial-final" height="115" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bedroom:tutorial-final" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-dining room:tutorial-final" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-bathroom:tutorial-final" height="95" width="500"
+									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<div class="col-12 text-center">
+								<canvas id="clues-table-weapons:tutorial-final" oncontextmenu="return false" height="40" width="500"
+									onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
+									Ваш браузер не поддерживает HTML canvas.</canvas>
+							</div>
+
+							<p>
+								Подумайте и нажмите, чтобы раскрыть каждый ответ:
+							</p>
+
+							<p>
+							<div class="accordion">
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="headingOne">
+										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+											1. Кто убийца?
+										</button>
+									</h2>
+									<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+										data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											Боб и Кэрол — оба подозреваемые. У Боба есть железное алиби — его вообще не было на месте преступления во время убийства (ни в 8:45, ни в 9:00). <b>Значит, убийца — Кэрол.</b>
+										</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="headingTwo">
+										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+											2. Какое орудие использовалось?
+										</button>
+									</h2>
+									<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+										data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											Ножницы можно исключить, остаются пистолет, молоток или верёвка. Но подождите — мы знаем, что убийца Кэрол, и до убийства она была только в столовой. <b>Значит, орудие убийства — молоток</b>!
+										</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="headingThree">
+										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+											data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+											3. Когда было совершено убийство?
+										</button>
+									</h2>
+									<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+										data-bs-parent="#accordionExample">
+										<div class="accordion-body">
+											Крик жертвы сужает время до 8:45 или 9:00. Поскольку Кэрол (теперь уже подтверждённый убийца) не было на месте в 8:45, а мы знаем, что Алиса была жива до 9:00, <b>убийство произошло в 9:00</b>.
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>
+								Знаете, что особенно умно в этом подходе? Мы восстановили большую часть хронологии, но место, где находилась Алиса в 8:30, остаётся загадкой. И это не упущение — это важный урок! Помните, что говорилось в начале: «восстанавливать всю хронологию не обязательно и часто невозможно»? Вот этот принцип в действии. Мы раскрыли дело (Кэрол, молотком, в 9:00), не отслеживая каждый шаг Алисы. Это наглядно показывает, как эти головоломки отражают реальную работу детектива.
+							</p>
+							<p>
+								<b>Дело закрыто!</b> Было не так уж сложно, правда? Ну а если вы хотите стать настоящим супер детективом 🕵️, вам стоит узнать ещё несколько приёмов. Следующие разделы помогут вам справляться с более сложными (и интересными!) делами.
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 11: Weapon Identification -->
+				<div class="tutorial-page" id="tut-weapons-id" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🔫 Точнее определяем орудие убийства</div>
+
+							<p>Есть мощный приём для быстрого подтверждения или исключения потенциальных орудий убийства, основанный на этой ключевой улике:</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+												<p id="clue-text-tutorial" class="card-text">☞ Убийца был наедине с жертвой, когда взял орудие убийства.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>Сочетая этот вывод с подозрениями об убийце и времени преступления, можно делать решающие дедукции. Рассмотрим, как это работает:</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+												<p id="clue-text-tutorial" class="card-text">☞ Алиса: «Я была в спальне с 8:00 до 8:30»</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>Предположив, что <b>Алиса НЕ убийца и преступление произошло после 8:30</b>, мы приходим к выводу:</p>
+
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Убийца не брал орудие из спальни.</li>
+							</ul>
+							</p>
+
+							<p>
+								Напротив, если <b>Алиса — убийца и преступление произошло после 8:30</b>, нужно проверить, была ли она одна в 8:00, 8:15 или 8:30, чтобы сделать вывод:
+							</p>
+
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Убийца брал орудие из спальни.</li>
+							</ul>
+							</p>
+							<p>Используя этот приём дедукции, можно быстро определить использованное орудие и раскрыть дело!</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- PAGE 12: Dealing with liars -->
+				<div class="tutorial-page" id="tut-liars" style="display:none">
+					<div class="compact-card mt-0">
+						<div class="compact-card-body">
+							<div class="section-header">🤥 Как работать с лжецами</div>
+
+							<p>Перед началом каждого расследования вы можете решить, может ли убийца лгать в своих показаниях или нет. Если вы готовы к трудностям, придётся считать, что любое показание подозреваемых может быть ложью.</p>
+
+							<p>Ложь в ходе расследования — дело серьёзное! Убийца должен быть очень осторожен, поскольку остальные подозреваемые всегда говорят правду. На практике убийца врёт только тогда, когда это помогает скрыть своё присутствие в месте и во время преступления.</p>
+
+							<p>Установить личность убийцы по ненадёжным показаниям обычно сложнее, поскольку мы не знаем, правда это или ложь. Но не всё потеряно: остальные подозреваемые всегда говорят правду. Обнаружить ложь просто: нужно найти противоречие между двумя показаниями. Рассмотрим пример:</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+												<p id="clue-text-tutorial" class="card-text">☞ Боб: «Я был на кухне с 9:00 до 10:00»</p>
+												<hr>
+												<p id="clue-text-tutorial" class="card-text">☞ Carol: "I saw nobody when I arrived
+												<p id="clue-text-tutorial" class="card-text">☞ Кэрол: «Когда я пришла на кухню в 9:30, там никого не было»</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>Это противоречие сразу говорит вам кое-что важное — мы знаем, что ровно одно из следующих
+								утверждений должно быть правдой:</p>
+
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Боб — убийца.</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Кэрол — убийца.</li>
+							</ul>
+							</p>
+
+							<p>
+								Pro Tip™: начните с предположения, что все утверждения правдивы. Когда вы обнаружите
+								противоречие, вы нашли пару потенциальных убийц.
+							</p>
+
+							<p>Можно пойти ещё дальше: если мы знаем (или подозреваем), кто убийца, мы можем <b>вычислить, какие
+								утверждения правдивы, а какие ложны</b>, используя время и место убийства.
+								Давайте посмотрим, что говорил Боб:</p>
+
+							<p>
+							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%" id="clues-tutorial">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<div class="row align-items-center">
+													<p id="clue-text-tutorial" class="card-text">☞ Боб: «Был в спальне с 8:00
+														до 9:00»</p>
+												<hr>
+													<p id="clue-text-tutorial" class="card-text">☞ Боб: «Я был на кухне с 9:00
+														до 10:00»</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							</p>
+
+							<p>Предположим, что <b>Боб — убийца</b> и что <b>убийство произошло после 9:30 в
+								ванной (🚽)</b>. Тогда он лжёт только для того, чтобы не попасться — только о месте
+								и времени убийства. Значит, <b>оба этих утверждения должны быть правдой</b>:</p>
+
+							<p>
+							<ul class="list-group">
+								<li class="list-group-item">🔎 Боб был в спальне (🛏️) с 8:00 до 9:00</li>
+								<li class="list-group-item">🔎 Боб был на кухне (🍲) с 9:00 до 10:00</li>
+							</ul>
+							</p>
+
+							<p>Первое утверждение должно быть правдой, поскольку <b>у Боба нет причин рисковать и лгать</b> — оно
+								не касается времени или места убийства. Второе тоже правдиво, так как <b>мы знаем,
+								что Боб — убийца, а значит, знаем время и место преступления</b>: ложь о кухне никак
+								не поможет скрыть то, что произошло в ванной после 9:30.</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Pagination controls -->
+				<hr style="max-width:980px; margin:1.0em auto 0; border:none; height:1px; background:rgba(24,24,24,0.50);">
+				<div class="compact-card mt-3"><div class="compact-card-body d-flex justify-content-between align-items-center">
+					<button id="tut-prev" class="btn btn-outline-secondary" onclick="tutorialPrev()" disabled>
+						&larr; Назад
+					</button>
+					<span id="tut-page-indicator" class="text-secondary small">1 / 12</span>
+					<button id="tut-next" class="btn btn-outline-secondary" onclick="tutorialNext()">
+						Далее &rarr;
+					</button>
+				</div></div>
+
+			</div><!-- .tutorial-content -->
+		</div><!-- .d-flex layout -->
+	</div>
+
+	<div id="home">
+		<div class="compact-card mt-0">
+			<div class="compact-card-body">
+				<p>
+					Группа друзей натыкается на жуткий заброшенный особняк. Оказавшись в ловушке его зловещих
+					стен, они оказываются втянуты в череду жестоких убийств. Каждый день — новая загадка:
+					один из них — несчастная жертва, остальные — подозреваемые.
+					<br />
+				</p>
+				<div class="col-12 text-center d-flex justify-content-center gap-2">
+					<a href="#game" class="btn btn-danger" role="button">Некогда объяснять!/a>
+					<a href="#" class="btn btn-outline-secondary" role="button" onclick="showPage('how-to-play'); return false;">Впервые?</a>
+				</div>
+
+				<p>
+					<br />
+				<div class="card">
+					<div class="card-body">
+						<b>Книга mystery-o-matic официально готовится к изданию в 2026 году! 📔</b>
+						Множество головоломок с тщательно выверенными уровнями сложности и
+						единым сюжетом — настоящее захватывающее приключение. <a
+							href="https://stats.sender.net/forms/e5yRQR/view">Сообщите мне, когда будет готово!</a>
+					</div>
+				</div>
+				</p>
+			</div>
+		</div>
+
+		<div class="compact-card mt-0">
+			<div class="compact-card-body">
+				<div class="section-header">🤖 <span class="font-monospace">beep boop</span>, новое дело ждёт вас</div>
+				<p><span id='span-today'></span></p>
+
+				<p>Приготовьтесь раскрыть новое дело об убийстве! Ваша задача — выяснить, <b>кто</b> это сделал, <b>когда</b>
+					это произошло и <b>каким</b> оружием.</p>
+				$introLocation
+				<p>Помогите им разгадать тайну, изучив начальные улики:</p>
+				<div class="row align-items-center">
+					<div class="col">
+						$initialClues
+					</div>
+					<div class="col-sm d-flex justify-content-center">
+						<img id="locations-big" src="locations_big.svg" style="max-width: 100%; height: 100%;"
+							alt="...">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="compact-card mt-0">
+			<div class="compact-card-body">
+				<div class="section-header">🥾 Начинаем игру!</div>
+				<p>Вы получите улики, которые постепенно откроют правду об убийстве. Ежедневную
+					головоломку можно решать в двух режимах. В <strong>лёгком режиме все говорят
+						правду</strong>. Необязательно: <strong>убийца может иногда лгать — для тех, кто
+						ищет более сложную задачу</strong>.</p>
+				<p><strong>Каждая прочитанная улика влияет на ваш счёт</strong>. Думайте внимательно, собирая
+					доказательства и допрашивая подозреваемых. Раскрыв дело, вы получите звание от
+					знаменитого <a href="#" class="link-dark"
+						onClick="showPage('sleuth-o-meter')"><strong>sleuth-o-meter™</strong></a>.</p>
+				<p>Готовы к испытанию? Начинаем расследование!</p>
+			</div>
+		</div>
+
+		<div class="compact-card mt-0">
+			<div class="compact-card-body">
+				<div class="section-header">📔 Журнал детектива и улики</div>
+				<p>Используйте эту таблицу для отслеживания фактов, улик и выводов. При необходимости загляните в <a href="#"
+						onClick="showPage('how-to-play')" class="link-dark">раздел «Как играть»</a>.</p>
+				<div class="d-flex justify-content-center align-items-center">
+					<div style="width: 99%" id="clues">
+						<div class="compact-card" style="height: auto;">
+							<div id="game" class="compact-card-body text-center py-2">
+
+								<div id="selection-clues-box" class="card" style="display:block">
+									<div class="card-body text-center py-2">
+							<p class="card-text mb-2">Выберите режим: убийца никогда не лжёт (проще) или может солгать
+										(сложнее).</p>
+									<button id="without-lies-button" type="button" class="btn btn-outline-secondary"
+										onclick="selectClues(false)">Без лжи 🕊️</button>
+									<button id="with-lies-button" type="button" class="btn btn-outline-secondary"
+										onclick="selectClues(true)">Обмани меня 👹</button>
+								</div>
+								</div>
+								<div id="clues-box" class="row align-items-center" style="display:none">
+									<div class="col-9 border-end" display="none">
+										<h6 id="clue-title" class="card-title">Подсказка</h6>
+										<p id="clue-text" class="card-text" onClick="toggleClueStrikeout(this)">CLUE</p>
+										<div id="clues-buttons"
+											class="row align-items-center justify-content-start text-center"
+											style="display:none">
+											<div class="col">
+												<button id="previous-clue-button" type="button"
+													class="btn btn-outline-secondary btn-sm"
+													onclick="revealAnotherClue(-1)">Предыдущая подсказка</button>
+												<button id="next-clue-button" type="button"
+													class="btn btn-outline-secondary btn-sm"
+													onclick="revealAnotherClue(1)">Следующая подсказка</button>
+											</div>
+										</div>
+									</div>
+									<div class="col-3">
+										<div class="d-flex justify-content-center align-items-center">
+											<img id="locations-small" src="locations_small.svg"
+												class="align-middle invert-in-dark-theme"
+												style="max-height: 100%; max-width: 100%; object-fit: contain; display: block;"
+												alt="...">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				$cluesTables
+				<div class="col-12 text-center">
+					<canvas id="clues-table-weapons" oncontextmenu="return false" height="40" width="500"
+						onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
+						Ваш браузер не поддерживает HTML canvas.</canvas>
+				</div>
+			</div>
+		</div>
+		<div class="compact-card mt-0">
+			<div class="compact-card-body">
+				<div class="section-header">👉 Время обвинений</div>
+
+				<p>Вы провели ночь, собирая доказательства и анализируя улики. Пора раскрыть дело, указав
+					подозреваемого, время убийства и оружие. Предупреждение: если вы ошибётесь,
+					можно попробовать снова, но <emp>петля</emp> накажет вас, снизив итоговый счёт.</p>
+
+				<ul class="sticky-notes">
+					<li class="sticky-notes">
+						<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
+							<h6 class="sticky-notes">Убийца —</h6>
+							<select class="form-select sticky-notes" id="who-selector">
+								<option value="" disabled selected>...</option>
+								$selectSuspects
+							</select>
+						</a>
+					</li>
+
+					<li class="sticky-notes">
+						<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
+							<h6 class="sticky-notes">Орудие убийства —</h6>
+							<select class="form-select sticky-notes" id="how-selector">
+								<option value="" disabled selected>...</option>
+								$selectWeapon
+							</select>
+						</a>
+					</li>
+
+					<li class="sticky-notes">
+						<a href="#/" class="sticky-notes" onClick="javascript:void(0)">
+							<h6 class="sticky-notes">Время убийства —</h6>
+							<select class="form-select sticky-notes" id="when-selector">
+								<option value="" disabled selected>...</option>
+								$selectIntervals
+							</select>
+						</a>
+					</li>
+				</ul>
+				<div class="row align-items-center justify-content-start">
+					<button id="accusation-button" type="button" class="btn btn-danger btn-sm"
+						onclick="checkAccusation()">Обвинить!</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="accusation-win" class="compact-card mt-0" style="display:none">
+			<div class="compact-card-body">
+				<div class="section-header">🤖 Ответ.. <span class="font-monospace">bip bop, верно!</span></div>
+				<p>Доказательная база против обвиняемого неопровержима. Петля довольна.
+				<div id="story-clue">$storyClue</div>
+				</p>
+				<p id="accusation-win-message">Поздравляем с раскрытием дела! Вы решили сегодняшнюю загадку
+					со званием <a href="#" class="link-dark" onClick="showPage('sleuth-o-meter')">sleuth-o-meter™</a>:
+					</p>
+				<p>
+					<!--Optionally, you can use this local notebook to track down the story progression:
+
+				<div class="form-group">
+					<textarea class="form-control" id="story-notebook" rows="5"></textarea>
+				</div>-->
+				</p>
+				<p><b>Возвращайтесь завтра за новым испытанием.</b></p>
+			</div>
+		</div>
+
+		<div id="accusation-lose" class="compact-card mt-0" style="display:none">
+			<div class="compact-card-body">
+				<div class="section-header">🤖 Ответ.. <span class="font-monospace">bip bop, неверно!</span></div>
+
+				<p>Перед вами запутанная головоломка, полная противоречивых улик.
+					Очевидно, что-то не так: личность подозреваемого, время преступления
+					или даже выбранное оружие могут оказаться ошибочными.</p>
+				<p>Петля недовольна и резко сбрасывается — на сегодня подсказок больше нет.
+					Возвращайтесь завтра за новым испытанием.</p>
+			</div>
+		</div>
+	</div>
+
+	<footer class="py-3 my-4">
+		<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+			<li class="nav-item"><a href="#" onClick="showPage('home')" class="nav-link px-2 text-muted">Ежедневное
+					дело</a></li>
+			<li class="nav-item"><a href="https://web.archive.org/web/20240000000000*/https://mystery-o-matic.com"
+					class="nav-link px-2 text-muted">Архив дел<sup>🔗</sup></a>
+			<li class="nav-item"><a href="#" onClick="showPage('how-to-play')" class="nav-link px-2 text-muted">Как
+					играть</a></li>
+			<li class="nav-item"><a href="#" onClick="showPage('about')" class="nav-link px-2 text-muted">О нас</a>
+			<li class="nav-item"><a href="https://mysteryomatic.etsy.com/"
+					class="nav-link px-2 text-muted">Магазин<sup>🔗</sup></a>
+
+			</li>
+		</ul>
+		<p class="text-center text-muted">© 2024 Gabbo Industries 🏭 Inc.</p>
+	</footer>
+	<script>
+		sessionStorage.language = "ru";
+	</script>
+	<script src="../data.js"></script>
+	<script src="../tutorialData.js"></script>
+	<script src="../table.js"></script>
+	<script src="../translation.js"></script>
+	<script src="../functions.js"></script>
+	<script src="../tutorial-nav.js"></script>
+	<script>
+		WebFont.load({
+			google: {
+				families: ['Raleway']
+			},
+			active: function () { createTables(); }
+		});
+	</script>
+</body>
+
+</html>

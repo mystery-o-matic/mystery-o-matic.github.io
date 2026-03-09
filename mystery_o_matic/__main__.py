@@ -330,7 +330,7 @@ def main() -> int:
         produce_html_output(
             static_dir,
             out_dir,
-            ["en", "es"],
+            ["en", "es", "ru"],
             mystery,
             weapons_available,
             weapon_labels,

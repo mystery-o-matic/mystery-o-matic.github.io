@@ -54,6 +54,28 @@ weapon_labels["es"] = {
     "$SONIC_BLASTER": "el arma sónica",
 }
 
+weapon_labels["ru"] = {
+    "$PISTOL": "пистолет",
+    "$KNIFE": "нож",
+    "$SCISSORS": "ножницы",
+    "$AXE": "топор",
+    "$SCREWDRIVER": "отвёртка",
+    "$POISON": "яд",
+    "$HAMMER": "молоток",
+    "$WRENCH": "гаечный ключ",
+    "$CANDLESTICK": "канделябр",
+    "$ROPE": "верёвка",
+    "$CHAIN": "цепь",
+    "$ARCHERY_BOW": "лук со стрелами",
+    "$DAGGER": "кинжал",
+    "$TRIDENT": "трезубец",
+    "$SWORD": "меч",
+    "$ROCK": "камень",
+    "$CURSE": "проклятие",
+    "$WIRE_EXTENSION": "удлинитель",
+    "$SONIC_BLASTER": "звуковое оружие",
+}
+
 ship_weapons = [
     {"$ARCHERY_BOW": "🏹"},
     {"$DAGGER": "🗡️", "$TRIDENT": "🔱", "$SWORD": "⚔️"},
