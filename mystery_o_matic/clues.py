@@ -256,13 +256,13 @@ class SawWhenArrivingClue(AbstractClue):
             raise ValueError("Invalid random number: " + str(r))
 
         if not self.object_is_alive:
-            return f'{self.subject}: "Я был(а) потрясён(а), обнаружив тело {self.object} в {self.place}_LOC в {self.time}"'
+            return f'{self.subject}: "Я был(а) потрясён(а), обнаружив тело {self.object}, когда я пришёл(ла) в {self.place}_LOC в {self.time}"'
 
         if self.foggy and self.object_is_alive:
             if object != "$NOBODY":
                 object = "кого-то"
 
-        s += f'{object} в {self.place}_LOC в {self.time}"'
+        s += f'{object}, когда я пришёл(ла) в {self.place}_LOC в {self.time}"'
         return s
 
     def is_incriminating(self, killer, victim, place, time):
