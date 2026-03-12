@@ -1,18 +1,18 @@
 // Tutorial pagination
 var tutorialCurrentPage = 1;
 var tutorialPages = [
-	{ id: 'tut-welcome',     title: '🕵️ Welcome Detective!' },
-	{ id: 'tut-timeline',    title: '🕗 Using the Timeline Board' },
-	{ id: 'tut-first-clue',  title: '🔎 Your First Clue' },
-	{ id: 'tut-deductions',  title: '🧠 Making Deductions' },
-	{ id: 'tut-movement',    title: '🚶 Movement Rules' },
-	{ id: 'tut-backtrack',   title: '↩️ Backtracking' },
-	{ id: 'tut-indirect',    title: '💬 Indirect Clues' },
-	{ id: 'tut-time-death',  title: '⌛ Determining Time of Death' },
-	{ id: 'tut-weapon',      title: '🔪 Finding the smoking gun' },
-	{ id: 'tut-solved',      title: '🎓 Solving your first case' },
-	{ id: 'tut-weapons-id',  title: '🔫 Better identification of weapons' },
-	{ id: 'tut-liars',       title: '🤥 Dealing with liars' }
+	{ id: 'tut-welcome',     title: { en: '🕵️ Welcome Detective!',             es: '🕵️ ¡Bienvenido Detective!',              ru: '🕵️ Добро пожаловать, детектив!' } },
+	{ id: 'tut-timeline',    title: { en: '🕗 Using the Timeline Board',        es: '🕗 Usando el tablero de cronología',      ru: '🕗 Использование доски хронологии' } },
+	{ id: 'tut-first-clue',  title: { en: '🔎 Your First Clue',                es: '🔎 Tu primera pista',                     ru: '🔎 Ваша первая подсказка' } },
+	{ id: 'tut-deductions',  title: { en: '🧠 Making Deductions',               es: '🧠 Haciendo deducciones',                 ru: '🧠 Выводы и дедукция' } },
+	{ id: 'tut-movement',    title: { en: '🚶 Movement Rules',                  es: '🚶 Reglas de movimiento',                 ru: '🚶 Правила передвижения' } },
+	{ id: 'tut-backtrack',   title: { en: '↩️ Backtracking',                    es: '↩️ Retrocediendo',                        ru: '↩️ Обратный след' } },
+	{ id: 'tut-indirect',    title: { en: '💬 Indirect Clues',                  es: '💬 Pistas indirectas',                    ru: '💬 Косвенные улики' } },
+	{ id: 'tut-time-death',  title: { en: '⌛ Determining Time of Death',       es: '⌛ Determinando la hora de la muerte',    ru: '⌛ Время смерти' } },
+	{ id: 'tut-weapon',      title: { en: '🔪 Finding the smoking gun',         es: '🔪 Encontrando el arma homicida',         ru: '🔪 Орудие преступления' } },
+	{ id: 'tut-solved',      title: { en: '🎓 Solving your first case',         es: '🎓 Resolviendo tu primer caso',           ru: '🎓 Решаем первое дело' } },
+	{ id: 'tut-weapons-id',  title: { en: '🔫 Better identification of weapons', es: '🔫 Mejor identificación de armas',       ru: '🔫 Идентификация оружия' } },
+	{ id: 'tut-liars',       title: { en: '🤥 Dealing with liars',              es: '🤥 Lidiando con mentirosos',              ru: '🤥 Работа с лжецами' } }
 ];
 var tutorialTotalPages = tutorialPages.length;
 
@@ -58,7 +58,9 @@ function showTutorialPage(pageNum) {
 	// Update mobile title
 	var mobileTitle = document.getElementById('tutorial-mobile-title');
 	if (mobileTitle) {
-		mobileTitle.textContent = tutorialPages[pageNum - 1].title;
+		var lang = typeof getLanguage === 'function' ? getLanguage() : 'en';
+		var titles = tutorialPages[pageNum - 1].title;
+		mobileTitle.textContent = titles[lang] || titles['en'];
 	}
 
 	// Update page indicator

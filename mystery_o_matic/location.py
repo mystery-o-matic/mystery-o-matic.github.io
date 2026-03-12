@@ -986,10 +986,10 @@ hospital_activities = {
     ],
     "PHARMACY": [
         {"en": "heard a voice coming from the pharmacy (💊)", "es": "escuché una voz que venía desde la farmacia (💊)", "ru": "услышал(а) голос из аптеки (💊)"},
-        {"en": "saw someone checking the medicine shelves in the pharmacy (💊)", "es": "vi a alguien revisando las estanterias de medicamentos en la farmacia (💊)", "ru": "увидел(а), как кто-то проверяет полки с лекарствами в аптеке (💊)"}
+        {"en": "saw someone checking the medicine shelves in the pharmacy (💊)", "es": "vi a alguien revisando las estanterías de medicamentos en la farmacia (💊)", "ru": "увидел(а), как кто-то проверяет полки с лекарствами в аптеке (💊)"}
     ],
     "LOBBY": [
-        {"en": "heard a voice coming from the lobby (💺)", "es": "escuché una voz que venía desde el vestíbulo (🛋️)", "ru": "услышал(а) голос из вестибюля (💺)"}
+        {"en": "heard a voice coming from the lobby (💺)", "es": "escuché una voz que venía desde el vestíbulo (💺)", "ru": "услышал(а) голос из вестибюля (💺)"}
     ]
 }
 
