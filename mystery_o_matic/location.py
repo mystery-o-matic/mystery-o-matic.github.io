@@ -37,6 +37,22 @@ mansions_labels["ru"] = {
     "GARDEN": "сад",
 }
 
+mansions_labels["ru_loc"] = {
+    "KITCHEN": "кухне",
+    "DINING": "столовой",
+    "BEDROOM": "спальне",
+    "BATHROOM": "ванной",
+    "GARDEN": "саду",
+}
+
+mansions_labels["ru_gen"] = {
+    "KITCHEN": "кухни",
+    "DINING": "столовой",
+    "BEDROOM": "спальни",
+    "BATHROOM": "ванной",
+    "GARDEN": "сада",
+}
+
 mansion_intro = {}
 mansion_intro["en"] = " are back into <b>the mansion where everything started</b>!"
 mansion_intro["es"] = " han vuelto a <b>la mansión donde todo comenzó</b>!"
@@ -52,65 +68,65 @@ mansion_representations = {
 
 mansion_activities = {
     "KITCHEN": [
-        {"en": "noticed someone cooking", "es": "noté a alguien cocinando", "ru": "заметил, как кто-то готовит"},
+        {"en": "noticed someone cooking", "es": "noté a alguien cocinando", "ru": "заметил(а), как кто-то готовит"},
         {
             "en": "heard someone washing the dishes",
             "es": "escuché a alguien lavando los platos",
-            "ru": "услышал, как кто-то моет посуду",
+            "ru": "услышал(а), как кто-то моет посуду",
         },
         {
             "en": "heard the clatter of pots in the kitchen (🍲)",
             "es": "escuché el ruido de ollas en la cocina (🍲)",
-            "ru": "услышал стук кастрюль на кухне (🍲)",
+            "ru": "услышал(а) стук кастрюль на кухне (🍲)",
         },
-        {"en": "heard a voice coming from the kitchen (🍲)", "es": "escuché una voz que venía desde la cocina (🍲)", "ru": "услышал голос с кухни (🍲)"},
+        {"en": "heard a voice coming from the kitchen (🍲)", "es": "escuché una voz que venía desde la cocina (🍲)", "ru": "услышал(а) голос с кухни (🍲)"},
     ],
     "BATHROOM": [
         {
             "en": "heard someone brushing their teeth",
             "es": "escuché a alguien cepillándose los dientes",
-            "ru": "услышал, как кто-то чистит зубы",
+            "ru": "услышал(а), как кто-то чистит зубы",
         },
         {
             "en": "heard someone flushing the toilet",
             "es": "escuché a alguien tirando de la cadena",
-            "ru": "услышал, как кто-то спускает воду",
+            "ru": "услышал(а), как кто-то спускает воду",
         },
         {
             "en": "heard the splash of shower in the bathroom (🚽)",
             "es": "escuché el chapoteo de la ducha en el baño (🚽)",
-            "ru": "услышал шум душа в ванной (🚽)",
+            "ru": "услышал(а) шум душа в ванной (🚽)",
         },
-        {"en": "heard a voice coming from the bathroom (🚽)", "es": "escuché una voz que venía desde el baño (🚽)", "ru": "услышал голос из ванной (🚽)"},
+        {"en": "heard a voice coming from the bathroom (🚽)", "es": "escuché una voz que venía desde el baño (🚽)", "ru": "услышал(а) голос из ванной (🚽)"},
     ],
     "GARDEN": [
         {
             "en": "heard someone whistling in the garden (🌳)",
             "es": "escuché a alguien silbando en el jardín (🌳)",
-            "ru": "услышал, как кто-то насвистывает в саду (🌳)",
+            "ru": "услышал(а), как кто-то насвистывает в саду (🌳)",
         },
         {
             "en": "looked outside and saw someone pruning the bushes",
             "es": "miré afuera y vi a alguien podando los arbustos",
-            "ru": "выглянул наружу и увидел, как кто-то подстригает кусты",
+            "ru": "выглянул(а) наружу и увидел(а), как кто-то подстригает кусты",
         },
-        {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал голос из сада (🌳)"},
+        {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал(а) голос из сада (🌳)"},
     ],
     "BEDROOM": [
         {
             "en": "heard someone snoring in the bedroom (🛏️)",
             "es": "escuché a alguien roncando en el dormitorio (🛏️)",
-            "ru": "услышал чей-то храп в спальне (🛏️)",
+            "ru": "услышал(а) чей-то храп в спальне (🛏️)",
         },
-        {"en": "heard a voice coming from the bedroom (🛏️)", "es": "escuché una voz que venía desde el dormitorio (🛏️)", "ru": "услышал голос из спальни (🛏️)"},
+        {"en": "heard a voice coming from the bedroom (🛏️)", "es": "escuché una voz que venía desde el dormitorio (🛏️)", "ru": "услышал(а) голос из спальни (🛏️)"},
     ],
     "DINING": [
         {
             "en": "heard someone playing the piano in the dining room (🪑)",
             "es": "escuché a alguien tocando el piano en el comedor (🪑)",
-            "ru": "услышал, как кто-то играет на пианино в столовой (🪑)",
+            "ru": "услышал(а), как кто-то играет на пианино в столовой (🪑)",
         },
-        {"en": "heard a voice coming from the dining room (🪑)", "es": "escuché una voz que venía desde el comedor (🪑)", "ru": "услышал голос из столовой (🪑)"},
+        {"en": "heard a voice coming from the dining room (🪑)", "es": "escuché una voz que venía desde el comedor (🪑)", "ru": "услышал(а) голос из столовой (🪑)"},
     ],
 }
 
@@ -144,6 +160,22 @@ ship_labels["ru"] = {
     "CARGO HOLD": "грузовой трюм",
 }
 
+ship_labels["ru_loc"] = {
+    "GALLEY": "камбузе",
+    "NAVIGATION ROOM": "штурманской рубке",
+    "CAPTAIN CABIN": "капитанской каюте",
+    "MAIN DECK": "главной палубе",
+    "CARGO HOLD": "грузовом трюме",
+}
+
+ship_labels["ru_gen"] = {
+    "GALLEY": "камбуза",
+    "NAVIGATION ROOM": "штурманской рубки",
+    "CAPTAIN CABIN": "капитанской каюты",
+    "MAIN DECK": "главной палубы",
+    "CARGO HOLD": "грузового трюма",
+}
+
 ship_representations = {
     "GALLEY": "🍲",
     "NAVIGATION ROOM": "🧭",
@@ -154,50 +186,50 @@ ship_representations = {
 
 ship_activities = {
     "GALLEY": [
-        {"en": "noticed someone cooking", "es": "noté a alguien cocinando", "ru": "заметил, как кто-то готовит"},
+        {"en": "noticed someone cooking", "es": "noté a alguien cocinando", "ru": "заметил(а), как кто-то готовит"},
         {
             "en": "heard someone washing the dishes",
             "es": "escuché a alguien lavando los platos",
-            "ru": "услышал, как кто-то моет посуду",
+            "ru": "услышал(а), как кто-то моет посуду",
         },
-        {"en": "heard a voice coming from the galley (🍲)", "es": "escuché una voz que venía desde la cocina (🍲)", "ru": "услышал голос с камбуза (🍲)"},
+        {"en": "heard a voice coming from the galley (🍲)", "es": "escuché una voz que venía desde la cocina (🍲)", "ru": "услышал(а) голос с камбуза (🍲)"},
     ],
     "NAVIGATION ROOM": [
-        {"en": "saw someone studying a map", "es": "vi a alguien mirando un mapa", "ru": "увидел, как кто-то изучает карту"},
+        {"en": "saw someone studying a map", "es": "vi a alguien mirando un mapa", "ru": "увидел(а), как кто-то изучает карту"},
         {
             "en": "heard a voice coming from the navigation room (🧭)",
             "es": "escuché una voz que venía desde la sala de navegación (🧭)",
-            "ru": "услышал голос из штурманской рубки (🧭)",
+            "ru": "услышал(а) голос из штурманской рубки (🧭)",
         },
     ],
     "MAIN DECK": [
         {
             "en": "heard someone loading a cannon",
             "es": "escuché a alguien cargando un cañón",
-            "ru": "услышал, как кто-то заряжает пушку",
+            "ru": "услышал(а), как кто-то заряжает пушку",
         },
         {
             "en": "heard someone adjusting the sails",
             "es": "escuché a alguien ajustando las velas",
-            "ru": "услышал, как кто-то поправляет паруса",
+            "ru": "услышал(а), как кто-то поправляет паруса",
         },
-        {"en": "heard a voice coming from the main deck (⚓)", "es": "escuché una voz que venía desde la cubierta principal (⚓)", "ru": "услышал голос с главной палубы (⚓)"},
+        {"en": "heard a voice coming from the main deck (⚓)", "es": "escuché una voz que venía desde la cubierta principal (⚓)", "ru": "услышал(а) голос с главной палубы (⚓)"},
     ],
     "CAPTAIN CABIN": [
         {
             "en": "heard someone snoring in the captain cabin (🛏️)",
             "es": "escuché a alguien roncando en la cabina del capitán (🛏️)",
-            "ru": "услышал чей-то храп в капитанской каюте (🛏️)",
+            "ru": "услышал(а) чей-то храп в капитанской каюте (🛏️)",
         },
-        {"en": "heard a voice coming from the captain cabin (🛏️)", "es": "escuché una voz que venía desde la cabina del capitán (🛏️)", "ru": "услышал голос из капитанской каюты (🛏️)"},
+        {"en": "heard a voice coming from the captain cabin (🛏️)", "es": "escuché una voz que venía desde la cabina del capitán (🛏️)", "ru": "услышал(а) голос из капитанской каюты (🛏️)"},
     ],
     "CARGO HOLD": [
         {
             "en": "heard someone rummaging in the cargo hold (📦)",
             "es": "escuché a alguien revisando la bodega de carga (📦)",
-            "ru": "услышал, как кто-то роется в грузовом трюме (📦)",
+            "ru": "услышал(а), как кто-то роется в грузовом трюме (📦)",
         },
-        {"en": "heard a voice coming from the cargo hold (📦)", "es": "escuché una voz que venía desde la bodega de carga (📦)", "ru": "услышал голос из грузового трюма (📦)"},
+        {"en": "heard a voice coming from the cargo hold (📦)", "es": "escuché una voz que venía desde la bodega de carga (📦)", "ru": "услышал(а) голос из грузового трюма (📦)"},
     ],
 }
 
@@ -239,6 +271,23 @@ island_labels["ru"] = {
     "CLIFF": "утёс",
     "VOLCANO": "вулкан",
 }
+
+island_labels["ru_loc"] = {
+    "BEACH": "пляже",
+    "JUNGLE": "джунглях",
+    "CAVE": "пещере",
+    "CLIFF": "утёсе",
+    "VOLCANO": "вулкане",
+}
+
+island_labels["ru_gen"] = {
+    "BEACH": "пляжа",
+    "JUNGLE": "джунглей",
+    "CAVE": "пещеры",
+    "CLIFF": "утёса",
+    "VOLCANO": "вулкана",
+}
+
 island_representations = {
     "BEACH": "🏖️",
     "JUNGLE": "🌴",
@@ -251,35 +300,35 @@ island_activities = {
         {
             "en": "looked around and saw someone collecting seashells (🏖️)",
             "es": "miré alrededor y vi a alguien recogiendo conchas marinas (🏖️)",
-            "ru": "осмотрелся и увидел, как кто-то собирает ракушки (🏖️)",
+            "ru": "осмотрелся(ась) и увидел(а), как кто-то собирает ракушки (🏖️)",
         },
     ],
     "JUNGLE": [
         {
             "en": "heard someone chopping wood in the jungle (🌴)",
             "es": "escuché a alguien cortando leña en la jungla (🌴)",
-            "ru": "услышал, как кто-то рубит дрова в джунглях (🌴)",
+            "ru": "услышал(а), как кто-то рубит дрова в джунглях (🌴)",
         },
     ],
     "CAVE": [
         {
             "en": "heard a voice coming from the cave (🦇)",
             "es": "escuché una voz que venía desde la cueva (🦇)",
-            "ru": "услышал голос из пещеры (🦇)",
+            "ru": "услышал(а) голос из пещеры (🦇)",
         },
     ],
     "CLIFF": [
         {
             "en": "saw someone climbing the cliff (⛰️)",
             "es": "vi a alguien escalando el acantilado (⛰️)",
-            "ru": "увидел, как кто-то карабкается на утёс (⛰️)",
+            "ru": "увидел(а), как кто-то карабкается на утёс (⛰️)",
         },
     ],
     "VOLCANO": [
         {
             "en": "saw someone inspecting the volcano summit (🌋)",
             "es": "vi a alguien inspeccionando la cima del volcán (🌋)",
-            "ru": "увидел, как кто-то осматривает кратер вулкана (🌋)",
+            "ru": "увидел(а), как кто-то осматривает кратер вулкана (🌋)",
         },
     ],
 }
@@ -309,6 +358,22 @@ egypt_labels["ru"] = {
     "GARDEN": "сад",
 }
 
+egypt_labels["ru_loc"] = {
+    "THRONE ROOM": "тронном зале",
+    "BURIAL PLACE": "погребальной камере",
+    "TEMPLE": "храме",
+    "DESERT": "пустыне",
+    "GARDEN": "саду",
+}
+
+egypt_labels["ru_gen"] = {
+    "THRONE ROOM": "тронного зала",
+    "BURIAL PLACE": "погребальной камеры",
+    "TEMPLE": "храма",
+    "DESERT": "пустыни",
+    "GARDEN": "сада",
+}
+
 egypt_representations = {
     "THRONE ROOM": "👑",
     "BURIAL PLACE": "⚱️",
@@ -322,55 +387,55 @@ egypt_activities = {
         {
             "en": "saw someone from a distance sitting on the throne",
             "es": "vi a alguien sentado en el trono a lo lejos",
-            "ru": "издалека увидел, как кто-то сидит на троне",
+            "ru": "издалека увидел(а), как кто-то сидит на троне",
         },
         {
             "en": "saw someone from afar polishing the throne",
             "es": "vi a alguien puliendo el trono a lo lejos",
-            "ru": "издалека увидел, как кто-то полирует трон",
+            "ru": "издалека увидел(а), как кто-то полирует трон",
         },
-        {"en": "heard a voice coming from the throne room (👑)", "es": "escuché una voz que venía desde el cuarto del trono (👑)", "ru": "услышал голос из тронного зала (👑)"},
+        {"en": "heard a voice coming from the throne room (👑)", "es": "escuché una voz que venía desde el cuarto del trono (👑)", "ru": "услышал(а) голос из тронного зала (👑)"},
     ],
     "BURIAL PLACE": [
         {
             "en": "saw someone at a distance praying in the burial chamber (⚱️)",
             "es": "vi a alguien rezando en la cámara funeraria a lo lejos (⚱️)",
-            "ru": "издалека увидел, как кто-то молится в погребальной камере (⚱️)",
+            "ru": "издалека увидел(а), как кто-то молится в погребальной камере (⚱️)",
         },
-        {"en": "heard a voice coming from the burial chamber (⚱️)", "es": "escuché una voz que venía desde la cámara funeraria (⚱️)", "ru": "услышал голос из погребальной камеры (⚱️)"},
+        {"en": "heard a voice coming from the burial chamber (⚱️)", "es": "escuché una voz que venía desde la cámara funeraria (⚱️)", "ru": "услышал(а) голос из погребальной камеры (⚱️)"},
     ],
     "TEMPLE": [
         {
             "en": "saw someone at a distance praying in the temple (📿)",
             "es": "vi a alguien a la distancia rezando en el templo (📿)",
-            "ru": "издалека увидел, как кто-то молится в храме (📿)",
+            "ru": "издалека увидел(а), как кто-то молится в храме (📿)",
         },
         {
             "en": "saw someone from afar lighting candles in the temple (📿)",
             "es": "vi a alguien a la distancia encendiendo velas en el templo (📿)",
-            "ru": "издалека увидел, как кто-то зажигает свечи в храме (📿)",
+            "ru": "издалека увидел(а), как кто-то зажигает свечи в храме (📿)",
         },
-        {"en": "heard a voice coming from the temple (📿)", "es": "escuché una voz que venía desde el templo (📿)", "ru": "услышал голос из храма (📿)"},
+        {"en": "heard a voice coming from the temple (📿)", "es": "escuché una voz que venía desde el templo (📿)", "ru": "услышал(а) голос из храма (📿)"},
     ],
     "DESERT": [
         {
             "en": "looked outside and saw someone riding a camel in the desert (🏜️)",
             "es": "miré afuera y vi a alguien montando un camello en el desierto (🏜️)",
-            "ru": "выглянул наружу и увидел, как кто-то едет на верблюде в пустыне (🏜️)",
+            "ru": "выглянул(а) наружу и увидел(а), как кто-то едет на верблюде в пустыне (🏜️)",
         },
     ],
     "GARDEN": [
         {
             "en": "heard someone whistling in the garden (🌳)",
             "es": "escuché a alguien silbando en el jardín (🌳)",
-            "ru": "услышал, как кто-то насвистывает в саду (🌳)",
+            "ru": "услышал(а), как кто-то насвистывает в саду (🌳)",
         },
         {
             "en": "looked outside and saw someone pruning the bushes",
             "es": "miré afuera y vi a alguien podando los arbustos",
-            "ru": "выглянул наружу и увидел, как кто-то подстригает кусты",
+            "ru": "выглянул(а) наружу и увидел(а), как кто-то подстригает кусты",
         },
-        {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал голос из сада (🌳)"},
+        {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал(а) голос из сада (🌳)"},
     ],
 }
 
@@ -408,6 +473,22 @@ medieval_castle_labels["ru"] = {
     "GARDEN": "сад",
 }
 
+medieval_castle_labels["ru_loc"] = {
+    "GREAT HALL": "большом зале",
+    "BED CHAMBER": "опочивальне",
+    "DUNGEON": "темнице",
+    "ARMORY": "оружейной",
+    "GARDEN": "саду",
+}
+
+medieval_castle_labels["ru_gen"] = {
+    "GREAT HALL": "большого зала",
+    "BED CHAMBER": "опочивальни",
+    "DUNGEON": "темницы",
+    "ARMORY": "оружейной",
+    "GARDEN": "сада",
+}
+
 medieval_castle_representations = {
     "GREAT HALL": "🍷",
     "BED CHAMBER": "🛏️",
@@ -421,56 +502,56 @@ medieval_castle_activities = {
         {
             "en": "heard someone playing the harp in the great hall (🍷)",
             "es": "escuché a alguien tocando el arpa en el gran salón (🍷)",
-            "ru": "услышал, как кто-то играет на арфе в большом зале (🍷)",
+            "ru": "услышал(а), как кто-то играет на арфе в большом зале (🍷)",
         },
         {
             "en": "saw someone from a distance dancing in the great hall (🍷)",
             "es": "vi a alguien bailando en el gran salón (🍷) a lo lejos",
-            "ru": "издалека увидел, как кто-то танцует в большом зале (🍷)",
+            "ru": "издалека увидел(а), как кто-то танцует в большом зале (🍷)",
         },
-        {"en": "heard a voice coming from the great hall (🍷)", "es": "escuché una voz que venía desde el gran salón (🍷)", "ru": "услышал голос из большого зала (🍷)"},
+        {"en": "heard a voice coming from the great hall (🍷)", "es": "escuché una voz que venía desde el gran salón (🍷)", "ru": "услышал(а) голос из большого зала (🍷)"},
     ],
     "ARMORY": [
         {
             "en": "saw someone from afar sharpening a sword in the armory (🛡️)",
             "es": "vi a alguien afilando una espada en la armería (🛡️) a lo lejos ",
-            "ru": "издалека увидел, как кто-то точит меч в оружейной (🛡️)",
+            "ru": "издалека увидел(а), как кто-то точит меч в оружейной (🛡️)",
         },
         {
             "en": "saw someone at a distance polishing a shield in the armory (🛡️)",
             "es": "vi a alguien puliendo un escudo en la armería (🛡️) a lo lejos",
-            "ru": "издалека увидел, как кто-то полирует щит в оружейной (🛡️)",
+            "ru": "издалека увидел(а), как кто-то полирует щит в оружейной (🛡️)",
         },
-        {"en": "heard a voice coming from the armory (🛡️)", "es": "escuché una voz que venía desde la armería (🛡️)", "ru": "услышал голос из оружейной (🛡️)"},
+        {"en": "heard a voice coming from the armory (🛡️)", "es": "escuché una voz que venía desde la armería (🛡️)", "ru": "услышал(а) голос из оружейной (🛡️)"},
     ],
     "DUNGEON": [
         {
             "en": "heard someone screaming in the dungeon (🔒)",
             "es": "escuché a alguien gritando en la mazmorra (🔒)",
-            "ru": "услышал чей-то крик из темницы (🔒)",
+            "ru": "услышал(а) чей-то крик из темницы (🔒)",
         },
-        {"en": "heard a voice coming from the dungeon (🔒)", "es": "escuché una voz que venía desde la mazmorra (🔒)", "ru": "услышал голос из темницы (🔒)"},
+        {"en": "heard a voice coming from the dungeon (🔒)", "es": "escuché una voz que venía desde la mazmorra (🔒)", "ru": "услышал(а) голос из темницы (🔒)"},
     ],
     "BED CHAMBER": [
         {
             "en": "heard someone snoring in the bed chamber (🛏️)",
             "es": "escuché a alguien roncando en el dormitorio principal (🛏️)",
-            "ru": "услышал чей-то храп в опочивальне (🛏️)",
+            "ru": "услышал(а) чей-то храп в опочивальне (🛏️)",
         },
-        {"en": "heard a voice coming from the bed chamber (🛏️)", "es": "escuché una voz que venía desde el dormitorio principal (🛏️)", "ru": "услышал голос из опочивальни (🛏️)"},
+        {"en": "heard a voice coming from the bed chamber (🛏️)", "es": "escuché una voz que venía desde el dormitorio principal (🛏️)", "ru": "услышал(а) голос из опочивальни (🛏️)"},
     ],
     "GARDEN": [
         {
             "en": "heard someone whistling in the garden (🌳)",
             "es": "escuché a alguien silbando en el jardín (🌳)",
-            "ru": "услышал, как кто-то насвистывает в саду (🌳)",
+            "ru": "услышал(а), как кто-то насвистывает в саду (🌳)",
         },
         {
             "en": "looked outside and saw someone pruning the bushes",
             "es": "miré afuera y vi a alguien podando los arbustos",
-            "ru": "выглянул наружу и увидел, как кто-то подстригает кусты",
+            "ru": "выглянул(а) наружу и увидел(а), как кто-то подстригает кусты",
         },
-        {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал голос из сада (🌳)"},
+        {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал(а) голос из сада (🌳)"},
     ],
 }
 
@@ -504,6 +585,22 @@ museum_labels["ru"] = {
     "OCEAN EXHIBIT": "океанский зал",
 }
 
+museum_labels["ru_loc"] = {
+    "DINOSAUR EXHIBIT": "зале динозавров",
+    "EGYPTIAN EXHIBIT": "египетском зале",
+    "MEDIEVAL EXHIBIT": "средневековом зале",
+    "SPACE EXHIBIT": "космическом зале",
+    "OCEAN EXHIBIT": "океанском зале",
+}
+
+museum_labels["ru_gen"] = {
+    "DINOSAUR EXHIBIT": "зала динозавров",
+    "EGYPTIAN EXHIBIT": "египетского зала",
+    "MEDIEVAL EXHIBIT": "средневекового зала",
+    "SPACE EXHIBIT": "космического зала",
+    "OCEAN EXHIBIT": "океанского зала",
+}
+
 museum_representations = {
     "DINOSAUR EXHIBIT": "🦖",
     "EGYPTIAN EXHIBIT": "⚱️",
@@ -514,19 +611,19 @@ museum_representations = {
 
 museum_activities = {
     "DINOSAUR EXHIBIT": [
-        {"en": "heard a voice coming from the dinosaur exhibit (🦖)", "es": "escuché una voz que venía desde la exhibición de dinosaurios (🦖)", "ru": "услышал голос из зала динозавров (🦖)"}
+        {"en": "heard a voice coming from the dinosaur exhibit (🦖)", "es": "escuché una voz que venía desde la exhibición de dinosaurios (🦖)", "ru": "услышал(а) голос из зала динозавров (🦖)"}
     ],
     "EGYPTIAN EXHIBIT": [
-        {"en": "heard a voice coming from the egyptian exhibit (⚱️)", "es": "escuché una voz que venía desde la exhibición egipcia (⚱️)", "ru": "услышал голос из египетского зала (⚱️)"}
+        {"en": "heard a voice coming from the egyptian exhibit (⚱️)", "es": "escuché una voz que venía desde la exhibición egipcia (⚱️)", "ru": "услышал(а) голос из египетского зала (⚱️)"}
     ],
     "MEDIEVAL EXHIBIT": [
-        {"en": "heard a voice coming from the medieval exhibit (🛡️)", "es": "escuché una voz que venía desde la exhibición medieval (🛡️)", "ru": "услышал голос из средневекового зала (🛡️)"}
+        {"en": "heard a voice coming from the medieval exhibit (🛡️)", "es": "escuché una voz que venía desde la exhibición medieval (🛡️)", "ru": "услышал(а) голос из средневекового зала (🛡️)"}
     ],
     "SPACE EXHIBIT": [
-        {"en": "heard a voice coming from the space exhibit (🪐)", "es": "escuché una voz que venía desde la exhibición espacial (🪐)", "ru": "услышал голос из космического зала (🪐)"}
+        {"en": "heard a voice coming from the space exhibit (🪐)", "es": "escuché una voz que venía desde la exhibición espacial (🪐)", "ru": "услышал(а) голос из космического зала (🪐)"}
     ],
     "OCEAN EXHIBIT": [
-        {"en": "heard a voice coming from the ocean exhibit (🐠)", "es": "escuché una voz que venía desde la exhibición oceánica (🐠)", "ru": "услышал голос из океанского зала (🐠)"}
+        {"en": "heard a voice coming from the ocean exhibit (🐠)", "es": "escuché una voz que venía desde la exhibición oceánica (🐠)", "ru": "услышал(а) голос из океанского зала (🐠)"}
     ]
 }
 
@@ -564,6 +661,22 @@ train_labels["ru"] = {
     "LOUNGE": "салон-вагон",
 }
 
+train_labels["ru_loc"] = {
+    "LOCOMOTIVE": "локомотиве",
+    "LUGGAGE": "багажном вагоне",
+    "DINING": "вагоне-ресторане",
+    "SLEEPING": "спальном вагоне",
+    "LOUNGE": "салоне-вагоне",
+}
+
+train_labels["ru_gen"] = {
+    "LOCOMOTIVE": "локомотива",
+    "LUGGAGE": "багажного вагона",
+    "DINING": "вагона-ресторана",
+    "SLEEPING": "спального вагона",
+    "LOUNGE": "салона-вагона",
+}
+
 train_representations = {
     "LOCOMOTIVE": "🚂",
     "LUGGAGE": "🧳",
@@ -577,66 +690,66 @@ train_activities = {
         {
             "en": "glanced out the window and saw someone shoveling coal into the locomotive’s furnace (🚂)",
             "es": "miré por la ventana y vi a alguien echando carbón al horno de la locomotora (🚂)",
-            "ru": "взглянул в окно и увидел, как кто-то бросает уголь в топку локомотива (🚂)",
+            "ru": "взглянул(а) в окно и увидел(а), как кто-то бросает уголь в топку локомотива (🚂)",
         },
         {
             "en": "heard a loud clang of tools in the locomotive (🚂)",
             "es": "escuché un golpe fuerte de herramientas en la locomotora (🚂)",
-            "ru": "услышал громкий лязг инструментов в локомотиве (🚂)",
+            "ru": "услышал(а) громкий лязг инструментов в локомотиве (🚂)",
         },
         {
             "en": "heard the whistle of the locomotive",
             "es": "escuché el silbido de la locomotora",
-            "ru": "услышал свисток локомотива",
+            "ru": "услышал(а) свисток локомотива",
         },
-        {"en": "heard a voice coming from the locomotive (🚂)", "es": "escuché una voz que venía desde la locomotora (🚂)", "ru": "услышал голос из локомотива (🚂)"},
+        {"en": "heard a voice coming from the locomotive (🚂)", "es": "escuché una voz que venía desde la locomotora (🚂)", "ru": "услышал(а) голос из локомотива (🚂)"},
     ],
     "LUGGAGE": [
         {
             "en": "heard someone rummaging in luggage carriage (🧳)",
             "es": "escuché a alguien revisando el vagón de carga (🧳)",
-            "ru": "услышал, как кто-то роется в багажном вагоне (🧳)",
+            "ru": "услышал(а), как кто-то роется в багажном вагоне (🧳)",
         },
-        {"en": "heard a voice coming from the luggage carriage (🧳)", "es": "escuché una voz que venía desde el vagón de carga (🧳)", "ru": "услышал голос из багажного вагона (🧳)"},
+        {"en": "heard a voice coming from the luggage carriage (🧳)", "es": "escuché una voz que venía desde el vagón de carga (🧳)", "ru": "услышал(а) голос из багажного вагона (🧳)"},
     ],
     "DINING": [
         {
             "en": "glanced out my window and saw someone eating in the dining carriage (🍽️)",
             "es": "miré por la ventana y vi a alguien comiendo en el vagón comedor (🍽️)",
-            "ru": "взглянул в окно и увидел, как кто-то ест в вагоне-ресторане (🍽️)",
+            "ru": "взглянул(а) в окно и увидел(а), как кто-то ест в вагоне-ресторане (🍽️)",
         },
         {
             "en": "saw someone pouring wine in the dining carriage (🍽️)",
             "es": "vi a alguien sirviendose vino en el vagón comedor (🍽️)",
-            "ru": "увидел, как кто-то наливает вино в вагоне-ресторане (🍽️)",
+            "ru": "увидел(а), как кто-то наливает вино в вагоне-ресторане (🍽️)",
         },
         {
             "en": "heard someone playing the piano in the dining carriage (🍽️)",
             "es": "escuché a alguien tocando el piano en el vagón comedor (🍽️)",
-            "ru": "услышал, как кто-то играет на пианино в вагоне-ресторане (🍽️)",
+            "ru": "услышал(а), как кто-то играет на пианино в вагоне-ресторане (🍽️)",
         },
-        {"en": "heard a voice coming from the dining carriage (🍽️)", "es": "escuché una voz que venía desde el vagón comedor (🍽️)", "ru": "услышал голос из вагона-ресторана (🍽️)"},
+        {"en": "heard a voice coming from the dining carriage (🍽️)", "es": "escuché una voz que venía desde el vagón comedor (🍽️)", "ru": "услышал(а) голос из вагона-ресторана (🍽️)"},
     ],
     "SLEEPING": [
         {
             "en": "heard someone snoring in the sleeping carriage (🛌)",
             "es": "escuché a alguien roncando en el vagón dormitorio (🛌)",
-            "ru": "услышал чей-то храп в спальном вагоне (🛌)",
+            "ru": "услышал(а) чей-то храп в спальном вагоне (🛌)",
         },
         {
             "en": "saw someone adjusting the curtains in the sleeping carriage (🛌)",
             "es": "vi a alguien ajustando las cortinas en el vagón dormitorio (🛌)",
-            "ru": "увидел, как кто-то поправляет шторы в спальном вагоне (🛌)",
+            "ru": "увидел(а), как кто-то поправляет шторы в спальном вагоне (🛌)",
         },
-        {"en": "heard a voice coming from the sleeping carriage (🛌)", "es": "escuché una voz que venía desde el vagón dormitorio (🛌)", "ru": "услышал голос из спального вагона (🛌)"},
+        {"en": "heard a voice coming from the sleeping carriage (🛌)", "es": "escuché una voz que venía desde el vagón dormitorio (🛌)", "ru": "услышал(а) голос из спального вагона (🛌)"},
     ],
     "LOUNGE": [
         {
             "en": "glanced out my window and saw someone reading in the lounge carriage (🪑)",
             "es": "miré por la ventana y vi a alguien leyendo en el vagón salón (🪑)",
-            "ru": "взглянул в окно и увидел, как кто-то читает в салон-вагоне (🪑)",
+            "ru": "взглянул(а) в окно и увидел(а), как кто-то читает в салон-вагоне (🪑)",
         },
-        {"en": "heard a voice coming from the lounge carriage (🪑)", "es": "escuché una voz que venía desde el vagón salón (🪑)", "ru": "услышал голос из салон-вагона (🪑)"},
+        {"en": "heard a voice coming from the lounge carriage (🪑)", "es": "escuché una voz que venía desde el vagón salón (🪑)", "ru": "услышал(а) голос из салон-вагона (🪑)"},
     ],
 }
 
@@ -674,6 +787,22 @@ space_station_labels["ru"] = {
     "GARDEN": "садовый модуль",
 }
 
+space_station_labels["ru_loc"] = {
+    "COMMAND": "командном модуле",
+    "LAB": "лабораторном модуле",
+    "AIRLOCK": "шлюзовом модуле",
+    "SLEEPING": "жилом модуле",
+    "GARDEN": "садовом модуле",
+}
+
+space_station_labels["ru_gen"] = {
+    "COMMAND": "командного модуля",
+    "LAB": "лабораторного модуля",
+    "AIRLOCK": "шлюзового модуля",
+    "SLEEPING": "жилого модуля",
+    "GARDEN": "садового модуля",
+}
+
 space_station_representations = {
     "COMMAND": "🕹️",
     "LAB": "🔬",
@@ -687,51 +816,51 @@ space_station_activities = {
         {
             "en": "saw someone adjusting the station’s orbit on the command module’s screens",
             "es": "vi a alguien ajustando la órbita de la estación en las pantallas del módulo de comando (🕹️)",
-            "ru": "увидел, как кто-то корректирует орбиту станции на экранах командного модуля (🕹️)",
+            "ru": "увидел(а), как кто-то корректирует орбиту станции на экранах командного модуля (🕹️)",
         },
-        {"en": "heard a voice coming from the command module (🕹️)", "es": "escuché una voz que venía desde el módulo de comando (🕹️)", "ru": "услышал голос из командного модуля (🕹️)"},
+        {"en": "heard a voice coming from the command module (🕹️)", "es": "escuché una voz que venía desde el módulo de comando (🕹️)", "ru": "услышал(а) голос из командного модуля (🕹️)"},
     ],
     "LAB": [
         {
             "en": "saw someone mixing glowing chemicals in the lab module (🔬)",
             "es": "vi a alguien mezclando químicos brillantes en el módulo de laboratorio (🔬)",
-            "ru": "увидел, как кто-то смешивает светящиеся химикаты в лабораторном модуле (🔬)",
+            "ru": "увидел(а), как кто-то смешивает светящиеся химикаты в лабораторном модуле (🔬)",
         },
-        {"en": "heard a voice coming from the lab module (🔬)", "es": "escuché una voz que venía desde el módulo de laboratorio (🔬)", "ru": "услышал голос из лабораторного модуля (🔬)"},
+        {"en": "heard a voice coming from the lab module (🔬)", "es": "escuché una voz que venía desde el módulo de laboratorio (🔬)", "ru": "услышал(а) голос из лабораторного модуля (🔬)"},
     ],
     "AIRLOCK": [
         {
             "en": "heard a hiss of depressurization from the airlock module (🔒)",
             "es": "escuché un silbido de despresurización desde el módulo de esclusa (🔒)",
-            "ru": "услышал шипение декомпрессии из шлюзового модуля (🔒)",
+            "ru": "услышал(а) шипение декомпрессии из шлюзового модуля (🔒)",
         },
-        {"en": "heard a voice coming from the airlock module (🔒)", "es": "escuché una voz que venía desde el módulo de esclusa (🔒)", "ru": "услышал голос из шлюзового модуля (🔒)"},
+        {"en": "heard a voice coming from the airlock module (🔒)", "es": "escuché una voz que venía desde el módulo de esclusa (🔒)", "ru": "услышал(а) голос из шлюзового модуля (🔒)"},
     ],
     "SLEEPING": [
         {
             "en": "heard someone snoring in the sleeping module (🛌)",
             "es": "escuché a alguien roncando en el módulo de descanso (🛌)",
-            "ru": "услышал чей-то храп в жилом модуле (🛌)",
+            "ru": "услышал(а) чей-то храп в жилом модуле (🛌)",
         },
         {
             "en": "heard a metallic clank from the sleeping module’s lockers (🛌)",
             "es": "escuché un golpe metálico proveniente de los armarios del módulo de descanso (🛌)",
-            "ru": "услышал металлический лязг из шкафчиков жилого модуля (🛌)",
+            "ru": "услышал(а) металлический лязг из шкафчиков жилого модуля (🛌)",
         },
-        {"en": "heard a voice coming from the sleeping module (🛌)", "es": "escuché una voz que venía desde el módulo de descanso (🛌)", "ru": "услышал голос из жилого модуля (🛌)"},
+        {"en": "heard a voice coming from the sleeping module (🛌)", "es": "escuché una voz que venía desde el módulo de descanso (🛌)", "ru": "услышал(а) голос из жилого модуля (🛌)"},
     ],
     "GARDEN": [
         {
             "en": "saw someone harvesting potatoes",
             "es": "vi a alguien cosechando patatas",
-            "ru": "увидел, как кто-то собирает картофель",
+            "ru": "увидел(а), как кто-то собирает картофель",
         },
         {
             "en": "saw someone watering the hydroponic vines in the garden module (🥔)",
             "es": "vi a alguien regando las enredaderas hidropónicas en el módulo de jardín (🥔)",
-            "ru": "увидел, как кто-то поливает гидропонные растения в садовом модуле (🥔)",
+            "ru": "увидел(а), как кто-то поливает гидропонные растения в садовом модуле (🥔)",
         },
-        {"en": "heard a voice coming from the garden module (🥔)", "es": "escuché una voz que venía desde el módulo de jardín (🥔)", "ru": "услышал голос из садового модуля (🥔)"},
+        {"en": "heard a voice coming from the garden module (🥔)", "es": "escuché una voz que venía desde el módulo de jardín (🥔)", "ru": "услышал(а) голос из садового модуля (🥔)"},
     ]
 }
 
@@ -763,6 +892,22 @@ zoo_labels["ru"] = {
     "AVIARY": "вольер птиц",
     "MONKEY ISLAND": "остров обезьян",
     "AQUARIUM": "аквариум",
+}
+
+zoo_labels["ru_loc"] = {
+    "LION ENCLOSURE": "вольере львов",
+    "REPTILE HOUSE": "террариуме",
+    "AVIARY": "вольере птиц",
+    "MONKEY ISLAND": "острове обезьян",
+    "AQUARIUM": "аквариуме",
+}
+
+zoo_labels["ru_gen"] = {
+    "LION ENCLOSURE": "вольера львов",
+    "REPTILE HOUSE": "террариума",
+    "AVIARY": "вольера птиц",
+    "MONKEY ISLAND": "острова обезьян",
+    "AQUARIUM": "аквариума",
 }
 
 zoo_representations = {
@@ -798,11 +943,27 @@ hospital_labels["es"] = {
 }
 
 hospital_labels["ru"] = {
-    "ER": "скорая помощь",
+    "ER": "приёмное отделение",
     "ICU": "реанимация",
     "OPERATING THEATER": "операционная",
     "PHARMACY": "аптека",
     "LOBBY": "вестибюль",
+}
+
+hospital_labels["ru_loc"] = {
+    "ER": "приёмного отделения",
+    "ICU": "реанимации",
+    "OPERATING THEATER": "операционной",
+    "PHARMACY": "аптеке",
+    "LOBBY": "вестибюле",
+}
+
+hospital_labels["ru_gen"] = {
+    "ER": "приёмного отделения",
+    "ICU": "реанимации",
+    "OPERATING THEATER": "операционной",
+    "PHARMACY": "аптеки",
+    "LOBBY": "вестибюля",
 }
 
 hospital_representations = {
@@ -815,20 +976,20 @@ hospital_representations = {
 
 hospital_activities = {
     "ER": [
-        {"en": "heard a voice coming from the emergency room (🚑)", "es": "escuché una voz que venía desde la sala de urgencias (🚑)", "ru": "услышал голос из скорой помощи (🚑)"}
+        {"en": "heard a voice coming from the emergency room (🚑)", "es": "escuché una voz que venía desde la sala de urgencias (🚑)", "ru": "услышал(а) голос из приёмного отделения (🚑)"}
     ],
     "ICU": [
-        {"en": "heard a voice coming from the intensive care unit (🛏️)", "es": "escuché una voz que venía desde la unidad de cuidados intensivos (🛏️)", "ru": "услышал голос из реанимации (🛏️)"},
+        {"en": "heard a voice coming from the intensive care unit (🛏️)", "es": "escuché una voz que venía desde la unidad de cuidados intensivos (🛏️)", "ru": "услышал(а) голос из реанимации (🛏️)"},
     ],
     "OPERATING THEATER": [
-        {"en": "heard a voice coming from the operating theater (🔪)", "es": "escuché una voz que venía desde el quirófano (🔪)", "ru": "услышал голос из операционной (🔪)"}
+        {"en": "heard a voice coming from the operating theater (🔪)", "es": "escuché una voz que venía desde el quirófano (🔪)", "ru": "услышал(а) голос из операционной (🔪)"}
     ],
     "PHARMACY": [
-        {"en": "heard a voice coming from the pharmacy (💊)", "es": "escuché una voz que venía desde la farmacia (💊)", "ru": "услышал голос из аптеки (💊)"},
-        {"en": "saw someone checking the medicine shelves in the pharmacy (💊)", "es": "vi a alguien revisando las estanterias de medicamentos en la farmacia (💊)", "ru": "увидел, как кто-то проверяет полки с лекарствами в аптеке (💊)"}
+        {"en": "heard a voice coming from the pharmacy (💊)", "es": "escuché una voz que venía desde la farmacia (💊)", "ru": "услышал(а) голос из аптеки (💊)"},
+        {"en": "saw someone checking the medicine shelves in the pharmacy (💊)", "es": "vi a alguien revisando las estanterias de medicamentos en la farmacia (💊)", "ru": "увидел(а), как кто-то проверяет полки с лекарствами в аптеке (💊)"}
     ],
     "LOBBY": [
-        {"en": "heard a voice coming from the lobby (💺)", "es": "escuché una voz que venía desde el vestíbulo (🛋️)", "ru": "услышал голос из вестибюля (💺)"}
+        {"en": "heard a voice coming from the lobby (💺)", "es": "escuché una voz que venía desde el vestíbulo (🛋️)", "ru": "услышал(а) голос из вестибюля (💺)"}
     ]
 }
 
@@ -860,6 +1021,22 @@ sport_club_labels["ru"] = {
     "LOUNGE": "зал отдыха",
 }
 
+sport_club_labels["ru_loc"] = {
+    "GYM": "тренажёрном зале",
+    "POOL": "бассейне",
+    "SAUNA": "сауне",
+    "COURT": "спортивной площадке",
+    "LOUNGE": "зале отдыха",
+}
+
+sport_club_labels["ru_gen"] = {
+    "GYM": "тренажёрного зала",
+    "POOL": "бассейна",
+    "SAUNA": "сауны",
+    "COURT": "спортивной площадки",
+    "LOUNGE": "зала отдыха",
+}
+
 sport_club_representations = {
     "GYM": "💪",
     "POOL": "🏊",
@@ -870,19 +1047,19 @@ sport_club_representations = {
 
 sport_club_activities = {
     "GYM": [
-        {"en": "heard a voice coming from the gym (💪)", "es": "escuché una voz que venía desde el gimnasio (💪)", "ru": "услышал голос из тренажёрного зала (💪)"}
+        {"en": "heard a voice coming from the gym (💪)", "es": "escuché una voz que venía desde el gimnasio (💪)", "ru": "услышал(а) голос из тренажёрного зала (💪)"}
     ],
     "POOL": [
-        {"en": "heard a voice coming from the swimming pool (🏊)", "es": "escuché una voz que venía desde la piscina (🏊)", "ru": "услышал голос из бассейна (🏊)"}
+        {"en": "heard a voice coming from the swimming pool (🏊)", "es": "escuché una voz que venía desde la piscina (🏊)", "ru": "услышал(а) голос из бассейна (🏊)"}
     ],
     "SAUNA": [
-        {"en": "heard a voice coming from the sauna (🧖)", "es": "escuché una voz que venía desde la sauna (🧖)", "ru": "услышал голос из сауны (🧖)"}
+        {"en": "heard a voice coming from the sauna (🧖)", "es": "escuché una voz que venía desde la sauna (🧖)", "ru": "услышал(а) голос из сауны (🧖)"}
     ],
     "COURT": [
-        {"en": "heard a voice coming from the sports court (🏀)", "es": "escuché una voz que venía desde la cancha deportiva (🏀)", "ru": "услышал голос со спортивной площадки (🏀)"}
+        {"en": "heard a voice coming from the sports court (🏀)", "es": "escuché una voz que venía desde la cancha deportiva (🏀)", "ru": "услышал(а) голос со спортивной площадки (🏀)"}
     ],
     "LOUNGE": [
-        {"en": "heard a voice coming from the lounge (🛋️)", "es": "escuché una voz que venía desde el salón (🛋️)", "ru": "услышал голос из зала отдыха (🛋️)"}
+        {"en": "heard a voice coming from the lounge (🛋️)", "es": "escuché una voz que venía desde el salón (🛋️)", "ru": "услышал(а) голос из зала отдыха (🛋️)"}
     ]
 }
 
@@ -917,6 +1094,22 @@ abandoned_school_labels["ru"] = {
     "CAFETERIA": "столовая",
 }
 
+abandoned_school_labels["ru_loc"] = {
+    "ART CLASSROOM": "классе рисования",
+    "SCIENCE LAB": "лаборатории",
+    "GYM": "спортзале",
+    "LIBRARY": "библиотеке",
+    "CAFETERIA": "столовой",
+}
+
+abandoned_school_labels["ru_gen"] = {
+    "ART CLASSROOM": "класса рисования",
+    "SCIENCE LAB": "лаборатории",
+    "GYM": "спортзала",
+    "LIBRARY": "библиотеки",
+    "CAFETERIA": "столовой",
+}
+
 abandoned_school_representations = {
     "ART CLASSROOM": "🎨",
     "SCIENCE LAB": "🔬",
@@ -927,19 +1120,19 @@ abandoned_school_representations = {
 
 abandoned_school_activities = {
     "ART CLASSROOM": [
-        {"en": "heard a voice coming from the art classroom (🎨)", "es": "escuché una voz que venía desde el aula de arte (🎨)", "ru": "услышал голос из класса рисования (🎨)"}
+        {"en": "heard a voice coming from the art classroom (🎨)", "es": "escuché una voz que venía desde el aula de arte (🎨)", "ru": "услышал(а) голос из класса рисования (🎨)"}
     ],
     "SCIENCE LAB": [
-        {"en": "heard a voice coming from the science lab (🔬)", "es": "escuché una voz que venía desde el laboratorio de ciencias (🔬)", "ru": "услышал голос из лаборатории (🔬)"}
+        {"en": "heard a voice coming from the science lab (🔬)", "es": "escuché una voz que venía desde el laboratorio de ciencias (🔬)", "ru": "услышал(а) голос из лаборатории (🔬)"}
     ],
     "GYM": [
-        {"en": "heard a voice coming from the gym (💪)", "es": "escuché una voz que venía desde el gimnasio (💪)", "ru": "услышал голос из спортзала (💪)"}
+        {"en": "heard a voice coming from the gym (💪)", "es": "escuché una voz que venía desde el gimnasio (💪)", "ru": "услышал(а) голос из спортзала (💪)"}
     ],
     "LIBRARY": [
-        {"en": "heard a voice coming from the library (📚)", "es": "escuché una voz que venía desde la biblioteca (📚)", "ru": "услышал голос из библиотеки (📚)"}
+        {"en": "heard a voice coming from the library (📚)", "es": "escuché una voz que venía desde la biblioteca (📚)", "ru": "услышал(а) голос из библиотеки (📚)"}
     ],
     "CAFETERIA": [
-        {"en": "heard a voice coming from the cafeteria (🍽️)", "es": "escuché una voz que venía desde la cafetería (🍽️)", "ru": "услышал голос из столовой (🍽️)"}
+        {"en": "heard a voice coming from the cafeteria (🍽️)", "es": "escuché una voz que venía desde la cafetería (🍽️)", "ru": "услышал(а) голос из столовой (🍽️)"}
     ],
 }
 
@@ -1154,8 +1347,9 @@ class Locations:
         return weapon_locations
 
     def render_locations(self, outdir):
-        for language in self.names.keys():
-            self.render_locations_language(language, outdir)
+        for language in ["en", "es", "ru"]:
+            if language in self.names:
+                self.render_locations_language(language, outdir)
 
     def render_locations_language(self, language, outdir):
         """

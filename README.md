@@ -8,6 +8,7 @@ mystery-o-matic supports the following languages:
 
 * [English](https://mystery-o-matic.com/en)
 * [Spanish](https://mystery-o-matic.com/es)
+* [Russian](https://mystery-o-matic.com/ru)
 
 ## Screenshots
 

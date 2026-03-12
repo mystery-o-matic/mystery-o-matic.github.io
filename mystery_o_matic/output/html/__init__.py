@@ -115,10 +115,10 @@ def produce_html_output(
             names_txt["NOBODY"] = "никого"
 
             weapon_type_labels_ru = {
-                "STABBING": "колото-резаное ранение",
-                "STRANGULATION": "удушение",
-                "CONTUSION": "ушиб",
-                "PROJECTILE": "огнестрельное ранение",
+                "STABBING": "колото-резаного ранения",
+                "STRANGULATION": "удушения",
+                "CONTUSION": "ушиба",
+                "PROJECTILE": "огнестрельного ранения",
             }
             for weapon_type in ["STABBING", "STRANGULATION", "CONTUSION", "PROJECTILE"]:
                 label = weapon_type_labels_ru[weapon_type]
@@ -142,6 +142,19 @@ def produce_html_output(
                 continue  # skip any missing place
             index = locations.rindices[room]
             names_html[index] = name + " (" + locations.representations[index] + ")"
+
+        if language == "ru":
+            for room, name in locations.names["ru_loc"].items():
+                if room not in locations.rindices:
+                    continue
+                index = locations.rindices[room]
+                names_html[index + "_LOC"] = name + " (" + locations.representations[index] + ")"
+            for room, name in locations.names["ru_gen"].items():
+                if room not in locations.rindices:
+                    continue
+                index = locations.rindices[room]
+                names_html[index + "_GEN"] = name + " (" + locations.representations[index] + ")"
+
         for weapon, label in weapon_labels[language].items():
             if weapon not in weapons:
                 continue

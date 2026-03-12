@@ -292,13 +292,13 @@
 				<div class="container d-flex aligns-items-center justify-content-center bg-secondary bg-gradient">
 					<div class="row align-items-center">
 						<div class="col-9">
-							<lu class="list-group">
+							<ul class="list-group">
 								<li class="list-group-item list-group-item-danger">Супер детектив</li>
 								<li class="list-group-item list-group-item-warning">Опытный следователь</li>
 								<li class="list-group-item list-group-item-success">Начинающий сыщик</li>
 								<li class="list-group-item list-group-item-info">Рассеянный</li>
-								<li class="list-group-item list-group-item-primary">Едва соображающий</li>
-							</lu>
+								<li class="list-group-item list-group-item-primary">Едва в сознании</li>
+							</ul>
 						</div>
 						<div class="col-3">
 							<img src="../images/sleuth-o-meter.png" style="max-width: 100%; height: 50%;" alt="...">
@@ -449,7 +449,6 @@
 									кухне (🍲)</b>. Мы будем использовать <b>таблицу хронологии</b>, чтобы восстановить это преступление. Начнём с
 								<b>некоторых основных фактов, которые мы знаем точно</b>:</p>
 
-							<p>
 							<div class="d-flex justify-content-center align-items-center">
 								<div style="width: 99%">
 									<div class="card" style="height: auto;">
@@ -459,8 +458,8 @@
 												<div class="col-9 border-end">
 													<div class="text-start">
 												Мы знаем, где все находились в <b>9:30:</b><br /><br />
-												<b>Тело Alice</b> было на кухне (🍲)</br>
-												<b>Bob</b> был в ванной (🚽)</br>
+												<b>Тело Alice</b> было на кухне (🍲)<br>
+												<b>Bob</b> был в ванной (🚽)<br>
 												<b>Carol</b> была в столовой (🪑)
 													</div>
 												</div>
@@ -477,7 +476,6 @@
 									</div>
 								</div>
 							</div>
-							</p>
 
 							<p>
 								Список начальных улик описывает, где находился каждый персонаж в 9:30 — в конце хронологии. Ваша задача —
@@ -518,7 +516,6 @@
 								</div>
 
 							</div>
-							</p>
 
 							<p>
 								В нижней части таблицы хронологии находится раздел оружия, показывающий, где находилось каждое доступное оружие.
@@ -545,11 +542,11 @@
 							<p>
 								Вот где начинается самое интересное! <b>Подозреваемые могут перемещаться между комнатами каждые 15 минут</b> (они подозрительно пунктуальны), следуя планировке.
 								
-								</br>
+								<br>
 								Они могут перемещаться только в непосредственно связанные комнаты за каждый 15-минутный промежуток, никаких сокращённых путей.
 								допускается! Думайте об этом как о ходах на шахматной доске: нужно проходить клетки по одной.
 								
-								</br>
+								<br>
 								Например, если Carol хочет перейти из столовой (🪑) в спальню (🛏️), она должна:
 
 							<ol>
@@ -625,7 +622,6 @@
 								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob не был в ванной,
 									кухне или столовой в 8:15</li>
 							</ul>
-							</p>
 
 								<p>Добавим пропущенные выводы:<br /></p>
 
@@ -648,7 +644,6 @@
 								<a onclick="checkTutorialTable('kitchen:tutorial-2', 'kitchen:tutorial-3.5'); checkTutorialTable('dining room:tutorial-2', 'dining room:tutorial-3.5'); checkTutorialTable('bathroom:tutorial-2', 'bathroom:tutorial-3.5');"
 									class="btn btn-info" role="button">Проверить 🎯</a>
 							</div>
-							</p>
 
 								<p>Но где был Bob в 8:00? Вот где нам пригодится схема комнат:</p>
 
@@ -1110,7 +1105,7 @@
 									<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Боб и Кэрол — оба подозреваемые. У Боба есть железное алиби — его вообще не было на месте преступления во время убийства (ни в 8:45, ни в 9:00). <b>Значит, убийца — Кэрол.</b>
+											Bob и Carol — оба подозреваемые. У Bobа есть железное алиби — его вообще не было на месте преступления во время убийства (ни в 8:45, ни в 9:00). <b>Значит, убийца — Carol.</b>
 										</div>
 									</div>
 								</div>
@@ -1124,7 +1119,7 @@
 									<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Ножницы можно исключить, остаются пистолет, молоток или верёвка. Но подождите — мы знаем, что убийца Кэрол, и до убийства она была только в столовой. <b>Значит, орудие убийства — молоток</b>!
+											Ножницы можно исключить, остаются пистолет, молоток или верёвка. Но подождите — мы знаем, что убийца Carol, и до убийства она была только в столовой. <b>Значит, орудие убийства — молоток</b>!
 										</div>
 									</div>
 								</div>
@@ -1138,7 +1133,7 @@
 									<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Крик жертвы сужает время до 8:45 или 9:00. Поскольку Кэрол (теперь уже подтверждённый убийца) не было на месте в 8:45, а мы знаем, что Алиса была жива до 9:00, <b>убийство произошло в 9:00</b>.
+											Крик жертвы сужает время до 8:45 или 9:00. Поскольку Carol (теперь уже подтверждённый убийца) не было на месте в 8:45, а мы знаем, что Alice была жива до 9:00, <b>убийство произошло в 9:00</b>.
 										</div>
 									</div>
 								</div>
@@ -1146,7 +1141,7 @@
 							</p>
 
 							<p>
-								Знаете, что особенно умно в этом подходе? Мы восстановили большую часть хронологии, но место, где находилась Алиса в 8:30, остаётся загадкой. И это не упущение — это важный урок! Помните, что говорилось в начале: «восстанавливать всю хронологию не обязательно и часто невозможно»? Вот этот принцип в действии. Мы раскрыли дело (Кэрол, молотком, в 9:00), не отслеживая каждый шаг Алисы. Это наглядно показывает, как эти головоломки отражают реальную работу детектива.
+								Знаете, что особенно умно в этом подходе? Мы восстановили большую часть хронологии, но место, где находилась Alice в 8:30, остаётся загадкой. И это не упущение — это важный урок! Помните, что говорилось в начале: «восстанавливать всю хронологию не обязательно и часто невозможно»? Вот этот принцип в действии. Мы раскрыли дело (Carol, молотком, в 9:00), не отслеживая каждый шаг Alice. Это наглядно показывает, как эти головоломки отражают реальную работу детектива.
 							</p>
 							<p>
 								<b>Дело закрыто!</b> Было не так уж сложно, правда? Ну а если вы хотите стать настоящим супер детективом 🕵️, вам стоит узнать ещё несколько приёмов. Следующие разделы помогут вам справляться с более сложными (и интересными!) делами.
@@ -1169,7 +1164,7 @@
 									<div class="card" style="height: auto;">
 										<div class="card-body text-center">
 											<div class="row align-items-center">
-												<p id="clue-text-tutorial" class="card-text">☞ Убийца был наедине с жертвой, когда взял орудие убийства.</p>
+												<p id="clue-text-tutorial" class="card-text">☞ Убийца был один, когда взял орудие убийства.</p>
 											</div>
 										</div>
 									</div>
@@ -1185,7 +1180,7 @@
 									<div class="card" style="height: auto;">
 										<div class="card-body text-center">
 											<div class="row align-items-center">
-												<p id="clue-text-tutorial" class="card-text">☞ Алиса: «Я была в спальне с 8:00 до 8:30»</p>
+												<p id="clue-text-tutorial" class="card-text">☞ Alice: «Я была в спальне с 8:00 до 8:30»</p>
 											</div>
 										</div>
 									</div>
@@ -1193,7 +1188,7 @@
 							</div>
 							</p>
 
-							<p>Предположив, что <b>Алиса НЕ убийца и преступление произошло после 8:30</b>, мы приходим к выводу:</p>
+							<p>Предположив, что <b>Alice НЕ убийца и преступление произошло после 8:30</b>, мы приходим к выводу:</p>
 
 							<p>
 							<ul class="list-group">
@@ -1202,7 +1197,7 @@
 							</p>
 
 							<p>
-								Напротив, если <b>Алиса — убийца и преступление произошло после 8:30</b>, нужно проверить, была ли она одна в 8:00, 8:15 или 8:30, чтобы сделать вывод:
+								Напротив, если <b>Alice — убийца и преступление произошло после 8:30</b>, нужно проверить, была ли она одна в 8:00, 8:15 или 8:30, чтобы сделать вывод:
 							</p>
 
 							<p>
@@ -1233,9 +1228,9 @@
 									<div class="card" style="height: auto;">
 										<div class="card-body text-center">
 											<div class="row align-items-center">
-												<p id="clue-text-tutorial" class="card-text">☞ Боб: «Я был на кухне с 9:00 до 10:00»</p>
+												<p id="clue-text-tutorial" class="card-text">☞ Bob: «Я был на кухне с 9:00 до 10:00»</p>
 												<hr>
-												<p id="clue-text-tutorial" class="card-text">☞ Кэрол: «Когда я пришла на кухню в 9:30, там никого не было»</p>
+												<p id="clue-text-tutorial" class="card-text">☞ Carol: «Когда я пришла на кухню в 9:30, там никого не было»</p>
 										</div>
 									</div>
 								</div>
@@ -1248,8 +1243,8 @@
 
 							<p>
 							<ul class="list-group">
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Боб — убийца.</li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Кэрол — убийца.</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Bob — убийца.</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol — убийца.</li>
 							</ul>
 							</p>
 
@@ -1260,7 +1255,7 @@
 
 							<p>Можно пойти ещё дальше: если мы знаем (или подозреваем), кто убийца, мы можем <b>вычислить, какие
 								утверждения правдивы, а какие ложны</b>, используя время и место убийства.
-								Давайте посмотрим, что говорил Боб:</p>
+								Давайте посмотрим, что говорил Bob:</p>
 
 							<p>
 							<div class="d-flex justify-content-center align-items-center">
@@ -1268,10 +1263,10 @@
 									<div class="card" style="height: auto;">
 										<div class="card-body text-center">
 											<div class="row align-items-center">
-													<p id="clue-text-tutorial" class="card-text">☞ Боб: «Был в спальне с 8:00
+													<p id="clue-text-tutorial" class="card-text">☞ Bob: «Был в спальне с 8:00
 														до 9:00»</p>
 												<hr>
-													<p id="clue-text-tutorial" class="card-text">☞ Боб: «Я был на кухне с 9:00
+													<p id="clue-text-tutorial" class="card-text">☞ Bob: «Я был на кухне с 9:00
 														до 10:00»</p>
 											</div>
 										</div>
@@ -1280,20 +1275,20 @@
 							</div>
 							</p>
 
-							<p>Предположим, что <b>Боб — убийца</b> и что <b>убийство произошло после 9:30 в
+							<p>Предположим, что <b>Bob — убийца</b> и что <b>убийство произошло после 9:30 в
 								ванной (🚽)</b>. Тогда он лжёт только для того, чтобы не попасться — только о месте
 								и времени убийства. Значит, <b>оба этих утверждения должны быть правдой</b>:</p>
 
 							<p>
 							<ul class="list-group">
-								<li class="list-group-item">🔎 Боб был в спальне (🛏️) с 8:00 до 9:00</li>
-								<li class="list-group-item">🔎 Боб был на кухне (🍲) с 9:00 до 10:00</li>
+								<li class="list-group-item">🔎 Bob был в спальне (🛏️) с 8:00 до 9:00</li>
+								<li class="list-group-item">🔎 Bob был на кухне (🍲) с 9:00 до 10:00</li>
 							</ul>
 							</p>
 
-							<p>Первое утверждение должно быть правдой, поскольку <b>у Боба нет причин рисковать и лгать</b> — оно
+							<p>Первое утверждение должно быть правдой, поскольку <b>у Bobа нет причин рисковать и лгать</b> — оно
 								не касается времени или места убийства. Второе тоже правдиво, так как <b>мы знаем,
-								что Боб — убийца, а значит, знаем время и место преступления</b>: ложь о кухне никак
+								что Bob — убийца, а значит, знаем время и место преступления</b>: ложь о кухне никак
 								не поможет скрыть то, что произошло в ванной после 9:30.</p>
 						</div>
 					</div>
@@ -1522,14 +1517,13 @@
 			<li class="nav-item"><a href="#" onClick="showPage('home')" class="nav-link px-2 text-muted">Ежедневное
 					дело</a></li>
 			<li class="nav-item"><a href="https://web.archive.org/web/20240000000000*/https://mystery-o-matic.com"
-					class="nav-link px-2 text-muted">Архив дел<sup>🔗</sup></a>
+					class="nav-link px-2 text-muted">Архив дел<sup>🔗</sup></a></li>
 			<li class="nav-item"><a href="#" onClick="showPage('how-to-play')" class="nav-link px-2 text-muted">Как
 					играть</a></li>
-			<li class="nav-item"><a href="#" onClick="showPage('about')" class="nav-link px-2 text-muted">О нас</a>
+			<li class="nav-item"><a href="#" onClick="showPage('about')" class="nav-link px-2 text-muted">О нас</a></li>
 			<li class="nav-item"><a href="https://mysteryomatic.etsy.com/"
-					class="nav-link px-2 text-muted">Магазин<sup>🔗</sup></a>
+					class="nav-link px-2 text-muted">Магазин<sup>🔗</sup></a></li>
 
-			</li>
 		</ul>
 		<p class="text-center text-muted">© 2024 Gabbo Industries 🏭 Inc.</p>
 	</footer>

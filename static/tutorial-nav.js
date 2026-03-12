@@ -70,11 +70,14 @@ function showTutorialPage(pageNum) {
 	// Update prev/next button states
 	document.getElementById('tut-prev').disabled = (pageNum === 1);
 	var nextBtn = document.getElementById('tut-next');
+	var lang = typeof getLanguage === 'function' ? getLanguage() : 'en';
+	var labelNext = {'en': 'Next', 'es': 'Siguiente', 'ru': 'Далее'}[lang] || 'Next';
+	var labelBack = {'en': 'Back to the puzzle', 'es': 'Volver al misterio', 'ru': 'Вернуться к загадке'}[lang] || 'Back to the puzzle';
 	if (pageNum === tutorialTotalPages) {
-		nextBtn.innerHTML = 'Back to the puzzle &rarr;';
+		nextBtn.innerHTML = labelBack + ' &rarr;';
 		nextBtn.disabled = false;
 	} else {
-		nextBtn.innerHTML = 'Next &rarr;';
+		nextBtn.innerHTML = labelNext + ' &rarr;';
 		nextBtn.disabled = false;
 	}
 
