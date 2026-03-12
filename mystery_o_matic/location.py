@@ -951,7 +951,7 @@ hospital_labels["ru"] = {
 }
 
 hospital_labels["ru_loc"] = {
-    "ER": "приёмного отделения",
+    "ER": "приёмном отделении",
     "ICU": "реанимации",
     "OPERATING THEATER": "операционной",
     "PHARMACY": "аптеке",
