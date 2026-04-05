@@ -365,7 +365,7 @@
 					</li>
 					<li class="tutorial-sidebar-item" data-page="tut-solved">
 						<span class="tutorial-sidebar-icon">🎓</span>
-						<span class="tutorial-sidebar-label">Решаем первое дело</span>
+						<span class="tutorial-sidebar-label">Раскрываем первое дело методом исключения</span>
 					</li>
 					<li class="tutorial-sidebar-item" data-page="tut-weapons-id">
 						<span class="tutorial-sidebar-icon">🔫</span>
@@ -1060,7 +1060,7 @@
 				<div class="tutorial-page" id="tut-solved" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
-							<div class="section-header">🎓 Раскрываем первое дело</div>
+							<div class="section-header">🎓 Раскрываем первое дело методом исключения</div>
 							<p>Пора свести всё воедино и раскрыть наше первое дело. <b>Ниже представлена таблица хронологии со всеми нашими выводами</b>:</p>
 
 							<div class="col-12 text-center">
@@ -1093,6 +1093,9 @@
 							</div>
 
 							<p>
+								Обратите внимание, что на каждом шаге мы используем ключевую технику: <b>исключение</b>. Мы выводим ответ не из одной подсказки, а путём исключения всех остальных вариантов. Это не угадывание, а строгое дедуктивное рассуждение. Головоломка гарантирует замкнутый набор подозреваемых, орудий и комнат, поэтому <b>если мы можем исключить все варианты, кроме одного, оставшийся ДОЛЖЕН быть верным</b>.
+							</p>
+							<p>
 								Подумайте и нажмите, чтобы раскрыть каждый ответ:
 							</p>
 
@@ -1102,13 +1105,17 @@
 									<h2 class="accordion-header" id="headingOne">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
 											data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-											1. Кто убийца?
+											1. Когда было совершено убийство?
 										</button>
 									</h2>
 									<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Bob и Carol — оба подозреваемые. У Bobа есть железное алиби — его вообще не было на месте преступления во время убийства (ни в 8:45, ни в 9:00). <b>Значит, убийца — Carol.</b>
+											Крик жертвы сужает время до 8:45 или 9:00. Но мы уже знаем, что Alice была жива в 8:45 (радостно мыла посуду). Это исключает 8:45, оставляя единственную возможность:
+											<ul class="list-group mt-2">
+												<li class="list-group-item">🔎 8:45 исключено (Alice была жива и на кухне)</li>
+												<li class="list-group-item">🔎 <b>Убийство произошло в 9:00</b></li>
+											</ul>
 										</div>
 									</div>
 								</div>
@@ -1116,13 +1123,25 @@
 									<h2 class="accordion-header" id="headingTwo">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
 											data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-											2. Какое орудие использовалось?
+											2. Кто убийца?
 										</button>
 									</h2>
 									<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Ножницы можно исключить, остаются пистолет, молоток или верёвка. Но подождите, мы знаем, что убийца Carol, и до убийства она была только в столовой. <b>Значит, орудие убийства — молоток</b>!
+											Bob и Carol — оба подозреваемые. Проверим, кто мог быть на месте преступления (на кухне) в 9:00:
+											<ul class="list-group mt-2">
+												<li class="list-group-item">🔎 Bob был в спальне в 8:45</li>
+												<li class="list-group-item">🔎 Bob был в ванной в 9:00</li>
+											</ul>
+											<br/>
+											Bobа вообще не было на месте преступления, у него железное алиби. Остаётся только один подозреваемый:
+											<ul class="list-group mt-2">
+												<li class="list-group-item">🔎 Bob исключён (он был в ванной в 9:00)</li>
+												<li class="list-group-item">🔎 <b>Carol — убийца</b>, она единственная подозреваемая, которая была на кухне в 9:00</li>
+											</ul>
+											<br/>
+											Нам не нужна подсказка «Carol — убийца». Исключения Bobа было достаточно для верного вывода.
 										</div>
 									</div>
 								</div>
@@ -1130,17 +1149,29 @@
 									<h2 class="accordion-header" id="headingThree">
 										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
 											data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-											3. Когда было совершено убийство?
+											3. Какое орудие использовалось?
 										</button>
 									</h2>
 									<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Крик жертвы сужает время до 8:45 или 9:00. Поскольку Carol (теперь уже подтверждённый убийца) не было на месте в 8:45, а мы знаем, что Alice была жива до 9:00, <b>убийство произошло в 9:00</b>.
+											У нас было четыре орудия. Исключим их одно за другим:
+											<ul class="list-group mt-2">
+												<li class="list-group-item">🔎 Ножницы (✂️) исключены, на теле нет следов колотых ран</li>
+												<li class="list-group-item">🔎 Пистолет (🔫) исключён, Carol не посещала спальню (🛏️), где он находился</li>
+												<li class="list-group-item">🔎 Верёвка (🪢) исключена, Carol не посещала ванную (🚽), где она находилась</li>
+												<li class="list-group-item">🔎 <b>Орудие убийства — молоток</b> (🔨), он был в столовой (🪑), единственном месте, которое Carol посетила до убийства</li>
+											</ul>
+											<br/>
+											Три орудия исключены, остаётся одно. Это наш ответ.
 										</div>
 									</div>
 								</div>
 							</div>
+							</p>
+
+							<p>
+								В каждом из этих случаев мы начинали с полного списка возможностей и исключали варианты один за другим, используя проверенные факты: показания правдивых персонажей, вещественные доказательства и ограничения перемещения. Вывод следует неизбежно из фактов. <b>Это не догадка, не предположение и не вывод из неполных данных</b>. Эта техника является основой решения дел, поскольку часто головоломка НЕ даст вам прямую подсказку на ответ. Вместо этого вы должны прийти к нему, систематически исключая невозможное, пока не останется только истина.
 							</p>
 
 							<p>
