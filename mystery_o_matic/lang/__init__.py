@@ -111,6 +111,32 @@ class LanguageRenderer(ABC):
     def render_weapon_not_used(self, weapon):
         pass
 
+    # --- Solution steps (shown via "Peek under the curtain") ---
+
+    @abstractmethod
+    def render_solution_initial_header(self, time):
+        pass
+
+    @abstractmethod
+    def render_solution_events_header(self):
+        pass
+
+    @abstractmethod
+    def render_solution_initial_item(self, subject, place):
+        pass
+
+    @abstractmethod
+    def render_solution_takes_weapon(self, subject, weapon, place):
+        pass
+
+    @abstractmethod
+    def render_solution_move(self, subject, from_place, to_place):
+        pass
+
+    @abstractmethod
+    def render_solution_kills(self, killer, victim, weapon, place):
+        pass
+
 
 _RENDERERS = {}
 

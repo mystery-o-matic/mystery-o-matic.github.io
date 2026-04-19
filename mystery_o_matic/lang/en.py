@@ -280,4 +280,25 @@ class EnglishRenderer(LanguageRenderer):
             raise ValueError("Unknown type of weapon: " + weapon)
 
 
+    # --- Solution steps ---
+
+    def render_solution_initial_header(self, time):
+        return f"Starting positions at {time}:"
+
+    def render_solution_events_header(self):
+        return "What happened next:"
+
+    def render_solution_initial_item(self, subject, place):
+        return f"{subject} was in the {place}."
+
+    def render_solution_takes_weapon(self, subject, weapon, place):
+        return f"{subject} picked up the {weapon} in the {place}."
+
+    def render_solution_move(self, subject, from_place, to_place):
+        return f"{subject} went from the {from_place} to the {to_place}."
+
+    def render_solution_kills(self, killer, victim, weapon, place):
+        return f"{killer} murdered {victim} with the {weapon} in the {place}."
+
+
 register_renderer(EnglishRenderer())

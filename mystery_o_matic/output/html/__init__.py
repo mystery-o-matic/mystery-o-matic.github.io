@@ -10,6 +10,108 @@ from mystery_o_matic.output.html.utils import (
     save_json,
 )
 from mystery_o_matic.clues import NoOneElseStatement
+from mystery_o_matic.lang import get_renderer
+from mystery_o_matic.time import Time
+
+
+def _tok(x):
+    """Normalize ``CHAR1`` or ``$CHAR1`` to a ``$``-prefixed placeholder."""
+    if isinstance(x, str) and not x.startswith("$"):
+        return "$" + x
+    return x
+
+
+def _stripped(x):
+    return x.replace("$", "") if isinstance(x, str) else str(x)
+
+
+def _build_solution_steps(language, mystery, names_html):
+    """Build localized solution steps for the "peek under the curtain" feature.
+
+    Language-specific phrasing is produced by the registered
+    ``LanguageRenderer`` (see ``mystery_o_matic/lang/*``). Renderers return
+    template strings with ``$CHAR1``/``$ROOM0``/``$PISTOL`` placeholders
+    (plus ``_LOC`` / ``_GEN`` suffixes for Russian cases); we substitute
+    them against ``names_html`` — which already resolves names with their
+    emoji representation and character modal links, just like the clues.
+
+    Event timestamps mirror the Solidity ``StoryModel`` simulation:
+      * ``takesWeapon`` — instantaneous, at the current time.
+      * ``move(c, p)``  — if ``lastMovement[c] == time`` insert ``stay()``
+                           (+15 min), then ``sawEvents`` advances another
+                           +15 min; arrival is at the post-increment time.
+      * ``kills(k, v)`` — emitted at the current time, then ``stay()``
+                           advances by +15 min.
+    """
+    r = get_renderer(language)
+
+    interval = mystery.interval_size  # 15 minutes, in seconds
+    base_seconds = mystery.initial_time.seconds
+
+    def _clock(offset_seconds):
+        return str(Time(base_seconds + offset_seconds))
+
+    def _sub(template_str):
+        return create_template(template_str).substitute(names_html)
+
+    time = 0
+    last_movement = {}
+    current_location = {
+        _stripped(c): _tok(p) for c, p in mystery.initial_locations
+    }
+
+    weapon_tok = mystery.weapon_used  # already ``$``-prefixed
+
+    initial_items = [
+        _sub(r.render_solution_initial_item(_tok(c), _tok(p)))
+        for c, p in mystery.initial_locations
+    ]
+
+    event_items = []
+    for action in mystery.solution:
+        verb = action[0]
+        if verb == "takesWeapon":
+            char_tok = _tok(action[1])
+            place_tok = current_location[_stripped(char_tok)]
+            event_items.append({
+                "time": _clock(time),
+                "text": _sub(r.render_solution_takes_weapon(
+                    char_tok, weapon_tok, place_tok
+                )),
+            })
+        elif verb == "move":
+            char_tok = _tok(action[1])
+            dest_tok = _tok(action[2])
+            from_tok = current_location[_stripped(char_tok)]
+            if last_movement.get(_stripped(char_tok), 0) == time:
+                time += interval  # stay()
+            time += interval      # sawEvents()
+            last_movement[_stripped(char_tok)] = time
+            current_location[_stripped(char_tok)] = dest_tok
+            event_items.append({
+                "time": _clock(time),
+                "text": _sub(r.render_solution_move(
+                    char_tok, from_tok, dest_tok
+                )),
+            })
+        elif verb == "kills":
+            killer_tok = _tok(action[1])
+            victim_tok = _tok(action[2])
+            place_tok = current_location[_stripped(killer_tok)]
+            event_items.append({
+                "time": _clock(time),
+                "text": _sub(r.render_solution_kills(
+                    killer_tok, victim_tok, weapon_tok, place_tok
+                )),
+            })
+            time += interval  # stay()
+
+    return {
+        "initialHeader": r.render_solution_initial_header(str(mystery.initial_time)),
+        "initialItems": initial_items,
+        "eventsHeader": r.render_solution_events_header(),
+        "eventsItems": event_items,
+    }
 
 
 def produce_html_output(
@@ -75,6 +177,7 @@ def produce_html_output(
     json["locationOrder"] = location_order
     json["additionalClues"] = {}
     json["additionalCluesWithLies"] = {}
+    json["solutionSteps"] = {}
     json["numIntervals"] = len(intervals)
     json["characterNames"] = mystery.get_characters()
     json["victim"] = create_template(mystery.victim).substitute(names_txt)
@@ -161,6 +264,10 @@ def produce_html_output(
             if language == "es":
                 label = label.capitalize()
             names_html[weapon.replace("$", "")] = label + " (" + weapons[weapon] + ")"
+
+        json["solutionSteps"][language] = _build_solution_steps(
+            language, mystery, names_html
+        )
 
         # print(names_html)
         bullets = []

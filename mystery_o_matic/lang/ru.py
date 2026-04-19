@@ -295,4 +295,34 @@ class RussianRenderer(LanguageRenderer):
             raise ValueError("Unknown type of weapon: " + weapon)
 
 
+    # --- Solution steps ---
+
+    def render_solution_initial_header(self, time):
+        return f"Начальные позиции в {time}:"
+
+    def render_solution_events_header(self):
+        return "Что произошло дальше:"
+
+    def render_solution_initial_item(self, subject, place):
+        return f"{subject} находился(ась) в {place}_LOC."
+
+    def render_solution_takes_weapon(self, subject, weapon, place):
+        return f"{subject} взял(а) {weapon} в {place}_LOC."
+
+    def render_solution_move(self, subject, from_place, to_place):
+        # Russian "в + accusative" for motion is not available in the
+        # location data (only ``_LOC`` and ``_GEN``). Rephrase as
+        # "ended up in Y, having left X" which is correct with locative +
+        # genitive respectively.
+        return (
+            f"{subject} оказался(ась) в {to_place}_LOC, "
+            f"выйдя из {from_place}_GEN."
+        )
+
+    def render_solution_kills(self, killer, victim, weapon, place):
+        return (
+            f"{killer} убил(а) {victim} с помощью {weapon} в {place}_LOC."
+        )
+
+
 register_renderer(RussianRenderer())

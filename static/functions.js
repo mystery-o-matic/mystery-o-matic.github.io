@@ -224,6 +224,44 @@ async function hash(message) {
 	return hashHex;
 }
 
+function showPeekUnderCurtain() {
+	var el = document.getElementById("peek-under-curtain");
+	if (el && data.solutionSteps && data.solutionSteps[getLanguage()]) {
+		el.style.removeProperty("display");
+	}
+}
+
+function revealSolutionSteps() {
+	var steps = data.solutionSteps && data.solutionSteps[getLanguage()];
+	if (!steps) return;
+
+	var container = document.getElementById("solution-steps");
+	var isVisible = window.getComputedStyle(container).display !== "none";
+
+	if (isVisible) {
+		container.style.display = "none";
+		return;
+	}
+
+	if (!container.innerHTML) {
+		var html = "";
+		html += "<p class=\"mb-1\"><em>" + steps.initialHeader + "</em></p>";
+		html += "<ul>" + steps.initialItems.map(function (s) {
+			return "<li>" + s + "</li>";
+		}).join("") + "</ul>";
+		html += "<p class=\"mb-1\"><em>" + steps.eventsHeader + "</em></p>";
+		html += "<ul class=\"list-unstyled mb-0\">" + steps.eventsItems.map(function (s) {
+			return "<li><b>" + s.time + ":</b> " + s.text + "</li>";
+		}).join("") + "</ul>";
+		container.innerHTML = html;
+
+		gtag('event', 'peek_under_curtain', {
+			'language': getLanguage()
+		});
+	}
+	container.style.display = "block";
+}
+
 function checkAccusation() {
 	input = "";
 	let who = document.getElementById("who-selector").value;
@@ -279,6 +317,7 @@ function checkAccusation() {
 
 			storyClue = document.getElementById("story-clue").textContent;
 			document.getElementById("story-notebook").value += "\n" + getCurrentDate() + ":\n" + storyClue + "\n";
+			showPeekUnderCurtain();
 		} else {
 			gtag('event', 'accusation', {
 				'result': 'lose',
@@ -289,6 +328,7 @@ function checkAccusation() {
 			document.getElementById("accusation-lose").style.display = "block";
 			document.getElementById("accusation-lose").scrollIntoView();
 			tries += 1;
+			showPeekUnderCurtain();
 		}
 	});
 }

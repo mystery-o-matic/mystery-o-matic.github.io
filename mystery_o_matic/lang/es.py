@@ -283,4 +283,25 @@ class SpanishRenderer(LanguageRenderer):
             raise ValueError("Unknown type of weapon: " + weapon)
 
 
+    # --- Solution steps ---
+
+    def render_solution_initial_header(self, time):
+        return f"Posiciones iniciales a las {time}:"
+
+    def render_solution_events_header(self):
+        return "Lo que ocurrió después:"
+
+    def render_solution_initial_item(self, subject, place):
+        return f"{subject} estaba en {place}."
+
+    def render_solution_takes_weapon(self, subject, weapon, place):
+        return f"{subject} tomó {weapon} en {place}."
+
+    def render_solution_move(self, subject, from_place, to_place):
+        return f"{subject} fue desde {from_place} hasta {to_place}."
+
+    def render_solution_kills(self, killer, victim, weapon, place):
+        return f"{killer} asesinó a {victim} con {weapon} en {place}."
+
+
 register_renderer(SpanishRenderer())
