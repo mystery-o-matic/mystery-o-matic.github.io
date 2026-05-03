@@ -1,0 +1,32 @@
+{
+  "name": "mystery-o-matic: разгадай тайну убийства и спаси всех!",
+  "short_name": "mystery-o-matic",
+  "description": "Разгадывай ежедневную тайну убийства всего за 5 минут и постепенно узнавай, как победить злую временную петлю",
+  "lang": "ru",
+  "start_url": "/ru/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#f14902",
+  "icons": [
+    {
+      "src": "../images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../images/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
