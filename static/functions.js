@@ -7,11 +7,38 @@ function getCurrentDate() {
 	return String(date.toLocaleDateString(getLanguage(), options));
 }
 
+var currentPage = "home";
+var tutorialEnterTime = null;
+var tutorialMaxSection = 0;
+
 function showPage(page) {
+	var language = getLanguage();
+
+	if (page === "how-to-play" && currentPage !== "how-to-play") {
+		tutorialEnterTime = Date.now();
+		tutorialMaxSection = 0;
+		gtag('event', 'tutorial_enter', {
+			'language': language,
+			'from_section': currentPage
+		});
+	} else if (currentPage === "how-to-play" && page !== "how-to-play") {
+		var durationSeconds = tutorialEnterTime ? Math.round((Date.now() - tutorialEnterTime) / 1000) : 0;
+		gtag('event', 'tutorial_exit', {
+			'language': language,
+			'to_section': page,
+			'last_section': typeof tutorialCurrentPage !== 'undefined' ? tutorialCurrentPage : 0,
+			'max_section': tutorialMaxSection,
+			'duration_seconds': durationSeconds
+		});
+		tutorialEnterTime = null;
+	}
+
+	currentPage = page;
+
 	if (page !== "home") {
 		gtag('event', 'section_view', {
 			'section_name': page,
-			'language': getLanguage()
+			'language': language
 		});
 	}
 	tableData = getTableData();
@@ -55,10 +82,13 @@ var clues = [];
 var crossClue = [];
 var currentClue = 0;
 
-function selectClues(withLies) {
+function selectClues(withLies, autoSelected) {
+	autoSelected = !!autoSelected;
+	localStorage.setItem('mystery-mode-chosen', 'true');
 	gtag('event', 'game_start', {
 		'mode': withLies ? 'with_lies' : 'without_lies',
-		'language': getLanguage()
+		'language': getLanguage(),
+		'auto_selected': autoSelected
 	});
 	var element;
 
@@ -97,6 +127,7 @@ function autosaveLocalNotebook() {
 function setLocalNotepad() {
 	var editorKey = 'story-notebook';
 	var editor = document.getElementById(editorKey);
+	if (!editor) return;
 	var cache = localStorage.getItem(editorKey);
 
 	if (cache) {
@@ -106,6 +137,22 @@ function setLocalNotepad() {
 }
 
 setLocalNotepad();
+
+// _ga cookie format: GA1.<n>.<client_id>.<creation_unix_seconds>. If the creation
+// timestamp is older than this page-load, the browser has visited before.
+function isReturningPerGA() {
+	var m = document.cookie.match(/(?:^|;\s*)_ga=GA\d+\.\d+\.\d+\.(\d+)/);
+	if (!m) return false;
+	var createdSec = parseInt(m[1], 10);
+	if (!createdSec) return false;
+	return (Date.now() / 1000) - createdSec > 60;
+}
+
+if (!localStorage.getItem('mystery-mode-chosen')
+		&& !isReturningPerGA()
+		&& document.getElementById('selection-clues-box')) {
+	selectClues(false, true);
+}
 
 function openModalChar(event, name) {
 	event.stopPropagation();

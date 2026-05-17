@@ -21,6 +21,20 @@ function showTutorialPage(pageNum) {
 
 	tutorialCurrentPage = pageNum;
 
+	var pageInfo = tutorialPages[pageNum - 1];
+	var lang = typeof getLanguage === 'function' ? getLanguage() : 'en';
+	if (typeof gtag === 'function') {
+		gtag('event', 'tutorial_section_view', {
+			'language': lang,
+			'section_id': pageInfo.id,
+			'section_number': pageNum,
+			'total_sections': tutorialTotalPages
+		});
+	}
+	if (typeof tutorialMaxSection !== 'undefined') {
+		tutorialMaxSection = Math.max(tutorialMaxSection, pageNum);
+	}
+
 	// Hide all tutorial pages
 	var allPages = document.querySelectorAll('.tutorial-page');
 	for (var i = 0; i < allPages.length; i++) {
