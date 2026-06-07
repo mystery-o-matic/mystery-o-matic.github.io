@@ -213,6 +213,7 @@ def main() -> int:
         if "weapon_locations" in state:
             locations.weapon_locations = state["weapon_locations"]
         activities = state.get("activities", locations.get_activities())
+        stay_activities = locations.get_stay_activities()
 
         initial_locations_pairs = [tuple(x) for x in state["initial_locations_pairs"]]
         used_weapon_location = state.get("used_weapon_location")
@@ -243,6 +244,7 @@ def main() -> int:
 
             weapon_locations = locations.weapon_locations
             activities = locations.get_activities()
+            stay_activities = locations.get_stay_activities()
 
             model = Model("StoryModel", locations, nmoves, out_dir, solidity_file)
             model.generate_enums(number_characters)
@@ -323,6 +325,7 @@ def main() -> int:
         activities,
         model.source,
         txs,
+        stay_activities=stay_activities,
     )
     mystery.load_events(events)
     mystery.process_clues()

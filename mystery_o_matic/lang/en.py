@@ -228,9 +228,12 @@ class EnglishRenderer(LanguageRenderer):
         else:
             raise ValueError("Invalid random number: " + str(r))
 
-    def render_stayed(self, subject, place, time_start, time_end):
-        r = randint(0, 2)
+    def render_stayed(self, subject, place, time_start, time_end, activity=None):
         s = f'{subject}: "'
+        if activity is not None:
+            s += f'I went to the {place} {activity["en"]} at {time_start} and stayed until {time_end}"'
+            return s
+        r = randint(0, 2)
         if r == 0:
             s += f'I was in the {place} from {time_start} to {time_end}"'
         elif r == 1:

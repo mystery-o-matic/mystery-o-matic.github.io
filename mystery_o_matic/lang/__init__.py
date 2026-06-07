@@ -96,7 +96,7 @@ class LanguageRenderer(ABC):
         pass
 
     @abstractmethod
-    def render_stayed(self, subject, place, time_start, time_end):
+    def render_stayed(self, subject, place, time_start, time_end, activity=None):
         pass
 
     @abstractmethod

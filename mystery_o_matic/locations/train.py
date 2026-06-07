@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are transported back in time to <b>the famous Orient Express</b> during its last voyage!"
@@ -49,32 +51,40 @@ def get_data():
         "LOUNGE": "🪑",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "LOCOMOTIVE": [
-            {"en": "glanced out the window and saw someone shoveling coal into the locomotive's furnace (🚂)", "es": "miré por la ventana y vi a alguien echando carbón al horno de la locomotora (🚂)", "ru": "взглянул(а) в окно и увидел(а), как кто-то бросает уголь в топку локомотива (🚂)"},
-            {"en": "heard a loud clang of tools in the locomotive (🚂)", "es": "escuché un golpe fuerte de herramientas en la locomotora (🚂)", "ru": "услышал(а) громкий лязг инструментов в локомотиве (🚂)"},
-            {"en": "heard the whistle of the locomotive", "es": "escuché el silbido de la locomotora", "ru": "услышал(а) свисток локомотива"},
-            {"en": "heard a voice coming from the locomotive (🚂)", "es": "escuché una voz que venía desde la locomotora (🚂)", "ru": "услышал(а) голос из локомотива (🚂)"},
+            {"en": "to shovel some coal",            "es": "a echar carbón al horno",                  "ru": "подбросить угля"},
+            {"en": "to check the gauges",            "es": "a revisar los manómetros",                 "ru": "проверить манометры"},
+            {"en": "to oil the pistons",             "es": "a engrasar los pistones",                  "ru": "смазать поршни"},
+            {"en": "to refill the water tank",       "es": "a llenar el depósito de agua",             "ru": "наполнить бак"},
         ],
         "LUGGAGE": [
-            {"en": "heard someone rummaging in luggage carriage (🧳)", "es": "escuché a alguien revisando el vagón de carga (🧳)", "ru": "услышал(а), как кто-то роется в багажном вагоне (🧳)"},
-            {"en": "heard a voice coming from the luggage carriage (🧳)", "es": "escuché una voz que venía desde el vagón de carga (🧳)", "ru": "услышал(а) голос из багажного вагона (🧳)"},
+            {"en": "to stack a few trunks",          "es": "a apilar unos baúles",                     "ru": "сложить чемоданы"},
+            {"en": "to label some crates",           "es": "a etiquetar las cajas",                    "ru": "подписать ящики"},
+            {"en": "to check the manifest",          "es": "a revisar el manifiesto",                  "ru": "сверить опись"},
+            {"en": "to look for my suitcase",        "es": "a buscar mi maleta",                       "ru": "найти свой чемодан"},
         ],
         "DINING": [
-            {"en": "glanced out my window and saw someone eating in the dining carriage (🍽️)", "es": "miré por la ventana y vi a alguien comiendo en el vagón comedor (🍽️)", "ru": "взглянул(а) в окно и увидел(а), как кто-то ест в вагоне-ресторане (🍽️)"},
-            {"en": "saw someone pouring wine in the dining carriage (🍽️)", "es": "vi a alguien sirviendose vino en el vagón comedor (🍽️)", "ru": "увидел(а), как кто-то наливает вино в вагоне-ресторане (🍽️)"},
-            {"en": "heard someone playing the piano in the dining carriage (🍽️)", "es": "escuché a alguien tocando el piano en el vagón comedor (🍽️)", "ru": "услышал(а), как кто-то играет на пианино в вагоне-ресторане (🍽️)"},
-            {"en": "heard a voice coming from the dining carriage (🍽️)", "es": "escuché una voz que venía desde el vagón comedor (🍽️)", "ru": "услышал(а) голос из вагона-ресторана (🍽️)"},
+            {"en": "to pour the wine",               "es": "a servir el vino",                         "ru": "разлить вино"},
+            {"en": "to set the silverware",          "es": "a poner los cubiertos",                    "ru": "разложить столовое серебро"},
+            {"en": "to light the candles",           "es": "a encender las velas",                     "ru": "зажечь свечи"},
+            {"en": "to polish the glasses",          "es": "a pulir las copas",                        "ru": "натереть бокалы"},
         ],
         "SLEEPING": [
-            {"en": "heard someone snoring in the sleeping carriage (🛌)", "es": "escuché a alguien roncando en el vagón dormitorio (🛌)", "ru": "услышал(а) чей-то храп в спальном вагоне (🛌)"},
-            {"en": "saw someone adjusting the curtains in the sleeping carriage (🛌)", "es": "vi a alguien ajustando las cortinas en el vagón dormitorio (🛌)", "ru": "увидел(а), как кто-то поправляет шторы в спальном вагоне (🛌)"},
-            {"en": "heard a voice coming from the sleeping carriage (🛌)", "es": "escuché una voz que venía desde el vagón dormitorio (🛌)", "ru": "услышал(а) голос из спального вагона (🛌)"},
+            {"en": "to fold the linens",             "es": "a doblar las sábanas",                     "ru": "сложить простыни"},
+            {"en": "to plump the pillows",           "es": "a ahuecar las almohadas",                  "ru": "взбить подушки"},
+            {"en": "to restock the towels",          "es": "a reponer las toallas",                    "ru": "пополнить запас полотенец"},
+            {"en": "to draw the curtains",           "es": "a correr las cortinas",                    "ru": "задёрнуть шторы"},
         ],
         "LOUNGE": [
-            {"en": "glanced out my window and saw someone reading in the lounge carriage (🪑)", "es": "miré por la ventana y vi a alguien leyendo en el vagón salón (🪑)", "ru": "взглянул(а) в окно и увидел(а), как кто-то читает в салон-вагоне (🪑)"},
-            {"en": "heard a voice coming from the lounge carriage (🪑)", "es": "escuché una voz que venía desde el vagón salón (🪑)", "ru": "услышал(а) голос из салон-вагона (🪑)"},
+            {"en": "to pour a drink",                "es": "a servir un trago",                        "ru": "налить выпить"},
+            {"en": "to tidy the magazines",          "es": "a ordenar las revistas",                   "ru": "разложить журналы"},
+            {"en": "to fluff the cushions",          "es": "a ahuecar los cojines",                    "ru": "взбить подушки"},
+            {"en": "to wipe down the bar",           "es": "a limpiar la barra",                       "ru": "протереть барную стойку"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

@@ -1,4 +1,6 @@
-from random import shuffle, randint, choice
+from random import shuffle, randint, choice, random
+
+STAY_ACTIVITY_PROBABILITY = 0.7
 from hashlib import sha256
 
 from mystery_o_matic.clues import *
@@ -61,6 +63,7 @@ class Mystery:
         activities,
         source,
         txs,
+        stay_activities=None,
     ):
         """
         Initialize the Mystery class.
@@ -101,6 +104,7 @@ class Mystery:
             "$CHAR" + str(i + 1) for i in range(self.number_characters)
         ]
         self.activities = activities
+        self.stay_activities = stay_activities or {}
 
     def get_characters(self):
         return self.characters
@@ -180,7 +184,15 @@ class Mystery:
             elif call[0] == "Stayed":
                 # Add the Stayed clue as expected, except when the victim is the subject
                 if call[1] != self.victim:
-                    self.additional_clues.append(create_clue(call))
+                    place_generic = call[2].replace("$", "")
+                    stay_activity = None
+                    if (place_generic in self.stay_activities
+                            and self.stay_activities[place_generic]
+                            and random() < STAY_ACTIVITY_PROBABILITY):
+                        stay_activity = choice(self.stay_activities[place_generic])
+                    self.additional_clues.append(
+                        StayedClue(call[1], call[2], call[3], call[4], activity=stay_activity)
+                    )
             else:
                 self.additional_clues.append(create_clue(call))
 

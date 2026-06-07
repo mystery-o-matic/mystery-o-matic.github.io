@@ -1,7 +1,9 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
-    intro["en"] = " are transported into <b>an empty sport club</b> at night!"
-    intro["es"] = " han sido transportados a <b>un club deportivo desierto</b> por la noche!"
+    intro["en"] = " are transported into <b>an empty sport club</b>!"
+    intro["es"] = " han sido transportados a <b>un club deportivo desierto</b>!"
     intro["ru"] = " перенеслись в <b>пустой спортивный клуб</b> ночью!"
 
     labels = {}
@@ -49,22 +51,40 @@ def get_data():
         "LOUNGE": "🛋️",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "GYM": [
-            {"en": "heard a voice coming from the gym (💪)", "es": "escuché una voz que venía desde el gimnasio (💪)", "ru": "услышал(а) голос из тренажёрного зала (💪)"}
+            {"en": "to rack the dumbbells",          "es": "a colocar las mancuernas",                 "ru": "расставить гантели"},
+            {"en": "to wipe down the machines",      "es": "a limpiar las máquinas",                   "ru": "протереть тренажёры"},
+            {"en": "to refill the water bottles",    "es": "a rellenar las botellas de agua",          "ru": "наполнить бутылки водой"},
+            {"en": "to restock the towels",          "es": "a reponer las toallas",                    "ru": "пополнить запас полотенец"},
         ],
         "POOL": [
-            {"en": "heard a voice coming from the swimming pool (🏊)", "es": "escuché una voz que venía desde la piscina (🏊)", "ru": "услышал(а) голос из бассейна (🏊)"}
+            {"en": "to skim the surface",            "es": "a quitar las hojas de la superficie",      "ru": "очистить поверхность от мусора"},
+            {"en": "to check the chlorine level",    "es": "a comprobar el nivel de cloro",            "ru": "проверить уровень хлора"},
+            {"en": "to fold the towels",             "es": "a doblar las toallas",                     "ru": "сложить полотенца"},
+            {"en": "to adjust the lane ropes",       "es": "a ajustar las corcheras",                  "ru": "поправить разделительные канаты"},
         ],
         "SAUNA": [
-            {"en": "heard a voice coming from the sauna (🧖)", "es": "escuché una voz que venía desde la sauna (🧖)", "ru": "услышал(а) голос из сауны (🧖)"}
+            {"en": "to refill the water bucket",     "es": "a rellenar el cubo de agua",               "ru": "наполнить ведро водой"},
+            {"en": "to lay out fresh towels",        "es": "a colocar toallas limpias",                "ru": "разложить свежие полотенца"},
+            {"en": "to wipe down the benches",       "es": "a limpiar los bancos",                     "ru": "протереть скамьи"},
+            {"en": "to sweep the floor",             "es": "a barrer el suelo",                        "ru": "подмести пол"},
         ],
         "COURT": [
-            {"en": "heard a voice coming from the sports court (🏀)", "es": "escuché una voz que venía desde la cancha deportiva (🏀)", "ru": "услышал(а) голос со спортивной площадки (🏀)"}
+            {"en": "to mop up a wet patch",          "es": "a secar una mancha de humedad",            "ru": "вытереть мокрое место"},
+            {"en": "to set up the net",              "es": "a montar la red",                          "ru": "натянуть сетку"},
+            {"en": "to inflate a basketball",        "es": "a inflar un balón de baloncesto",          "ru": "накачать мяч"},
+            {"en": "to mark the lines",              "es": "a marcar las líneas",                      "ru": "разметить линии"},
         ],
         "LOUNGE": [
-            {"en": "heard a voice coming from the lounge (🛋️)", "es": "escuché una voz que venía desde el salón (🛋️)", "ru": "услышал(а) голос из зала отдыха (🛋️)"}
+            {"en": "to tidy the magazines",          "es": "a ordenar las revistas",                   "ru": "разложить журналы"},
+            {"en": "to refill the water cooler",     "es": "a rellenar el dispensador de agua",        "ru": "заправить кулер"},
+            {"en": "to fluff the cushions",          "es": "a ahuecar los cojines",                    "ru": "взбить подушки"},
+            {"en": "to dust the side tables",        "es": "a quitar el polvo de las mesitas",         "ru": "вытереть пыль со столиков"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

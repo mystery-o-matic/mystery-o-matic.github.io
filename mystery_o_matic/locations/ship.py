@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are transported back in time to <b>a pirate ship</b>!"
@@ -49,29 +51,39 @@ def get_data():
         "CARGO HOLD": "📦",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "GALLEY": [
-            {"en": "noticed someone cooking", "es": "noté a alguien cocinando", "ru": "заметил(а), как кто-то готовит"},
-            {"en": "heard someone washing the dishes", "es": "escuché a alguien lavando los platos", "ru": "услышал(а), как кто-то моет посуду"},
-            {"en": "heard a voice coming from the galley (🍲)", "es": "escuché una voz que venía desde la cocina (🍲)", "ru": "услышал(а) голос с камбуза (🍲)"},
+            {"en": "to brew some grog",              "es": "a preparar un poco de grog",               "ru": "сварить грог"},
+            {"en": "to wash the dishes",             "es": "a lavar los platos",                       "ru": "помыть посуду"},
+            {"en": "to grab a quick bite",           "es": "a buscar algo de comer",                   "ru": "перекусить"},
+            {"en": "to restock the salt cod",        "es": "a reponer el bacalao salado",              "ru": "пополнить запас солёной трески"},
         ],
         "NAVIGATION ROOM": [
-            {"en": "saw someone studying a map", "es": "vi a alguien mirando un mapa", "ru": "увидел(а), как кто-то изучает карту"},
-            {"en": "heard a voice coming from the navigation room (🧭)", "es": "escuché una voz que venía desde la sala de navegación (🧭)", "ru": "услышал(а) голос из штурманской рубки (🧭)"},
+            {"en": "to study a chart",               "es": "a estudiar un mapa",                       "ru": "изучить карту"},
+            {"en": "to wind the chronometer",        "es": "a darle cuerda al cronómetro",             "ru": "завести хронометр"},
+            {"en": "to log the latest sighting",     "es": "a anotar el último avistamiento",          "ru": "записать последнее наблюдение"},
         ],
         "MAIN DECK": [
-            {"en": "heard someone loading a cannon", "es": "escuché a alguien cargando un cañón", "ru": "услышал(а), как кто-то заряжает пушку"},
-            {"en": "heard someone adjusting the sails", "es": "escuché a alguien ajustando las velas", "ru": "услышал(а), как кто-то поправляет паруса"},
-            {"en": "heard a voice coming from the main deck (⚓)", "es": "escuché una voz que venía desde la cubierta principal (⚓)", "ru": "услышал(а) голос с главной палубы (⚓)"},
+            {"en": "to swab the deck",               "es": "a fregar la cubierta",                     "ru": "вымыть палубу"},
+            {"en": "to adjust the sails",            "es": "a ajustar las velas",                      "ru": "поправить паруса"},
+            {"en": "to coil a rope",                 "es": "a enrollar un cabo",                       "ru": "смотать канат"},
+            {"en": "to check the rigging",           "es": "a revisar el aparejo",                     "ru": "проверить такелаж"},
         ],
         "CAPTAIN CABIN": [
-            {"en": "heard someone snoring in the captain cabin (🛏️)", "es": "escuché a alguien roncando en la cabina del capitán (🛏️)", "ru": "услышал(а) чей-то храп в капитанской каюте (🛏️)"},
-            {"en": "heard a voice coming from the captain cabin (🛏️)", "es": "escuché una voz que venía desde la cabina del capitán (🛏️)", "ru": "услышал(а) голос из капитанской каюты (🛏️)"},
+            {"en": "to update the ship's log",       "es": "a actualizar el diario de a bordo",        "ru": "заполнить судовой журнал"},
+            {"en": "to polish the captain's compass","es": "a pulir el compás del capitán",            "ru": "начистить капитанский компас"},
+            {"en": "to fetch a spyglass",            "es": "a buscar un catalejo",                     "ru": "взять подзорную трубу"},
+            {"en": "to dust the desk",               "es": "a quitar el polvo del escritorio",         "ru": "вытереть пыль со стола"},
         ],
         "CARGO HOLD": [
-            {"en": "heard someone rummaging in the cargo hold (📦)", "es": "escuché a alguien revisando la bodega de carga (📦)", "ru": "услышал(а), как кто-то роется в грузовом трюме (📦)"},
-            {"en": "heard a voice coming from the cargo hold (📦)", "es": "escuché una voz que venía desde la bodega de carga (📦)", "ru": "услышал(а) голос из грузового трюма (📦)"},
+            {"en": "to lash down the crates",        "es": "a amarrar las cajas",                      "ru": "закрепить ящики"},
+            {"en": "to check the manifest",          "es": "a revisar el inventario",                  "ru": "сверить опись груза"},
+            {"en": "to look for my chest",           "es": "a buscar mi baúl",                         "ru": "найти свой сундук"},
+            {"en": "to count the barrels",           "es": "a contar los barriles",                    "ru": "пересчитать бочки"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

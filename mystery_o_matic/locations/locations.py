@@ -89,9 +89,16 @@ class Locations:
         """
         self.mode = mode
         self.name = location_name
-        intro, names, representations, activities = location_data
+        # Some location modules return (intro, names, representations, activities);
+        # newer ones include a fifth element with stay-activities for StayedClue flavor.
+        if len(location_data) == 5:
+            intro, names, representations, activities, stay_activities = location_data
+        else:
+            intro, names, representations, activities = location_data
+            stay_activities = {}
         self.intro = intro
         self.activities = activities
+        self.stay_activities = stay_activities
         self.number_places = number_places
         nodes = {}
         for n in range(number_places):
@@ -271,6 +278,18 @@ class Locations:
 
         return activities
 
+    def get_stay_activities(self):
+        """
+        Returns the stay-activities (first-person verb phrases for StayedClue
+        flavor text), re-keyed from concrete room names (e.g. KITCHEN) to the
+        generic placeholders (ROOM0, ROOM1, ...) used in clue templates.
+        """
+        out = {}
+        for generic, concrete in self.indices.items():
+            if concrete in self.stay_activities:
+                out[generic] = self.stay_activities[concrete]
+        return out
+
     def sort_locations(self):
         """
         Returns a list of generic labels sorted according to where they show in the graph.
@@ -294,7 +313,9 @@ class Locations:
 class TutorialLocations(Locations):
     def __init__(self, location_data):
         self.name = "tutorial"
-        _, names, representations, _ = location_data
+        # Tolerate both legacy 4-tuple and new 5-tuple (with stay_activities).
+        names = location_data[1]
+        representations = location_data[2]
         self.number_places = 4
         nodes = {}
         for n in range(self.number_places):

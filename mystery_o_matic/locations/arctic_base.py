@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are stranded in <b>an abandoned arctic military base</b> during a blizzard!"
@@ -49,27 +51,40 @@ def get_data():
         "MESS HALL": "🍽️",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "COMMAND CENTER": [
-            {"en": "heard someone typing on an old keyboard (🖥️)", "es": "escuché a alguien tecleando en un viejo teclado (🖥️)", "ru": "услышал(а), как кто-то печатает на старой клавиатуре (🖥️)"},
-            {"en": "heard a voice coming from the command center (🖥️)", "es": "escuché una voz que venía desde el centro de mando (🖥️)", "ru": "услышал(а) голос из командного центра (🖥️)"},
+            {"en": "to check the monitors",          "es": "a revisar los monitores",                  "ru": "проверить мониторы"},
+            {"en": "to log the latest readings",     "es": "a registrar las últimas lecturas",         "ru": "записать последние показания"},
+            {"en": "to review the weather charts",   "es": "a revisar los partes meteorológicos",      "ru": "просмотреть карты погоды"},
+            {"en": "to print out a report",          "es": "a imprimir un informe",                    "ru": "распечатать отчёт"},
         ],
         "ARMORY": [
-            {"en": "heard the clinking of metal in the armory (🔒)", "es": "escuché el tintineo de metal en la armería (🔒)", "ru": "услышал(а) звон металла в оружейной (🔒)"},
-            {"en": "heard a voice coming from the armory (🔒)", "es": "escuché una voz que venía desde la armería (🔒)", "ru": "услышал(а) голос из оружейной (🔒)"},
+            {"en": "to clean a rifle",               "es": "a limpiar un rifle",                       "ru": "почистить винтовку"},
+            {"en": "to inventory the equipment",     "es": "a hacer inventario del equipo",            "ru": "провести инвентаризацию"},
+            {"en": "to oil a holster",               "es": "a engrasar una funda",                     "ru": "смазать кобуру"},
+            {"en": "to count the rounds",            "es": "a contar los cartuchos",                   "ru": "пересчитать патроны"},
         ],
         "BARRACKS": [
-            {"en": "heard footsteps echoing in the barracks (🛏️)", "es": "escuché pasos resonando en los barracones (🛏️)", "ru": "услышал(а) шаги, эхом разносящиеся по казарме (🛏️)"},
-            {"en": "heard a voice coming from the barracks (🛏️)", "es": "escuché una voz que venía desde los barracones (🛏️)", "ru": "услышал(а) голос из казармы (🛏️)"},
+            {"en": "to make my bunk",                "es": "a hacer mi litera",                        "ru": "застелить койку"},
+            {"en": "to fold my uniform",             "es": "a doblar mi uniforme",                     "ru": "сложить форму"},
+            {"en": "to polish my boots",             "es": "a lustrar mis botas",                      "ru": "начистить ботинки"},
+            {"en": "to sort the mail",               "es": "a clasificar el correo",                   "ru": "разобрать почту"},
         ],
         "RADIO ROOM": [
-            {"en": "heard the crackle of static from the radio room (📡)", "es": "escuché el crepitar de la estática desde la sala de radio (📡)", "ru": "услышал(а) треск статики из радиорубки (📡)"},
-            {"en": "heard a voice coming from the radio room (📡)", "es": "escuché una voz que venía desde la sala de radio (📡)", "ru": "услышал(а) голос из радиорубки (📡)"},
+            {"en": "to tune the radio",              "es": "a sintonizar la radio",                    "ru": "настроить радио"},
+            {"en": "to send a status check",         "es": "a enviar un parte de situación",           "ru": "отправить отчёт о состоянии"},
+            {"en": "to log an incoming call",        "es": "a registrar una llamada entrante",         "ru": "записать входящий вызов"},
+            {"en": "to swap a fuse",                 "es": "a cambiar un fusible",                     "ru": "заменить предохранитель"},
         ],
         "MESS HALL": [
-            {"en": "heard the clatter of tin trays in the mess hall (🍽️)", "es": "escuché el ruido de bandejas de metal en el comedor (🍽️)", "ru": "услышал(а) грохот металлических подносов в столовой (🍽️)"},
-            {"en": "heard a voice coming from the mess hall (🍽️)", "es": "escuché una voz que venía desde el comedor (🍽️)", "ru": "услышал(а) голос из столовой (🍽️)"},
+            {"en": "to brew a pot of coffee",        "es": "a preparar una jarra de café",             "ru": "заварить кофе"},
+            {"en": "to wipe down the trays",         "es": "a limpiar las bandejas",                   "ru": "протереть подносы"},
+            {"en": "to restock the pantry",          "es": "a reponer la despensa",                    "ru": "пополнить кладовую"},
+            {"en": "to grab a quick meal",           "es": "a comer algo rápido",                      "ru": "перекусить"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

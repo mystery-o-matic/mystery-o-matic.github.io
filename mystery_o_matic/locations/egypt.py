@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are transported back in time to <b>a pyramid in Ancient Egypt</b>!"
@@ -49,29 +51,40 @@ def get_data():
         "GARDEN": "🌳",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "THRONE ROOM": [
-            {"en": "saw someone from a distance sitting on the throne", "es": "vi a alguien sentado en el trono a lo lejos", "ru": "издалека увидел(а), как кто-то сидит на троне"},
-            {"en": "saw someone from afar polishing the throne", "es": "vi a alguien puliendo el trono a lo lejos", "ru": "издалека увидел(а), как кто-то полирует трон"},
-            {"en": "heard a voice coming from the throne room (👑)", "es": "escuché una voz que venía desde el cuarto del trono (👑)", "ru": "услышал(а) голос из тронного зала (👑)"},
+            {"en": "to polish the throne",           "es": "a pulir el trono",                         "ru": "отполировать трон"},
+            {"en": "to dust the regalia",            "es": "a quitar el polvo de las insignias",       "ru": "вытереть пыль с регалий"},
+            {"en": "to light the braziers",          "es": "a encender los braseros",                  "ru": "зажечь жаровни"},
+            {"en": "to arrange the cushions",        "es": "a acomodar los cojines",                   "ru": "поправить подушки"},
         ],
         "BURIAL PLACE": [
-            {"en": "saw someone at a distance praying in the burial chamber (⚱️)", "es": "vi a alguien rezando en la cámara funeraria a lo lejos (⚱️)", "ru": "издалека увидел(а), как кто-то молится в погребальной камере (⚱️)"},
-            {"en": "heard a voice coming from the burial chamber (⚱️)", "es": "escuché una voz que venía desde la cámara funeraria (⚱️)", "ru": "услышал(а) голос из погребальной камеры (⚱️)"},
+            {"en": "to light the incense",           "es": "a encender el incienso",                   "ru": "зажечь благовония"},
+            {"en": "to place fresh offerings",       "es": "a colocar nuevas ofrendas",                "ru": "положить свежие подношения"},
+            {"en": "to dust the sarcophagus",        "es": "a limpiar el polvo del sarcófago",         "ru": "вытереть пыль с саркофага"},
+            {"en": "to sweep the floor",             "es": "a barrer el suelo",                        "ru": "подмести пол"},
         ],
         "TEMPLE": [
-            {"en": "saw someone at a distance praying in the temple (📿)", "es": "vi a alguien a la distancia rezando en el templo (📿)", "ru": "издалека увидел(а), как кто-то молится в храме (📿)"},
-            {"en": "saw someone from afar lighting candles in the temple (📿)", "es": "vi a alguien a la distancia encendiendo velas en el templo (📿)", "ru": "издалека увидел(а), как кто-то зажигает свечи в храме (📿)"},
-            {"en": "heard a voice coming from the temple (📿)", "es": "escuché una voz que venía desde el templo (📿)", "ru": "услышал(а) голос из храма (📿)"},
+            {"en": "to light the candles",           "es": "a encender las velas",                     "ru": "зажечь свечи"},
+            {"en": "to polish the altar",            "es": "a pulir el altar",                         "ru": "отполировать алтарь"},
+            {"en": "to sweep the floor",             "es": "a barrer el suelo",                        "ru": "подмести пол"},
+            {"en": "to refill the offering bowl",    "es": "a rellenar el cuenco de ofrendas",         "ru": "наполнить чашу подношений"},
         ],
         "DESERT": [
-            {"en": "looked outside and saw someone riding a camel in the desert (🏜️)", "es": "miré afuera y vi a alguien montando un camello en el desierto (🏜️)", "ru": "выглянул(а) наружу и увидел(а), как кто-то едет на верблюде в пустыне (🏜️)"},
+            {"en": "to refill the water skins",      "es": "a rellenar los odres de agua",             "ru": "наполнить бурдюки водой"},
+            {"en": "to watch the dunes",             "es": "a mirar las dunas",                        "ru": "понаблюдать за дюнами"},
+            {"en": "to shake sand from my sandals",  "es": "a sacudir la arena de mis sandalias",      "ru": "вытряхнуть песок из сандалий"},
+            {"en": "to scan the horizon",            "es": "a otear el horizonte",                     "ru": "осмотреть горизонт"},
         ],
         "GARDEN": [
-            {"en": "heard someone whistling in the garden (🌳)", "es": "escuché a alguien silbando en el jardín (🌳)", "ru": "услышал(а), как кто-то насвистывает в саду (🌳)"},
-            {"en": "looked outside and saw someone pruning the bushes", "es": "miré afuera y vi a alguien podando los arbustos", "ru": "выглянул(а) наружу и увидел(а), как кто-то подстригает кусты"},
-            {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал(а) голос из сада (🌳)"},
+            {"en": "to water the plants",            "es": "a regar las plantas",                      "ru": "полить растения"},
+            {"en": "to pull some weeds",             "es": "a arrancar malas hierbas",                 "ru": "выдернуть сорняки"},
+            {"en": "to prune the bushes",            "es": "a podar los arbustos",                     "ru": "подстричь кусты"},
+            {"en": "to pick some flowers",           "es": "a recoger flores",                         "ru": "сорвать цветы"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are transported to <b>a deserted tropical island</b>!"
@@ -49,22 +51,40 @@ def get_data():
         "VOLCANO": "🌋",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "BEACH": [
-            {"en": "looked around and saw someone collecting seashells (🏖️)", "es": "miré alrededor y vi a alguien recogiendo conchas marinas (🏖️)", "ru": "осмотрелся(ась) и увидел(а), как кто-то собирает ракушки (🏖️)"},
+            {"en": "to collect seashells",           "es": "a recoger conchas marinas",                "ru": "пособирать ракушки"},
+            {"en": "to gather driftwood",            "es": "a recoger madera de la playa",             "ru": "собрать плавник"},
+            {"en": "to look out at the waves",       "es": "a mirar las olas",                         "ru": "посмотреть на волны"},
+            {"en": "to fill a canteen",              "es": "a llenar una cantimplora",                 "ru": "наполнить флягу"},
         ],
         "JUNGLE": [
-            {"en": "heard someone chopping wood in the jungle (🌴)", "es": "escuché a alguien cortando leña en la jungla (🌴)", "ru": "услышал(а), как кто-то рубит дрова в джунглях (🌴)"},
+            {"en": "to chop some wood",              "es": "a cortar leña",                            "ru": "наколоть дров"},
+            {"en": "to gather some fruit",           "es": "a recolectar fruta",                       "ru": "набрать фруктов"},
+            {"en": "to set a snare",                 "es": "a poner una trampa",                       "ru": "поставить силок"},
+            {"en": "to look for fresh water",        "es": "a buscar agua dulce",                      "ru": "поискать пресную воду"},
         ],
         "CAVE": [
-            {"en": "heard a voice coming from the cave (🦇)", "es": "escuché una voz que venía desde la cueva (🦇)", "ru": "услышал(а) голос из пещеры (🦇)"},
+            {"en": "to light a torch",               "es": "a encender una antorcha",                  "ru": "зажечь факел"},
+            {"en": "to examine the cave drawings",   "es": "a examinar los dibujos rupestres",         "ru": "рассмотреть наскальные рисунки"},
+            {"en": "to gather some bat guano",       "es": "a recoger guano de murciélago",            "ru": "собрать гуано"},
+            {"en": "to scout for an exit",           "es": "a buscar una salida",                      "ru": "разведать выход"},
         ],
         "CLIFF": [
-            {"en": "saw someone climbing the cliff (⛰️)", "es": "vi a alguien escalando el acantilado (⛰️)", "ru": "увидел(а), как кто-то карабкается на утёс (⛰️)"},
+            {"en": "to scan the horizon",            "es": "a otear el horizonte",                     "ru": "осмотреть горизонт"},
+            {"en": "to look for a ship",             "es": "a buscar un barco",                        "ru": "высмотреть корабль"},
+            {"en": "to examine the rocks",           "es": "a examinar las rocas",                     "ru": "осмотреть скалы"},
+            {"en": "to listen to the surf",          "es": "a escuchar el oleaje",                     "ru": "послушать прибой"},
         ],
         "VOLCANO": [
-            {"en": "saw someone inspecting the volcano summit (🌋)", "es": "vi a alguien inspeccionando la cima del volcán (🌋)", "ru": "увидел(а), как кто-то осматривает кратер вулкана (🌋)"},
+            {"en": "to inspect the summit",          "es": "a inspeccionar la cima",                   "ru": "осмотреть вершину"},
+            {"en": "to take some rock samples",      "es": "a tomar muestras de roca",                 "ru": "взять образцы породы"},
+            {"en": "to peer into the crater",        "es": "a asomarme al cráter",                     "ru": "заглянуть в кратер"},
+            {"en": "to check the wind direction",    "es": "a comprobar la dirección del viento",      "ru": "проверить направление ветра"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

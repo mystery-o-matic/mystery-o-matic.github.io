@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are back into <b>the mansion where everything started</b>!"
@@ -49,32 +51,44 @@ def get_data():
         "GARDEN": "🌳",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+    # Activities that another character could reasonably walk in on — no
+    # toileting, no showering, no changing clothes, nothing that would make
+    # the actor want privacy. Keeps puzzles internally consistent: anyone
+    # else passing through the room at the same time doesn't strain belief.
+    stay_activities = {
         "KITCHEN": [
-            {"en": "noticed someone cooking", "es": "noté a alguien cocinando", "ru": "заметил(а), как кто-то готовит"},
-            {"en": "heard someone washing the dishes", "es": "escuché a alguien lavando los platos", "ru": "услышал(а), как кто-то моет посуду"},
-            {"en": "heard the clatter of pots in the kitchen (🍲)", "es": "escuché el ruido de ollas en la cocina (🍲)", "ru": "услышал(а) стук кастрюль на кухне (🍲)"},
-            {"en": "heard a voice coming from the kitchen (🍲)", "es": "escuché una voz que venía desde la cocina (🍲)", "ru": "услышал(а) голос с кухни (🍲)"},
+            {"en": "to make a sandwich",       "es": "a preparar un sándwich",     "ru": "приготовить сэндвич"},
+            {"en": "to brew some coffee",      "es": "a preparar café",            "ru": "сварить кофе"},
+            {"en": "to wash the dishes",       "es": "a lavar los platos",         "ru": "помыть посуду"},
+            {"en": "to grab a quick snack",    "es": "a buscar un bocadillo",      "ru": "перекусить"},
         ],
         "BATHROOM": [
-            {"en": "heard someone brushing their teeth", "es": "escuché a alguien cepillándose los dientes", "ru": "услышал(а), как кто-то чистит зубы"},
-            {"en": "heard someone flushing the toilet", "es": "escuché a alguien tirando de la cadena", "ru": "услышал(а), как кто-то спускает воду"},
-            {"en": "heard the splash of shower in the bathroom (🚽)", "es": "escuché el chapoteo de la ducha en el baño (🚽)", "ru": "услышал(а) шум душа в ванной (🚽)"},
-            {"en": "heard a voice coming from the bathroom (🚽)", "es": "escuché una voz que venía desde el baño (🚽)", "ru": "услышал(а) голос из ванной (🚽)"},
-        ],
-        "GARDEN": [
-            {"en": "heard someone whistling in the garden (🌳)", "es": "escuché a alguien silbando en el jardín (🌳)", "ru": "услышал(а), как кто-то насвистывает в саду (🌳)"},
-            {"en": "looked outside and saw someone pruning the bushes", "es": "miré afuera y vi a alguien podando los arbustos", "ru": "выглянул(а) наружу и увидел(а), как кто-то подстригает кусты"},
-            {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал(а) голос из сада (🌳)"},
+            {"en": "to brush my teeth",        "es": "a cepillarme los dientes",   "ru": "почистить зубы"},
+            {"en": "to wash my hands",         "es": "a lavarme las manos",        "ru": "помыть руки"},
+            {"en": "to wash my face",          "es": "a lavarme la cara",          "ru": "умыться"},
+            {"en": "to refill the soap",       "es": "a rellenar el jabón",        "ru": "наполнить мыльницу"},
         ],
         "BEDROOM": [
-            {"en": "heard someone snoring in the bedroom (🛏️)", "es": "escuché a alguien roncando en el dormitorio (🛏️)", "ru": "услышал(а) чей-то храп в спальне (🛏️)"},
-            {"en": "heard a voice coming from the bedroom (🛏️)", "es": "escuché una voz que venía desde el dormitorio (🛏️)", "ru": "услышал(а) голос из спальни (🛏️)"},
+            {"en": "to fold some clothes",     "es": "a doblar ropa",              "ru": "сложить одежду"},
+            {"en": "to make the bed",          "es": "a hacer la cama",            "ru": "застелить кровать"},
+            {"en": "to look for a book",       "es": "a buscar un libro",          "ru": "найти книгу"},
+            {"en": "to open the curtains",     "es": "a abrir las cortinas",       "ru": "раздвинуть шторы"},
         ],
         "DINING": [
-            {"en": "heard someone playing the piano in the dining room (🪑)", "es": "escuché a alguien tocando el piano en el comedor (🪑)", "ru": "услышал(а), как кто-то играет на пианино в столовой (🪑)"},
-            {"en": "heard a voice coming from the dining room (🪑)", "es": "escuché una voz que venía desde el comedor (🪑)", "ru": "услышал(а) голос из столовой (🪑)"},
+            {"en": "to set the table",         "es": "a poner la mesa",            "ru": "накрыть на стол"},
+            {"en": "to clear the table",       "es": "a recoger la mesa",          "ru": "убрать со стола"},
+            {"en": "to grab a glass of water", "es": "a buscar un vaso de agua",   "ru": "взять стакан воды"},
+            {"en": "to wipe down the table",   "es": "a limpiar la mesa",          "ru": "протереть стол"},
+            {"en": "to light the candles",     "es": "a encender las velas",       "ru": "зажечь свечи"},
+        ],
+        "GARDEN": [
+            {"en": "to water the plants",      "es": "a regar las plantas",        "ru": "полить растения"},
+            {"en": "to pull some weeds",       "es": "a arrancar malas hierbas",   "ru": "выдернуть сорняки"},
+            {"en": "to prune the bushes",      "es": "a podar los arbustos",       "ru": "подстричь кусты"},
+            {"en": "to pick some flowers",     "es": "a recoger flores",           "ru": "сорвать цветы"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

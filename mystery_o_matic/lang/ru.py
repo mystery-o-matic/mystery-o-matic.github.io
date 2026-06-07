@@ -233,9 +233,12 @@ class RussianRenderer(LanguageRenderer):
         else:
             raise ValueError("Invalid random number: " + str(r))
 
-    def render_stayed(self, subject, place, time_start, time_end):
-        r = randint(0, 2)
+    def render_stayed(self, subject, place, time_start, time_end, activity=None):
         s = f'{subject}: "'
+        if activity is not None:
+            s += f'Я был(а) в {place}_LOC, чтобы {activity["ru"]}, с {time_start} до {time_end}"'
+            return s
+        r = randint(0, 2)
         if r == 0:
             s += f'Я был(а) в {place}_LOC с {time_start} до {time_end}"'
         elif r == 1:

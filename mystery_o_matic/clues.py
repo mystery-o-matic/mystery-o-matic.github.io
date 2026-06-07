@@ -437,17 +437,18 @@ class EvidenceClue(AbstractClue):
 
 
 class StayedClue(AbstractClue):
-    def __init__(self, subject, place, time_start, time_end):
+    def __init__(self, subject, place, time_start, time_end, activity=None):
         self.subject = subject
         self.object = place
         self.place = place
         self.time_start = time_start
         self.time_end = time_end
+        self.activity = activity
         super().__init__()
 
     def render(self, renderer):
         return renderer.render_stayed(
-            self.subject, self.place, self.time_start, self.time_end
+            self.subject, self.place, self.time_start, self.time_end, self.activity
         )
 
     def is_incriminating(self, killer, victim, place, time):
@@ -462,6 +463,9 @@ class StayedClue(AbstractClue):
 
     def manipulate(self, killer, victim, alibi_place):
         self.place = alibi_place
+        # The activity was chosen for the original room; once the killer
+        # swaps the place for an alibi, the activity no longer fits.
+        self.activity = None
         return self
 
 

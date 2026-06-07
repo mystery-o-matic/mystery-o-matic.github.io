@@ -1,7 +1,9 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
-    intro["en"] = " are transported into <b>an abandoned school</b> at night!"
-    intro["es"] = " han sido transportados a <b>una escuela abandonada</b> por la noche!"
+    intro["en"] = " are transported into <b>an abandoned school</b>!"
+    intro["es"] = " han sido transportados a <b>una escuela abandonada</b>!"
     intro["ru"] = " перенеслись в <b>заброшенную школу</b> ночью!"
 
     labels = {}
@@ -49,22 +51,40 @@ def get_data():
         "CAFETERIA": "🍽️",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "ART CLASSROOM": [
-            {"en": "heard a voice coming from the art classroom (🎨)", "es": "escuché una voz que venía desde el aula de arte (🎨)", "ru": "услышал(а) голос из класса рисования (🎨)"}
+            {"en": "to clean the brushes",           "es": "a limpiar los pinceles",                   "ru": "вымыть кисти"},
+            {"en": "to set out the paints",          "es": "a preparar las pinturas",                  "ru": "разложить краски"},
+            {"en": "to wash the easels",             "es": "a lavar los caballetes",                   "ru": "помыть мольберты"},
+            {"en": "to tape up a new poster",        "es": "a colgar un cartel nuevo",                 "ru": "приклеить новый плакат"},
         ],
         "SCIENCE LAB": [
-            {"en": "heard a voice coming from the science lab (🔬)", "es": "escuché una voz que venía desde el laboratorio de ciencias (🔬)", "ru": "услышал(а) голос из лаборатории (🔬)"}
+            {"en": "to calibrate the scales",        "es": "a calibrar las balanzas",                  "ru": "откалибровать весы"},
+            {"en": "to label the test tubes",        "es": "a etiquetar los tubos de ensayo",          "ru": "подписать пробирки"},
+            {"en": "to refill the beakers",          "es": "a rellenar los vasos de precipitados",     "ru": "наполнить мензурки"},
+            {"en": "to wipe down the benches",       "es": "a limpiar las mesas",                      "ru": "протереть столы"},
         ],
         "GYM": [
-            {"en": "heard a voice coming from the gym (💪)", "es": "escuché una voz que venía desde el gimnasio (💪)", "ru": "услышал(а) голос из спортзала (💪)"}
+            {"en": "to set up the cones",            "es": "a colocar los conos",                      "ru": "расставить конусы"},
+            {"en": "to mop the floor",               "es": "a trapear el suelo",                       "ru": "помыть пол"},
+            {"en": "to inflate a basketball",        "es": "a inflar un balón de baloncesto",          "ru": "накачать баскетбольный мяч"},
+            {"en": "to rack the dumbbells",          "es": "a colocar las mancuernas",                 "ru": "расставить гантели"},
         ],
         "LIBRARY": [
-            {"en": "heard a voice coming from the library (📚)", "es": "escuché una voz que venía desde la biblioteca (📚)", "ru": "услышал(а) голос из библиотеки (📚)"}
+            {"en": "to shelve some books",           "es": "a colocar algunos libros",                 "ru": "расставить книги"},
+            {"en": "to look for a book",             "es": "a buscar un libro",                        "ru": "найти книгу"},
+            {"en": "to dust the encyclopedias",      "es": "a quitar el polvo de las enciclopedias",   "ru": "вытереть пыль с энциклопедий"},
+            {"en": "to update the catalog",          "es": "a actualizar el catálogo",                 "ru": "обновить каталог"},
         ],
         "CAFETERIA": [
-            {"en": "heard a voice coming from the cafeteria (🍽️)", "es": "escuché una voz que venía desde la cafetería (🍽️)", "ru": "услышал(а) голос из столовой (🍽️)"}
+            {"en": "to wipe down the trays",         "es": "a limpiar las bandejas",                   "ru": "протереть подносы"},
+            {"en": "to refill the napkins",          "es": "a reponer las servilletas",                "ru": "пополнить салфетки"},
+            {"en": "to set out the cups",            "es": "a colocar los vasos",                      "ru": "расставить стаканы"},
+            {"en": "to grab a quick snack",          "es": "a buscar un bocadillo",                    "ru": "перекусить"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

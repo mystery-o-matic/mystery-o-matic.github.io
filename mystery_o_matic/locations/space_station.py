@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are transported into the future to <b>a high-tech space station</b> orbiting an unknown planet!"
@@ -49,29 +51,40 @@ def get_data():
         "GARDEN": "🥔",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "COMMAND": [
-            {"en": "saw someone adjusting the station's orbit on the command module's screens", "es": "vi a alguien ajustando la órbita de la estación en las pantallas del módulo de comando (🕹️)", "ru": "увидел(а), как кто-то корректирует орбиту станции на экранах командного модуля (🕹️)"},
-            {"en": "heard a voice coming from the command module (🕹️)", "es": "escuché una voz que venía desde el módulo de comando (🕹️)", "ru": "услышал(а) голос из командного модуля (🕹️)"},
+            {"en": "to check the telemetry",         "es": "a revisar la telemetría",                  "ru": "проверить телеметрию"},
+            {"en": "to adjust the orbit",            "es": "a ajustar la órbita",                      "ru": "скорректировать орбиту"},
+            {"en": "to update the heading",          "es": "a actualizar el rumbo",                    "ru": "обновить курс"},
+            {"en": "to log the readings",            "es": "a registrar las lecturas",                 "ru": "записать показания"},
         ],
         "LAB": [
-            {"en": "saw someone mixing glowing chemicals in the lab module (🔬)", "es": "vi a alguien mezclando químicos brillantes en el módulo de laboratorio (🔬)", "ru": "увидел(а), как кто-то смешивает светящиеся химикаты в лабораторном модуле (🔬)"},
-            {"en": "heard a voice coming from the lab module (🔬)", "es": "escuché una voz que venía desde el módulo de laboratorio (🔬)", "ru": "услышал(а) голос из лабораторного модуля (🔬)"},
+            {"en": "to calibrate the centrifuge",    "es": "a calibrar la centrífuga",                 "ru": "откалибровать центрифугу"},
+            {"en": "to label some samples",          "es": "a etiquetar las muestras",                 "ru": "подписать образцы"},
+            {"en": "to mix some reagents",           "es": "a mezclar reactivos",                      "ru": "смешать реактивы"},
+            {"en": "to log the results",             "es": "a registrar los resultados",               "ru": "записать результаты"},
         ],
         "AIRLOCK": [
-            {"en": "heard a hiss of depressurization from the airlock module (🔒)", "es": "escuché un silbido de despresurización desde el módulo de esclusa (🔒)", "ru": "услышал(а) шипение декомпрессии из шлюзового модуля (🔒)"},
-            {"en": "heard a voice coming from the airlock module (🔒)", "es": "escuché una voz que venía desde el módulo de esclusa (🔒)", "ru": "услышал(а) голос из шлюзового модуля (🔒)"},
+            {"en": "to inspect the seal",            "es": "a inspeccionar el sello",                  "ru": "проверить уплотнение"},
+            {"en": "to log the cycle counter",       "es": "a anotar el contador de ciclos",           "ru": "записать счётчик циклов"},
+            {"en": "to stow the suits",              "es": "a guardar los trajes",                     "ru": "убрать скафандры"},
+            {"en": "to check the pressure gauge",    "es": "a comprobar el manómetro",                 "ru": "проверить манометр"},
         ],
         "SLEEPING": [
-            {"en": "heard someone snoring in the sleeping module (🛌)", "es": "escuché a alguien roncando en el módulo de descanso (🛌)", "ru": "услышал(а) чей-то храп в жилом модуле (🛌)"},
-            {"en": "heard a metallic clank from the sleeping module's lockers (🛌)", "es": "escuché un golpe metálico proveniente de los armarios del módulo de descanso (🛌)", "ru": "услышал(а) металлический лязг из шкафчиков жилого модуля (🛌)"},
-            {"en": "heard a voice coming from the sleeping module (🛌)", "es": "escuché una voz que venía desde el módulo de descanso (🛌)", "ru": "услышал(а) голос из жилого модуля (🛌)"},
+            {"en": "to secure the lockers",          "es": "a cerrar los casilleros",                  "ru": "закрыть шкафчики"},
+            {"en": "to stow a sleeping bag",         "es": "a guardar un saco de dormir",              "ru": "убрать спальный мешок"},
+            {"en": "to fold a harness",              "es": "a doblar un arnés",                        "ru": "сложить ремни"},
+            {"en": "to grab a sweater",              "es": "a buscar un suéter",                       "ru": "взять кофту"},
         ],
         "GARDEN": [
-            {"en": "saw someone harvesting potatoes", "es": "vi a alguien cosechando patatas", "ru": "увидел(а), как кто-то собирает картофель"},
-            {"en": "saw someone watering the hydroponic vines in the garden module (🥔)", "es": "vi a alguien regando las enredaderas hidropónicas en el módulo de jardín (🥔)", "ru": "увидел(а), как кто-то поливает гидропонные растения в садовом модуле (🥔)"},
-            {"en": "heard a voice coming from the garden module (🥔)", "es": "escuché una voz que venía desde el módulo de jardín (🥔)", "ru": "услышал(а) голос из садового модуля (🥔)"},
+            {"en": "to water the hydroponics",       "es": "a regar el hidropónico",                   "ru": "полить гидропонику"},
+            {"en": "to harvest some potatoes",       "es": "a cosechar patatas",                       "ru": "собрать картофель"},
+            {"en": "to check the grow lights",       "es": "a revisar las luces de cultivo",           "ru": "проверить фитолампы"},
+            {"en": "to prune the vines",             "es": "a podar las enredaderas",                  "ru": "подрезать лозу"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

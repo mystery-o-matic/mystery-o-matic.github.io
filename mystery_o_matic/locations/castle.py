@@ -1,3 +1,5 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
     intro["en"] = " are transported back in time to <b>a castle in the Middle Ages</b>!"
@@ -49,30 +51,38 @@ def get_data():
         "GARDEN": "🌳",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "GREAT HALL": [
-            {"en": "heard someone playing the harp in the great hall (🍷)", "es": "escuché a alguien tocando el arpa en el gran salón (🍷)", "ru": "услышал(а), как кто-то играет на арфе в большом зале (🍷)"},
-            {"en": "saw someone from a distance dancing in the great hall (🍷)", "es": "vi a alguien bailando en el gran salón (🍷) a lo lejos", "ru": "издалека увидел(а), как кто-то танцует в большом зале (🍷)"},
-            {"en": "heard a voice coming from the great hall (🍷)", "es": "escuché una voz que venía desde el gran salón (🍷)", "ru": "услышал(а) голос из большого зала (🍷)"},
-        ],
-        "ARMORY": [
-            {"en": "saw someone from afar sharpening a sword in the armory (🛡️)", "es": "vi a alguien afilando una espada en la armería (🛡️) a lo lejos ", "ru": "издалека увидел(а), как кто-то точит меч в оружейной (🛡️)"},
-            {"en": "saw someone at a distance polishing a shield in the armory (🛡️)", "es": "vi a alguien puliendo un escudo en la armería (🛡️) a lo lejos", "ru": "издалека увидел(а), как кто-то полирует щит в оружейной (🛡️)"},
-            {"en": "heard a voice coming from the armory (🛡️)", "es": "escuché una voz que venía desde la armería (🛡️)", "ru": "услышал(а) голос из оружейной (🛡️)"},
-        ],
-        "DUNGEON": [
-            {"en": "heard someone screaming in the dungeon (🔒)", "es": "escuché a alguien gritando en la mazmorra (🔒)", "ru": "услышал(а) чей-то крик из темницы (🔒)"},
-            {"en": "heard a voice coming from the dungeon (🔒)", "es": "escuché una voz que venía desde la mazmorra (🔒)", "ru": "услышал(а) голос из темницы (🔒)"},
+            {"en": "to light the chandeliers",       "es": "a encender los candelabros",               "ru": "зажечь канделябры"},
+            {"en": "to polish the goblets",          "es": "a pulir las copas",                        "ru": "начистить кубки"},
+            {"en": "to arrange the chairs",          "es": "a acomodar las sillas",                    "ru": "расставить стулья"},
+            {"en": "to dust the banners",            "es": "a quitar el polvo de los estandartes",     "ru": "вытереть пыль со знамён"},
         ],
         "BED CHAMBER": [
-            {"en": "heard someone snoring in the bed chamber (🛏️)", "es": "escuché a alguien roncando en el dormitorio principal (🛏️)", "ru": "услышал(а) чей-то храп в опочивальне (🛏️)"},
-            {"en": "heard a voice coming from the bed chamber (🛏️)", "es": "escuché una voz que venía desde el dormitorio principal (🛏️)", "ru": "услышал(а) голос из опочивальни (🛏️)"},
+            {"en": "to fold the linens",             "es": "a doblar las sábanas",                     "ru": "сложить простыни"},
+            {"en": "to open the shutters",           "es": "a abrir los postigos",                     "ru": "открыть ставни"},
+            {"en": "to light a candle",              "es": "a encender una vela",                      "ru": "зажечь свечу"},
+        ],
+        "DUNGEON": [
+            {"en": "to light the torches",           "es": "a encender las antorchas",                 "ru": "зажечь факелы"},
+            {"en": "to oil the locks",               "es": "a engrasar las cerraduras",                "ru": "смазать замки"},
+            {"en": "to check the cell doors",        "es": "a revisar las puertas de las celdas",      "ru": "проверить двери камер"},
+        ],
+        "ARMORY": [
+            {"en": "to sharpen a sword",             "es": "a afilar una espada",                      "ru": "наточить меч"},
+            {"en": "to polish a shield",             "es": "a pulir un escudo",                        "ru": "отполировать щит"},
+            {"en": "to count the arrows",            "es": "a contar las flechas",                     "ru": "пересчитать стрелы"},
+            {"en": "to oil the chainmail",           "es": "a engrasar la cota de malla",              "ru": "смазать кольчугу"},
         ],
         "GARDEN": [
-            {"en": "heard someone whistling in the garden (🌳)", "es": "escuché a alguien silbando en el jardín (🌳)", "ru": "услышал(а), как кто-то насвистывает в саду (🌳)"},
-            {"en": "looked outside and saw someone pruning the bushes", "es": "miré afuera y vi a alguien podando los arbustos", "ru": "выглянул(а) наружу и увидел(а), как кто-то подстригает кусты"},
-            {"en": "heard a voice coming from the garden (🌳)", "es": "escuché una voz que venía desde el jardín (🌳)", "ru": "услышал(а) голос из сада (🌳)"},
+            {"en": "to water the plants",            "es": "a regar las plantas",                      "ru": "полить растения"},
+            {"en": "to pull some weeds",             "es": "a arrancar malas hierbas",                 "ru": "выдернуть сорняки"},
+            {"en": "to prune the bushes",            "es": "a podar los arbustos",                     "ru": "подстричь кусты"},
+            {"en": "to pick some flowers",           "es": "a recoger flores",                         "ru": "сорвать цветы"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)

@@ -1,7 +1,9 @@
+from mystery_o_matic.locations.helpers import make_ambient_activities
+
 def get_data():
     intro = {}
-    intro["en"] = " are transported into <b>an empty museum at night</b>!"
-    intro["es"] = " han sido transportados a <b>un museo vacío por la noche</b>!"
+    intro["en"] = " are transported into <b>an empty museum</b>!"
+    intro["es"] = " han sido transportados a <b>un museo vacío</b>!"
     intro["ru"] = " перенеслись в <b>пустой музей ночью</b>!"
 
     labels = {}
@@ -49,22 +51,40 @@ def get_data():
         "OCEAN EXHIBIT": "🐠",
     }
 
-    activities = {
+    activities = make_ambient_activities(labels, representations)
+
+
+    stay_activities = {
         "DINOSAUR EXHIBIT": [
-            {"en": "heard a voice coming from the dinosaur exhibit (🦖)", "es": "escuché una voz que venía desde la exhibición de dinosaurios (🦖)", "ru": "услышал(а) голос из зала динозавров (🦖)"}
+            {"en": "to dust the fossils",            "es": "a quitar el polvo de los fósiles",         "ru": "вытереть пыль с окаменелостей"},
+            {"en": "to read the placards",           "es": "a leer los carteles",                      "ru": "прочитать таблички"},
+            {"en": "to polish the display case",     "es": "a pulir la vitrina",                       "ru": "отполировать витрину"},
+            {"en": "to take a few photos",           "es": "a sacar algunas fotos",                    "ru": "сделать несколько фотографий"},
         ],
         "EGYPTIAN EXHIBIT": [
-            {"en": "heard a voice coming from the egyptian exhibit (⚱️)", "es": "escuché una voz que venía desde la exhibición egipcia (⚱️)", "ru": "услышал(а) голос из египетского зала (⚱️)"}
+            {"en": "to dust the sarcophagi",         "es": "a quitar el polvo de los sarcófagos",      "ru": "вытереть пыль с саркофагов"},
+            {"en": "to read the hieroglyph translations","es": "a leer las traducciones de los jeroglíficos","ru": "прочитать перевод иероглифов"},
+            {"en": "to polish the display case",     "es": "a pulir la vitrina",                       "ru": "отполировать витрину"},
+            {"en": "to take a few photos",           "es": "a sacar algunas fotos",                    "ru": "сделать несколько фотографий"},
         ],
         "MEDIEVAL EXHIBIT": [
-            {"en": "heard a voice coming from the medieval exhibit (🛡️)", "es": "escuché una voz que venía desde la exhibición medieval (🛡️)", "ru": "услышал(а) голос из средневекового зала (🛡️)"}
+            {"en": "to polish a suit of armor",      "es": "a pulir una armadura",                     "ru": "отполировать доспехи"},
+            {"en": "to dust the swords",             "es": "a quitar el polvo de las espadas",         "ru": "вытереть пыль с мечей"},
+            {"en": "to read the placards",           "es": "a leer los carteles",                      "ru": "прочитать таблички"},
+            {"en": "to take a few photos",           "es": "a sacar algunas fotos",                    "ru": "сделать несколько фотографий"},
         ],
         "SPACE EXHIBIT": [
-            {"en": "heard a voice coming from the space exhibit (🪐)", "es": "escuché una voz que venía desde la exhibición espacial (🪐)", "ru": "услышал(а) голос из космического зала (🪐)"}
+            {"en": "to polish the meteorite",        "es": "a pulir el meteorito",                     "ru": "отполировать метеорит"},
+            {"en": "to dust the telescope lens",     "es": "a limpiar la lente del telescopio",        "ru": "протереть линзу телескопа"},
+            {"en": "to read the placards",           "es": "a leer los carteles",                      "ru": "прочитать таблички"},
+            {"en": "to take a few photos",           "es": "a sacar algunas fotos",                    "ru": "сделать несколько фотографий"},
         ],
         "OCEAN EXHIBIT": [
-            {"en": "heard a voice coming from the ocean exhibit (🐠)", "es": "escuché una voz que venía desde la exhibición oceánica (🐠)", "ru": "услышал(а) голос из океанского зала (🐠)"}
+            {"en": "to clean the tank glass",        "es": "a limpiar el cristal del tanque",          "ru": "помыть стекло аквариума"},
+            {"en": "to feed the fish",               "es": "a dar de comer a los peces",               "ru": "покормить рыб"},
+            {"en": "to read the placards",           "es": "a leer los carteles",                      "ru": "прочитать таблички"},
+            {"en": "to take a few photos",           "es": "a sacar algunas fotos",                    "ru": "сделать несколько фотографий"},
         ],
     }
 
-    return (intro, labels, representations, activities)
+    return (intro, labels, representations, activities, stay_activities)
