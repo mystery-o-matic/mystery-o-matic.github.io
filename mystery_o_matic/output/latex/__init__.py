@@ -16,6 +16,7 @@ from mystery_o_matic.output.latex.utils import (
     save_solution,
 )
 from mystery_o_matic.clues import NoOneElseStatement
+from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
 
 
 def produce_tex_output(
@@ -112,6 +113,18 @@ def produce_tex_output(
             names_html[weapon.replace("$", "")] = (
                 label + " (" + get_emoji_name(weapons[weapon]) + ")"
             )
+
+        # Distinguishing-feature tells, so $TELL_CHARn in clues resolves.
+        for i, char in enumerate(mystery.get_characters()):
+            trait = mystery.character_traits.get("$CHAR" + str(i + 1))
+            if trait is not None:
+                # raw unicode; replace_emojis() converts it to \emoji{} later
+                names_html["TELL_CHAR" + str(i + 1)] = (
+                    trait["clue"][language] + " (" + trait["emoji"] + ")"
+                )
+            desc = CHARACTER_DESCRIPTORS.get(char.lower())
+            if desc is not None:
+                names_html["DESC_CHAR" + str(i + 1)] = desc[language]
 
         # print(names_html)
         firstClue = mystery.initial_clues[0]

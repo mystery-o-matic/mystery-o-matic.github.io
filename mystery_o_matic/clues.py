@@ -5,6 +5,14 @@ from mystery_o_matic.weapons import get_weapon_type
 from mystery_o_matic.time import Time
 from mystery_o_matic.lang import get_all_renderers
 
+# How a foggy sighting obscures the seen person. `fog_kind` is None when the
+# sighting is not foggy (the person is named). When foggy it starts as
+# FOG_SOMEBODY and process_clues may upgrade a few to FOG_TRAIT / FOG_DESCRIPTOR.
+# NOTE: the language renderers compare fog_kind against these exact string values.
+FOG_SOMEBODY = "somebody"      # plain "somebody"
+FOG_TRAIT = "trait"            # "someone wearing <tell> (emoji)"
+FOG_DESCRIPTOR = "descriptor"  # coarse "a woman" / "a man"
+
 
 class AbstractStatement(ABC):
     def __init__(self):
@@ -100,11 +108,13 @@ class SawWhenArrivingClue(AbstractClue):
         self.place = place
         self.time = time
         super().__init__()
+        # None when named (not foggy); FOG_SOMEBODY/TRAIT/DESCRIPTOR when foggy.
+        self.fog_kind = FOG_SOMEBODY if self.foggy else None
 
     def render(self, renderer):
         return renderer.render_saw_when_arriving(
             self.subject, self.object, self.object_is_alive,
-            self.place, self.time, self.foggy
+            self.place, self.time, self.fog_kind
         )
 
     def is_incriminating(self, killer, victim, place, time):
@@ -220,11 +230,13 @@ class SawWhenLeavingClue(AbstractClue):
         self.place = place
         self.time = time
         super().__init__()
+        # See SawWhenArrivingClue.fog_kind.
+        self.fog_kind = FOG_SOMEBODY if self.foggy else None
 
     def render(self, renderer):
         return renderer.render_saw_when_leaving(
             self.subject, self.object, self.object_is_alive,
-            self.place, self.time, self.foggy
+            self.place, self.time, self.fog_kind
         )
 
     def is_incriminating(self, killer, victim, place, time):

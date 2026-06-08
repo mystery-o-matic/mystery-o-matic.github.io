@@ -1,11 +1,16 @@
-from random import shuffle, randint, choice, random
+from random import shuffle, randint, choice, random, Random
 
 STAY_ACTIVITY_PROBABILITY = 0.7
+# Max number of foggy sightings upgraded to a "someone with <tell>" clue.
+# Real puzzles rarely have more than 1-2 eligible foggy sightings, so this is a
+# safety ceiling rather than a typical count.
+TRAIT_CLUE_CAP = 3
 from hashlib import sha256
 
 from mystery_o_matic.clues import *
 from mystery_o_matic.solidity import get_tx, get_event
 from mystery_o_matic.time import Time
+from mystery_o_matic.traits import ALL_TRAITS
 
 # Register language renderers (must happen before any clue.string() calls)
 import mystery_o_matic.lang.en  # noqa: F401
@@ -64,6 +69,7 @@ class Mystery:
         source,
         txs,
         stay_activities=None,
+        used_seed=None,
     ):
         """
         Initialize the Mystery class.
@@ -105,6 +111,19 @@ class Mystery:
         ]
         self.activities = activities
         self.stay_activities = stay_activities or {}
+
+        # Assign each character a unique distinguishing "tell" for the profile
+        # mechanic. Drawn from a DERIVED RNG (string seed — a tuple seed is a
+        # TypeError on 3.14) so the global stream is untouched and existing
+        # puzzles regenerate byte-identically. Keyed by $CHARn placeholder.
+        self.used_seed = used_seed
+        self._trait_rng = Random("%s-traits" % (used_seed,))
+        trait_pool = list(ALL_TRAITS)
+        self._trait_rng.shuffle(trait_pool)
+        self.character_traits = {
+            self.cplaceholders[i]: trait_pool[i]
+            for i in range(self.number_characters)
+        }
 
     def get_characters(self):
         return self.characters
@@ -196,6 +215,22 @@ class Mystery:
             else:
                 self.additional_clues.append(create_clue(call))
 
+    def _collect_foggy_sightings(self):
+        """Foggy sightings of a living suspect that currently render a plain
+        "somebody", deduped across the with-lies / without-lies lists (the same
+        clue object appears in both when it is not manipulated)."""
+        foggy = []
+        seen_ids = set()
+        for c in self.additional_clues + self.additional_clues_with_lies:
+            if id(c) in seen_ids:
+                continue
+            seen_ids.add(id(c))
+            if (isinstance(c, (SawWhenArrivingClue, SawWhenLeavingClue))
+                    and c.fog_kind == FOG_SOMEBODY
+                    and c.object_is_alive and c.object != "$NOBODY"):
+                foggy.append(c)
+        return foggy
+
     def process_clues(self):
         # Process initial clues
         for clue in self.initial_clues:
@@ -258,6 +293,21 @@ class Mystery:
 
         self.additional_clues = clues_without_lies
         self.additional_clues_with_lies = clues_with_lies
+
+        # Step 1: collect the foggy sightings of a living suspect (a plain
+        # "somebody" today). Any living seen-person is fine, including the victim;
+        # only $NOBODY (empty room) has no one to describe, and incriminating
+        # killer/victim sightings are already manipulated to $NOBODY upstream.
+        # The same clue object lives in both lists when not manipulated, so we
+        # dedup by identity and assign each fog_kind once for both modes.
+        foggy_sightings = self._collect_foggy_sightings()
+
+        # Step 2: upgrade a few from "somebody" to EITHER a specific tell or a
+        # coarse descriptor ("a woman") — mutually exclusive, never both.
+        self._trait_rng.shuffle(foggy_sightings)
+        for c in foggy_sightings[:TRAIT_CLUE_CAP]:
+            c.fog_kind = FOG_TRAIT if self._trait_rng.random() < 0.5 else FOG_DESCRIPTOR
+
         for weapon in self.weapon_locations.values():
             if weapon != self.weapon_used:
                 clue = WeaponNotUsedClue(weapon)

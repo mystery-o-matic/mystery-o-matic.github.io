@@ -41,7 +41,7 @@ class SpanishRenderer(LanguageRenderer):
 
     # --- Clues ---
 
-    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
 
@@ -63,8 +63,12 @@ class SpanishRenderer(LanguageRenderer):
         if not object_is_alive:
             return f'{subject}: "Me horroricé al descubrir el cuerpo de {object} cuando llegué a {place} a las {time}"'
 
-        if foggy and object_is_alive:
-            if object != "$NOBODY":
+        if object_is_alive and object != "$NOBODY" and fog_kind:
+            if fog_kind == "trait":
+                object = "alguien $TELL_" + object.replace("$", "")
+            elif fog_kind == "descriptor":
+                object = "$DESC_" + object.replace("$", "")
+            else:
                 object = "alguien"
 
         s += f'a {object} cuando llegué a {place} a las {time}"'
@@ -140,7 +144,7 @@ class SpanishRenderer(LanguageRenderer):
 
         return s
 
-    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
 
@@ -162,8 +166,12 @@ class SpanishRenderer(LanguageRenderer):
         if not object_is_alive:
             return f'{subject}: "Me impactó ver el cuerpo de {object} cuando me iba de {place} a las {time}"'
 
-        if foggy and object_is_alive:
-            if object != "$NOBODY":
+        if object_is_alive and object != "$NOBODY" and fog_kind:
+            if fog_kind == "trait":
+                object = "alguien $TELL_" + object.replace("$", "")
+            elif fog_kind == "descriptor":
+                object = "$DESC_" + object.replace("$", "")
+            else:
                 object = "alguien"
 
         s += f'a {object} cuando me iba de {place} a las {time}"'

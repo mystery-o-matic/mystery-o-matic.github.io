@@ -41,7 +41,7 @@ class EnglishRenderer(LanguageRenderer):
 
     # --- Clues ---
 
-    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
 
@@ -63,8 +63,12 @@ class EnglishRenderer(LanguageRenderer):
         if not object_is_alive:
             return f'{subject}: "I was horrified to discover {object}\'s body when I arrived at the {place} at {time}"'
 
-        if foggy and object_is_alive:
-            if object != "$NOBODY":
+        if object_is_alive and object != "$NOBODY" and fog_kind:
+            if fog_kind == "trait":
+                object = "someone $TELL_" + object.replace("$", "")
+            elif fog_kind == "descriptor":
+                object = "$DESC_" + object.replace("$", "")
+            else:
                 object = "somebody"
 
         s += f'{object} when I arrived at the {place} at {time}"'
@@ -137,7 +141,7 @@ class EnglishRenderer(LanguageRenderer):
 
         return s
 
-    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
 
@@ -159,8 +163,12 @@ class EnglishRenderer(LanguageRenderer):
         if not object_is_alive:
             s = f'{subject}: "I was shocked to see the body of '
 
-        if foggy and object_is_alive:
-            if object != "$NOBODY":
+        if object_is_alive and object != "$NOBODY" and fog_kind:
+            if fog_kind == "trait":
+                object = "someone $TELL_" + object.replace("$", "")
+            elif fog_kind == "descriptor":
+                object = "$DESC_" + object.replace("$", "")
+            else:
                 object = "somebody"
 
         s += f'{object} when I was leaving the {place} at {time}"'

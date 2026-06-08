@@ -62,14 +62,16 @@
 <body>
 	<!-- Modals -->
 	<div class="modal fade" id="portraitModal" tabindex="-1" aria-labelledby="portraitLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="portraitLabel">📸 Retrato del sospechoso</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<img id="portraitImage" src="../images/alice.jpg" class="w-100" alt="...">
+					<div id="portraitEmoji" class="text-center" style="font-size:5rem;line-height:1;display:none"></div>
+					<div id="portraitName" class="text-center fw-bold fs-4 mt-2"></div>
+					<p id="portraitBio" class="text-center mb-0 text-muted" style="display:none"></p>
 				</div>
 				<div class="modal-footer">
 					<div class="col text-center">
@@ -277,20 +279,6 @@
 							href="https://github.com/mystery-o-matic/mystery-o-matic.github.io">¡es de código
 							abierto</a>!
 
-						Las imágenes de los sospechosos son de Freepik: <a
-							href="https://www.freepik.com/free-vector/detective-office-interior-flat-cartoon-composition-with-crime-scene-diagram-board-computer-monitor-criminal-profile-illustration_16399785.htm#query=detective%20background&position=2&from_view=search&track=ais">[1]</a>,
-						<a
-							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_24555042.htm#&position=8&from_view=collections">[2]</a>
-						<a
-							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_24555045.htm#&position=9&from_view=collections">[3]</a>
-						<a
-							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23669474.htm#&position=3&from_view=collections">[4]</a>
-						<a
-							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23669480.htm#&position=1&from_view=collections">[5]</a>
-						<a
-							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23985547.htm#&position=0&from_view=collections">[6]</a>
-						<a
-							href="https://www.freepik.com/free-vector/hand-drawn-flat-design-shrug-illustration_23985544.htm#&position=4&from_view=collections">[7]</a>
 					</p>
 
 					<p>El sitio web aún está en beta, por lo tanto, las reglas, la interfaz y el diseño están sujetos

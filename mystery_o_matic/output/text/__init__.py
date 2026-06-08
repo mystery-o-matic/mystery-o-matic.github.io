@@ -2,6 +2,7 @@ import cmd
 
 from mystery_o_matic.output import create_template
 from mystery_o_matic.output.text.telegram import create_telegram_bot
+from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
 
 
 class DetectiveShell(cmd.Cmd):
@@ -105,6 +106,12 @@ def produce_text_output(
     args = dict()
     for i, char in enumerate(mystery.get_characters()):
         args["CHAR" + str(i + 1)] = char.capitalize()
+        trait = mystery.character_traits.get("$CHAR" + str(i + 1))
+        if trait is not None:
+            args["TELL_CHAR" + str(i + 1)] = trait["clue"]["en"] + " (" + trait["emoji"] + ")"
+        desc = CHARACTER_DESCRIPTORS.get(char.lower())
+        if desc is not None:
+            args["DESC_CHAR" + str(i + 1)] = desc["en"]
 
     args["NOBODY"] = "nobody"
     args["BEDROOM"] = "bedroom"

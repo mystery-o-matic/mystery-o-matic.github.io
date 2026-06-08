@@ -326,6 +326,7 @@ def main() -> int:
         model.source,
         txs,
         stay_activities=stay_activities,
+        used_seed=used_seed,
     )
     mystery.load_events(events)
     mystery.process_clues()

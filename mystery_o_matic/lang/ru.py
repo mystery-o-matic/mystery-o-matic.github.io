@@ -41,7 +41,7 @@ class RussianRenderer(LanguageRenderer):
 
     # --- Clues ---
 
-    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
 
@@ -63,8 +63,12 @@ class RussianRenderer(LanguageRenderer):
         if not object_is_alive:
             return f'{subject}: "Я был(а) потрясён(а), обнаружив тело {object}, когда я пришёл(ла) в {place}_LOC в {time}"'
 
-        if foggy and object_is_alive:
-            if object != "$NOBODY":
+        if object_is_alive and object != "$NOBODY" and fog_kind:
+            if fog_kind == "trait":
+                object = "кого-то $TELL_" + object.replace("$", "")
+            elif fog_kind == "descriptor":
+                object = "$DESC_" + object.replace("$", "")
+            else:
                 object = "кого-то"
 
         s += f'{object}, когда я пришёл(ла) в {place}_LOC в {time}"'
@@ -142,7 +146,7 @@ class RussianRenderer(LanguageRenderer):
 
         return s
 
-    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
 
@@ -164,8 +168,12 @@ class RussianRenderer(LanguageRenderer):
         if not object_is_alive:
             return f'{subject}: "Я был(а) потрясён(а), увидев тело {object} в {place}_LOC в {time}"'
 
-        if foggy and object_is_alive:
-            if object != "$NOBODY":
+        if object_is_alive and object != "$NOBODY" and fog_kind:
+            if fog_kind == "trait":
+                object = "кого-то $TELL_" + object.replace("$", "")
+            elif fog_kind == "descriptor":
+                object = "$DESC_" + object.replace("$", "")
+            else:
                 object = "кого-то"
 
         s += f'{object}, уходя из {place}_GEN в {time}"'

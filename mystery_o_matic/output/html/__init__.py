@@ -12,6 +12,17 @@ from mystery_o_matic.output.html.utils import (
 from mystery_o_matic.clues import NoOneElseStatement
 from mystery_o_matic.lang import get_renderer
 from mystery_o_matic.time import Time
+from mystery_o_matic.traits import CHARACTER_DESCRIPTORS, CHARACTER_EMOJIS
+
+# Sentence frame for the profile "distinguishing feature" line. {} is filled
+# with the trait's nominative noun phrase + emoji, e.g. "a brass pocket watch (⌚)".
+# RU avoids "узнать по <dative>" (the noun phrases are nominative) — review by a
+# native speaker, like the other Russian strings.
+BIO_FRAME = {
+    "en": "Easily recognized by {}.",
+    "es": "Se reconoce fácilmente por {}.",
+    "ru": "Запоминающаяся деталь — {}.",
+}
 
 
 def _tok(x):
@@ -180,6 +191,11 @@ def produce_html_output(
     json["solutionSteps"] = {}
     json["numIntervals"] = len(intervals)
     json["characterNames"] = mystery.get_characters()
+    json["characterEmojis"] = {
+        name: CHARACTER_EMOJIS[name]
+        for name in mystery.get_characters()
+        if name in CHARACTER_EMOJIS
+    }
     json["victim"] = create_template(mystery.victim).substitute(names_txt)
     json["locationMap"] = final_locations_map
     json["locationIcons"] = representations_map
@@ -187,6 +203,7 @@ def produce_html_output(
     json["weaponIcons"] = weapons
     json["timeOffset"] = mystery.initial_time.seconds
     json["correctAnswer"] = correct_answer
+    json["characterBios"] = {}
 
     for language in languages:
 
@@ -264,6 +281,25 @@ def produce_html_output(
             if language == "es":
                 label = label.capitalize()
             names_html[weapon.replace("$", "")] = label + " (" + weapons[weapon] + ")"
+
+        # Distinguishing-feature "tells": register the in-clue form for every
+        # character so $TELL_CHARn resolves in the clue substitution below, and
+        # collect the nominative bio form shown in the suspect profile modal.
+        character_bios = {}
+        for i, char in enumerate(mystery.get_characters()):
+            placeholder = "$CHAR" + str(i + 1)
+            desc = CHARACTER_DESCRIPTORS.get(char.lower())
+            if desc is not None:
+                names_html["DESC_CHAR" + str(i + 1)] = desc[language]
+            trait = mystery.character_traits.get(placeholder)
+            if trait is None:
+                continue
+            suffix = " (" + trait["emoji"] + ")"
+            names_html["TELL_CHAR" + str(i + 1)] = trait["clue"][language] + suffix
+            character_bios[char.lower()] = BIO_FRAME[language].format(
+                trait["bio"][language] + suffix
+            )
+        json["characterBios"][language] = character_bios
 
         json["solutionSteps"][language] = _build_solution_steps(
             language, mystery, names_html

@@ -44,7 +44,7 @@ class LanguageRenderer(ABC):
     # --- Clues ---
 
     @abstractmethod
-    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         pass
 
     @abstractmethod
@@ -60,7 +60,7 @@ class LanguageRenderer(ABC):
         pass
 
     @abstractmethod
-    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, foggy):
+    def render_saw_when_leaving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         pass
 
     @abstractmethod

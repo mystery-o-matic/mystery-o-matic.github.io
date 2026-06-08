@@ -156,8 +156,39 @@ if (!localStorage.getItem('mystery-mode-chosen')
 
 function openModalChar(event, name) {
 	event.stopPropagation();
-	let element = document.getElementById('portraitImage');
-	element.src = "../images/" + name + ".jpg";
+
+	// Name heading.
+	let nameEl = document.getElementById('portraitName');
+	if (nameEl) {
+		nameEl.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+	}
+
+	// Character identity emoji (mirrors the book's per-character portrait emoji).
+	let emojiEl = document.getElementById('portraitEmoji');
+	if (emojiEl) {
+		let emoji = data.characterEmojis && data.characterEmojis[name];
+		if (emoji) {
+			emojiEl.textContent = emoji;
+			emojiEl.style.removeProperty('display');
+		} else {
+			emojiEl.style.display = "none";
+		}
+	}
+
+	// Distinguishing feature ("tell"): resolves "someone wearing X" foggy
+	// sightings. Hidden gracefully when absent (older builds / no bio).
+	let bioEl = document.getElementById('portraitBio');
+	if (bioEl) {
+		let bios = data.characterBios && data.characterBios[getLanguage()];
+		let bio = bios && bios[name];
+		if (bio) {
+			bioEl.textContent = bio;
+			bioEl.style.removeProperty('display');
+		} else {
+			bioEl.style.display = "none";
+		}
+	}
+
 	let modal = new bootstrap.Modal(document.getElementById('portraitModal'), {});
 	modal.show();
 }
