@@ -1,3 +1,4 @@
+import re
 from random import shuffle
 
 from mystery_o_matic.output import create_template
@@ -16,7 +17,19 @@ from mystery_o_matic.output.latex.utils import (
     save_solution,
 )
 from mystery_o_matic.clues import NoOneElseStatement
-from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
+
+# The book has no easy way to render the trait/descriptor tokens yet, so for
+# LaTeX foggy sightings fall back to a plain "somebody".
+_FOG_SOMEBODY_WORD = {"en": "somebody", "es": "alguien", "ru": "кого-то"}
+
+
+def _strip_fog_enrichment(text, language):
+    word = _FOG_SOMEBODY_WORD[language]
+    # "someone wearing X" / "alguien con X" / "кого-то в X" -> plain somebody
+    text = re.sub(r"(someone|alguien|кого-то) \$TELL_CHAR\d+", word, text)
+    # any remaining trait/descriptor tokens -> somebody
+    text = re.sub(r"\$(TELL|DESC)_CHAR\d+", word, text)
+    return text
 
 
 def produce_tex_output(
@@ -114,17 +127,8 @@ def produce_tex_output(
                 label + " (" + get_emoji_name(weapons[weapon]) + ")"
             )
 
-        # Distinguishing-feature tells, so $TELL_CHARn in clues resolves.
-        for i, char in enumerate(mystery.get_characters()):
-            trait = mystery.character_traits.get("$CHAR" + str(i + 1))
-            if trait is not None:
-                # raw unicode; replace_emojis() converts it to \emoji{} later
-                names_html["TELL_CHAR" + str(i + 1)] = (
-                    trait["clue"][language] + " (" + trait["emoji"] + ")"
-                )
-            desc = CHARACTER_DESCRIPTORS.get(char.lower())
-            if desc is not None:
-                names_html["DESC_CHAR" + str(i + 1)] = desc[language]
+        # Trait/descriptor tokens are NOT registered here: foggy sightings are
+        # stripped back to "somebody" for LaTeX (see _strip_fog_enrichment).
 
         # print(names_html)
         firstClue = mystery.initial_clues[0]
@@ -160,9 +164,8 @@ def produce_tex_output(
         additional_clues = []
 
         for clue in mystery.additional_clues:
-            clue = replace_emojis(
-                create_template(clue[language]).substitute(names_html)
-            )
+            text = _strip_fog_enrichment(clue[language], language)
+            clue = replace_emojis(create_template(text).substitute(names_html))
             clue = replace_opening_quotes(clue)
             additional_clues.append(clue)
 
@@ -172,9 +175,8 @@ def produce_tex_output(
 
         additional_clues_with_lies = []
         for clue in mystery.additional_clues_with_lies:
-            clue = replace_emojis(
-                create_template(clue[language]).substitute(names_html)
-            )
+            text = _strip_fog_enrichment(clue[language], language)
+            clue = replace_emojis(create_template(text).substitute(names_html))
             clue = replace_opening_quotes(clue)
             additional_clues_with_lies.append(clue)
 

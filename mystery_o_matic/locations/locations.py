@@ -175,8 +175,10 @@ class Locations:
 
         return weapon_locations
 
-    def render_locations(self, outdir):
-        for language in ["en", "es", "ru"]:
+    def render_locations(self, outdir, languages=None):
+        if languages is None:
+            languages = ["en", "es", "ru"]
+        for language in languages:
             if language in self.names:
                 self.render_locations_language(language, outdir)
 

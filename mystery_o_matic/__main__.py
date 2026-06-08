@@ -376,7 +376,9 @@ def main() -> int:
     else:
         print("Invalid mode")
         return -1
-    locations.render_locations(out_dir)
+    # The book (latex) is only generated for en/es, so skip ru location renders.
+    location_languages = ["en", "es"] if mode == "latex" else None
+    locations.render_locations(out_dir, location_languages)
 
     print("Characters:")
     for i, char in enumerate(mystery.get_characters()):
