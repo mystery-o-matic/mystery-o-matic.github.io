@@ -6,6 +6,12 @@ from mystery_o_matic.output.llm.utils import (
     save_txt,
 )
 from mystery_o_matic.clues import NoOneElseStatement
+from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
+
+# Per-character line mapping the vague "a woman" / "someone wearing X" sightings
+# to a name. {gender} is the descriptor ("a woman"), {trait} the bio noun phrase.
+# The LLM file is only produced in English.
+SUSPECT_DESC_FRAME = "{name} is {gender}, recognizable by {trait}."
 
 
 def produce_llm_output(
@@ -26,6 +32,13 @@ def produce_llm_output(
     names_txt = {}
     for i, char in enumerate(mystery.get_characters()):
         names_txt["CHAR" + str(i + 1)] = char.capitalize()
+        # Foggy-sighting tell/descriptor tokens (no emoji, like the room names).
+        trait = mystery.character_traits.get("$CHAR" + str(i + 1))
+        if trait is not None:
+            names_txt["TELL_CHAR" + str(i + 1)] = trait["clue"][language]
+        desc = CHARACTER_DESCRIPTORS.get(char.lower())
+        if desc is not None:
+            names_txt["DESC_CHAR" + str(i + 1)] = desc[language]
 
     for room, name in locations.indices.items():
         names_txt[room] = locations.names[language][name]
@@ -125,10 +138,24 @@ def produce_llm_output(
 
     additional_clues_with_lies = get_bullet_list(additional_clues_with_lies, 0)
 
+    suspect_descriptions = []
+    for i, char in enumerate(mystery.get_characters()):
+        gender = CHARACTER_DESCRIPTORS.get(char.lower(), {}).get(language)
+        trait = mystery.character_traits.get("$CHAR" + str(i + 1))
+        if gender is None or trait is None:
+            continue
+        suspect_descriptions.append(
+            SUSPECT_DESC_FRAME.format(
+                name=char.capitalize(), gender=gender, trait=trait["bio"][language]
+            )
+        )
+    suspect_descriptions_list = get_bullet_list(suspect_descriptions, 0)
+
     args = {}
     args["introLocation"] = introLocation
     args["initialClues"] = initial_clues_list
     args["locationConnections"] = connections_list
+    args["suspectDescriptions"] = suspect_descriptions_list
     args["additionalClues"] = remove_emojis(additional_clues_list)
     args["additionalCluesWithLies"] = remove_emojis(additional_clues_with_lies)
     args["solution"] = mystery.get_answer()

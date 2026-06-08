@@ -282,6 +282,12 @@ $initialClues
 
 $locationConnections
 
+## Suspect descriptions
+
+Some statements describe a suspect only vaguely, as "a woman", "a man", or as "someone wearing/carrying a distinctive item". Use these descriptions to identify who is meant:
+
+$suspectDescriptions
+
 ## Statements & Clues
 
 The daily mystery comes in two flavors, the first set of clues corresponds does not allow lies in suspects or the killer:
