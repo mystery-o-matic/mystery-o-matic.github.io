@@ -17,8 +17,9 @@ from mystery_o_matic.output.latex.utils import (
     save_solution,
 )
 from mystery_o_matic.clues import NoOneElseStatement
+from mystery_o_matic.traits import COARSE_PHRASES
 
-# The book has no easy way to render the trait/descriptor tokens yet, so for
+# The book has no easy way to render the trait/descriptor/hat hints yet, so for
 # LaTeX foggy sightings fall back to a plain "somebody".
 _FOG_SOMEBODY_WORD = {"en": "somebody", "es": "alguien", "ru": "кого-то"}
 
@@ -29,6 +30,9 @@ def _strip_fog_enrichment(text, language):
     text = re.sub(r"(someone|alguien|кого-то) \$TELL_CHAR\d+", word, text)
     # any remaining trait/descriptor tokens -> somebody
     text = re.sub(r"\$(TELL|DESC)_CHAR\d+", word, text)
+    # coarse property phrases (hat/glasses) are baked-in text (no token) -> somebody
+    for phrases in COARSE_PHRASES.values():
+        text = text.replace(phrases[language], word)
     return text
 
 

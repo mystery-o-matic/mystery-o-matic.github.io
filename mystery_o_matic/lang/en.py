@@ -3,6 +3,7 @@ from random import randint, choice
 from mystery_o_matic.lang import LanguageRenderer, register_renderer
 from mystery_o_matic.weapons import get_weapon_type
 from mystery_o_matic.time import Time
+from mystery_o_matic.traits import COARSE_PHRASES
 
 
 class EnglishRenderer(LanguageRenderer):
@@ -68,6 +69,8 @@ class EnglishRenderer(LanguageRenderer):
                 object = "someone $TELL_" + object.replace("$", "")
             elif fog_kind == "descriptor":
                 object = "$DESC_" + object.replace("$", "")
+            elif fog_kind in COARSE_PHRASES:
+                object = COARSE_PHRASES[fog_kind][self.lang_code]
             else:
                 object = "somebody"
 
@@ -168,6 +171,8 @@ class EnglishRenderer(LanguageRenderer):
                 object = "someone $TELL_" + object.replace("$", "")
             elif fog_kind == "descriptor":
                 object = "$DESC_" + object.replace("$", "")
+            elif fog_kind in COARSE_PHRASES:
+                object = COARSE_PHRASES[fog_kind][self.lang_code]
             else:
                 object = "somebody"
 

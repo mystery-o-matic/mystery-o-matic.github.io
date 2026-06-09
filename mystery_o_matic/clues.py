@@ -12,6 +12,10 @@ from mystery_o_matic.lang import get_all_renderers
 FOG_SOMEBODY = "somebody"      # plain "somebody"
 FOG_TRAIT = "trait"            # "someone wearing <tell> (emoji)"
 FOG_DESCRIPTOR = "descriptor"  # coarse "a woman" / "a man"
+FOG_HAT_YES = "hat_yes"        # coarse "someone with some kind of hat"
+FOG_HAT_NO = "hat_no"          # coarse "someone without any kind of hat"
+FOG_GLASSES_YES = "glasses_yes"  # coarse "someone wearing glasses"
+FOG_GLASSES_NO = "glasses_no"    # coarse "someone without glasses"
 
 
 class AbstractStatement(ABC):

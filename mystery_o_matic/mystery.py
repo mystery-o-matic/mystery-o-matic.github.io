@@ -302,11 +302,31 @@ class Mystery:
         # dedup by identity and assign each fog_kind once for both modes.
         foggy_sightings = self._collect_foggy_sightings()
 
-        # Step 2: upgrade a few from "somebody" to EITHER a specific tell or a
-        # coarse descriptor ("a woman") — mutually exclusive, never both.
+        # Step 2: upgrade a few from "somebody" to ONE of: a specific tell, a
+        # coarse gender descriptor ("a woman"), or a coarse property hint
+        # ("with/without a hat", "with/without glasses"). A property hint is only
+        # offered when the cast is MIXED on it (some traits carry the flag, some
+        # don't) so it still narrows. Exclusive per clue.
+        property_categories = [
+            ("hat", FOG_HAT_YES, FOG_HAT_NO),
+            ("glasses", FOG_GLASSES_YES, FOG_GLASSES_NO),
+        ]
+        n_chars = len(self.character_traits)
+        usable_props = {}
+        for prop, yes_kind, no_kind in property_categories:
+            wearers = {ph for ph, tr in self.character_traits.items() if tr.get(prop)}
+            if 0 < len(wearers) < n_chars:
+                usable_props[prop] = (wearers, yes_kind, no_kind)
+
         self._trait_rng.shuffle(foggy_sightings)
         for c in foggy_sightings[:TRAIT_CLUE_CAP]:
-            c.fog_kind = FOG_TRAIT if self._trait_rng.random() < 0.5 else FOG_DESCRIPTOR
+            kinds = [FOG_TRAIT, FOG_DESCRIPTOR] + list(usable_props.keys())
+            pick = self._trait_rng.choice(kinds)
+            if pick in usable_props:
+                wearers, yes_kind, no_kind = usable_props[pick]
+                c.fog_kind = yes_kind if c.object in wearers else no_kind
+            else:
+                c.fog_kind = pick
 
         for weapon in self.weapon_locations.values():
             if weapon != self.weapon_used:

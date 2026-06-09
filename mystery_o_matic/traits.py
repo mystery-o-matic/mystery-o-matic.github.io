@@ -46,6 +46,27 @@ CHARACTER_DESCRIPTORS = {
     "frida": {"en": "a woman", "es": "una mujer", "ru": "женщину"},
 }
 
+# Coarse property-based foggy-sighting categories — even less specific than the
+# exact trait or the gender. Keyed by fog_kind; only offered when the cast is
+# MIXED on that property (some traits carry the flag, some don't), so the hint
+# still narrows. Baked-in phrases (no per-character token), resolved to yes/no at
+# clue-build time. To add a category: flag the relevant traits, add a "<x>_yes"/
+# "<x>_no" pair here + FOG_* constants, and list it in mystery.py's selection.
+COARSE_PHRASES = {
+    "hat_yes":     {"en": "someone with some kind of hat",
+                    "es": "alguien con algún tipo de sombrero",
+                    "ru": "кого-то в какой-то шляпе"},
+    "hat_no":      {"en": "someone without any kind of hat",
+                    "es": "alguien sin ningún tipo de sombrero",
+                    "ru": "кого-то без шляпы"},
+    "glasses_yes": {"en": "someone wearing glasses",
+                    "es": "alguien con gafas",
+                    "ru": "кого-то в очках"},
+    "glasses_no":  {"en": "someone without glasses",
+                    "es": "alguien sin gafas",
+                    "ru": "кого-то без очков"},
+}
+
 ALL_TRAITS = [
     {
         "id": "crimson_scarf",
@@ -60,6 +81,7 @@ ALL_TRAITS = [
     {
         "id": "tortoiseshell_glasses",
         "emoji": "👓",
+        "glasses": True,
         "clue": {"en": "wearing round tortoiseshell glasses",
                  "es": "con gafas redondas de carey",
                  "ru": "в круглых черепаховых очках"},
@@ -70,6 +92,7 @@ ALL_TRAITS = [
     {
         "id": "baseball_cap",
         "emoji": "🧢",
+        "hat": True,
         "clue": {"en": "wearing a faded baseball cap",
                  "es": "con una gorra de béisbol descolorida",
                  "ru": "в выцветшей бейсболке"},
@@ -150,6 +173,7 @@ ALL_TRAITS = [
     {
         "id": "top_hat",
         "emoji": "🎩",
+        "hat": True,
         "clue": {"en": "wearing a velvet top hat",
                  "es": "con un sombrero de copa de terciopelo",
                  "ru": "в бархатном цилиндре"},
@@ -220,12 +244,24 @@ ALL_TRAITS = [
     {
         "id": "dark_sunglasses",
         "emoji": "🕶️",
+        "glasses": True,
         "clue": {"en": "wearing dark sunglasses",
                  "es": "con gafas de sol oscuras",
                  "ru": "в тёмных солнцезащитных очках"},
         "bio": {"en": "dark sunglasses",
                 "es": "unas gafas de sol oscuras",
                 "ru": "тёмные солнцезащитные очки"},
+    },
+    {
+        "id": "goggles",
+        "emoji": "🥽",
+        "glasses": True,
+        "clue": {"en": "wearing a pair of goggles",
+                 "es": "con unas gafas protectoras",
+                 "ru": "в защитных очках"},
+        "bio": {"en": "a pair of goggles",
+                "es": "unas gafas protectoras",
+                "ru": "защитные очки"},
     },
     {
         "id": "beaded_handbag",
@@ -273,6 +309,7 @@ ALL_TRAITS = [
         # so the curly-apostrophe shortname never reaches the \emoji{} pipeline.
         "id": "straw_hat",
         "emoji": "👒",
+        "hat": True,
         "clue": {"en": "wearing a wide-brimmed straw hat",
                  "es": "con un sombrero de paja de ala ancha",
                  "ru": "в широкополой соломенной шляпе"},
