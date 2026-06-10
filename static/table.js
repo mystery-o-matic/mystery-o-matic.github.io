@@ -73,15 +73,15 @@ class ClueTable {
 	}
 
 	_fillText(text, size, color, column, row) {
+        const centerX = this.columnSize * column + this.columnSize / 2;
+        const centerY = this.rowSize * row + this.rowSize / 2;
+        if (isIOS && hasColorEmoji(text) && drawEmojiCentered(this.ctx, text, size, centerX, centerY))
+            return;
         this.ctx.font = "bold " + size + "px Raleway";
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.fillStyle = color;
-        this.ctx.fillText(
-            text,
-            this.columnSize * column + this.columnSize / 2,
-            this.rowSize * row + this.rowSize / 2
-        );
+        this.ctx.fillText(text, centerX, centerY);
     }
 
 	_drawImage(image, size, column, row) {
@@ -143,6 +143,8 @@ class ClueTable {
 				dHeight
 			);
 		} else {
+			if (isIOS && hasColorEmoji(text) && drawEmojiCentered(this.ctx, text, size, textX, textY))
+				return;
 			this.ctx.textBaseline = "middle";
 			this.ctx.fillText(text, textX, textY);
 		}
@@ -203,6 +205,8 @@ function getWeaponFontSize(columSize) {
 var ua = navigator.userAgent;
 var isKindle = /Kindle/i.test(ua);
 var isMobile = /Mobi/i.test(ua);
+// iPadOS 13+ pretends to be a Mac, so also check for touch support
+var isIOS = /iPad|iPhone|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
 
 var emoji = null;
 
@@ -233,6 +237,77 @@ function getEmoji(input) {
 		return preload_image("../images/emoji-data/img-google-64/" + codepoint + ".png");
 	} else
 		return input;
+}
+
+// On iOS, WebKit places color emoji on a canvas using metrics that do not
+// match the glyphs it actually paints, so centering them with
+// textAlign/textBaseline lands them outside their cell (macOS is fine).
+// Workaround: draw the emoji once on an offscreen canvas, locate the painted
+// pixels and blit that box centered with drawImage, which is unaffected.
+var emojiSpriteCache = new Map();
+
+function hasColorEmoji(text) {
+	return typeof text === "string" && /[\uD800-\uDFFF\uFE0F]/.test(text);
+}
+
+function getEmojiSprite(text, size) {
+	var key = size + ":" + text;
+	if (emojiSpriteCache.has(key))
+		return emojiSpriteCache.get(key);
+
+	var scale = window.devicePixelRatio || 1;
+	// Margins are oversized on purpose, so the glyphs land inside the
+	// offscreen canvas even when they are drawn off-position
+	var units = Array.from(text).length + 4;
+	var canvas = document.createElement("canvas");
+	canvas.width = Math.ceil(units * size * scale);
+	canvas.height = Math.ceil(4 * size * scale);
+	var sprite = null;
+	try {
+		var ctx = canvas.getContext("2d", { willReadFrequently: true });
+		ctx.scale(scale, scale);
+		ctx.font = "bold " + size + "px Raleway";
+		ctx.fillText(text, 2 * size, 2.5 * size);
+		var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+		var minX = canvas.width, minY = canvas.height, maxX = -1, maxY = -1;
+		for (var y = 0; y < canvas.height; y++) {
+			for (var x = 0; x < canvas.width; x++) {
+				if (pixels[(y * canvas.width + x) * 4 + 3] > 16) {
+					if (x < minX) minX = x;
+					if (x > maxX) maxX = x;
+					if (y < minY) minY = y;
+					if (y > maxY) maxY = y;
+				}
+			}
+		}
+		if (maxX >= 0)
+			sprite = {
+				canvas: canvas,
+				x: minX,
+				y: minY,
+				width: maxX - minX + 1,
+				height: maxY - minY + 1,
+				scale: scale
+			};
+	} catch (e) {
+		// getImageData can be unavailable (e.g. lockdown mode); keep using fillText
+	}
+	emojiSpriteCache.set(key, sprite);
+	return sprite;
+}
+
+function drawEmojiCentered(ctx, text, size, centerX, centerY) {
+	var sprite = getEmojiSprite(text, size);
+	if (!sprite)
+		return false;
+	var width = sprite.width / sprite.scale;
+	var height = sprite.height / sprite.scale;
+	ctx.drawImage(
+		sprite.canvas,
+		sprite.x, sprite.y, sprite.width, sprite.height,
+		centerX - width / 2, centerY - height / 2, width, height
+	);
+	return true;
 }
 
 var tables = new Map();
