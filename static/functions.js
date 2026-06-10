@@ -10,6 +10,204 @@ function getCurrentDate() {
 var currentPage = "home";
 var tutorialEnterTime = null;
 var tutorialMaxSection = 0;
+var loadedMysterySignature = getMysterySignature(typeof data !== "undefined" ? data : null);
+var newMysteryCheckInProgress = false;
+var newMysteryAvailable = false;
+var newMysteryPromptShown = false;
+var newMysteryCheckIntervalMs = 10 * 60 * 1000;
+
+function getMysterySignature(mysteryData) {
+	if (!mysteryData) {
+		return null;
+	}
+
+	try {
+		return JSON.stringify(mysteryData);
+	} catch (err) {
+		return null;
+	}
+}
+
+function parseMysteryDataScript(source) {
+	var match = source.match(/^\s*data\s*=\s*([\s\S]*?)\s*;?\s*$/);
+	if (!match) {
+		return null;
+	}
+
+	try {
+		return JSON.parse(match[1]);
+	} catch (err) {
+		return null;
+	}
+}
+
+function getMysteryDataUrlForUpdateCheck() {
+	var url = new URL("../data.js", window.location.href);
+	url.searchParams.set("mystery-update-check", Date.now().toString());
+	return url.toString();
+}
+
+function showNewMysteryRefreshPrompt() {
+	var banner = document.getElementById("new-mystery-banner");
+	if (banner) {
+		banner.style.display = "flex";
+	}
+
+	if (newMysteryPromptShown) {
+		return;
+	}
+	newMysteryPromptShown = true;
+
+	if (typeof gtag === "function") {
+		gtag('event', 'new_mystery_available', {
+			'language': getLanguage()
+		});
+	}
+
+	var modalElement = document.getElementById("newMysteryModal");
+	if (modalElement && typeof bootstrap !== "undefined" && bootstrap.Modal) {
+		new bootstrap.Modal(modalElement).show();
+	}
+}
+
+function deferNewMysteryRefresh() {
+	if (typeof gtag === "function") {
+		gtag('event', 'new_mystery_refresh_deferred', {
+			'language': getLanguage()
+		});
+	}
+	showNewMysteryRefreshPrompt();
+}
+
+function hideNewMysteryRefreshPrompt() {
+	var banner = document.getElementById("new-mystery-banner");
+	if (banner) {
+		banner.style.display = "none";
+	}
+
+	var modalElement = document.getElementById("newMysteryModal");
+	if (modalElement && typeof bootstrap !== "undefined" && bootstrap.Modal) {
+		var modal = bootstrap.Modal.getInstance(modalElement);
+		if (modal) {
+			modal.hide();
+		}
+	}
+}
+
+function resetNewMysteryRefreshPrompt() {
+	newMysteryAvailable = false;
+	newMysteryPromptShown = false;
+	hideNewMysteryRefreshPrompt();
+}
+
+function requestPersistentOfflineStorage() {
+	if (!navigator.storage || !navigator.storage.persist) {
+		return;
+	}
+
+	navigator.storage.persist().then(function (persisted) {
+		if (typeof gtag === "function") {
+			gtag('event', 'offline_storage_persist', {
+				'persisted': persisted,
+				'language': getLanguage()
+			});
+		}
+	}).catch(function () {});
+}
+
+async function refreshNewMystery() {
+	if (typeof gtag === "function") {
+		gtag('event', 'new_mystery_refresh_now', {
+			'language': getLanguage()
+		});
+	}
+
+	var url = new URL(window.location.href);
+	var cacheBust = Date.now().toString();
+	url.searchParams.set("mystery-refresh", cacheBust);
+	url.hash = "";
+
+	try {
+		var fetchOptions = {
+			cache: "no-store",
+			credentials: "same-origin",
+			headers: {
+				"Cache-Control": "no-cache",
+				"X-Mystery-Refresh-Preflight": "1"
+			}
+		};
+		var response = await fetch(url.toString(), fetchOptions);
+		if (!response.ok) {
+			throw new Error("refresh preflight failed");
+		}
+		response = await fetch(getMysteryDataUrlForUpdateCheck(), fetchOptions);
+		if (!response.ok) {
+			throw new Error("data refresh preflight failed");
+		}
+		try {
+			sessionStorage.setItem("mystery-data-cache-bust", cacheBust);
+		} catch (storageErr) {
+			// A cache-busted page URL still gives the browser a fresh navigation path.
+		}
+		window.location.replace(url.toString());
+	} catch (err) {
+		resetNewMysteryRefreshPrompt();
+		checkForNewMystery();
+	}
+}
+
+async function checkForNewMystery() {
+	if (typeof navigator !== "undefined" && navigator.onLine === false) {
+		resetNewMysteryRefreshPrompt();
+		return;
+	}
+
+	if (!loadedMysterySignature || newMysteryCheckInProgress || newMysteryAvailable || typeof fetch !== "function") {
+		return;
+	}
+
+	newMysteryCheckInProgress = true;
+	try {
+		var response = await fetch(getMysteryDataUrlForUpdateCheck(), {
+			cache: "no-store",
+			credentials: "same-origin",
+			headers: {
+				"Cache-Control": "no-cache"
+			}
+		});
+		if (!response.ok) {
+			return;
+		}
+
+		var freshData = parseMysteryDataScript(await response.text());
+		var freshSignature = getMysterySignature(freshData);
+		if (freshSignature && freshSignature !== loadedMysterySignature) {
+			newMysteryAvailable = true;
+			showNewMysteryRefreshPrompt();
+		}
+	} catch (err) {
+		// Offline or blocked refresh checks should not interrupt the current mystery.
+	} finally {
+		newMysteryCheckInProgress = false;
+	}
+}
+
+function initNewMysteryUpdateChecks() {
+	if (!loadedMysterySignature) {
+		return;
+	}
+
+	window.setTimeout(checkForNewMystery, 1000);
+	window.setInterval(checkForNewMystery, newMysteryCheckIntervalMs);
+	window.addEventListener("focus", checkForNewMystery);
+	window.addEventListener("offline", resetNewMysteryRefreshPrompt);
+	window.addEventListener("online", checkForNewMystery);
+	document.addEventListener("visibilitychange", function () {
+		if (!document.hidden) {
+			checkForNewMystery();
+		}
+	});
+}
 
 function showPage(page) {
 	var language = getLanguage();
@@ -438,3 +636,6 @@ function switchTheme() {
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 	switchTheme()
 }
+
+initNewMysteryUpdateChecks();
+requestPersistentOfflineStorage();

@@ -30,6 +30,16 @@ canvas {
 	margin-top:22px;
 }
 
+.new-mystery-banner {
+	position: fixed;
+	left: 50%;
+	bottom: 1rem;
+	width: min(92vw, 560px);
+	margin: 0;
+	transform: translateX(-50%);
+	z-index: 1040;
+}
+
 #google_translate_element {
 	display: none;
 }

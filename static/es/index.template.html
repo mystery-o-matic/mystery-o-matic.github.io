@@ -227,6 +227,34 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="newMysteryModal" tabindex="-1" aria-labelledby="newMysteryModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="newMysteryModalLabel">Hay un nuevo misterio</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"
+						onclick="deferNewMysteryRefresh()"></button>
+				</div>
+				<div class="modal-body">
+					Ya hay un misterio nuevo. Actualiza ahora para cargarlo, o sigue resolviendo este y usa el aviso
+					cuando termines.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+						onclick="deferNewMysteryRefresh()">Seguir resolviendo</button>
+					<button type="button" class="btn btn-danger" onclick="refreshNewMystery()">Actualizar ahora</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="new-mystery-banner"
+		class="alert alert-warning new-mystery-banner shadow-sm align-items-center justify-content-between gap-3 flex-wrap"
+		role="alert" style="display:none">
+		<div><strong>Hay un nuevo misterio.</strong> Actualiza cuando estés listo.</div>
+		<button type="button" class="btn btn-danger btn-sm" onclick="refreshNewMystery()">Actualizar</button>
+	</div>
+
 	<div class="container p-3 text-center">
 		<h1>
 			<img id="logoImage" src="../images/logo_light.png" class="w-100" style="max-width:600px"
@@ -1687,9 +1715,28 @@
 		}
 	</script>
 	<script>
+		if ("serviceWorker" in navigator) {
+			window.addEventListener("load", function () {
+				navigator.serviceWorker.register("../service-worker.js").catch(function () {});
+			});
+		}
+	</script>
+	<script>
 		sessionStorage.language = "es";
 	</script>
-	<script src="../data.js"></script>
+	<script>
+		(function () {
+			var src = "../data.js";
+			try {
+				var cacheBust = sessionStorage.getItem("mystery-data-cache-bust");
+				if (cacheBust) {
+					src += "?mystery-refresh=" + encodeURIComponent(cacheBust);
+					sessionStorage.removeItem("mystery-data-cache-bust");
+				}
+			} catch (err) {}
+			document.write('<script src="' + src + '"><\/script>');
+		}());
+	</script>
 	<script src="../tutorialData.js"></script>
 	<script src="../table.js"></script>
 	<script src="../translation.js"></script>
