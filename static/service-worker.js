@@ -70,6 +70,15 @@ self.addEventListener("fetch", function (event) {
 		return;
 	}
 
+	if (isGeneratedMysteryAsset(url)) {
+		event.respondWith(networkFirst(
+			event.request,
+			[new Request(new URL(url.pathname, self.location.origin).toString())],
+			requestWithoutSearch(event.request)
+		));
+		return;
+	}
+
 	if (isSameOrigin(url) && url.searchParams.has("mystery-update-check")) {
 		event.respondWith(fetch(event.request));
 		return;
@@ -84,6 +93,15 @@ self.addEventListener("fetch", function (event) {
 		event.respondWith(networkFirst(
 			event.request,
 			[new Request(new URL("/data.js", self.location.origin).toString())],
+			requestWithoutSearch(event.request)
+		));
+		return;
+	}
+
+	if (isAppShellAsset(url)) {
+		event.respondWith(networkFirst(
+			event.request,
+			[new Request(new URL(url.pathname, self.location.origin).toString())],
 			requestWithoutSearch(event.request)
 		));
 		return;
@@ -112,6 +130,28 @@ function isSameOrigin(url) {
 
 function isMysteryDataRequest(url) {
 	return isSameOrigin(url) && url.pathname === "/data.js";
+}
+
+function isGeneratedMysteryAsset(url) {
+	return isSameOrigin(url) && /^\/(en|es|ru)\/locations_(big|small)\.(svg|png)$/.test(url.pathname);
+}
+
+function isAppShellAsset(url) {
+	if (!isSameOrigin(url)) {
+		return false;
+	}
+
+	return [
+		"/functions.js",
+		"/table.js",
+		"/translation.js",
+		"/tutorialData.js",
+		"/tutorial-nav.js",
+		"/emoji.js",
+		"/emoji.css",
+		"/css/main.css",
+		"/css/sticky-notes.css"
+	].indexOf(url.pathname) !== -1;
 }
 
 function isAnalyticsRequest(url) {
@@ -157,7 +197,7 @@ async function networkFirst(request, fallbacks, cacheRequest) {
 	var key = cacheRequest || requestWithoutSearch(request);
 
 	try {
-		var response = await fetch(request);
+		var response = await fetchFresh(request);
 		if (canCache(response)) {
 			try {
 				await cache.put(key, response.clone());
@@ -178,6 +218,14 @@ async function networkFirst(request, fallbacks, cacheRequest) {
 		}
 
 		throw err;
+	}
+}
+
+function fetchFresh(request) {
+	try {
+		return fetch(new Request(request, { cache: "reload" }));
+	} catch (err) {
+		return fetch(request);
 	}
 }
 

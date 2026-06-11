@@ -47,6 +47,59 @@ function getMysteryDataUrlForUpdateCheck() {
 	return url.toString();
 }
 
+function getMysteryAssetVersion() {
+	var signature = loadedMysterySignature || "";
+	var hash = 0;
+
+	for (var i = 0; i < signature.length; i++) {
+		hash = ((hash << 5) - hash + signature.charCodeAt(i)) | 0;
+	}
+
+	return (hash >>> 0).toString(36);
+}
+
+function isGeneratedMysteryImageUrl(url) {
+	return /\/locations_(big|small)\.(svg|png)$/.test(url.pathname);
+}
+
+function getMysteryAssetUrl(src, forceRefresh) {
+	try {
+		var url = new URL(src, window.location.href);
+		if (!isGeneratedMysteryImageUrl(url)) {
+			return src;
+		}
+
+		url.searchParams.set("mystery-asset", getMysteryAssetVersion());
+		if (forceRefresh) {
+			url.searchParams.set("mystery-asset-refresh", Date.now().toString());
+		}
+		return url.toString();
+	} catch (err) {
+		return src;
+	}
+}
+
+function cacheBustMysteryImages(forceRefresh) {
+	var images = document.querySelectorAll("img[src]");
+	for (var i = 0; i < images.length; i++) {
+		var currentSrc = images[i].getAttribute("src");
+		var nextSrc = getMysteryAssetUrl(currentSrc, forceRefresh);
+		if (nextSrc !== currentSrc && nextSrc !== images[i].src) {
+			images[i].src = nextSrc;
+		}
+	}
+}
+
+function initMysteryImageCacheBust() {
+	cacheBustMysteryImages(false);
+
+	if ("serviceWorker" in navigator) {
+		navigator.serviceWorker.addEventListener("controllerchange", function () {
+			cacheBustMysteryImages(true);
+		});
+	}
+}
+
 function showNewMysteryRefreshPrompt() {
 	var banner = document.getElementById("new-mystery-banner");
 	if (banner) {
@@ -305,7 +358,7 @@ function selectClues(withLies, autoSelected) {
 	revealAnotherClue(0);
 
 	if (isKindle) {
-		document.getElementById("locations-small").src = "locations_small.png";
+		document.getElementById("locations-small").src = getMysteryAssetUrl("locations_small.png");
 		document.getElementById("locations-small").style.height = '25vh';
 	}
 }
@@ -637,5 +690,6 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
 	switchTheme()
 }
 
+initMysteryImageCacheBust();
 initNewMysteryUpdateChecks();
 requestPersistentOfflineStorage();
