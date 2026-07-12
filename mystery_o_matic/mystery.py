@@ -1,7 +1,7 @@
 from random import shuffle, randint, choice, random, Random
 
 STAY_ACTIVITY_PROBABILITY = 0.7
-# Max number of foggy sightings upgraded to a "someone with <tell>" clue.
+# Max number of foggy sightings upgraded to profile-matchable descriptions.
 # Real puzzles rarely have more than 1-2 eligible foggy sightings, so this is a
 # safety ceiling rather than a typical count.
 TRAIT_CLUE_CAP = 3
@@ -215,21 +215,28 @@ class Mystery:
             else:
                 self.additional_clues.append(create_clue(call))
 
-    def _collect_foggy_sightings(self):
-        """Foggy sightings of a living suspect that currently render a plain
-        "somebody", deduped across the with-lies / without-lies lists (the same
-        clue object appears in both when it is not manipulated)."""
-        foggy = []
+    def _collect_describable_sightings(self):
+        """Sightings of a living character that can be rendered as a foggy,
+        profile-matchable clue, deduped across both clue lists."""
+        sightings = []
         seen_ids = set()
         for c in self.additional_clues + self.additional_clues_with_lies:
             if id(c) in seen_ids:
                 continue
             seen_ids.add(id(c))
             if (isinstance(c, (SawWhenArrivingClue, SawWhenLeavingClue))
-                    and c.fog_kind == FOG_SOMEBODY
-                    and c.object_is_alive and c.object != "$NOBODY"):
-                foggy.append(c)
-        return foggy
+                    and c.object_is_alive
+                    and c.object in self.character_traits):
+                sightings.append(c)
+        return sightings
+
+    def _pick_fog_kind(self, clue, usable_props):
+        kinds = [FOG_TRAIT, FOG_DESCRIPTOR] + list(usable_props.keys())
+        pick = self._trait_rng.choice(kinds)
+        if pick in usable_props:
+            wearers, yes_kind, no_kind = usable_props[pick]
+            return yes_kind if clue.object in wearers else no_kind
+        return pick
 
     def process_clues(self):
         # Process initial clues
@@ -294,13 +301,13 @@ class Mystery:
         self.additional_clues = clues_without_lies
         self.additional_clues_with_lies = clues_with_lies
 
-        # Step 1: collect the foggy sightings of a living suspect (a plain
-        # "somebody" today). Any living seen-person is fine, including the victim;
-        # only $NOBODY (empty room) has no one to describe, and incriminating
-        # killer/victim sightings are already manipulated to $NOBODY upstream.
+        # Step 1: collect sightings of a living character. Any living seen-person
+        # is fine, including the victim; only $NOBODY (empty room) has no one to
+        # describe, and incriminating killer/victim sightings are already
+        # manipulated to $NOBODY upstream.
         # The same clue object lives in both lists when not manipulated, so we
         # dedup by identity and assign each fog_kind once for both modes.
-        foggy_sightings = self._collect_foggy_sightings()
+        describable_sightings = self._collect_describable_sightings()
 
         # Step 2: upgrade a few from "somebody" to ONE of: a specific tell, a
         # coarse gender descriptor ("a woman"), or a coarse property hint
@@ -318,15 +325,18 @@ class Mystery:
             if 0 < len(wearers) < n_chars:
                 usable_props[prop] = (wearers, yes_kind, no_kind)
 
+        foggy_sightings = [
+            c for c in describable_sightings if c.fog_kind == FOG_SOMEBODY
+        ]
         self._trait_rng.shuffle(foggy_sightings)
+
+        if not foggy_sightings and describable_sightings:
+            self._trait_rng.shuffle(describable_sightings)
+            foggy_sightings = [describable_sightings[0]]
+            foggy_sightings[0].foggy = True
+
         for c in foggy_sightings[:TRAIT_CLUE_CAP]:
-            kinds = [FOG_TRAIT, FOG_DESCRIPTOR] + list(usable_props.keys())
-            pick = self._trait_rng.choice(kinds)
-            if pick in usable_props:
-                wearers, yes_kind, no_kind = usable_props[pick]
-                c.fog_kind = yes_kind if c.object in wearers else no_kind
-            else:
-                c.fog_kind = pick
+            c.fog_kind = self._pick_fog_kind(c, usable_props)
 
         for weapon in self.weapon_locations.values():
             if weapon != self.weapon_used:
