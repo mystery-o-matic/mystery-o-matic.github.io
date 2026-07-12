@@ -40,6 +40,21 @@ def get_intervals_length_from_events(source, contract_name, events):
     raise ValueError("No police arrived event found")
 
 
+def _insert_clues_across_sections(clues, inserted_clues):
+    if not inserted_clues:
+        return
+
+    shuffle(inserted_clues)
+    final_length = len(clues) + len(inserted_clues)
+    section_count = len(inserted_clues)
+
+    for i, clue in enumerate(inserted_clues):
+        section_start = (i * final_length) // section_count
+        section_end = ((i + 1) * final_length) // section_count
+        insert_index = randint(section_start, section_end - 1)
+        clues.insert(min(insert_index, len(clues)), clue)
+
+
 class Mystery:
     difficulty = ""
     source = None
@@ -338,11 +353,10 @@ class Mystery:
         for c in foggy_sightings[:TRAIT_CLUE_CAP]:
             c.fog_kind = self._pick_fog_kind(c, usable_props)
 
+        weapon_not_used_clues = []
         for weapon in self.weapon_locations.values():
             if weapon != self.weapon_used:
-                clue = WeaponNotUsedClue(weapon)
-                self.additional_clues.append(clue)
-                self.additional_clues_with_lies.append(clue)
+                weapon_not_used_clues.append(WeaponNotUsedClue(weapon))
 
         # The player needs more hints to fully determinate when the murdered took place
         assert self.murder_time != "", "Time of murder is missing"
@@ -372,6 +386,13 @@ class Mystery:
             len(self.additional_clues_with_lies),
         )
         self.additional_clues_with_lies.insert(second_clue_index, second_clue)
+
+        _insert_clues_across_sections(
+            self.additional_clues, weapon_not_used_clues[:]
+        )
+        _insert_clues_across_sections(
+            self.additional_clues_with_lies, weapon_not_used_clues[:]
+        )
 
         # Load additional initial clues
         self.initial_clues.append(MurderWasAloneStatement())
