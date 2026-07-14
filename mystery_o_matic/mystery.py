@@ -40,18 +40,26 @@ def get_intervals_length_from_events(source, contract_name, events):
     raise ValueError("No police arrived event found")
 
 
-def _insert_clues_across_sections(clues, inserted_clues):
-    if not inserted_clues:
+def _insert_clue_groups_across_sections(clues, clue_groups):
+    clue_groups = [group for group in clue_groups if group]
+    if not clue_groups:
         return
 
-    shuffle(inserted_clues)
-    final_length = len(clues) + len(inserted_clues)
-    section_count = len(inserted_clues)
+    total_insertions = sum(len(group) for group in clue_groups)
+    final_length = len(clues) + total_insertions
+    insertions = []
 
-    for i, clue in enumerate(inserted_clues):
-        section_start = (i * final_length) // section_count
-        section_end = ((i + 1) * final_length) // section_count
-        insert_index = randint(section_start, section_end - 1)
+    for group in clue_groups:
+        shuffle(group)
+        section_count = len(group)
+        for i, clue in enumerate(group):
+            section_start = (i * final_length) // section_count
+            section_end = ((i + 1) * final_length) // section_count
+            insert_index = randint(section_start, section_end - 1)
+            insertions.append((insert_index, random(), len(insertions), clue))
+
+    insertions.sort()
+    for insert_index, _, _, clue in insertions:
         clues.insert(min(insert_index, len(clues)), clue)
 
 
@@ -364,34 +372,20 @@ class Mystery:
         first_clue, second_clue, third_clue = create_murder_time_clues(
             self.murder_time, self.interval_size, self.difficulty
         )
-
+        murder_time_clues = [first_clue, second_clue]
         if third_clue is not None:
-            self.additional_clues.append(third_clue)
-            self.additional_clues_with_lies.append(third_clue)
+            murder_time_clues.append(third_clue)
 
         shuffle(self.additional_clues)
         shuffle(self.additional_clues_with_lies)
 
-        first_clue_index = randint(0, len(self.additional_clues) // 2)
-        self.additional_clues.insert(first_clue_index, first_clue)
-        second_clue_index = randint(
-            len(self.additional_clues) // 2, len(self.additional_clues)
+        _insert_clue_groups_across_sections(
+            self.additional_clues,
+            [murder_time_clues[:], weapon_not_used_clues[:]],
         )
-        self.additional_clues.insert(second_clue_index, second_clue)
-
-        first_clue_index = randint(0, len(self.additional_clues_with_lies) // 2)
-        self.additional_clues_with_lies.insert(first_clue_index, first_clue)
-        second_clue_index = randint(
-            len(self.additional_clues_with_lies) // 2,
-            len(self.additional_clues_with_lies),
-        )
-        self.additional_clues_with_lies.insert(second_clue_index, second_clue)
-
-        _insert_clues_across_sections(
-            self.additional_clues, weapon_not_used_clues[:]
-        )
-        _insert_clues_across_sections(
-            self.additional_clues_with_lies, weapon_not_used_clues[:]
+        _insert_clue_groups_across_sections(
+            self.additional_clues_with_lies,
+            [murder_time_clues[:], weapon_not_used_clues[:]],
         )
 
         # Load additional initial clues
