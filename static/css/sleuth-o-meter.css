@@ -1,0 +1,50 @@
+.sleuth-rank-item {
+	cursor: pointer;
+}
+
+.sleuth-rank-item.active-rank {
+	font-weight: bold;
+}
+
+.sleuth-rank-item.flash-rank {
+	animation: sleuth-rank-flash 0.9s ease-out;
+}
+
+.sleuth-highlight {
+	background: rgba(33, 37, 41, 0.5);
+	padding: 0 0.35em;
+	border-radius: 0.35rem;
+	white-space: nowrap;
+}
+
+@keyframes sleuth-rank-flash {
+	0% { filter: brightness(1); }
+	25% { filter: brightness(1.35); }
+	50% { filter: brightness(1); }
+	75% { filter: brightness(1.35); }
+	100% { filter: brightness(1); }
+}
+
+#sleuth-o-meter-wrapper {
+	position: relative;
+	display: inline-block;
+	max-width: 100%;
+}
+
+#sleuth-o-meter-img {
+	max-width: 100%;
+	display: block;
+}
+
+/* Reproduces the red column pattern of sleuth-o-meter.png: dark red with a
+   lighter highlight stripe, anchored just above the bulb (23% from the bottom) */
+#sleuth-o-meter-mercury {
+	position: absolute;
+	left: 40.35%;
+	width: 17.55%;
+	bottom: 23%;
+	height: 0%;
+	background: linear-gradient(to right, #ac0000 0%, #ac0000 60%, #ff5552 60%, #ff5552 80%, #ac0000 80%, #ac0000 100%);
+	transition: height 0.9s ease-out;
+	pointer-events: none;
+}

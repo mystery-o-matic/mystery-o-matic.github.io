@@ -24,11 +24,13 @@ const CORE_ASSETS = [
 	"/table.js",
 	"/translation.js",
 	"/functions.js",
+	"/sleuth-o-meter.js",
 	"/tutorial-nav.js",
 	"/emoji.css",
 	"/emoji.js",
 	"/css/main.css",
 	"/css/sticky-notes.css",
+	"/css/sleuth-o-meter.css",
 	"/images/apple-touch-icon.png",
 	"/images/favicon-16x16.png",
 	"/images/favicon-32x32.png",
@@ -143,6 +145,7 @@ function isAppShellAsset(url) {
 
 	return [
 		"/functions.js",
+		"/sleuth-o-meter.js",
 		"/table.js",
 		"/translation.js",
 		"/tutorialData.js",
@@ -150,7 +153,8 @@ function isAppShellAsset(url) {
 		"/emoji.js",
 		"/emoji.css",
 		"/css/main.css",
-		"/css/sticky-notes.css"
+		"/css/sticky-notes.css",
+		"/css/sleuth-o-meter.css"
 	].indexOf(url.pathname) !== -1;
 }
 
