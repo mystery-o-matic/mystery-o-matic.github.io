@@ -53,6 +53,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Checkout story
+      uses: actions/checkout@v4
+      with:
+        repository: mystery-o-matic/story
+        path: story
+        token: ${{ secrets.PAT_STORY_TOKEN }}
+
     - name: Install packages
       run: |
         sudo apt-get update
@@ -96,9 +103,9 @@ jobs:
           LOCATION_ARGS=(--location "${{ inputs.location }}")
         fi
         if [ $(( $(date +%u) % 2 )) -eq 1 ]; then # Harder puzzles half of the days
-          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 2 --nplaces 5 --nchars 4 --llm "${LOCATION_ARGS[@]}"
+          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 3 --nplaces 5 --nchars 4 --llm "${LOCATION_ARGS[@]}"
         else
-          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 2 --llm "${LOCATION_ARGS[@]}"
+          mystery-o-matic scenarios/simple.template.sol static out --today --workers 1 --season 3 --llm "${LOCATION_ARGS[@]}"
         fi
         rm -f out/result.json
         rm -f out/err.out
