@@ -20,13 +20,18 @@ from mystery_o_matic.model import Model
 from mystery_o_matic.solidity import read_solidity_from_text
 
 
-def read_story(season, date):
-    filename = "story/season-" + str(season) + "/" + date + ".html"
-    if not isfile(filename):
-        return ""
-
-    with open(filename, "r") as f:
-        return f.read()
+def read_story(season, date, language="en"):
+    # season 3 onwards keeps one file per language; season 1 used a flat
+    # layout with a single (english) file for all languages
+    filenames = [
+        "story/season-" + str(season) + "/" + language + "/" + date + ".html",
+        "story/season-" + str(season) + "/" + date + ".html",
+    ]
+    for filename in filenames:
+        if isfile(filename):
+            with open(filename, "r") as f:
+                return f.read()
+    return ""
 
 
 def hash256(data):
@@ -277,6 +282,10 @@ def main() -> int:
             seed(used_seed)
 
     story_clue = read_story(season, date)
+    story_clues = dict(
+        (language, read_story(season, date, language))
+        for language in ["en", "es", "ru"]
+    )
 
     weapon_locations = locations.weapon_locations
 
@@ -351,7 +360,7 @@ def main() -> int:
             weapons_available,
             weapon_labels,
             locations,
-            story_clue,
+            story_clues,
         )
     elif mode == "latex":
         produce_tex_output(

@@ -644,8 +644,12 @@ function checkAccusation() {
 				}
 			}
 
-			storyClue = document.getElementById("story-clue").textContent;
-			document.getElementById("story-notebook").value += "\n" + getCurrentDate() + ":\n" + storyClue + "\n";
+			var storyClueEl = document.getElementById("story-clue");
+			var notebookEl = document.getElementById("story-notebook");
+			if (storyClueEl && notebookEl && storyClueEl.textContent.trim().length > 0) {
+				notebookEl.value += "\n" + getCurrentDate() + ":\n" + storyClueEl.textContent + "\n";
+				localStorage.setItem('story-notebook', notebookEl.value);
+			}
 			showPeekUnderCurtain();
 		} else {
 			gtag('event', 'accusation', {

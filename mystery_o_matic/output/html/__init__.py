@@ -133,7 +133,7 @@ def produce_html_output(
     weapons,
     weapon_labels,
     locations,
-    story_clue,
+    story_clues,
 ):
     intervals = mystery.get_intervals()
     suspects = mystery.get_suspects()
@@ -359,7 +359,8 @@ def produce_html_output(
         args["selectIntervals"] = select_intervals
         args["selectSuspects"] = select_suspects
         args["selectWeapon"] = select_weapons
-        args["storyClue"] = story_clue
+        # per-language story, falling back to english when a language is missing
+        args["storyClue"] = story_clues.get(language) or story_clues.get("en", "")
 
         html_template = read_html_template(
             static_dir + f"/{language}/index.template.html"

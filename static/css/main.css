@@ -244,3 +244,19 @@ a:visited {
 [data-bs-theme="dark"] .tutorial-step-dot.active {
 	background: rgba(241, 73, 2, 0.2);
 }
+
+/* Season story: sigils must render in monospace so the box-drawing
+   glyphs form solid connected marks */
+#story-clue q {
+	font-family: SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+	font-size: 1.3em;
+	letter-spacing: 0.06em;
+	quotes: none;
+}
+
+/* A full sigil phrase gets its own line inside the paragraph */
+#story-clue q.sigil-phrase {
+	display: block;
+	margin: 0.4rem 0;
+	text-align: center;
+}
