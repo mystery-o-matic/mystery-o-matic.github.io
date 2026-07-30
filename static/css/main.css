@@ -245,6 +245,19 @@ a:visited {
 	background: rgba(241, 73, 2, 0.2);
 }
 
+/* Links injected after the theme switch (solution steps, shop suggestion)
+   keep their baked-in .link-dark class; keep them readable in dark mode.
+   Scoped to theme-following surfaces only: sticky-note cards stay light in
+   both themes, so their black links must not be touched. */
+[data-bs-theme="dark"] #peek-under-curtain a.link-dark,
+[data-bs-theme="dark"] #peek-under-curtain a.link-dark:hover,
+[data-bs-theme="dark"] #peek-under-curtain a.link-dark:focus,
+[data-bs-theme="dark"] #shop-suggestion a.link-dark,
+[data-bs-theme="dark"] #shop-suggestion a.link-dark:hover,
+[data-bs-theme="dark"] #shop-suggestion a.link-dark:focus {
+	color: RGBA(var(--bs-light-rgb), var(--bs-link-opacity, 1)) !important;
+}
+
 /* Season story: sigils must render in monospace so the box-drawing
    glyphs form solid connected marks */
 #story-clue q {
