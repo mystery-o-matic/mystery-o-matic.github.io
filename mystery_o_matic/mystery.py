@@ -1,6 +1,9 @@
 from random import shuffle, randint, choice, random, Random
 
 STAY_ACTIVITY_PROBABILITY = 0.7
+# A first-arrival clue rules out every earlier slot for one character/room pair,
+# so keep it rare enough that it does not flatten the timeline puzzle.
+FIRST_ARRIVAL_CLUE_CAP = 2
 # Max number of foggy sightings upgraded to profile-matchable descriptions.
 # Real puzzles rarely have more than 1-2 eligible foggy sightings, so this is a
 # safety ceiling rather than a typical count.
@@ -177,6 +180,8 @@ class Mystery:
             # Skip the clues that are produced by the victim
             if call[0].startswith("NotSaw") and call[1] == self.victim:
                 continue
+            if call[0] == "FirstArrival" and call[1] == self.victim:
+                continue
             if call[0].startswith("Interacted") and call[1] == self.victim:
                 # Let's swap the subjects
                 call[1] = call[2]
@@ -298,6 +303,21 @@ class Mystery:
 
         print("Alibi location is:", self.alibi_place)
         # Filter additional clues
+        first_arrival_clues = [
+            clue for clue in self.additional_clues
+            if isinstance(clue, FirstArrivalClue)
+        ]
+        if len(first_arrival_clues) > FIRST_ARRIVAL_CLUE_CAP:
+            shuffle(first_arrival_clues)
+            selected_first_arrivals = {
+                id(clue) for clue in first_arrival_clues[:FIRST_ARRIVAL_CLUE_CAP]
+            }
+            self.additional_clues = [
+                clue for clue in self.additional_clues
+                if not isinstance(clue, FirstArrivalClue)
+                or id(clue) in selected_first_arrivals
+            ]
+
         additional_clues = []
         # print(self.final_locations)
         for clue in self.additional_clues:

@@ -260,6 +260,11 @@ class SpanishRenderer(LanguageRenderer):
             raise ValueError("Invalid random number: " + str(r))
         return s
 
+    def render_first_arrival(self, subject, place, time):
+        if randint(0, 1) == 0:
+            return f'{subject}: "No llegué a estar en {place} hasta las {time}"'
+        return f'{subject}: "La primera vez que entré en {place} fue a las {time}"'
+
     def render_interacted(self, subject0, subject1, place):
         r = randint(0, 1)
         if r == 0:

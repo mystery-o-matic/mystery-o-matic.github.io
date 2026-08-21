@@ -100,6 +100,10 @@ class LanguageRenderer(ABC):
         pass
 
     @abstractmethod
+    def render_first_arrival(self, subject, place, time):
+        pass
+
+    @abstractmethod
     def render_interacted(self, subject0, subject1, place):
         pass
 

@@ -262,6 +262,11 @@ class RussianRenderer(LanguageRenderer):
             raise ValueError("Invalid random number: " + str(r))
         return s
 
+    def render_first_arrival(self, subject, place, time):
+        if randint(0, 1) == 0:
+            return f'{subject}: "Я добрался(ась) до {place}_GEN только в {time}"'
+        return f'{subject}: "Впервые я оказался(ась) в {place}_LOC в {time}"'
+
     def render_interacted(self, subject0, subject1, place):
         r = randint(0, 1)
         if r == 0:

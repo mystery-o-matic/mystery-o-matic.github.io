@@ -19,6 +19,7 @@ contract StoryModel {
     event NotSawWhenLeaving(uint8 char0, uint8 char1, uint8 place, uint256 time);
     event NotSawWhenArriving(uint8 char0, uint8 char1, uint8 place, uint256 time);
     event Stayed(uint8 char0, uint8 place, uint256 time0, uint256 time1);
+    event FirstArrival(uint8 char0, uint8 place, uint256 time);
     event Heard(uint8 char0, uint8 place, uint256 time);
     event WasMurdered(uint8 char0, uint8 place, uint256 time);
     event FinalLocation(uint8 char0, uint8 place);
@@ -30,6 +31,7 @@ contract StoryModel {
     mapping(Char => uint256) private lastMovement;
     mapping(Char => Place) private finalLocation;
     mapping(Char => bool) private changedLocation;
+	mapping(Char => mapping(Place => bool)) private visitedLocation;
 	mapping(Place => mapping(Place => bool)) private connection;
     Place locationWeapon;
     Char victimIdentity = Char.NOBODY;
@@ -47,6 +49,11 @@ contract StoryModel {
 
         // This should be randomly generated
         //$currentLocations
+
+        // Initial rooms are already visited and can never produce a first-arrival clue.
+        for (uint8 char = 1; char < numChars; char++) {
+            visitedLocation[Char(char)][currentLocation[Char(char)]] = true;
+        }
 
         //$locationWeapon
         //$minNumberOfMoves
@@ -173,6 +180,10 @@ contract StoryModel {
         someoneHeards(char, uint8(currentLocation[Char(char)]));
         sawEvents(char, place);
         currentLocation[Char(char)] = Place(place);
+        if (!visitedLocation[Char(char)][Place(place)]) {
+            visitedLocation[Char(char)][Place(place)] = true;
+            emit FirstArrival(char, place, time);
+        }
         checkKillerNotCaught(char, place);
         changedLocation[Char(char)] = true;
         numberOfMoves++;

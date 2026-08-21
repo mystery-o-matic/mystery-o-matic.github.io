@@ -485,6 +485,30 @@ class StayedClue(AbstractClue):
         return self
 
 
+class FirstArrivalClue(AbstractClue):
+    """The subject's first visit to a place during the mystery timeline."""
+
+    def __init__(self, subject, place, time):
+        self.subject = subject
+        self.place = place
+        self.time = time
+        super().__init__()
+
+    def render(self, renderer):
+        return renderer.render_first_arrival(self.subject, self.place, self.time)
+
+    def is_incriminating(self, killer, victim, place, time):
+        return (
+            self.subject == killer
+            and self.place == place
+            and self.time.seconds <= time.seconds
+        )
+
+    def manipulate(self, killer, victim, alibi_place):
+        self.place = alibi_place
+        return self
+
+
 class InteractedClue(AbstractClue):
     def __init__(self, subject0, subject1, place, time):
         self.subject0 = subject0
@@ -597,6 +621,9 @@ def create_clue(call):
     elif call[0] == "Stayed":
         assert len(call) == 5
         return StayedClue(call[1], call[2], call[3], call[4])
+    elif call[0] == "FirstArrival":
+        assert len(call) == 4
+        return FirstArrivalClue(call[1], call[2], call[3])
     elif call[0] == "Interacted":
         assert len(call) == 5
         return InteractedClue(call[1], call[2], call[3], call[4])
