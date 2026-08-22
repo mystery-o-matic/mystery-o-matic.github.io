@@ -1,30 +1,39 @@
-from random import shuffle, choice
+from random import choice, shuffle
 
 from networkx import (
-    gnp_random_graph,
-    relabel_nodes,
     Graph,
-    is_planar,
+    gnp_random_graph,
     is_connected,
-    planar_layout,
+    is_planar,
+    relabel_nodes,
 )
-from networkx.drawing.nx_agraph import to_agraph
 
 from mystery_o_matic.locations import (
-    mansion,
-    ship,
-    egypt,
-    island,
-    castle,
-    museum,
-    train,
-    space_station,
-    zoo,
-    hospital,
-    sport_club,
-    school,
     arctic_base,
+    castle,
+    egypt,
+    hospital,
+    island,
+    mansion,
+    museum,
+    school,
+    ship,
+    space_station,
+    sport_club,
+    train,
+    zoo,
 )
+from mystery_o_matic.roommap import (
+    BIG_FILL,
+    BIG_LINK,
+    BIG_LINK_W,
+    BIG_RADIUS,
+    RADIUS,
+    STROKE,
+)
+from mystery_o_matic.roommap import positions as roommap_positions
+from mystery_o_matic.roommap import render as roommap_svg
+from mystery_o_matic.roommap import render_png as roommap_png
 
 LOCATION_REGISTRY = {
     "mansion": mansion.get_data,
@@ -87,7 +96,6 @@ class Locations:
             + representations: A dictionary mapping concrete location names to their representations.
         - weapons: A list of weapons available in the game.
         """
-        self.mode = mode
         self.name = location_name
         # Some location modules return (intro, names, representations, activities);
         # newer ones include a fifth element with stay-activities for StayedClue flavor.
@@ -182,89 +190,120 @@ class Locations:
             if language in self.names:
                 self.render_locations_language(language, outdir)
 
+    def _graph_as_indices(self):
+        """Return node order and edges expressed as node-index pairs."""
+        nodes = list(self.graph.nodes())
+        indices = {node: index for index, node in enumerate(nodes)}
+        edges = [(indices[start], indices[end]) for start, end in self.graph.edges()]
+        return nodes, edges
+
     def render_locations_language(self, language, outdir):
         """
-        Renders the locations graph and saves it as images.
+        Draw the locations graph and save it as images.
 
-        Parameters:
-        - outdir: The directory where the images will be saved.
+        The old maps could be tall and narrow, and their corridors could appear
+        to cross unrelated rooms. These maps place rooms on an ellipse, expand
+        it when the rendered labels need more clearance, draw corridors behind
+        the room tiles, and choose the cyclic room order with the fewest
+        corridor crossings.
         """
-        names = {}
-        for index, place in self.indices.items():
-            names[index] = self.names[language][place]
+        names = {
+            node: self.names[language][place] for node, place in self.indices.items()
+        }
+        nodes, edges = self._graph_as_indices()
+        glyphs = [self.representations[node] for node in nodes]
+        room_names = [names[node] for node in nodes]
+        vertical = self.name == "train"
 
-        labels = {}
-        for place, name in names.items():
-            labels[place] = name + " " + self.representations[place]
+        for (
+            stem,
+            captions,
+            inline,
+            fill,
+            rx,
+            ry,
+            tile,
+            font_size,
+            label_width,
+            radius,
+            stroke,
+            link,
+            link_width,
+        ) in (
+            (
+                "locations_big",
+                room_names,
+                True,
+                BIG_FILL,
+                150.0,
+                110.0,
+                52.0,
+                20.0,
+                180.0,
+                BIG_RADIUS,
+                BIG_FILL,
+                BIG_LINK,
+                BIG_LINK_W,
+            ),
+            (
+                "locations_small",
+                None,
+                False,
+                "#ffffff",
+                34.0,
+                85.0,
+                34.0,
+                20.0,
+                None,
+                RADIUS,
+                STROKE,
+                BIG_LINK,
+                BIG_LINK_W,
+            ),
+        ):
+            render_ry = (100.0 if stem == "locations_big" else 52.0) if vertical else ry
+            svg = roommap_svg(
+                glyphs,
+                edges,
+                rx=rx,
+                ry=render_ry,
+                tile=tile,
+                font_size=font_size,
+                captions=captions,
+                inline=inline,
+                fill=fill,
+                vertical=vertical,
+                draw_tiles=True,
+                radius=radius,
+                stroke=stroke,
+                link=link,
+                link_width=link_width,
+                max_inline_width=label_width,
+            )
+            with open(
+                f"{outdir}/{language}/{stem}.svg", "w", encoding="utf8"
+            ) as image_file:
+                image_file.write(svg)
 
-        relabeled_graph = relabel_nodes(self.graph, labels)
-        g = to_agraph(relabeled_graph)
-
-        if g.number_of_nodes() > 3:
-            pos = planar_layout(g)
-
-            # Apply the planar layout to the PyGraphviz graph
-            for node, (x, y) in pos.items():
-                n = g.get_node(node)
-                n.attr["pos"] = f"{x},{y}"
-
-        g.graph_attr.update(bgcolor="transparent")
-        g.node_attr.update(
-            fontname="Raleway", color="lightblue2", style="filled", shape="Mrecord"
-        )
-        g.layout(prog="dot")
-        g.edge_attr.update(color="gray")
-        g.draw(outdir + f"/{language}/locations_big.svg")
-
-        if self.mode == "latex":
-            g.draw(outdir + f"/{language}/locations_big.pdf")
-
-        g.graph_attr.update(dpi="200")
-        if self.mode != "latex":
-            g.draw(outdir + f"/{language}/locations_big.png")
-
-        labels = {}
-        for place, name in names.items():
-            labels[place] = self.representations[place]
-
-        relabeled_graph = relabel_nodes(self.graph, labels)
-        g = to_agraph(relabeled_graph)
-
-        if g.number_of_nodes() > 3:
-            pos = planar_layout(g)
-
-            # Apply the planar layout to the PyGraphviz graph
-            for node, (x, y) in pos.items():
-                n = g.get_node(node)
-                n.attr["pos"] = f"{x},{y}"
-
-        g.graph_attr.update(
-            bgcolor="transparent", nodesep="0.1", ranksep="0.1", margin="0"
-        )
-        g.edge_attr.update(color="dimgrey", labeldistance="0.05")
-
-        g.node_attr.update(
-            fontname="Raleway", shape="plaintext", width="0.2", fixedsize="true"
-        )
-
-        if (self.mode == "latex"):
-            if g.number_of_nodes() == 3:
-                g.node_attr.update(fontsize="12")
-            elif g.number_of_nodes() == 4:
-                g.node_attr.update(fontsize="14")
-            elif g.number_of_nodes() >= 5:
-                g.node_attr.update(fontsize="16")
-
-        g.layout(prog="dot")
-        g.draw(outdir + f"/{language}/locations_small.svg")
-
-        if self.mode == "latex":
-            g.draw(outdir + f"/{language}/locations_small.pdf")
-
-        g.graph_attr.update(dpi="200")
-
-        if self.mode != "latex":
-            g.draw(outdir + f"/{language}/locations_small.png")
+            roommap_png(
+                glyphs,
+                edges,
+                f"{outdir}/{language}/{stem}.png",
+                rx=rx,
+                ry=render_ry,
+                tile=tile,
+                font_size=font_size,
+                captions=captions,
+                inline=inline,
+                fill=fill,
+                vertical=vertical,
+                draw_tiles=True,
+                radius=radius,
+                stroke=stroke,
+                link=link,
+                link_width=link_width,
+                max_inline_width=label_width,
+            )
 
     def get_activities(self):
         """
@@ -294,23 +333,28 @@ class Locations:
 
     def sort_locations(self):
         """
-        Returns a list of generic labels sorted according to where they show in the graph.
-        Sorting is by highest x (descending), then lowest y (ascending).
+        Return generic labels in their visual map order, top to bottom and
+        left to right.
+
+        The active room-map layout already knows every position, so sorting
+        no longer needs a separate Graphviz layout.
         """
-        g = to_agraph(self.graph)
-        g.layout(prog="dot")
-        pos = {}
-        for node in self.graph.nodes():
-            gv_node = g.get_node(node)
-            pos_str = gv_node.attr.get("pos")
-            if pos_str:
-                x, y = map(float, pos_str.split(","))
-                pos[node] = (x, y)
-        if not pos:
+        nodes, edges = self._graph_as_indices()
+        points = roommap_positions(nodes, edges, vertical=self.name == "train")
+        positions = {node: points[index] for index, node in enumerate(nodes)}
+
+        if not positions:
             return list(self.graph.nodes())
-        sorted_locations = sorted(pos.items(), key=lambda item: (-item[1][1], item[1][0]))
+        sorted_locations = sorted(
+            positions.items(),
+            # Symmetric ellipse points can differ by tiny floating-point
+            # amounts. Bucket y before sorting so a visual row is genuinely
+            # ordered from left to right.
+            key=lambda item: (round(item[1][1], 8), item[1][0]),
+        )
         sorted_labels = [loc[0].lower() for loc in sorted_locations]
         return sorted_labels
+
 
 class TutorialLocations(Locations):
     def __init__(self, location_data):

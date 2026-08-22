@@ -358,8 +358,9 @@ function selectClues(withLies, autoSelected) {
 	revealAnotherClue(0);
 
 	if (isKindle) {
-		document.getElementById("locations-small").src = getMysteryAssetUrl("locations_small.png");
-		document.getElementById("locations-small").style.height = '25vh';
+		var smallMap = document.querySelector("#clues-box #locations-small");
+		smallMap.src = getMysteryAssetUrl("locations_small.png");
+		smallMap.style.height = "25vh";
 	}
 }
 

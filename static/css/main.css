@@ -122,6 +122,43 @@ a:visited {
 	padding-right: 1rem;
 }
 
+.locations-map-big,
+.locations-map-small {
+	display: block;
+	max-width: 100%;
+}
+
+.locations-map-big,
+.locations-map-small {
+	width: auto;
+	height: auto;
+	margin-inline: auto;
+}
+
+.locations-map-small {
+	max-height: 100%;
+	object-fit: contain;
+}
+
+@media (max-width: 575.98px) {
+	#clues-box {
+		--bs-gutter-x: 0.75rem;
+	}
+
+	#clues-box .col-9 {
+		padding-right: 0.5rem;
+	}
+
+	#clues-box .col-3 {
+		padding-left: 0.25rem;
+		padding-right: 0.25rem;
+	}
+
+	#clues-box .locations-map-small {
+		max-height: 220px;
+	}
+}
+
 /* Dark theme adjustments */
 [data-bs-theme="dark"] #clues-box {
 	border-color: rgba(255,255,255,0.04);

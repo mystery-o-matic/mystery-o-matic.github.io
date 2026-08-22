@@ -21,7 +21,7 @@ or visit [mystery-o-matic.com](https://mystery-o-matic.com) for a live version.
 Make sure all the requirements are met. If you are using Ubuntu:
 
 ```bash
-sudo apt-get install libsecp256k1-0 graphviz graphviz-dev
+sudo apt-get install libsecp256k1-0
 ```
 
 Solidity 0.8.x is needed, so we can install `solc-select` for that:
