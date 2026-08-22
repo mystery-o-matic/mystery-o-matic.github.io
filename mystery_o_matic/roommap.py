@@ -385,6 +385,7 @@ def render(
     link=LINK,
     link_width=LINK_W,
     max_inline_width=None,
+    edge_styles=None,
 ):
     """SVG for a map.
 
@@ -398,6 +399,7 @@ def render(
     vertical -- arrange a path graph from top to bottom instead of on an ellipse.
     draw_tiles -- draw room boxes; glyph-only maps clip corridors to their bounds.
     max_inline_width -- wrap inline room labels at this approximate pixel width.
+    edge_styles -- optional SVG attribute overrides keyed by an edge tuple.
     """
     n = len(labels)
     texts, widths, line_sets, box_height, line_height = _inline_text_layout(
@@ -464,15 +466,20 @@ def render(
                 room_widths[b],
                 box_height,
             )
+        line_style = {
+            "stroke": link,
+            "stroke_width": link_width,
+            "stroke_linecap": "round",
+        }
+        if edge_styles:
+            line_style.update(edge_styles.get((a, b), edge_styles.get((b, a), {})))
         group.append(
             draw.Line(
                 f"{x1:.1f}",
                 f"{y1:.1f}",
                 f"{x2:.1f}",
                 f"{y2:.1f}",
-                stroke=link,
-                stroke_width=link_width,
-                stroke_linecap="round",
+                **line_style,
             )
         )
 

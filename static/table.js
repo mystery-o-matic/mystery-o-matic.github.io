@@ -25,7 +25,6 @@ class ClueTable {
 		for (let i = startColumn; i < this.nColumns; i++) {
 			for (let j = 0; j < this.nRows; j++) {
 				this.clearCell(i, j);
-				this.data[i][j] = "";
 			}
 		}
 	}
@@ -37,7 +36,7 @@ class ClueTable {
 			this.columnSize,
 			this.rowSize
 		);
-		this.data[column][row] = null;
+		this.data[column][row] = "";
 		let backgroundColor = row % 2 === 0 ? this.colorEven : this.colorOdd;
 		if (this.headerVisible && row === 0) backgroundColor = this.colorEven;
 		else if (this.headerVisible) backgroundColor = row % 2 === 0 ? this.colorOdd : this.colorEven;
@@ -609,6 +608,8 @@ async function checkCellClicked(c, x, y) {
 
 	//console.log(table.data);
 	var value = table.data[position[0]][position[1]];
+	if (value == null)
+		value = "";
 	if (value == "")
 		value = "✓";
 	else if (value == "✓")
@@ -680,7 +681,6 @@ function checkTutorialTable(c, d) {
 	var expectedData = tutorialData.initialData[d.replace("clues-table-", "")];
 	var name = c.replace("clues-table-", "");
 	var initialData = tutorialData.initialData[name];
-	console.log(initialData);
 	var table = tables.get(name);
 
 	for (let i = 0; i < expectedData.length; i++) {
@@ -688,6 +688,8 @@ function checkTutorialTable(c, d) {
 			var expectedValue = expectedData[i][j].trim();
 			var ii = table.headerVisible ? i + 1 : i;
 			var value = table.data[j + 2][ii];
+			if (value == null)
+				value = "";
 
 			if (initialData != undefined && initialData[i][j] != "")
 				continue
@@ -706,7 +708,7 @@ function checkTutorialTable(c, d) {
 				if (value == "?" || value == "") {
 					//Nothing
 				} else {
-					table.clearCell(j + 2, i + 1, table);
+					table.clearCell(j + 2, ii);
 					table.fillCell(value, getCluesFontSize(table), '#AA0000', j + 2, ii);
 				}
 			}

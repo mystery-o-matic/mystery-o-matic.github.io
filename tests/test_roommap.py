@@ -1,4 +1,7 @@
+import subprocess
+import sys
 from itertools import combinations
+from pathlib import Path
 from xml.etree import ElementTree
 
 from networkx import Graph
@@ -17,6 +20,8 @@ from mystery_o_matic.roommap import (
     render,
     render_png,
 )
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_best_order_removes_avoidable_corridor_crossing():
@@ -85,6 +90,16 @@ def test_glyph_only_map_clips_corridor_without_drawing_tiles():
 
     assert "<rect" not in svg
     assert 'd="M0.0,-9.0 L0.0,9.0"' in svg
+
+
+def test_svg_accepts_per_corridor_styles_in_either_edge_direction():
+    svg = render(
+        ["A", "B"],
+        [(0, 1)],
+        edge_styles={(1, 0): {"stroke_dasharray": "4 4"}},
+    )
+
+    assert 'stroke-dasharray="4 4"' in svg
 
 
 def test_safe_four_room_layout_keeps_its_preferred_dimensions():
@@ -236,3 +251,52 @@ def test_train_location_sorting_follows_the_carriage_path():
         "room3",
         "room4",
     ]
+
+
+def test_tutorial_map_script_recreates_every_language_and_highlight(tmp_path):
+    subprocess.run(
+        [
+            sys.executable,
+            "scripts/render_tutorial_maps.py",
+            "--output",
+            str(tmp_path),
+        ],
+        cwd=ROOT,
+        check=True,
+    )
+
+    expected = {
+        "locations_tutorial.svg",
+        "locations_tutorial_highlighted.svg",
+        "locations_tutorial_highlighted_bathroom.svg",
+        "locations_tutorial_highlighted_bedroom.svg",
+        "locations_tutorial_highlighted_dining_room.svg",
+        "locations_tutorial_small.svg",
+    }
+    language_labels = {
+        "en": "dining room 🪑",
+        "es": "el comedor 🪑",
+        "ru": "столовая 🪑",
+    }
+    for language, label in language_labels.items():
+        destination = tmp_path / language
+        assert {path.name for path in destination.glob("*.svg")} == expected
+        assert label in (destination / "locations_tutorial.svg").read_text(
+            encoding="utf8"
+        )
+        assert (destination / "locations_tutorial_small.svg").read_text(
+            encoding="utf8"
+        ).count("<rect") == 4
+
+        bedroom = (
+            destination / "locations_tutorial_highlighted_bedroom.svg"
+        ).read_text(encoding="utf8")
+        dining = (
+            destination / "locations_tutorial_highlighted_dining_room.svg"
+        ).read_text(encoding="utf8")
+        bathroom = (
+            destination / "locations_tutorial_highlighted_bathroom.svg"
+        ).read_text(encoding="utf8")
+        assert bedroom.count('stroke-dasharray="4 4"') == 1
+        assert dining.count('stroke-dasharray="4 4"') == 2
+        assert bathroom.count('stroke-dasharray="4 4"') == 2

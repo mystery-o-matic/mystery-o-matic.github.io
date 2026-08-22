@@ -74,6 +74,15 @@ mystery-o-matic scenarios/simple.template.sol static out --load-state test_state
 
 This is useful to iterate quickly on templates and output generation without waiting for the solver.
 
+### Regenerating tutorial maps
+
+The tutorial maps use the same renderer as generated mysteries. Recreate every
+English, Spanish, and Russian tutorial SVG with:
+
+```bash
+python3 scripts/render_tutorial_maps.py
+```
+
 ## Adding a new language
 
 Clue text is generated through language renderers in `mystery_o_matic/lang/`. Each language has its own module implementing the `LanguageRenderer` interface.
