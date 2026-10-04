@@ -139,6 +139,25 @@ class Locations:
         self.graph = self.create_locations_graph(nodes)
         self.weapon_locations = self.create_locations_weapons(weapons)
 
+    def restore_layout(self, indices, edges):
+        """Restore a saved room assignment and graph without drawing new ones."""
+        if set(indices) != set(self.map.values()):
+            raise ValueError("saved layout must name every room")
+        if (len(set(indices.values())) != len(indices)
+                or set(indices.values()) - set(self.names["en"])):
+            raise ValueError("saved layout contains duplicate or unknown locations")
+        if any(a not in indices or b not in indices or a == b for a, b in edges):
+            raise ValueError("saved layout contains an invalid connection")
+        representations = get_location_data(self.name, "latex")[1][2]
+        self.indices = dict(indices)
+        self.rindices = {name: room for room, name in indices.items()}
+        self.representations = {room: representations[name] for room, name in indices.items()}
+        self.graph = Graph()
+        self.graph.add_nodes_from(indices)
+        self.graph.add_edges_from(edges)
+        if not is_connected(self.graph):
+            raise ValueError("saved layout must be connected")
+
     def create_locations_graph(self, nodes):
         """
         Creates a graph representing the connections between locations.

@@ -15,7 +15,7 @@ from mystery_o_matic.output.llm import produce_llm_output
 from mystery_o_matic.echidna import create_outdir
 from mystery_o_matic.location import Locations, TutorialLocations, get_location_data
 from mystery_o_matic.weapons import get_available_weapons
-from mystery_o_matic.mystery import Mystery, get_intervals_length_from_events
+from mystery_o_matic.mystery import CHARACTER_NAMES, Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 from mystery_o_matic.solidity import read_solidity_from_text
 
@@ -84,7 +84,11 @@ def main() -> int:
         "--nplaces", type=int, action="store", default=4, help="number of rooms"
     )
     parser.add_argument(
-        "--nchars", type=int, action="store", default=3, help="number of characters"
+        "--nchars", type=int, action="store", default=None, help="number of characters (default: 3)"
+    )
+    parser.add_argument(
+        "--characters", nargs="+", type=str.lower, choices=CHARACTER_NAMES,
+        help="fixed cast in CHAR1, CHAR2, ... order; sets --nchars when omitted",
     )
     parser.add_argument(
         "--location", action="store", default=None, help="use a specific location"
@@ -94,6 +98,10 @@ def main() -> int:
     )
 
     parser.add_argument("--mode", action="store", default="html", help="output mode")
+    parser.add_argument(
+        "--no-appearance-clues", action="store_true",
+        help="disable appearance-based sightings (always disabled for LaTeX)",
+    )
 
     parser.add_argument(
         "--telegram-api-key",
@@ -133,6 +141,14 @@ def main() -> int:
 
     args = parser.parse_args()
 
+    if args.characters:
+        if len(set(args.characters)) != len(args.characters):
+            parser.error("--characters must contain distinct names")
+        if len(args.characters) < 3:
+            parser.error("--characters requires at least three names")
+        if args.nchars is not None and args.nchars != len(args.characters):
+            parser.error("--nchars must match the number of --characters")
+
     if args.save_state is not None and args.load_state is not None:
         print("Cannot use both --save-state and --load-state at the same time")
         return -1
@@ -145,7 +161,8 @@ def main() -> int:
     workers = args.workers
     season = args.season
     number_places = args.nplaces
-    number_characters = args.nchars
+    characters = args.characters
+    number_characters = len(characters) if characters else (args.nchars or 3)
     date = datetime.today().strftime("%d-%m-%Y")
     mode = args.mode
     llm_output = args.llm
@@ -214,6 +231,8 @@ def main() -> int:
         locations = Locations(
             mode, location_name, number_places, location_data, weapons_available.keys()
         )
+        if "location_indices" in state:
+            locations.restore_layout(state["location_indices"], state["location_edges"])
         # override weapon locations / activities if provided in the saved state
         if "weapon_locations" in state:
             locations.weapon_locations = state["weapon_locations"]
@@ -221,6 +240,11 @@ def main() -> int:
         stay_activities = locations.get_stay_activities()
 
         initial_locations_pairs = [tuple(x) for x in state["initial_locations_pairs"]]
+        if (args.nchars is not None or args.characters) and number_characters != len(initial_locations_pairs):
+            parser.error("requested cast size does not match the loaded state")
+        number_characters = len(initial_locations_pairs)
+        if characters is None:
+            characters = state.get("characters")
         used_weapon_location = state.get("used_weapon_location")
         weapon_used = state.get("weapon_used")
         txs = state["txs"]
@@ -321,11 +345,9 @@ def main() -> int:
             "seed": used_seed,
             "location_name": location_name,
             "number_places": number_places,
+            "location_indices": locations.indices,
+            "location_edges": list(locations.graph.edges()),
         }
-        with open(args.save_state, "w") as f:
-            json.dump(state, f, indent=2)
-        print("Saved precomputed state to:", args.save_state)
-
     mystery = Mystery(
         difficulty,
         initial_locations_pairs,
@@ -336,7 +358,19 @@ def main() -> int:
         txs,
         stay_activities=stay_activities,
         used_seed=used_seed,
+        characters=characters,
+        appearance_clues=(mode != "latex" and not args.no_appearance_clues),
     )
+    if args.load_state and "initial_time" in state:
+        from mystery_o_matic.time import Time
+        mystery.initial_time = Time(state["initial_time"])
+    if args.save_state:
+        state["characters"] = mystery.get_characters()
+        state["initial_time"] = str(mystery.initial_time)
+        state["number_characters"] = number_characters
+        with open(args.save_state, "w") as f:
+            json.dump(state, f, indent=2)
+        print("Saved precomputed state to:", args.save_state)
     mystery.load_events(events)
     mystery.process_clues()
 

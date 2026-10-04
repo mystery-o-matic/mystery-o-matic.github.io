@@ -10,6 +10,7 @@ NOT_SAW_WHILE_IN_CLUE_CAP = 2
 # Real puzzles rarely have more than 1-2 eligible foggy sightings, so this is a
 # safety ceiling rather than a typical count.
 TRAIT_CLUE_CAP = 3
+CHARACTER_NAMES = ("alice", "bob", "carol", "dave", "eddie", "frida")
 from hashlib import sha256
 
 from mystery_o_matic.clues import *
@@ -135,6 +136,8 @@ class Mystery:
         txs,
         stay_activities=None,
         used_seed=None,
+        characters=None,
+        appearance_clues=True,
     ):
         """
         Initialize the Mystery class.
@@ -151,6 +154,7 @@ class Mystery:
             None
         """
         self.difficulty = difficulty
+        self.appearance_clues = appearance_clues
         self.solution = []
         self.initial_clues = []
         self.additional_clues = []
@@ -172,9 +176,16 @@ class Mystery:
                 self.killer = action[1]
                 self.victim = action[2]
 
-        self.characters = ["alice", "bob", "carol", "dave", "eddie", "frida"]
-        shuffle(self.characters)
-        self.characters = self.characters[: self.number_characters]
+        if characters is None:
+            self.characters = list(CHARACTER_NAMES)
+            shuffle(self.characters)
+            self.characters = self.characters[: self.number_characters]
+        else:
+            self.characters = [name.lower() for name in characters]
+            if (len(self.characters) != self.number_characters
+                    or len(set(self.characters)) != len(self.characters)
+                    or set(self.characters) - set(CHARACTER_NAMES)):
+                raise ValueError("characters must be distinct known names, one per initial location")
         self.cplaceholders = [
             "$CHAR" + str(i + 1) for i in range(self.number_characters)
         ]
@@ -439,13 +450,14 @@ class Mystery:
         ]
         self._trait_rng.shuffle(foggy_sightings)
 
-        if not foggy_sightings and describable_sightings:
-            self._trait_rng.shuffle(describable_sightings)
-            foggy_sightings = [describable_sightings[0]]
-            foggy_sightings[0].foggy = True
+        if self.appearance_clues:
+            if not foggy_sightings and describable_sightings:
+                self._trait_rng.shuffle(describable_sightings)
+                foggy_sightings = [describable_sightings[0]]
+                foggy_sightings[0].foggy = True
 
-        for c in foggy_sightings[:TRAIT_CLUE_CAP]:
-            c.fog_kind = self._pick_fog_kind(c, usable_props)
+            for c in foggy_sightings[:TRAIT_CLUE_CAP]:
+                c.fog_kind = self._pick_fog_kind(c, usable_props)
 
         weapon_not_used_clues = []
         for weapon in self.weapon_locations.values():

@@ -45,12 +45,14 @@ def produce_tex_output(
     weapon_labels,
     locations,
     story_clue,
+    shuffle_clues=True,
 ):
     intervals = mystery.get_intervals()
     suspects = mystery.get_suspects()
 
-    shuffle(mystery.additional_clues)
-    shuffle(mystery.additional_clues_with_lies)
+    if shuffle_clues:
+        shuffle(mystery.additional_clues)
+        shuffle(mystery.additional_clues_with_lies)
 
     names_html = {}
     for i, char in enumerate(mystery.get_characters()):
@@ -205,6 +207,8 @@ def produce_tex_output(
         args["firstClue"] = firstClue
         args["additionalClues"] = additional_clues_enumeration
         args["finalLocations"] = get_bullet_list([final_locations_bullets], "")
+        args["finalLocationsList"] = get_bullet_list(sub_bullets, "")
+        args["finalTime"] = str(mystery.final_time)
         args["locationImages"] = out_dir + f"/{language}"
         tables = ""
 

@@ -58,6 +58,17 @@ The tool will produce a static `index.html` file stored in the `out` directory.
 
 ### Fast testing with precomputed state ✅
 
+For a fixed cast, use `--characters Eddie Frida Alice Carol`. Names are
+case-insensitive and remain in the supplied model-slot order; the character count
+is inferred unless `--nchars` is also supplied, in which case it must agree.
+Combine this with `--location castle` to fix the setting. Omitting `--characters`
+keeps random cast selection.
+
+LaTeX output disables appearance-based clues because the book has no character
+profiles. Use `--no-appearance-clues` to disable those clues in other output modes
+as well; anonymous sightings still work. Newly saved states retain the cast,
+initial clock time and room layout, and loading a state infers its cast size.
+
 When developing or testing the website you can avoid the slow fuzzing step by saving a generated scenario to a JSON file and reloading it later:
 
 - Save the current generated state:

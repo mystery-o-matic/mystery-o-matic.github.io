@@ -134,10 +134,7 @@ def generate_latex_clue_table(
         ]
         latex_code += " & ".join(time_cells) + " \\tabularnewline\n"
 
-        # Add individual clines for each column from the second to the last
-        for col in range(2, num_columns + 2):
-            latex_code += f"\\cline{{{col}-{num_columns + 2}}} "
-        latex_code += "\n"
+        latex_code += "\\hhline{~|" + "-|" * (num_columns + 1) + "}\n"
 
     # Sort the characters by name
     char_nums = sorted(range(1, num_rows + 1), key=lambda k: char_names[k - 1])
@@ -177,11 +174,9 @@ def generate_latex_clue_table(
 
         latex_code += " \\tabularnewline\n"
 
-        # Add individual clines for each column in the current row
-        if char_index < 3:
-            for col in range(2, num_columns + 2):
-                latex_code += f"\\cline{{{col}-{num_columns + 2}}} "
-            latex_code += "\n"
+        if char_index < num_rows:
+            # hhline stays visible above colortbl's shaded cells.
+            latex_code += "\\hhline{~|" + "-|" * (num_columns + 1) + "}\n"
 
     # End the table
     latex_code += "\\hline\n\\end{tabular}\\\\\n"
@@ -214,5 +209,5 @@ def generate_latex_weapons_table(number_weapons):
 
     # Finish the table
     latex_code += "\\hline\n\\end{tabular}\n"
-    latex_code += "\\renewcommand{\\arraystretch}{1.4}\n"
+    latex_code += "\\renewcommand{\\arraystretch}{1}\n"
     return latex_code
