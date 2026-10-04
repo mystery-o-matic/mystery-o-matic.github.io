@@ -98,6 +98,11 @@ class SpanishRenderer(LanguageRenderer):
 
         return s
 
+    def render_not_saw_while_in(self, subject, object, place):
+        if randint(0, 1) == 0:
+            return f'{subject}: "No vi a {object} mientras estaba en {place}"'
+        return f'{subject}: "Mientras estaba en {place}, nunca vi a {object}"'
+
     def render_saw_victim_when_arriving(self, subject, object, object_is_alive, place, time):
         r = randint(0, 2)
         s = f'{subject}: "'

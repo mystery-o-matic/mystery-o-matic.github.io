@@ -4,6 +4,8 @@ STAY_ACTIVITY_PROBABILITY = 0.7
 # A first-arrival clue rules out every earlier slot for one character/room pair,
 # so keep it rare enough that it does not flatten the timeline puzzle.
 FIRST_ARRIVAL_CLUE_CAP = 2
+# These clues cover every visit to a room, so only reveal a few per mystery.
+NOT_SAW_WHILE_IN_CLUE_CAP = 2
 # Max number of foggy sightings upgraded to profile-matchable descriptions.
 # Real puzzles rarely have more than 1-2 eligible foggy sightings, so this is a
 # safety ceiling rather than a typical count.
@@ -66,6 +68,43 @@ def _insert_clue_groups_across_sections(clues, clue_groups):
         clues.insert(min(insert_index, len(clues)), clue)
 
 
+def _create_not_saw_while_in_clues(initial_locations, events, victim):
+    """Use the complete movement history, including return visits and bodies.
+
+    A room being empty at arrival and departure is not enough: someone could
+    have visited in between. Record everyone sharing a room after each move.
+    """
+    current_locations = {
+        "$" + char.lstrip("$"): "$" + place.lstrip("$")
+        for char, place in initial_locations
+    }
+    encounters = {}
+
+    def record_encounters():
+        for subject, place in current_locations.items():
+            seen = encounters.setdefault((subject, place), set())
+            seen.update(
+                other for other, room in current_locations.items()
+                if other != subject and room == place
+            )
+
+    record_encounters()
+    for event in events:
+        # Every successful move emits an arrival, even into an empty room.
+        # Reverted transactions have no events and must not change the history.
+        if event[0] == "SawWhenArriving":
+            current_locations[event[1]] = event[4]
+            record_encounters()
+
+    return [
+        NotSawWhileInClue(subject, other, place)
+        for (subject, place), seen in encounters.items()
+        if subject != victim
+        for other in current_locations
+        if other != subject and other not in seen
+    ]
+
+
 class Mystery:
     difficulty = ""
     source = None
@@ -112,6 +151,10 @@ class Mystery:
             None
         """
         self.difficulty = difficulty
+        self.solution = []
+        self.initial_clues = []
+        self.additional_clues = []
+        self.additional_clues_with_lies = []
         self.source = source
         self.initial_locations = initial_locations
         self.final_locations = dict()
@@ -175,6 +218,12 @@ class Mystery:
             event_calls.append(
                 get_event(self.source, "StoryModel", event, self.initial_time)
             )
+
+        # Use raw arrivals before victim sightings are rewritten below. Existing
+        # saved states have these events too, so no new model event is needed.
+        self.additional_clues.extend(_create_not_saw_while_in_clues(
+            self.initial_locations, event_calls, self.victim
+        ))
 
         for call in event_calls:
             # Skip the clues that are produced by the victim
@@ -302,6 +351,23 @@ class Mystery:
             self.alibi_place = "$" + choice(places)
 
         print("Alibi location is:", self.alibi_place)
+        # Suppress crime-scene admissions before choosing the limited set.
+        not_saw_while_in_clues = [
+            clue for clue in self.additional_clues
+            if isinstance(clue, NotSawWhileInClue)
+            and not clue.is_incriminating(
+                self.killer, self.victim, self.murder_place, self.murder_time
+            )
+        ]
+        shuffle(not_saw_while_in_clues)
+        selected_absences = {
+            id(clue) for clue in not_saw_while_in_clues[:NOT_SAW_WHILE_IN_CLUE_CAP]
+        }
+        self.additional_clues = [
+            clue for clue in self.additional_clues
+            if not isinstance(clue, NotSawWhileInClue) or id(clue) in selected_absences
+        ]
+
         # Filter additional clues
         first_arrival_clues = [
             clue for clue in self.additional_clues

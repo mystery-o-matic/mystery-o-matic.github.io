@@ -125,6 +125,8 @@ def produce_llm_output(
     additional_clues = []
 
     for i, clue in enumerate(mystery.additional_clues):
+        if language not in clue:
+            continue
         additional_clues.append(create_template(clue[language]).substitute(names_txt))
 
     additional_clues_list = get_bullet_list(additional_clues, 0)
@@ -132,6 +134,8 @@ def produce_llm_output(
     additional_clues_with_lies = []
 
     for i, clue in enumerate(mystery.additional_clues_with_lies):
+        if language not in clue:
+            continue
         additional_clues_with_lies.append(
             create_template(clue[language]).substitute(names_txt)
         )

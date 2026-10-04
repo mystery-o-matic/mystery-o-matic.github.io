@@ -98,6 +98,11 @@ class RussianRenderer(LanguageRenderer):
 
         return s
 
+    def render_not_saw_while_in(self, subject, object, place):
+        if randint(0, 1) == 0:
+            return f'{subject}: "Я не видел(а) {object}, пока был(а) в {place}_LOC"'
+        return f'{subject}: "Пока я был(а) в {place}_LOC, я ни разу не видел(а) {object}"'
+
     def render_saw_victim_when_arriving(self, subject, object, object_is_alive, place, time):
         r = randint(0, 2)
         s = f'{subject}: "'

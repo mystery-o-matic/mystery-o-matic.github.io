@@ -101,7 +101,12 @@ class AbstractClue(ABC):
         pass
 
     def string(self):
-        return {lang: self.render(r) for lang, r in get_all_renderers().items()}
+        translations = {}
+        for lang, renderer in get_all_renderers().items():
+            text = self.render(renderer)
+            if text is not None:
+                translations[lang] = text
+        return translations
 
 
 class SawWhenArrivingClue(AbstractClue):
@@ -178,6 +183,26 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
         # we could manipulate this clue, but it will produce many false statements from the killer
         # which will be much easier to detect
         return None
+
+
+class NotSawWhileInClue(AbstractClue):
+    """The subject never shared this room with the object during the mystery."""
+
+    def __init__(self, subject, object, place):
+        self.subject = subject
+        self.object = object
+        self.place = place
+        super().__init__()
+
+    def render(self, renderer):
+        return renderer.render_not_saw_while_in(self.subject, self.object, self.place)
+
+    def is_incriminating(self, killer, victim, place, time):
+        # Even without a time, the killer would admit visiting the crime scene.
+        return self.subject == killer and self.place == place
+
+    def manipulate(self, killer, victim, alibi_place):
+        return None  # Omit it instead of inventing another absence claim.
 
 
 class SawVictimWhenArrivingClue(AbstractClue):
@@ -577,6 +602,9 @@ def create_clue(call):
         return NotSawWhenArrivingLeavingClue(
             call[1], call[2], call[3], call[4], "arriving"
         )
+    elif call[0] == "NotSawWhileIn":
+        assert len(call) == 4
+        return NotSawWhileInClue(call[1], call[2], call[3])
     elif call[0] == "SawVictimWhenArriving":
         assert len(call) == 6
         return SawVictimWhenArrivingClue(call[1], call[2], call[3], call[4], call[5])

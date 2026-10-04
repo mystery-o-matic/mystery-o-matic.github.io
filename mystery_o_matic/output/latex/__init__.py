@@ -168,6 +168,8 @@ def produce_tex_output(
         additional_clues = []
 
         for clue in mystery.additional_clues:
+            if language not in clue:
+                continue
             text = _strip_fog_enrichment(clue[language], language)
             clue = replace_emojis(create_template(text).substitute(names_html))
             clue = replace_opening_quotes(clue)
@@ -179,6 +181,8 @@ def produce_tex_output(
 
         additional_clues_with_lies = []
         for clue in mystery.additional_clues_with_lies:
+            if language not in clue:
+                continue
             text = _strip_fog_enrichment(clue[language], language)
             clue = replace_emojis(create_template(text).substitute(names_html))
             clue = replace_opening_quotes(clue)

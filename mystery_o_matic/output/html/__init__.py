@@ -333,6 +333,8 @@ def produce_html_output(
         additional_clues = []
 
         for i, clue in enumerate(mystery.additional_clues):
+            if language not in clue:
+                continue
             additional_clues.append(
                 create_template(clue[language]).substitute(names_html)
             )
@@ -340,6 +342,8 @@ def produce_html_output(
         additional_clues_with_lies = []
 
         for i, clue in enumerate(mystery.additional_clues_with_lies):
+            if language not in clue:
+                continue
             additional_clues_with_lies.append(
                 create_template(clue[language]).substitute(names_html)
             )

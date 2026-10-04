@@ -51,6 +51,10 @@ class LanguageRenderer(ABC):
     def render_not_saw(self, subject, object, place, time):
         pass
 
+    def render_not_saw_while_in(self, subject, object, place):
+        """Return None until this clue is available in the renderer's language."""
+        return None
+
     @abstractmethod
     def render_saw_victim_when_arriving(self, subject, object, object_is_alive, place, time):
         pass

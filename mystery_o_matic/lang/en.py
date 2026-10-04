@@ -98,6 +98,11 @@ class EnglishRenderer(LanguageRenderer):
 
         return s
 
+    def render_not_saw_while_in(self, subject, object, place):
+        if randint(0, 1) == 0:
+            return f'{subject}: "I didn\'t see {object} while I was in the {place}"'
+        return f'{subject}: "While I was in the {place}, I never saw {object}"'
+
     def render_saw_victim_when_arriving(self, subject, object, object_is_alive, place, time):
         r = randint(0, 2)
         s = f'{subject}: "'
