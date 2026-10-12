@@ -42,6 +42,9 @@ class RussianRenderer(LanguageRenderer):
 
     # --- Clues ---
 
+    def render_no_visitors(self, place):
+        return f"Никто ни разу не был в {place}_LOC."
+
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'

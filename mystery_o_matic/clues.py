@@ -510,6 +510,23 @@ class StayedClue(AbstractClue):
         return self
 
 
+class NoVisitorsClue(AbstractClue):
+    """An optional editorial clue, validated against the full movement history."""
+
+    def __init__(self, place):
+        self.place = place
+        super().__init__()
+
+    def render(self, renderer):
+        return renderer.render_no_visitors(self.place)
+
+    def is_incriminating(self, killer, victim, place, time):
+        return False
+
+    def manipulate(self, killer, victim, alibi_place):
+        return self
+
+
 class FirstArrivalClue(AbstractClue):
     """The subject's first visit to a place during the mystery timeline."""
 

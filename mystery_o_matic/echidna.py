@@ -1,4 +1,5 @@
 from os import mkdir
+from pathlib import Path
 from subprocess import Popen
 
 
@@ -35,14 +36,16 @@ def create_echidna_process(prefix, path, seed, workers):
             - file object: The error output file.
     """
     call = ["echidna"]
-    call.extend([path])
-    call.extend(["--config", "config/echidna.yaml", "--workers", str(workers)])
+    call.extend([str(Path(path).resolve())])
+    call.extend(["--config", str(Path("config/echidna.yaml").resolve()), "--workers", str(workers)])
     if seed is not None:
         call.extend(["--seed", str(seed)])
     outjson = open(prefix + "/result.json", "w")
     outerr = open(prefix + "/out.err", "w")
     return (
-        Popen(call, stdout=outjson, stderr=outerr),
+        # crytic-compile writes into its working directory. Keep each run's
+        # compiler artifacts local so simultaneous generations cannot collide.
+        Popen(call, stdout=outjson, stderr=outerr, cwd=Path(prefix).resolve()),
         outjson,
         outerr,
     )

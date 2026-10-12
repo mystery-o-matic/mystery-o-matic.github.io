@@ -1,5 +1,6 @@
 from contextlib import suppress
 from os import makedirs
+import re
 from string import Template
 
 from emoji import demojize
@@ -11,17 +12,6 @@ class TexTemplate(Template):
 
 def create_tex_template(str):
     return TexTemplate(str)
-
-
-def read_tex_template(filename):
-    try:
-        with open(filename, "r", encoding="utf-8") as f:
-            template = create_tex_template(f.read())
-            return template
-    except FileNotFoundError:
-        raise ValueError(f"Template file not found: {filename}")
-    except UnicodeDecodeError:
-        raise ValueError(f"Template file has invalid encoding: {filename}")
 
 
 def get_bullet_list(elements, customItem=None):
@@ -79,7 +69,7 @@ def get_char_name(name):
 def get_emoji_name(emoji_char):
     # Use emoji.demojize to get the name in the format ":emoji_name:"
     emoji_name = demojize(emoji_char)
-    emoji_name = emoji_name.strip(":").replace("_", "-")
+    emoji_name = emoji_name.strip(":").replace("_", "-").lower()
     # Strip the colons to return just the canonical name
     return "\\emoji{" + emoji_name + "}"
 
@@ -88,6 +78,12 @@ def replace_emojis(text):
     no_emojis = demojize(text).replace("(:", "(\\emoji{")
     no_emojis = no_emojis.replace(":)", "})")
     no_emojis = no_emojis.replace("_", "-")
+    # The emoji package uses lowercase names, including t-rex.
+    no_emojis = re.sub(
+        r"\\emoji\{([^}]+)\}",
+        lambda match: "\\emoji{" + match.group(1).lower() + "}",
+        no_emojis,
+    )
     return no_emojis
 
 
@@ -184,11 +180,15 @@ def generate_latex_clue_table(
     return latex_code
 
 
-def generate_latex_weapons_table(number_weapons):
+def generate_latex_weapons_table(number_weapons, column_width=None):
     # Dynamically set column format based on number_weapons
     page_width = None
 
-    if number_weapons == 5:
+    if column_width is not None:
+        if not 0 < column_width <= 1:
+            raise ValueError("weapon column width must be a fraction of paper width")
+        page_width = column_width
+    elif number_weapons == 5:
         page_width = 0.12
     else:
         page_width = 0.172

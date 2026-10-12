@@ -544,6 +544,28 @@ def positions(labels, edges, rx=78.0, ry=52.0, vertical=False):
     return layout(len(labels), edges, rx, ry, vertical=vertical)
 
 
+def render_tikz(labels, edges, *, vertical=False):
+    """Inline map using the book's roommap macros and TeX-ready room labels.
+
+    Dimensions are in millimetres. Reserve slightly more than the book's
+    5.7 mm room tiles so that corridors clear unrelated rooms after rounding.
+    The same layout engine handles SVG, PNG and book maps.
+    """
+    points = _fit_layout(
+        len(labels), edges, [6.2] * len(labels), 6.2,
+        rx=8.0, ry=6.6, vertical=vertical, room_gap=1.0, corridor_gap=0.7,
+    )
+    lines = [r"\begin{roommap}"]
+    for room, label in enumerate(labels):
+        x, y = points[room]
+        # SVG's y axis points down; TikZ's points up.
+        lines.append(rf"\room{{r{room}}}{{{x:.3f},{-y:.3f}}}{{{label}}}")
+    for start, end in edges:
+        lines.append(rf"\link{{r{start}}}{{r{end}}}")
+    lines.append(r"\end{roommap}")
+    return "\n".join(lines)
+
+
 def render_png(
     labels,
     edges,

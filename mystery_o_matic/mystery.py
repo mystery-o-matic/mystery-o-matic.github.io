@@ -230,6 +230,9 @@ class Mystery:
                 get_event(self.source, "StoryModel", event, self.initial_time)
             )
 
+        self.visited_rooms = {"$" + room.lstrip("$") for _, room in self.initial_locations}
+        self.visited_rooms.update(e[4] for e in event_calls if e[0] == "SawWhenArriving")
+
         # Use raw arrivals before victim sightings are rewritten below. Existing
         # saved states have these events too, so no new model event is needed.
         self.additional_clues.extend(_create_not_saw_while_in_clues(

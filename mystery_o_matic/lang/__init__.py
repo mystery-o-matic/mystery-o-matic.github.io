@@ -43,6 +43,9 @@ class LanguageRenderer(ABC):
 
     # --- Clues ---
 
+    def render_no_visitors(self, place):
+        return None
+
     @abstractmethod
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         pass

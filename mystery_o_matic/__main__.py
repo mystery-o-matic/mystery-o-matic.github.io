@@ -18,6 +18,7 @@ from mystery_o_matic.weapons import get_available_weapons
 from mystery_o_matic.mystery import CHARACTER_NAMES, Mystery, get_intervals_length_from_events
 from mystery_o_matic.model import Model
 from mystery_o_matic.solidity import read_solidity_from_text
+from mystery_o_matic.clue_selection import select_clues
 
 
 def read_story(season, date, language="en"):
@@ -54,7 +55,7 @@ def main() -> int:
         "scenario", type=str, action="store", help="path to mystery scenario"
     )
     parser.add_argument(
-        "static_dir", type=str, action="store", help="path to folder with static files)"
+        "static_dir", type=str, action="store", help="path to HTML static files (unused for LaTeX)"
     )
     parser.add_argument(
         "out_dir", type=str, action="store", help="path to output folder"
@@ -153,6 +154,26 @@ def main() -> int:
         print("Cannot use both --save-state and --load-state at the same time")
         return -1
 
+    state = {}
+    if args.load_state:
+        with open(args.load_state, "r", encoding="utf-8") as f:
+            state = json.load(f)
+
+    # Saved cases can carry declarative clue and print choices. LaTeX embeds
+    # its map, so separate map images are optional.
+    latex_options = dict(state.get("latex", {})) if args.mode == "latex" else {}
+    latex_languages = latex_options.pop("languages", ["en", "es"])
+    render_maps = latex_options.pop("render_maps", args.mode != "latex")
+    clue_selection = latex_options.pop("clue_selection", None)
+    clue_seed = latex_options.pop("clue_seed", state.get("seed"))
+    if not latex_languages or any(language not in ("en", "es") for language in latex_languages):
+        parser.error("LaTeX languages must be en and/or es")
+    if clue_selection is not None:
+        latex_options.setdefault("shuffle_clues", False)
+        latex_options.setdefault("write_lies", False)
+        if latex_options["write_lies"]:
+            parser.error("selected truthful clues cannot be exported as a lying variant")
+
     print("Welcome to mystery-o-matic!")
     solidity_file = args.scenario
     static_dir = args.static_dir
@@ -160,7 +181,7 @@ def main() -> int:
     used_seed = args.seed
     workers = args.workers
     season = args.season
-    number_places = args.nplaces
+    number_places = state.get("number_places", args.nplaces)
     characters = args.characters
     number_characters = len(characters) if characters else (args.nchars or 3)
     date = datetime.today().strftime("%d-%m-%Y")
@@ -187,13 +208,18 @@ def main() -> int:
         assert used_seed is None
         used_seed = abs(hash256(str(date)))
 
+    if used_seed is None:
+        used_seed = state.get("seed")
+
     if used_seed is not None:
         seed(used_seed)
     else:
         used_seed = abs(hash256(random()))
 
     create_outdir(out_dir)
-    location_name, location_data = get_location_data(args.location, args.mode)
+    location_name, location_data = get_location_data(
+        args.location or state.get("location_name"), args.mode
+    )
     print("Location selected is:", location_name)
     weapons_available, weapon_labels = get_available_weapons(
         number_places, location_name
@@ -206,8 +232,6 @@ def main() -> int:
 
     # Optionally load a precomputed state to skip the slow echidna solving step
     if args.load_state:
-        with open(args.load_state, "r") as f:
-            state = json.load(f)
         print("Loaded precomputed state from:", args.load_state)
 
         # Use location from state if not explicitly specified
@@ -372,7 +396,15 @@ def main() -> int:
             json.dump(state, f, indent=2)
         print("Saved precomputed state to:", args.save_state)
     mystery.load_events(events)
+    selected_clues = (
+        select_clues(mystery, clue_selection) if clue_selection is not None else None
+    )
     mystery.process_clues()
+    if selected_clues is not None:
+        # Render wording with its own recorded seed, independent of random
+        # pruning/alibi construction in process_clues.
+        seed(clue_seed if clue_seed is not None else used_seed)
+        mystery.additional_clues = [clue.string() for clue in selected_clues]
 
     if llm_output:
         produce_llm_output(
@@ -398,14 +430,13 @@ def main() -> int:
         )
     elif mode == "latex":
         produce_tex_output(
-            static_dir,
             out_dir,
-            ["en", "es"],
+            latex_languages,
             mystery,
             weapons_available,
             weapon_labels,
             locations,
-            story_clue,
+            **latex_options,
         )
     elif mode == "text":
         produce_text_output(
@@ -420,8 +451,9 @@ def main() -> int:
         print("Invalid mode")
         return -1
     # The book (latex) is only generated for en/es, so skip ru location renders.
-    location_languages = ["en", "es"] if mode == "latex" else None
-    locations.render_locations(out_dir, location_languages)
+    location_languages = latex_languages if mode == "latex" else None
+    if render_maps:
+        locations.render_locations(out_dir, location_languages)
 
     print("Characters:")
     for i, char in enumerate(mystery.get_characters()):

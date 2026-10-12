@@ -42,6 +42,9 @@ class SpanishRenderer(LanguageRenderer):
 
     # --- Clues ---
 
+    def render_no_visitors(self, place):
+        return f"Nadie estuvo en {place} en ningún momento."
+
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'

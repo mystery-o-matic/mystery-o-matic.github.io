@@ -42,6 +42,9 @@ class EnglishRenderer(LanguageRenderer):
 
     # --- Clues ---
 
+    def render_no_visitors(self, place):
+        return f"No one was ever in the {place}."
+
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'
@@ -120,7 +123,7 @@ class EnglishRenderer(LanguageRenderer):
         if r == 0:
             s += f'{verb.capitalize()} {object} arriving while I was in the {place} at {time}"'
         elif r == 1:
-            s += f'I was in the {place} when {verb} {object} arriving at {time}"'
+            s += f'I was in the {place} when I {verb} {object} arriving at {time}"'
         else:
             raise ValueError("Invalid random number: " + str(r))
 
@@ -143,7 +146,7 @@ class EnglishRenderer(LanguageRenderer):
         if r == 0:
             s += f'{verb.capitalize()} {object} leaving while I was in the {place} at {time}"'
         elif r == 1:
-            s += f'I was in the {place} when {verb} {object} leaving at {time}"'
+            s += f'I was in the {place} when I {verb} {object} leaving at {time}"'
         else:
             raise ValueError("Invalid random number: " + str(r))
 

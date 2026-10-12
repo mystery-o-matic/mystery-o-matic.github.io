@@ -46,7 +46,7 @@ mystery-o-matic will always generate a fresh mystery to solve, but depending on 
 
 * `html`: generates a local copy of mystery-o-matic.com which contains the description of the case, some clues and the solution.
 * `text`: starts an interactive version of a murder mystery to solve by specific commands. It can also start a Telegram bot if an API key is provided.
-* `latex`: generates a LaTeX output of the case. It is still very (incomplete)
+* `latex`: generates an includable book case with clues, worksheets and an inline TikZ map.
 
 By default, it will use the `html` output to generate a new mystery in the default scenario:
 
@@ -84,6 +84,72 @@ mystery-o-matic scenarios/simple.template.sol static out --load-state test_state
 ```
 
 This is useful to iterate quickly on templates and output generation without waiting for the solver.
+
+### Direct book exports from saved JSON
+
+The normal CLI writes a complete case TeX file directly from a saved case:
+
+```bash
+mystery-o-matic scenarios/simple.template.sol static case-output \
+  --mode latex --load-state case-state.json
+```
+
+The exporter owns the shared page layout in `mystery_o_matic/output/latex/book.py`.
+It generates room positions and corridors from the simulation graph using the
+same layout engine as the website maps, and embeds the map directly as TikZ.
+No per-case template, map image, coordinate editing or post-processing is needed.
+The `static` positional argument is unused in LaTeX mode.
+
+The generated `<language>/mystery.tex` is intended for inclusion in the book and
+uses its shared styles and macros. Standalone compilation is not provided yet.
+It passes the opening fact to `\caseintro{...}`; the host document supplies the
+heading and story through that hook. Book numbering, titles, story references
+and chapter hints belong in the host document, not in the saved simulation.
+The saved JSON may include a `latex` section with these options:
+
+| Option | Purpose | Default |
+| --- | --- | --- |
+| `languages` | Languages to export | `["en", "es"]` |
+| `clue_selection` | Ordered, declarative selection of truthful clues | Automatic selection |
+| `clue_seed` | Stable wording seed for selected clues | Saved state's seed |
+| `shuffle_clues` | Shuffle the printed clue order | `false` with a selection; otherwise `true` |
+| `clue_marker` | LaTeX item marker | `\\cluemark` |
+| `weapon_column_width` | Width of each weapon cell as a fraction of paper width | Existing size-dependent width |
+| `write_lies` | Also write `mystery.lies.tex` | `false` with a selection; otherwise `true` |
+| `render_maps` | Also generate separate map images; the inline map is always included | `false` |
+| `room_labels` | Language/room overrides, e.g. `{"en": {"ROOM1": "bedroom"}}` | Setting's labels |
+
+For example, the selection below keeps an event-derived first arrival and a
+weapon exclusion:
+
+```json
+{
+  "latex": {
+    "languages": ["en"],
+    "clue_marker": "\\cluemark",
+    "weapon_column_width": 0.11,
+    "render_maps": false,
+    "clue_selection": [
+      {"type": "FirstArrivalClue", "match": {"subject": "$CHAR4", "place": "$ROOM3", "time": "4:00"}},
+      {"type": "WeaponNotUsedClue", "weapon": "$ARCHERY_BOW"}
+    ]
+  }
+}
+```
+
+Movement clues match a single fact in the saved event history. A `StayedClue`
+selection can also specify an `activity` using one of the setting's English
+activity strings. Arrival and departure sightings accept `anonymous: true` to
+withhold the person's identity, or `false` to name them, without appearance clues.
+Other supported editorial selections are `NoVisitorsClue` (`place`),
+`WasMurderedAfterClue` and `WasMurderedBeforeClue` (`time`),
+`WasMurderedScreamClue` (`time1`, `time2`), and `WasMurderedBodyTwoOptionsClue`
+(`time1`, `time2`). Exclusions and time bounds must agree with the simulation. Invalid or
+ambiguous selections fail before writing the case. Selected truthful clues
+cannot be exported as a lying variant.
+
+First-arrival selections require explicit `FirstArrival` events in the saved
+state. The JSON contains data only; no case-specific Python script is needed.
 
 ### Regenerating tutorial maps
 
