@@ -110,9 +110,9 @@ The saved JSON may include a `latex` section with these options:
 | Option | Purpose | Default |
 | --- | --- | --- |
 | `languages` | Languages to export | `["en", "es"]` |
-| `clue_selection` | Ordered, declarative selection of truthful clues | Automatic selection |
+| `clue_selection` | Declarative candidate pool of truthful clues; necessary-clue selection may reorder or omit clues | Automatic selection |
 | `clue_seed` | Stable wording seed for selected clues | Saved state's seed |
-| `shuffle_clues` | Shuffle the printed clue order | `false` with a selection; otherwise `true` |
+| `shuffle_clues` | Additional shuffle within the necessary and redundant groups, keeping necessary clues first | `false` with a selection; otherwise `true` |
 | `clue_marker` | LaTeX item marker | `\\cluemark` |
 | `weapon_column_width` | Width of each weapon cell as a fraction of paper width | Existing size-dependent width |
 | `write_lies` | Also write `mystery.lies.tex` | `false` with a selection; otherwise `true` |

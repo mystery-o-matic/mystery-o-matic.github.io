@@ -188,6 +188,11 @@ def produce_html_output(
     json["locationOrder"] = location_order
     json["additionalClues"] = {}
     json["additionalCluesWithLies"] = {}
+    analyses = getattr(mystery, "clue_analysis", {})
+    for key, attribute in (("minimumClues", "additional_clues"),
+                           ("minimumCluesWithLies", "additional_clues_with_lies")):
+        analysis = analyses.get(attribute)
+        json[key] = analysis.minimum if analysis is not None else None
     json["solutionSteps"] = {}
     json["numIntervals"] = len(intervals)
     json["characterNames"] = mystery.get_characters()

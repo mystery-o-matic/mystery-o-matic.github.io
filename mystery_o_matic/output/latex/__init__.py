@@ -34,6 +34,29 @@ def _strip_fog_enrichment(text, language):
     return text
 
 
+def _shuffle_clues(mystery):
+    for attribute, objects_attribute in (
+        ("additional_clues", "clue_objects"),
+        ("additional_clues_with_lies", "clue_objects_with_lies"),
+    ):
+        clues = getattr(mystery, attribute)
+        analysis = getattr(mystery, "clue_analysis", {}).get(attribute)
+        boundary = analysis.minimum if analysis is not None else None
+        order = list(range(len(clues)))
+        if boundary is None:
+            shuffle(order)
+        else:
+            # Never shuffle redundant clues ahead of the sufficient prefix.
+            required, redundant = order[:boundary], order[boundary:]
+            shuffle(required)
+            shuffle(redundant)
+            order = required + redundant
+        clues[:] = [clues[i] for i in order]
+        objects = getattr(mystery, objects_attribute, None)
+        if objects is not None:
+            objects[:] = [objects[i] for i in order]
+
+
 def produce_tex_output(
     out_dir,
     languages,
@@ -52,8 +75,7 @@ def produce_tex_output(
     room_labels = room_labels or {}
 
     if shuffle_clues:
-        shuffle(mystery.additional_clues)
-        shuffle(mystery.additional_clues_with_lies)
+        _shuffle_clues(mystery)
 
     names_html = {}
     for i, char in enumerate(mystery.get_characters()):

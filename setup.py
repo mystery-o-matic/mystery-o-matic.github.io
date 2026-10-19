@@ -37,6 +37,7 @@ setup(
         "numpy",
         "Pillow",
         "drawsvg~=2.4.2",
+        "z3-solver>=4.12",
     ],
     extras_require=extra_require,
     url="https://github.com/mystery-o-matic/mystery-o-matic.github.io",

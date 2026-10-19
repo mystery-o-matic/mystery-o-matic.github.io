@@ -19,6 +19,7 @@ from mystery_o_matic.mystery import CHARACTER_NAMES, Mystery, get_intervals_leng
 from mystery_o_matic.model import Model
 from mystery_o_matic.solidity import read_solidity_from_text
 from mystery_o_matic.clue_selection import select_clues
+from mystery_o_matic.solver import order_clues
 
 
 def read_story(season, date, language="en"):
@@ -103,6 +104,14 @@ def main() -> int:
         "--no-appearance-clues", action="store_true",
         help="disable appearance-based sightings (always disabled for LaTeX)",
     )
+    parser.add_argument(
+        "--clue-shuffles", type=int, default=100,
+        help="number of deletion orders sampled when selecting necessary clues (default: 100)",
+    )
+    parser.add_argument(
+        "--min-necessary-ratio", type=float, default=1 / 3,
+        help="minimum fraction of exported clues that must be indispensable (default: 1/3)",
+    )
 
     parser.add_argument(
         "--telegram-api-key",
@@ -141,6 +150,11 @@ def main() -> int:
     )
 
     args = parser.parse_args()
+
+    if args.clue_shuffles < 1:
+        parser.error("--clue-shuffles must be positive")
+    if not 0 < args.min_necessary_ratio <= 1:
+        parser.error("--min-necessary-ratio must be greater than 0 and at most 1")
 
     if args.characters:
         if len(set(args.characters)) != len(args.characters):
@@ -404,7 +418,18 @@ def main() -> int:
         # Render wording with its own recorded seed, independent of random
         # pruning/alibi construction in process_clues.
         seed(clue_seed if clue_seed is not None else used_seed)
+        mystery.clue_objects = selected_clues
         mystery.additional_clues = [clue.string() for clue in selected_clues]
+
+    order_clues(
+        mystery,
+        locations.graph,
+        include_lies=(mode == "html" or llm_output or
+                      (mode == "latex" and latex_options.get("write_lies", True))),
+        killer_leaves=(mode != "latex"),
+        attempts=args.clue_shuffles,
+        min_ratio=args.min_necessary_ratio,
+    )
 
     if llm_output:
         produce_llm_output(

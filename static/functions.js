@@ -328,10 +328,12 @@ function showPage(page) {
 
 document.getElementById("span-today").innerHTML = getCurrentDate();
 var tries = 0;
-var maxClue = 1;
+// Highest revealed index; -1 means no clues have been revealed yet.
+var maxClue = -1;
 var clues = [];
 var crossClue = [];
 var currentClue = 0;
+var selectedWithLies = false;
 
 function selectClues(withLies, autoSelected) {
 	autoSelected = !!autoSelected;
@@ -353,9 +355,15 @@ function selectClues(withLies, autoSelected) {
 	element.style.removeProperty("display");
 
 	language = getLanguage();
+	selectedWithLies = !!withLies;
 	clues = withLies ? data.additionalCluesWithLies[language] : data.additionalClues[language];
-	new Array(clues.length).fill(false);
+	crossClue = new Array(clues.length).fill(false);
+	currentClue = 0;
+	maxClue = -1;
 	revealAnotherClue(0);
+	if (typeof updateSleuthRankExplanation === "function") {
+		updateSleuthRankExplanation();
+	}
 
 	if (isKindle) {
 		var smallMap = document.querySelector("#clues-box #locations-small");
@@ -463,7 +471,7 @@ function revealAnotherClue(offset) {
 	currentClue = currentClue + offset;
 	if (currentClue > maxClue) {
 		gtag('event', 'reveal_clue', {
-			'clue_number': currentClue,
+			'clue_number': currentClue + 1,
 			'total_clues': clues.length,
 			'language': getLanguage()
 		});
@@ -520,18 +528,50 @@ function changeClueStrikeout(strike, element) {
 		element.style.textDecoration = "none";
 }
 
+function getViewedClueCount() {
+	return maxClue + 1;
+}
+
+function getRankLimits(total, minimum) {
+	if (!Number.isInteger(minimum) || minimum < 0 || minimum > total) {
+		// Older cached puzzles have no solver metadata. Keep their percentage bands.
+		return {
+			"super-sleuth": Math.floor(total * 0.65),
+			"seasoned-pi": Math.floor(total * 0.75),
+			"amateur-gumshoe": Math.floor(total * 0.85),
+			"absent-minded": Math.floor(total * 0.95),
+			"barely-conscious": total
+		};
+	}
+	var remaining = total - minimum;
+	return {
+		"super-sleuth": minimum,
+		"seasoned-pi": minimum + Math.floor(remaining / 4),
+		"amateur-gumshoe": minimum + Math.floor(remaining / 2),
+		"absent-minded": minimum + Math.floor(3 * remaining / 4),
+		"barely-conscious": total
+	};
+}
+
+function getCurrentRankLimits() {
+	var variant = selectedWithLies ? data.additionalCluesWithLies : data.additionalClues;
+	var total = variant[getLanguage()].length;
+	var minimum = selectedWithLies ? data.minimumCluesWithLies : data.minimumClues;
+	return getRankLimits(total, minimum);
+}
+
 function computeRank() {
-	let numberClues = clues.length;
-	viewedPercentage = 100 * maxClue / numberClues;
-	if (viewedPercentage ==  0 && tries == 0) {
+	var viewed = getViewedClueCount();
+	var limits = getCurrentRankLimits();
+	if (viewed == 0 && tries == 0) {
 		rankIndex = "clairvoyant";
-	} else if (viewedPercentage <= 65 && tries == 0) {
+	} else if (viewed <= limits["super-sleuth"] && tries == 0) {
 		rankIndex = "super sleuth";
-	} else if (viewedPercentage <= 75 && tries == 0) {
+	} else if (viewed <= limits["seasoned-pi"] && tries == 0) {
 		rankIndex = "seasoned P.I";
-	} else if (viewedPercentage <= 85 && tries == 0) {
+	} else if (viewed <= limits["amateur-gumshoe"] && tries == 0) {
 		rankIndex = "amateur gumshoe";
-	} else if (viewedPercentage <= 95 && tries == 0) {
+	} else if (viewed <= limits["absent-minded"] && tries == 0) {
 		rankIndex = "absent minded";
 	} else {
 		rankIndex = "barely conscious";
@@ -613,7 +653,7 @@ function checkAccusation() {
 				'result': 'win',
 				'rank': rankIndex,
 				'tries': tries,
-				'clues_viewed': maxClue,
+				'clues_viewed': getViewedClueCount(),
 				'language': getLanguage()
 			});
 			document.getElementById("accusation-lose").style.display = "none";
@@ -656,7 +696,7 @@ function checkAccusation() {
 			gtag('event', 'accusation', {
 				'result': 'lose',
 				'tries': tries + 1,
-				'clues_viewed': maxClue,
+				'clues_viewed': getViewedClueCount(),
 				'language': getLanguage()
 			});
 			document.getElementById("accusation-lose").style.display = "block";

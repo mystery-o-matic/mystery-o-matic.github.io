@@ -1,26 +1,54 @@
 var sleuthRankExplanations = {
 	"en": {
-		"super-sleuth": 'Accuse the right suspect on your <span class="sleuth-highlight">first try</span>, revealing <span class="sleuth-highlight">at most 65%</span> of the clues.',
-		"seasoned-pi": 'Accuse the right suspect on your <span class="sleuth-highlight">first try</span>, revealing <span class="sleuth-highlight">at most 75%</span> of the clues.',
-		"amateur-gumshoe": 'Accuse the right suspect on your <span class="sleuth-highlight">first try</span>, revealing <span class="sleuth-highlight">at most 85%</span> of the clues.',
-		"absent-minded": 'Accuse the right suspect on your <span class="sleuth-highlight">first try</span>, revealing <span class="sleuth-highlight">at most 95%</span> of the clues.',
-		"barely-conscious": 'You revealed <span class="sleuth-highlight">almost every clue</span>, or got the <span class="sleuth-highlight">suspect, weapon or time</span> wrong once.'
+		"first-try": 'Solve the case on your <span class="sleuth-highlight">first try</span>, revealing <span class="sleuth-highlight">{range} of {total}</span> clues.',
+		"up-to": 'at most {limit}',
+		"barely-conscious": 'You revealed <span class="sleuth-highlight">more than {limit} of {total}</span> clues, or got the <span class="sleuth-highlight">suspect, weapon or time</span> wrong once.',
+		"wrong-answer": 'You got the <span class="sleuth-highlight">suspect, weapon or time</span> wrong once.',
+		"unused": 'This rank is not used for the current puzzle mode.'
 	},
 	"es": {
-		"super-sleuth": 'Acusa al sospechoso correcto en tu <span class="sleuth-highlight">primer intento</span>, revelando <span class="sleuth-highlight">como máximo el 65%</span> de las pistas.',
-		"seasoned-pi": 'Acusa al sospechoso correcto en tu <span class="sleuth-highlight">primer intento</span>, revelando <span class="sleuth-highlight">como máximo el 75%</span> de las pistas.',
-		"amateur-gumshoe": 'Acusa al sospechoso correcto en tu <span class="sleuth-highlight">primer intento</span>, revelando <span class="sleuth-highlight">como máximo el 85%</span> de las pistas.',
-		"absent-minded": 'Acusa al sospechoso correcto en tu <span class="sleuth-highlight">primer intento</span>, revelando <span class="sleuth-highlight">como máximo el 95%</span> de las pistas.',
-		"barely-conscious": 'Revelaste <span class="sleuth-highlight">casi todas las pistas</span>, o fallaste <span class="sleuth-highlight">sospechoso, arma u hora</span> alguna vez.'
+		"first-try": 'Resuelve el caso en tu <span class="sleuth-highlight">primer intento</span>, revelando <span class="sleuth-highlight">{range} de {total}</span> pistas.',
+		"up-to": 'como máximo {limit}',
+		"barely-conscious": 'Revelaste <span class="sleuth-highlight">más de {limit} de {total}</span> pistas, o fallaste <span class="sleuth-highlight">sospechoso, arma u hora</span> alguna vez.',
+		"wrong-answer": 'Fallaste <span class="sleuth-highlight">sospechoso, arma u hora</span> alguna vez.',
+		"unused": 'Este rango no se utiliza en el modo actual del misterio.'
 	},
 	"ru": {
-		"super-sleuth": 'Обвините нужного подозреваемого с <span class="sleuth-highlight">первой попытки</span>, раскрыв <span class="sleuth-highlight">не более 65%</span> подсказок.',
-		"seasoned-pi": 'Обвините нужного подозреваемого с <span class="sleuth-highlight">первой попытки</span>, раскрыв <span class="sleuth-highlight">не более 75%</span> подсказок.',
-		"amateur-gumshoe": 'Обвините нужного подозреваемого с <span class="sleuth-highlight">первой попытки</span>, раскрыв <span class="sleuth-highlight">не более 85%</span> подсказок.',
-		"absent-minded": 'Обвините нужного подозреваемого с <span class="sleuth-highlight">первой попытки</span>, раскрыв <span class="sleuth-highlight">не более 95%</span> подсказок.',
-		"barely-conscious": 'Вы раскрыли <span class="sleuth-highlight">почти все подсказки</span> или ошиблись в <span class="sleuth-highlight">подозреваемом, оружии или времени</span>.'
+		"first-try": 'Раскройте дело с <span class="sleuth-highlight">первой попытки</span>, открыв <span class="sleuth-highlight">{range} из {total}</span> подсказок.',
+		"up-to": 'не более {limit}',
+		"barely-conscious": 'Вы открыли <span class="sleuth-highlight">более {limit} из {total}</span> подсказок или ошиблись в <span class="sleuth-highlight">подозреваемом, оружии или времени</span>.',
+		"wrong-answer": 'Вы ошиблись в <span class="sleuth-highlight">подозреваемом, оружии или времени</span>.',
+		"unused": 'Это звание не используется в текущем режиме загадки.'
 	}
 };
+
+function getSleuthRankExplanation(rank) {
+	var strings = sleuthRankExplanations[getLanguage()] || sleuthRankExplanations.en;
+	var limits = getCurrentRankLimits();
+	var total = limits["barely-conscious"];
+	var order = ["super-sleuth", "seasoned-pi", "amateur-gumshoe", "absent-minded"];
+	var text;
+	if (rank === "barely-conscious") {
+		text = limits["absent-minded"] < total ? strings[rank] : strings["wrong-answer"];
+		return text.replace("{limit}", limits["absent-minded"]).replace("{total}", total);
+	}
+	var index = order.indexOf(rank);
+	var lower = index > 0 ? limits[order[index - 1]] + 1 : 1;
+	var upper = limits[rank];
+	if (index < 0 || lower > upper) return strings.unused;
+	var range = index === 0 ? strings["up-to"].replace("{limit}", upper)
+		: (lower === upper ? String(upper) : lower + "–" + upper);
+	return strings["first-try"].replace("{range}", range).replace("{total}", total);
+}
+
+function updateSleuthRankExplanation(rank) {
+	if (!rank) {
+		var active = document.querySelector(".sleuth-rank-item.active-rank");
+		if (!active) return;
+		rank = active.getAttribute("data-rank");
+	}
+	document.getElementById("sleuth-rank-explanation").innerHTML = getSleuthRankExplanation(rank);
+}
 
 function alignSleuthMeter() {
 	var items = document.getElementsByClassName("sleuth-rank-item");
@@ -66,7 +94,5 @@ function raiseSleuthMeter(item) {
 	void item.offsetWidth;
 	item.classList.add("flash-rank");
 
-	var explanations = sleuthRankExplanations[getLanguage()] || sleuthRankExplanations["en"];
-	var explanation = document.getElementById("sleuth-rank-explanation");
-	explanation.innerHTML = explanations[item.getAttribute("data-rank")];
+	updateSleuthRankExplanation(item.getAttribute("data-rank"));
 }

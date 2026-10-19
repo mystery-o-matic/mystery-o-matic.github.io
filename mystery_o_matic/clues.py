@@ -577,9 +577,10 @@ class InteractedClue(AbstractClue):
 
 
 class HeardClue(AbstractClue):
-    def __init__(self, subject, activity, time):
+    def __init__(self, subject, activity, time, place=None):
         self.subject = subject
         self.activity = activity
+        self.place = place
         assert "en" in activity and "es" in activity and "ru" in activity
         self.time = time
         super().__init__()

@@ -289,7 +289,7 @@ class Mystery:
                 if place in self.activities:
                     activity = choice(self.activities[place])
                     # print(clue)
-                    self.additional_clues.append(HeardClue(call[1], activity, call[3]))
+                    self.additional_clues.append(HeardClue(call[1], activity, call[3], place=call[2]))
 
             elif call[0] == "Stayed":
                 # Add the Stayed clue as expected, except when the victim is the subject
@@ -509,6 +509,11 @@ class Mystery:
             self.final_locations_clues.append(
                 CharacterLocationStatement(c, p, self.victim)
             )
+
+        # Preserve the abstract facts for solving; translations are presentation
+        # only and must never need to be parsed back into constraints.
+        self.clue_objects = list(self.additional_clues)
+        self.clue_objects_with_lies = list(self.additional_clues_with_lies)
 
         # Convert all statements/clues to strings
         self.weapon_locations_intro = self.weapon_locations_intro.string()
