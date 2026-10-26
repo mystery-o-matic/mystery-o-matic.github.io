@@ -138,12 +138,14 @@ class ClueSelection:
         return self.minimum / self.total if self.status == "unique" and self.total else None
 
 
-def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ratio=1 / 3):
+def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ratio=1 / 3,
+                            max_clues=None):
     """Sample irreducible cores, then add redundancy without restoring shortcuts.
 
     The caller must already exclude the intended answer. Deletion in different
     orders finds different irreducible cores. Keep the largest of the sampled
-    cores, in its trial order, to favor combining more clues over short proofs.
+    cores that fits max_clues, in its trial order, to favor combining more clues
+    over short proofs. A limit never truncates a necessary core.
     This is a heuristic for puzzle difficulty, not a maximum-cardinality proof.
 
     Adding a redundant clue can make core clues optional. Check each addition
@@ -153,6 +155,8 @@ def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ra
         raise ValueError("clue shuffles must be a positive integer")
     if not 0 < min_ratio <= 1:
         raise ValueError("minimum necessary ratio must be greater than 0 and at most 1")
+    if max_clues is not None and (type(max_clues) is not int or max_clues < 1):
+        raise ValueError("maximum clues must be a positive integer")
     rng = Random(seed)
     count = len(constraints)
     solver.push()
@@ -187,12 +191,20 @@ def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ra
                     active.add(i)
             core = tuple(i for i in order if i in active)
             sizes.append(len(core))
-            if len(core) > len(best):
+            if len(core) > len(best) and (max_clues is None or len(core) <= max_clues):
                 best, best_order = core, order
 
+        if not best:
+            raise ValueError(
+                f"No sufficient clue set within --max-clues {max_clues} found in "
+                f"{attempts} deletion orders (smallest sampled core: {min(sizes)}). "
+                "Increase --max-clues or --clue-shuffles."
+            )
         required = set(best)
         redundant = []
         for i in best_order:
+            if max_clues is not None and len(best) + len(redundant) >= max_clues:
+                break
             if i in required:
                 continue
             if len(best) / (len(best) + len(redundant) + 1) < min_ratio:
@@ -440,7 +452,7 @@ class ClueSolver:
             s.pop()
         return ClueAnalysis("unique", len(self.clues), required)
 
-    def select(self, attempts=100, seed=None, min_ratio=1 / 3):
+    def select(self, attempts=100, seed=None, min_ratio=1 / 3, max_clues=None):
         """Choose a sufficient list with the requested fraction indispensable."""
         problem = self._diagnose()
         if problem is not None:
@@ -448,13 +460,14 @@ class ClueSolver:
         self.solver.push()
         try:
             self.solver.add(Not(self._expected()))
-            return select_necessary_subset(self.solver, self.constraints, attempts, seed, min_ratio)
+            return select_necessary_subset(self.solver, self.constraints, attempts, seed,
+                                           min_ratio, max_clues)
         finally:
             self.solver.pop()
 
 
 def order_clues(mystery, graph, include_lies=True, killer_leaves=False,
-                attempts=100, min_ratio=1 / 3):
+                attempts=100, min_ratio=1 / 3, max_clues=None):
     """Select necessary clues first, followed by bounded, verified redundancy.
 
     Operate on the same objects whose translations are exported. Separate RNGs
@@ -473,6 +486,7 @@ def order_clues(mystery, graph, include_lies=True, killer_leaves=False,
             attempts=attempts,
             seed=f"{getattr(mystery, 'used_seed', None)}-necessary-clues-{label}",
             min_ratio=min_ratio,
+            max_clues=max_clues,
         )
         mystery.clue_analysis[texts_attr] = result
         if result.minimum is not None:

@@ -41,6 +41,38 @@ def hash256(data):
     return int(hash_obj.hexdigest(), 16)
 
 
+def write_clue_analysis(out_dir, mystery, attempts, min_ratio, max_clues):
+    """Save the native solver's counts alongside a book export for later rechecks."""
+    report = {
+        "answer": mystery.get_answer(),
+        "generator_seed": mystery.used_seed,
+        "selection_attempts": attempts,
+        "minimum_necessary_ratio": min_ratio,
+        "max_clues": max_clues,
+        "analyses": {},
+    }
+    for label, attribute, key in (
+        ("truthful", "additional_clues", "minimumClues"),
+        ("lying", "additional_clues_with_lies", "minimumCluesWithLies"),
+    ):
+        result = mystery.clue_analysis.get(attribute)
+        report[key] = result.minimum if result is not None else None
+        if result is not None:
+            report["analyses"][label] = {
+                "status": result.status,
+                "minimum_clues": result.minimum,
+                "total_clues": result.total,
+                "redundant_clues": len(result.redundant),
+                "omitted_clues": len(result.omitted),
+                "pool_size": result.pool_size,
+                "necessary_fraction": result.necessary_ratio,
+                "sampled_core_sizes": list(result.trial_sizes),
+            }
+    with open(out_dir + "/clue-analysis.json", "w", encoding="utf-8") as stream:
+        json.dump(report, stream, indent=2)
+        stream.write("\n")
+
+
 def main() -> int:
     """
     The main function of the mystery-o-matic program.
@@ -112,6 +144,10 @@ def main() -> int:
         "--min-necessary-ratio", type=float, default=1 / 3,
         help="minimum fraction of exported clues that must be indispensable (default: 1/3)",
     )
+    parser.add_argument(
+        "--max-clues", type=int, default=None,
+        help="maximum exported clues per variant; choose a sufficient core that fits (default: no limit)",
+    )
 
     parser.add_argument(
         "--telegram-api-key",
@@ -172,6 +208,9 @@ def main() -> int:
     if args.load_state:
         with open(args.load_state, "r", encoding="utf-8") as f:
             state = json.load(f)
+    max_clues = args.max_clues if args.max_clues is not None else state.get("max_clues")
+    if max_clues is not None and (type(max_clues) is not int or max_clues < 1):
+        parser.error("--max-clues must be a positive integer")
 
     # Saved cases can carry declarative clue and print choices. LaTeX embeds
     # its map, so separate map images are optional.
@@ -383,6 +422,7 @@ def main() -> int:
             "seed": used_seed,
             "location_name": location_name,
             "number_places": number_places,
+            "max_clues": max_clues,
             "location_indices": locations.indices,
             "location_edges": list(locations.graph.edges()),
         }
@@ -421,15 +461,19 @@ def main() -> int:
         mystery.clue_objects = selected_clues
         mystery.additional_clues = [clue.string() for clue in selected_clues]
 
-    order_clues(
-        mystery,
-        locations.graph,
-        include_lies=(mode == "html" or llm_output or
-                      (mode == "latex" and latex_options.get("write_lies", True))),
-        killer_leaves=(mode != "latex"),
-        attempts=args.clue_shuffles,
-        min_ratio=args.min_necessary_ratio,
-    )
+    try:
+        order_clues(
+            mystery,
+            locations.graph,
+            include_lies=(mode == "html" or llm_output or
+                          (mode == "latex" and latex_options.get("write_lies", True))),
+            killer_leaves=(mode != "latex"),
+            attempts=args.clue_shuffles,
+            min_ratio=args.min_necessary_ratio,
+            max_clues=max_clues,
+        )
+    except ValueError as error:
+        parser.error(str(error))
 
     if llm_output:
         produce_llm_output(
@@ -463,6 +507,8 @@ def main() -> int:
             locations,
             **latex_options,
         )
+        write_clue_analysis(out_dir, mystery, args.clue_shuffles,
+                            args.min_necessary_ratio, max_clues)
     elif mode == "text":
         produce_text_output(
             static_dir,
