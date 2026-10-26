@@ -334,6 +334,39 @@ var clues = [];
 var crossClue = [];
 var currentClue = 0;
 var selectedWithLies = false;
+var clueHighlightingEnabled = true;
+try {
+	clueHighlightingEnabled = localStorage.getItem('mystery-clue-highlights') !== 'false';
+} catch (err) {
+	// Highlighting also works when browser storage is unavailable.
+}
+var clueHighlightsToggle = document.getElementById('clue-highlights-toggle');
+if (clueHighlightsToggle) {
+	clueHighlightsToggle.checked = clueHighlightingEnabled;
+}
+
+function setClueHighlighting(enabled) {
+	clueHighlightingEnabled = !!enabled;
+	try {
+		localStorage.setItem('mystery-clue-highlights', String(clueHighlightingEnabled));
+	} catch (err) {}
+	updateClueHighlights();
+}
+
+function updateClueHighlights() {
+	if (typeof tables === "undefined") return;
+	const clue = clues[currentClue];
+	const highlights = (clueHighlightingEnabled && clue && clue.highlights) || {};
+	for (const [name, table] of tables) {
+		if (!table.isTutorial && table.nRows > 1) {
+			const rows = [
+				...(highlights.rows || []),
+				...((highlights.tableRows || {})[name] || []),
+			];
+			table.setHighlights(rows, highlights.columns, (highlights.tables || []).includes(name));
+		}
+	}
+}
 
 function selectClues(withLies, autoSelected) {
 	autoSelected = !!autoSelected;
@@ -478,7 +511,10 @@ function revealAnotherClue(offset) {
 	}
 	maxClue = Math.max(maxClue, currentClue);
 	element = document.getElementById("clue-text");
-	element.innerHTML = clues[currentClue];
+	const clue = clues[currentClue];
+	// Older saved mysteries still contain plain clue strings.
+	element.innerHTML = typeof clue === "string" ? clue : clue.text;
+	updateClueHighlights();
 	if (emoji) {
 		element.innerHTML = emoji.replace_unified(element.innerHTML);
 	}

@@ -13,6 +13,11 @@ canvas {
 	max-width: 100%;
 }
 
+canvas.clue-table-highlighted {
+	outline: 2px solid #74a9ed;
+	outline-offset: -2px;
+}
+
 .float{
 	position:fixed;
 	width:15vh;

@@ -1448,7 +1448,7 @@
 			</div>
 		</div>
 
-		<div class="compact-card mt-0">
+		<div class="compact-card mt-0 mb-2">
 			<div class="compact-card-body">
 				<div class="section-header">🥾 Начинаем игру!</div>
 				<p>Вы получите улики, которые постепенно откроют правду об убийстве. Ежедневную
@@ -1459,19 +1459,19 @@
 					доказательства и допрашивая подозреваемых. Раскрыв дело, вы получите звание от
 					знаменитого <a href="#" class="link-dark"
 						onClick="showPage('sleuth-o-meter')"><strong>sleuth-o-meter™</strong></a>.</p>
-				<p>Готовы к испытанию? Начинаем расследование!</p>
+				<p class="mb-0">Готовы к испытанию? Начинаем расследование!</p>
 			</div>
 		</div>
 
 		<div class="compact-card mt-0">
 			<div class="compact-card-body">
 				<div class="section-header">📔 Журнал детектива и улики</div>
-				<p>Используйте эту таблицу для отслеживания фактов, улик и выводов. При необходимости загляните в <a href="#"
+				<p class="mb-2">Используйте эту таблицу для отслеживания фактов, улик и выводов. При необходимости загляните в <a href="#"
 						onClick="showPage('how-to-play')" class="link-dark">раздел «Как играть»</a>.</p>
 				<div class="d-flex justify-content-center align-items-center">
 					<div style="width: 99%" id="clues">
-						<div class="compact-card" style="height: auto;">
-							<div id="game" class="compact-card-body text-center py-2">
+						<div class="compact-card mb-0" style="height: auto;">
+							<div id="game" class="compact-card-body text-center pt-0 pb-2">
 
 								<div id="selection-clues-box" class="card" style="display:block">
 									<div class="card-body text-center py-2">
@@ -1512,12 +1512,18 @@
 						</div>
 					</div>
 				</div>
-				<p></p>
 				$cluesTables
 				<div class="col-12 text-center">
 					<canvas id="clues-table-weapons" oncontextmenu="return false" height="40" width="500"
 						onclick="checkWeaponClicked(this, event.offsetX, event.offsetY)">
 						Ваш браузер не поддерживает HTML canvas.</canvas>
+				</div>
+				<div class="d-flex justify-content-center mt-2">
+					<div class="form-check form-switch text-start small mb-0">
+						<input class="form-check-input" type="checkbox" role="switch" id="clue-highlights-toggle"
+							checked onchange="setClueHighlighting(this.checked)">
+						<label class="form-check-label" for="clue-highlights-toggle">Выделять упоминания в подсказке</label>
+					</div>
 				</div>
 			</div>
 		</div>

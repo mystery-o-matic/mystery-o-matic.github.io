@@ -4,6 +4,7 @@ from shutil import copytree
 from string import Template
 from yattag import Doc, indent
 from json import dump
+import re
 
 from mystery_o_matic.output import create_template
 
@@ -27,6 +28,69 @@ def save_json(outdir, prefix, data):
     with open(filename, "w", encoding="utf-8") as f:
         f.write(prefix)
         dump(data, f, ensure_ascii=False, indent=4)
+
+
+# These words refer to public facts in the case introduction. Resolving them
+# never requires identifying an anonymous witness or solving the murder.
+PUBLIC_CLUE_REFERENCES = {
+    "en": (r"\bthe victim\b", r"\bthe crime scene\b", r"\bthe body\b"),
+    "es": (r"\bla víctima\b", r"\bescena del crimen\b", r"\bcuerpo\b"),
+    "ru": (r"\bжертв[аыуе]\b", r"\bмест[ае] преступления\b", r"\bтел[аое]\b"),
+}
+
+
+def get_clue_highlights(text, characters, intervals, *, language="en", victim=None,
+                        crime_scene=None, room_labels=None):
+    """Return explicit references, resolving victim/body/scene from public facts.
+
+    Use the already-rendered wording, never the clue's hidden subject/object or
+    time fields. In particular, $TELL_CHARn and $DESC_CHARn do not name a person,
+    and "not before" can display a different time from the stored clue time.
+    Rows use character names; columns use clock labels shared by all room tables;
+    tables use room IDs. Victim and crime_scene come from the case introduction.
+    Rows are scoped to explicitly referenced rooms via tableRows. If no room is
+    referenced, rows apply to all tables. Pre-rendered activity text is matched
+    against localized room labels, never against a clue's hidden place field.
+    Body inspections only guide these tables when they state a time; weapon
+    clues describing wounds do not highlight the victim or crime scene.
+    Ranges highlight their printed endpoints only, without filling in deductions.
+    """
+    tokens = {
+        match.group("named") or match.group("braced")
+        for match in create_template(text).pattern.finditer(text)
+    }
+    times = set(re.findall(r"(?<![\d:])\d{1,2}:\d{2}(?![\d:])", text))
+    rows = {
+        name.lower() for i, name in enumerate(characters, 1)
+        if "CHAR" + str(i) in tokens
+    }
+    tables = {
+        token.split("_")[0].lower() for token in tokens
+        if token and re.fullmatch(r"ROOM\d+(?:_LOC|_GEN)?", token)
+    }
+    # Ambient clues already contain the localized room name and icon, instead
+    # of a $ROOMn token. Match that exact visible label, including Russian cases.
+    tables.update(
+        room for room, labels in (room_labels or {}).items()
+        if any(label in text for label in labels)
+    )
+    victim_pattern, scene_pattern, body_pattern = PUBLIC_CLUE_REFERENCES[language]
+    mentions_scene = (
+        re.search(scene_pattern, text, re.IGNORECASE)
+        or (times and re.search(body_pattern, text, re.IGNORECASE))
+    )
+    if victim and (mentions_scene or re.search(victim_pattern, text, re.IGNORECASE)):
+        rows.add(victim.lower())
+    if crime_scene and mentions_scene:
+        tables.add(crime_scene)
+    highlights = {
+        "rows": [] if tables else sorted(rows),
+        "columns": [time for time in intervals if time in times],
+        "tables": sorted(tables),
+    }
+    if tables and rows:
+        highlights["tableRows"] = {room: sorted(rows) for room in sorted(tables)}
+    return highlights
 
 
 def read_story(season, date):

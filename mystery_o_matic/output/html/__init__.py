@@ -6,6 +6,7 @@ from mystery_o_matic.output.html.utils import (
     get_options_selector,
     get_char_name,
     get_clue_table,
+    get_clue_highlights,
     get_weapon_type_name,
     save_json,
 )
@@ -202,6 +203,9 @@ def produce_html_output(
         if name in CHARACTER_EMOJIS
     }
     json["victim"] = create_template(mystery.victim).substitute(names_txt)
+    # The victim and the room containing the body are already stated in the
+    # introduction. Do not consult the killer, murder time, or solution here.
+    crime_scene = mystery.final_locations[mystery.victim].lstrip("$").lower()
     json["locationMap"] = final_locations_map
     json["locationIcons"] = representations_map
     json["weaponMap"] = weapons_map
@@ -280,6 +284,12 @@ def produce_html_output(
                 index = locations.rindices[room]
                 names_html[index + "_GEN"] = name + " (" + locations.representations[index] + ")"
 
+        room_suffixes = ("", "_LOC", "_GEN") if language == "ru" else ("",)
+        room_labels = {
+            room.lower(): [names_html[room + suffix] for suffix in room_suffixes]
+            for room in locations.indices
+        }
+
         for weapon, label in weapon_labels[language].items():
             if weapon not in weapons:
                 continue
@@ -341,7 +351,14 @@ def produce_html_output(
             if language not in clue:
                 continue
             additional_clues.append(
-                create_template(clue[language]).substitute(names_html)
+                {
+                    "text": create_template(clue[language]).substitute(names_html),
+                    "highlights": get_clue_highlights(
+                        clue[language], mystery.get_characters(), intervals,
+                        language=language, victim=json["victim"], crime_scene=crime_scene,
+                        room_labels=room_labels,
+                    ),
+                }
             )
 
         additional_clues_with_lies = []
@@ -350,7 +367,14 @@ def produce_html_output(
             if language not in clue:
                 continue
             additional_clues_with_lies.append(
-                create_template(clue[language]).substitute(names_html)
+                {
+                    "text": create_template(clue[language]).substitute(names_html),
+                    "highlights": get_clue_highlights(
+                        clue[language], mystery.get_characters(), intervals,
+                        language=language, victim=json["victim"], crime_scene=crime_scene,
+                        room_labels=room_labels,
+                    ),
+                }
             )
 
         # populate the weapon options

@@ -16,6 +16,11 @@ class ClueTable {
 		this.readOnly = readOnly;
 		this.data = [...Array(nColumns)].map(() => Array(nRows).fill(""));
 		this.extra = [...Array(nColumns)].map(() => Array(nRows).fill(""));
+		this.cellStyles = [...Array(nColumns)].map(() => Array(nRows).fill(null));
+		this.rowNames = [];
+		this.columnLabels = [];
+		this.highlightedRows = new Set();
+		this.highlightedColumns = new Set();
 	}
 
 	draw() {
@@ -30,13 +35,18 @@ class ClueTable {
 	}
 
 	clearCell(column, row) {
+		this.data[column][row] = "";
+		this.cellStyles[column][row] = null;
+		this.drawCellBackground(column, row);
+	}
+
+	drawCellBackground(column, row) {
 		this.ctx.clearRect(
 			this.columnSize * column,
 			this.rowSize * row,
 			this.columnSize,
 			this.rowSize
 		);
-		this.data[column][row] = "";
 		let backgroundColor = row % 2 === 0 ? this.colorEven : this.colorOdd;
 		if (this.headerVisible && row === 0) backgroundColor = this.colorEven;
 		else if (this.headerVisible) backgroundColor = row % 2 === 0 ? this.colorOdd : this.colorEven;
@@ -47,6 +57,10 @@ class ClueTable {
 			this.columnSize,
 			this.rowSize
 		);
+		if (this.highlightedRows.has(row) || this.highlightedColumns.has(column)) {
+			this.ctx.fillStyle = "rgba(65, 135, 225, 0.18)";
+			this.ctx.fillRect(this.columnSize * column, this.rowSize * row, this.columnSize, this.rowSize);
+		}
 		this.ctx.strokeStyle = this.lineColor;
 		this.ctx.beginPath();
 		this.ctx.moveTo(this.columnSize * column, this.rowSize * row);
@@ -55,6 +69,29 @@ class ClueTable {
 		this.ctx.lineTo(this.columnSize * column, this.rowSize * (row + 1));
 		this.ctx.closePath();
 		this.ctx.stroke();
+	}
+
+	setHighlights(rows = [], columns = [], highlightTable = false) {
+		this.canvas.classList.toggle("clue-table-highlighted", highlightTable);
+		this.highlightedRows = new Set(rows
+			.map(name => this.rowNames.indexOf(name))
+			.filter(index => index >= 0)
+			.map(index => index + (this.headerVisible ? 1 : 0)));
+		this.highlightedColumns = new Set(columns
+			.map(label => this.columnLabels.indexOf(label))
+			.filter(index => index >= 0)
+			.map(index => index + 2));
+		// Repaint backgrounds without clearing the player's marks or their styles.
+		// Column zero is a merged room icon, not part of the character/time grid.
+		for (let column = 1; column < this.nColumns; column++) {
+			for (let row = 0; row < this.nRows; row++) {
+				this.drawCellBackground(column, row);
+				const style = this.cellStyles[column][row];
+				if (style) {
+					this.fillCell(this.data[column][row], style.size, style.color, column, row);
+				}
+			}
+		}
 	}
 
 	fillCell(text, size, color, column, row) {
@@ -69,6 +106,7 @@ class ClueTable {
 			this._fillText(text, size, color, column, row);
 		}
 		this.data[column][row] = text;
+		this.cellStyles[column][row] = {size, color};
 	}
 
 	_fillText(text, size, color, column, row) {
@@ -375,6 +413,11 @@ function createTables() {
 	tables.get("weapons:tutorial-final").crossCell(3, '#770000', 2, 0);
 	tables.get("weapons:tutorial-final").readOnly = true;
 
+	// The first clue can be selected before the web font finishes loading.
+	if (typeof updateClueHighlights === "function") {
+		updateClueHighlights();
+	}
+
 	if (window.location.hash == "#how-to-play") {
 		showPage("how-to-play");
 		window.scrollTo(0, 0);
@@ -470,7 +513,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		victim = tutorialData.victim;
 		locationMap = tutorialData.locationMap;
 	}
-	rowNames.sort();
+	rowNames = [...rowNames].sort();
 
 	nColumns = nColumns + 2;
 	var nRows = rowNames.length;
@@ -506,17 +549,19 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		tableColorEven, tableColorOdd, tableLineColor,
 		headerVisible, width, height, isTutorial
 	);
+	table.rowNames = rowNames;
 	tables.set(room, table);
 	table.draw();
 
 	var date = new Date(null);
 	date.setSeconds(timeOffset);
 	var titles = [getEmoji("🕰️")];
-	for (let i = 0; i < nColumns; i++) {
-	  title = date.toISOString().substr(12, 4);
+	for (let i = 0; i < nColumns - 2; i++) {
+	  const title = date.toISOString().slice(11, 16).replace(/^0/, "");
 	  titles.push(title);
 	  date.setSeconds(60 * 15);
 	}
+	table.columnLabels = titles.slice(1);
 
 	if (headerVisible) {
 		for (let i = 0; i < nColumns - 1; i++) {
@@ -525,7 +570,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		}
 	}
 	var column;
-	for (let i = 0; i < nRows; i++) {
+	for (let i = 0; i < rowNames.length; i++) {
 		var column = i;
 		if (headerVisible)
 			column = column + 1;
