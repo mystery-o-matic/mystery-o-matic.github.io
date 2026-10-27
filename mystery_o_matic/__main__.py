@@ -41,13 +41,12 @@ def hash256(data):
     return int(hash_obj.hexdigest(), 16)
 
 
-def write_clue_analysis(out_dir, mystery, attempts, min_ratio, max_clues):
+def write_clue_analysis(out_dir, mystery, attempts, max_clues):
     """Save the native solver's counts alongside a book export for later rechecks."""
     report = {
         "answer": mystery.get_answer(),
         "generator_seed": mystery.used_seed,
         "selection_attempts": attempts,
-        "minimum_necessary_ratio": min_ratio,
         "max_clues": max_clues,
         "analyses": {},
     }
@@ -65,7 +64,7 @@ def write_clue_analysis(out_dir, mystery, attempts, min_ratio, max_clues):
                 "redundant_clues": len(result.redundant),
                 "omitted_clues": len(result.omitted),
                 "pool_size": result.pool_size,
-                "necessary_fraction": result.necessary_ratio,
+                "prefix_fraction": result.necessary_ratio,
                 "sampled_core_sizes": list(result.trial_sizes),
             }
     with open(out_dir + "/clue-analysis.json", "w", encoding="utf-8") as stream:
@@ -142,11 +141,11 @@ def main() -> int:
     )
     parser.add_argument(
         "--min-necessary-ratio", type=float, default=1 / 3,
-        help="minimum fraction of exported clues that must be indispensable (default: 1/3)",
+        help="legacy option accepted for compatibility; all extra clues are always retained",
     )
     parser.add_argument(
         "--max-clues", type=int, default=None,
-        help="maximum exported clues per variant; choose a sufficient core that fits (default: no limit)",
+        help="reject a clue pool above this size without discarding clues (default: no limit)",
     )
 
     parser.add_argument(
@@ -507,8 +506,7 @@ def main() -> int:
             locations,
             **latex_options,
         )
-        write_clue_analysis(out_dir, mystery, args.clue_shuffles,
-                            args.min_necessary_ratio, max_clues)
+        write_clue_analysis(out_dir, mystery, args.clue_shuffles, max_clues)
     elif mode == "text":
         produce_text_output(
             static_dir,

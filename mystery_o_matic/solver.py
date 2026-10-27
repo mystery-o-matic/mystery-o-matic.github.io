@@ -1,4 +1,4 @@
-"""Reader-facing uniqueness and randomized selection of necessary clues.
+"""Reader-facing uniqueness and randomized ordering of clues.
 
 Adapted from the book's scripts/solve_case.py. Locations are unknown: the
 simulation's initial positions, moves and chosen alibi are never constraints.
@@ -104,9 +104,10 @@ class ClueAnalysis:
 class ClueSelection:
     """Indices refer to the original pool; minimum/total describe the output.
 
-    Every required clue is indispensable even with the retained redundant clues
-    present. Thus the size of the core is the exact minimum for this selection,
-    though it need not be the smallest sufficient subset of the original pool.
+    Required clues form an irreducible, sufficient prefix. Every other clue is
+    retained afterward, including clues that offer easier alternative deductions.
+    Minimum is the number of clues that must be revealed in this order, not the
+    smallest sufficient subset that could be chosen from the complete pool.
     """
 
     status: str
@@ -140,16 +141,16 @@ class ClueSelection:
 
 def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ratio=1 / 3,
                             max_clues=None):
-    """Sample irreducible cores, then add redundancy without restoring shortcuts.
+    """Choose an irreducible solving prefix, then retain every remaining clue.
 
     The caller must already exclude the intended answer. Deletion in different
-    orders finds different irreducible cores. Keep the largest of the sampled
-    cores that fits max_clues, in its trial order, to favor combining more clues
-    over short proofs. A limit never truncates a necessary core.
+    orders finds different irreducible cores. Keep the largest sampled core, in
+    its trial order, to favor combining more clues in the opening set.
     This is a heuristic for puzzle difficulty, not a maximum-cardinality proof.
 
-    Adding a redundant clue can make core clues optional. Check each addition
-    against EVERY core clue, and bound the final list to meet min_ratio.
+    Later clues may replace deductions in the prefix: they are help for players
+    who need it. min_ratio is accepted for compatibility but never removes clues.
+    An explicit max_clues limit rejects oversized pools instead of truncating.
     """
     if type(attempts) is not int or attempts < 1:
         raise ValueError("clue shuffles must be a positive integer")
@@ -159,6 +160,11 @@ def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ra
         raise ValueError("maximum clues must be a positive integer")
     rng = Random(seed)
     count = len(constraints)
+    if max_clues is not None and count > max_clues:
+        raise ValueError(
+            f"--max-clues {max_clues} is smaller than the full clue pool ({count}). "
+            "All clues must be retained; raise or remove --max-clues."
+        )
     solver.push()
     try:
         enabled = [FreshBool("selected_clue") for _ in constraints]
@@ -191,28 +197,12 @@ def select_necessary_subset(solver, constraints, attempts=100, seed=None, min_ra
                     active.add(i)
             core = tuple(i for i in order if i in active)
             sizes.append(len(core))
-            if len(core) > len(best) and (max_clues is None or len(core) <= max_clues):
+            if len(core) > len(best):
                 best, best_order = core, order
 
-        if not best:
-            raise ValueError(
-                f"No sufficient clue set within --max-clues {max_clues} found in "
-                f"{attempts} deletion orders (smallest sampled core: {min(sizes)}). "
-                "Increase --max-clues or --clue-shuffles."
-            )
         required = set(best)
-        redundant = []
-        for i in best_order:
-            if max_clues is not None and len(best) + len(redundant) >= max_clues:
-                break
-            if i in required:
-                continue
-            if len(best) / (len(best) + len(redundant) + 1) < min_ratio:
-                break
-            enlarged = required | set(redundant) | {i}
-            if all(has_alternative(enlarged - {essential}) for essential in best):
-                redundant.append(i)
-        return ClueSelection("unique", count, best, tuple(redundant), tuple(sizes))
+        redundant = tuple(i for i in best_order if i not in required)
+        return ClueSelection("unique", count, best, redundant, tuple(sizes))
     finally:
         solver.pop()
 
@@ -453,7 +443,7 @@ class ClueSolver:
         return ClueAnalysis("unique", len(self.clues), required)
 
     def select(self, attempts=100, seed=None, min_ratio=1 / 3, max_clues=None):
-        """Choose a sufficient list with the requested fraction indispensable."""
+        """Order all clues with an irreducible, sufficient prefix."""
         problem = self._diagnose()
         if problem is not None:
             return ClueSelection(problem.status, len(self.clues), alternative=problem.alternative)
@@ -468,12 +458,12 @@ class ClueSolver:
 
 def order_clues(mystery, graph, include_lies=True, killer_leaves=False,
                 attempts=100, min_ratio=1 / 3, max_clues=None):
-    """Select necessary clues first, followed by bounded, verified redundancy.
+    """Put a sufficient prefix first, followed by every remaining clue.
 
     Operate on the same objects whose translations are exported. Separate RNGs
     derived from the puzzle seed keep both variants reproducible without
     consuming the generator's global random stream. Fail before export if the
-    case cannot meet the necessity requirement.
+    case is not uniquely solvable or an explicit limit cannot fit all clues.
     """
     variants = [("truthful", "additional_clues", "clue_objects", False)]
     if include_lies:
@@ -492,12 +482,12 @@ def order_clues(mystery, graph, include_lies=True, killer_leaves=False,
         if result.minimum is not None:
             setattr(mystery, objects_attr, [objects[i] for i in result.order])
             setattr(mystery, texts_attr, [texts[i] for i in result.order])
-            print(f"Necessary clues ({label}): {result.minimum} of {result.total} "
-                  f"({result.necessary_ratio:.1%}); {len(result.redundant)} redundant, "
+            print(f"Solving prefix ({label}): {result.minimum} of {result.total}; "
+                  f"{len(result.redundant)} extra clues retained, "
                   f"{len(result.omitted)} omitted from {result.pool_size}", flush=True)
             print(f"  {len(result.trial_sizes)} deletion orders: sufficient cores ranged from "
                   f"{min(result.trial_sizes)} to {max(result.trial_sizes)} clues; "
-                  "every chosen core clue remains necessary in the final list", flush=True)
+                  "the prefix is sufficient; all remaining clues follow it", flush=True)
         else:
             reasons = {
                 "ambiguous": f"the full clue pool allows another answer: {result.alternative}",

@@ -7,6 +7,7 @@ from json import dump
 import re
 
 from mystery_o_matic.output import create_template
+from mystery_o_matic.time import Time
 
 
 def read_html_template(filename):
@@ -37,6 +38,11 @@ PUBLIC_CLUE_REFERENCES = {
     "es": (r"\bla víctima\b", r"\bescena del crimen\b", r"\bcuerpo\b"),
     "ru": (r"\bжертв[аыуе]\b", r"\bмест[ае] преступления\b", r"\bтел[аое]\b"),
 }
+VICTIM_SCREAM_REFERENCES = {
+    "en": r"\bscream from the victim\b",
+    "es": r"\bgrito espeluznante de la víctima\b",
+    "ru": r"\bкрик жертвы\b",
+}
 
 
 def get_clue_highlights(text, characters, intervals, *, language="en", victim=None,
@@ -51,15 +57,21 @@ def get_clue_highlights(text, characters, intervals, *, language="en", victim=No
     Rows are scoped to explicitly referenced rooms via tableRows. If no room is
     referenced, rows apply to all tables. Pre-rendered activity text is matched
     against localized room labels, never against a clue's hidden place field.
+    The victim's scream uses the public crime scene, just like murder-time clues.
     Body inspections only guide these tables when they state a time; weapon
     clues describing wounds do not highlight the victim or crime scene.
-    Ranges highlight their printed endpoints only, without filling in deductions.
+    Scream ranges include every displayed time column between their endpoints.
+    Other clues highlight only their printed times, without filling in deductions.
     """
     tokens = {
         match.group("named") or match.group("braced")
         for match in create_template(text).pattern.finditer(text)
     }
     times = set(re.findall(r"(?<![\d:])\d{1,2}:\d{2}(?![\d:])", text))
+    mentions_scream = re.search(VICTIM_SCREAM_REFERENCES[language], text, re.IGNORECASE)
+    if mentions_scream and len(times) == 2:
+        start, end = sorted(Time(time).seconds for time in times)
+        times.update(time for time in intervals if start <= Time(time).seconds <= end)
     rows = {
         name.lower() for i, name in enumerate(characters, 1)
         if "CHAR" + str(i) in tokens
@@ -77,6 +89,7 @@ def get_clue_highlights(text, characters, intervals, *, language="en", victim=No
     victim_pattern, scene_pattern, body_pattern = PUBLIC_CLUE_REFERENCES[language]
     mentions_scene = (
         re.search(scene_pattern, text, re.IGNORECASE)
+        or mentions_scream
         or (times and re.search(body_pattern, text, re.IGNORECASE))
     )
     if victim and (mentions_scene or re.search(victim_pattern, text, re.IGNORECASE)):
