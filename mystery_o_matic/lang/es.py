@@ -2,7 +2,6 @@ from random import randint, choice
 
 from mystery_o_matic.lang import LanguageRenderer, register_renderer
 from mystery_o_matic.weapons import get_weapon_type
-from mystery_o_matic.time import Time
 from mystery_o_matic.traits import COARSE_PHRASES
 
 
@@ -212,30 +211,26 @@ class SpanishRenderer(LanguageRenderer):
         r += f"{time}"
         return r
 
-    def render_was_murdered_after(self, time, interval_size, positive, alternative):
+    def render_was_murdered_after(self, time, positive, alternative):
         if alternative:
             r = "Inspeccionando la escena del crimen se revela que el asesinato tuvo lugar "
         else:
             r = "Un examen minucioso del cuerpo revela que el asesinato tuvo lugar "
         if positive:
-            t = Time(time.seconds)
-            r += f"después de las {t}"
+            r += f"después de las {time}"
         else:
-            t = Time(time.seconds + interval_size)
-            r += f"no antes de las {t}"
+            r += f"no antes de las {time}"
         return r
 
-    def render_was_murdered_before(self, time, interval_size, positive, alternative):
+    def render_was_murdered_before(self, time, positive, alternative):
         if alternative:
             r = "Inspeccionando la escena del crimen se revela que el asesinato tuvo lugar "
         else:
             r = "Un examen minucioso del cuerpo revela que el asesinato tuvo lugar "
         if positive:
-            t = Time(time.seconds)
-            r += f"antes de las {t}"
+            r += f"antes de las {time}"
         else:
-            t = Time(time.seconds - interval_size)
-            r += f"no después de las {t}"
+            r += f"no después de las {time}"
         return r
 
     def render_was_murdered_scream(self, time1, time2):

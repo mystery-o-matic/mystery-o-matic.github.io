@@ -3,7 +3,7 @@ def make_ambient_activities(labels, representations):
     Generate a generic, action-agnostic Heard-clue activity pool for every
     room in a location.
 
-    Each room gets three entries (voice / footsteps / movement). Every entry
+    Each room gets four entries (voice / footsteps / movement / someone). Every entry
     names the room and its emoji so the witness's clue still conveys where
     the noise came from, but none of them commit to a specific action — that
     way they never contradict whatever the actor reports in their own
@@ -30,4 +30,6 @@ def make_ambient_activities(labels, representations):
              "es": f"escuché a alguien en {es_room} ({rep})",
              "ru": f"услышал(а) кого-то в {ru_loc} ({rep})"},
         ]
+        for activity in out[key]:
+            activity["place_reference"] = key
     return out

@@ -327,6 +327,7 @@ class Locations:
     def get_activities(self):
         """
         Returns the activities associated with each location.
+        Explicit room references are mapped to the clue's canonical room IDs.
 
         Returns:
         - activities: A dictionary mapping location names to activities.
@@ -334,7 +335,12 @@ class Locations:
         activities = {}
         for generic, concrete in self.indices.items():
             if concrete in self.activities:
-                activities[generic] = self.activities[concrete]
+                activities[generic] = []
+                for activity in self.activities[concrete]:
+                    activity = dict(activity)
+                    if "place_reference" in activity:
+                        activity["place_reference"] = "$" + self.rindices[activity["place_reference"]]
+                    activities[generic].append(activity)
 
         return activities
 

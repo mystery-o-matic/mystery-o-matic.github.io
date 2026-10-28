@@ -87,11 +87,11 @@ class LanguageRenderer(ABC):
         pass
 
     @abstractmethod
-    def render_was_murdered_after(self, time, interval_size, positive, alternative):
+    def render_was_murdered_after(self, time, positive, alternative):
         pass
 
     @abstractmethod
-    def render_was_murdered_before(self, time, interval_size, positive, alternative):
+    def render_was_murdered_before(self, time, positive, alternative):
         pass
 
     @abstractmethod

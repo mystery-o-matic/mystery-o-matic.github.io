@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from random import randint, choice
+from typing import Tuple
 
 from mystery_o_matic.weapons import get_weapon_type
 from mystery_o_matic.time import Time
@@ -82,6 +84,22 @@ class FinalLocationsIntroStatement(AbstractStatement):
         return renderer.render_final_locations_intro(self.time)
 
 
+@dataclass(frozen=True)
+class HighlightReferences:
+    """Public references declared by a clue, independent of its wording.
+
+    Characters and rooms use canonical $CHARn / $ROOMn identifiers. Times
+    are seconds; ranges include both endpoints. victim_at_scene refers only
+    to the victim and crime scene already identified in the introduction.
+    """
+
+    characters: Tuple[str, ...] = ()
+    rooms: Tuple[str, ...] = ()
+    times: Tuple[int, ...] = ()
+    time_ranges: Tuple[Tuple[int, int], ...] = ()
+    victim_at_scene: bool = False
+
+
 class AbstractClue(ABC):
     subject = None
     object = None
@@ -98,6 +116,16 @@ class AbstractClue(ABC):
 
     @abstractmethod
     def render(self, renderer):
+        pass
+
+    @property
+    @abstractmethod
+    def highlight_references(self):
+        """Declare visible references from the current, possibly altered clue.
+
+        Do not cache these: vagueness and alibis can change after construction.
+        Hidden identities, times and locations must never be included.
+        """
         pass
 
     def string(self):
@@ -125,6 +153,13 @@ class SawWhenArrivingClue(AbstractClue):
             self.subject, self.object, self.object_is_alive,
             self.place, self.time, self.fog_kind
         )
+
+    @property
+    def highlight_references(self):
+        characters = (self.subject,)
+        if self.object != "$NOBODY" and (not self.object_is_alive or not self.fog_kind):
+            characters += (self.object,)
+        return HighlightReferences(characters, (self.place,), (self.time.seconds,))
 
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
@@ -164,6 +199,12 @@ class NotSawWhenArrivingLeavingClue(AbstractClue):
             self.subject, self.object, self.place, self.time
         )
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            (self.subject, self.object), (self.place,), (self.time.seconds,),
+        )
+
     def is_incriminating(self, killer, victim, place, time):
         # The subject is revealing that the object was not with them
         # so if the subject is the killer, the place is the crime scene
@@ -197,6 +238,10 @@ class NotSawWhileInClue(AbstractClue):
     def render(self, renderer):
         return renderer.render_not_saw_while_in(self.subject, self.object, self.place)
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences((self.subject, self.object), (self.place,))
+
     def is_incriminating(self, killer, victim, place, time):
         # Even without a time, the killer would admit visiting the crime scene.
         return self.subject == killer and self.place == place
@@ -218,6 +263,12 @@ class SawVictimWhenArrivingClue(AbstractClue):
         return renderer.render_saw_victim_when_arriving(
             self.subject, self.object, self.object_is_alive,
             self.place, self.time
+        )
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            (self.subject, self.object), (self.place,), (self.time.seconds,),
         )
 
     def is_incriminating(self, killer, victim, place, time):
@@ -244,6 +295,12 @@ class SawVictimWhenLeavingClue(AbstractClue):
             self.place, self.time
         )
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            (self.subject, self.object), (self.place,), (self.time.seconds,),
+        )
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -268,6 +325,13 @@ class SawWhenLeavingClue(AbstractClue):
             self.place, self.time, self.fog_kind
         )
 
+    @property
+    def highlight_references(self):
+        characters = (self.subject,)
+        if self.object != "$NOBODY" and (not self.object_is_alive or not self.fog_kind):
+            characters += (self.object,)
+        return HighlightReferences(characters, (self.place,), (self.time.seconds,))
+
     def is_incriminating(self, killer, victim, place, time):
         if self.subject == killer and self.object == victim:
             return True
@@ -287,6 +351,10 @@ class WasMurderedClue(AbstractClue):
         super().__init__()
 
     def render(self, renderer):
+        raise ValueError("WasMurderedClue should not be rendered directly")
+
+    @property
+    def highlight_references(self):
         raise ValueError("WasMurderedClue should not be rendered directly")
 
     def is_incriminating(self, killer, victim, place, time):
@@ -314,6 +382,13 @@ class WasMurderedInitialClue(AbstractClue):
             self.subject, self.object, self.time_start, self.time_end
         )
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            (self.subject,), (self.place,),
+            time_ranges=((self.time_start.seconds, self.time_end.seconds),),
+        )
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -332,6 +407,12 @@ class WasMurderedBodyTwoOptionsClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_was_murdered_body_two_options(self.time1, self.time2)
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            times=(self.time1.seconds, self.time2.seconds), victim_at_scene=True,
+        )
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -352,6 +433,10 @@ class WasVictimDeadAtClue(AbstractClue):  # UNUSED
     def render(self, renderer):
         return renderer.render_was_victim_dead_at(self.time, self.alternative)
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences(times=(self.time.seconds,), victim_at_scene=True)
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -370,6 +455,10 @@ class WasVictimAliveAtClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_was_victim_alive_at(self.time, self.alternative)
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(times=(self.time.seconds,), victim_at_scene=True)
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -392,8 +481,16 @@ class WasMurderedAfterClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_was_murdered_after(
-            self.time, self.interval_size, self.positive, self.alternative
+            self.display_time, self.positive, self.alternative
         )
+
+    @property
+    def display_time(self):
+        return Time(self.time.seconds + (0 if self.positive else self.interval_size))
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(times=(self.display_time.seconds,), victim_at_scene=True)
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -416,8 +513,16 @@ class WasMurderedBeforeClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_was_murdered_before(
-            self.time, self.interval_size, self.positive, self.alternative
+            self.display_time, self.positive, self.alternative
         )
+
+    @property
+    def display_time(self):
+        return Time(self.time.seconds - (0 if self.positive else self.interval_size))
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(times=(self.display_time.seconds,), victim_at_scene=True)
 
     def is_incriminating(self, killer, victim, place, time):
         return False
@@ -438,6 +543,12 @@ class WasMurderedScreamClue(AbstractClue):
     def render(self, renderer):
         return renderer.render_was_murdered_scream(self.time1, self.time2)
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            time_ranges=((self.time1.seconds, self.time2.seconds),), victim_at_scene=True,
+        )
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -451,6 +562,10 @@ class PoliceArrivedClue(AbstractClue):
         super().__init__()
 
     def render(self, renderer):
+        raise ValueError("PoliceArrivedClue should not be rendered directly")
+
+    @property
+    def highlight_references(self):
         raise ValueError("PoliceArrivedClue should not be rendered directly")
 
     def is_incriminating(self, killer, victim, place, time):
@@ -468,6 +583,10 @@ class EvidenceClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_evidence(self.subject, self.place)
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences((self.subject,), (self.place,))
 
     def is_incriminating(self, killer, victim, place, time):
         # this can be incriminating, but the killer cannot manipulate them
@@ -490,6 +609,13 @@ class StayedClue(AbstractClue):
     def render(self, renderer):
         return renderer.render_stayed(
             self.subject, self.place, self.time_start, self.time_end, self.activity
+        )
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(
+            (self.subject,), (self.place,),
+            time_ranges=((self.time_start.seconds, self.time_end.seconds),),
         )
 
     def is_incriminating(self, killer, victim, place, time):
@@ -520,6 +646,10 @@ class NoVisitorsClue(AbstractClue):
     def render(self, renderer):
         return renderer.render_no_visitors(self.place)
 
+    @property
+    def highlight_references(self):
+        return HighlightReferences(rooms=(self.place,))
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -538,6 +668,10 @@ class FirstArrivalClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_first_arrival(self.subject, self.place, self.time)
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences((self.subject,), (self.place,), (self.time.seconds,))
 
     def is_incriminating(self, killer, victim, place, time):
         return (
@@ -561,6 +695,11 @@ class InteractedClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_interacted(self.subject0, self.subject1, self.place)
+
+    @property
+    def highlight_references(self):
+        # The interaction's time is deliberately omitted from the clue.
+        return HighlightReferences((self.subject0, self.subject1), (self.place,))
 
     def is_incriminating(self, killer, victim, place, time):
         if (
@@ -589,6 +728,15 @@ class HeardClue(AbstractClue):
         activity_text = self.activity[renderer.lang_code]
         return renderer.render_heard(self.subject, activity_text, self.time)
 
+    @property
+    def highlight_references(self):
+        # Only the activity may declare a visible room; self.place is a hidden
+        # event location and must not be used for legacy or vague activities.
+        place = self.activity.get("place_reference")
+        return HighlightReferences(
+            (self.subject,), (place,) if place else (), (self.time.seconds,),
+        )
+
     def is_incriminating(self, killer, victim, place, time):
         return False
 
@@ -603,6 +751,10 @@ class WeaponNotUsedClue(AbstractClue):
 
     def render(self, renderer):
         return renderer.render_weapon_not_used(self.weapon)
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences()
 
     def is_incriminating(self, killer, victim, place, time):
         return False

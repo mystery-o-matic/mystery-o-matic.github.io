@@ -214,6 +214,24 @@ def produce_html_output(
     json["correctAnswer"] = correct_answer
     json["characterBios"] = {}
 
+    # Object and translation lists stay paired through clue ordering. Resolve
+    # metadata once for all languages, after vagueness and alibis are finalized.
+    clue_highlights = {}
+    for text_attribute, object_attribute in (
+        ("additional_clues", "clue_objects"),
+        ("additional_clues_with_lies", "clue_objects_with_lies"),
+    ):
+        clue_objects = getattr(mystery, object_attribute)
+        if len(clue_objects) != len(getattr(mystery, text_attribute)):
+            raise ValueError("Clue objects and translations are out of sync: " + text_attribute)
+        clue_highlights[text_attribute] = [
+            get_clue_highlights(
+                clue, mystery.get_characters(), intervals,
+                victim=json["victim"], crime_scene=crime_scene,
+            )
+            for clue in clue_objects
+        ]
+
     for language in languages:
 
         if language == "en":
@@ -284,12 +302,6 @@ def produce_html_output(
                 index = locations.rindices[room]
                 names_html[index + "_GEN"] = name + " (" + locations.representations[index] + ")"
 
-        room_suffixes = ("", "_LOC", "_GEN") if language == "ru" else ("",)
-        room_labels = {
-            room.lower(): [names_html[room + suffix] for suffix in room_suffixes]
-            for room in locations.indices
-        }
-
         for weapon, label in weapon_labels[language].items():
             if weapon not in weapons:
                 continue
@@ -353,11 +365,7 @@ def produce_html_output(
             additional_clues.append(
                 {
                     "text": create_template(clue[language]).substitute(names_html),
-                    "highlights": get_clue_highlights(
-                        clue[language], mystery.get_characters(), intervals,
-                        language=language, victim=json["victim"], crime_scene=crime_scene,
-                        room_labels=room_labels,
-                    ),
+                    "highlights": clue_highlights["additional_clues"][i],
                 }
             )
 
@@ -369,11 +377,7 @@ def produce_html_output(
             additional_clues_with_lies.append(
                 {
                     "text": create_template(clue[language]).substitute(names_html),
-                    "highlights": get_clue_highlights(
-                        clue[language], mystery.get_characters(), intervals,
-                        language=language, victim=json["victim"], crime_scene=crime_scene,
-                        room_labels=room_labels,
-                    ),
+                    "highlights": clue_highlights["additional_clues_with_lies"][i],
                 }
             )
 
