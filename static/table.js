@@ -208,12 +208,118 @@ class ClueTable {
 		this.extra[column][row] = "crossed";
 	}
 
+	isEditableTimeCell(column, row) {
+		return !this.readOnly && this.nRows > 1
+			&& column >= 2 && column < this.nColumns - 1
+			&& row >= (this.headerVisible ? 1 : 0) && row < this.nRows;
+	}
+
+	setTimeMark(column, row, value) {
+		if (!this.isEditableTimeCell(column, row)) return;
+		this.clearCell(column, row);
+		this.fillCell(value, getCluesFontSize(this), '#000000', column, row);
+	}
+
+	enableDragFill() {
+		const canvas = this.canvas;
+		let drag = null;
+		let suppressClick = false;
+		// Horizontal touch gestures fill marks; vertical gestures still scroll.
+		canvas.style.touchAction = 'pan-y pinch-zoom';
+		canvas.style.userSelect = 'none';
+		const position = event => {
+			const rect = canvas.getBoundingClientRect();
+			return this.findPosition(event.clientX - rect.left, event.clientY - rect.top);
+		};
+
+		canvas.addEventListener('pointerdown', event => {
+			if (!event.isPrimary || event.button !== 0 || this.readOnly || drag) return;
+			suppressClick = false;
+			const [column, row] = position(event);
+			const value = this.isEditableTimeCell(column, row) ? this.data[column][row] : null;
+			const canCopy = ['✓', '✗', '?'].includes(value);
+			drag = {
+				pointerId: event.pointerId, x: event.clientX, y: event.clientY,
+				row, column, end: column, value: canCopy ? value : null, moved: false,
+				original: canCopy ? this.data.map((cells, col) => ({
+					value: cells[row], style: this.cellStyles[col][row],
+				})) : null,
+			};
+			canvas.setPointerCapture(event.pointerId);
+		});
+
+		const preview = end => {
+			if (!drag.original) return;
+			// Rebuild from the pre-drag row so shortening or reversing the range
+			// restores earlier marks and their styles, including empty cells.
+			for (let col = 2; col < this.nColumns - 1; col++) {
+				const { value, style } = drag.original[col];
+				this.clearCell(col, drag.row);
+				if (style) this.fillCell(value, style.size, style.color, col, drag.row);
+			}
+			if (end !== null) {
+				for (let col = Math.min(drag.column, end); col <= Math.max(drag.column, end); col++) {
+					if (this.data[col][drag.row] !== drag.value) this.setTimeMark(col, drag.row, drag.value);
+				}
+			}
+			drag.end = end;
+		};
+
+		const move = event => {
+			if (!drag || event.pointerId !== drag.pointerId) return;
+			const dx = event.clientX - drag.x;
+			const dy = event.clientY - drag.y;
+			if (Math.hypot(dx, dy) >= 5) drag.moved = true;
+			if (!drag.moved || drag.value === null) return;
+			const [column, row] = position(event);
+			const validRow = !this.readOnly && row === drag.row
+				&& !(event.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx));
+			const end = validRow ? Math.max(2, Math.min(column, this.nColumns - 2)) : null;
+			if (end !== drag.end) preview(end);
+		};
+		const finish = event => {
+			if (!drag || event.pointerId !== drag.pointerId) return;
+			// Only releasing in the source row commits the currently previewed
+			// range. Cancellation, capture loss and releases in other rows restore it.
+			if (event.type === 'pointerup') move(event);
+			else preview(null);
+			const [column, row] = position(event);
+			const cycleSource = event.type === 'pointerup' && drag.moved
+				&& column === drag.column && row === drag.row
+				&& this.isEditableTimeCell(column, row);
+			suppressClick = drag.moved || event.type !== 'pointerup';
+			drag = null;
+			if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+			// Returning to the source is a click. Handle it here because touch
+			// gestures that moved away may not emit a native click on release.
+			if (cycleSource) {
+				const rect = canvas.getBoundingClientRect();
+				checkCellClicked(canvas, event.clientX - rect.left, event.clientY - rect.top);
+			}
+		};
+		canvas.addEventListener('pointermove', event => {
+			// A release outside the browser may not deliver pointerup to the page.
+			if (!(event.buttons & 1)) finish(event);
+			else move(event);
+		});
+		canvas.addEventListener('pointerup', finish);
+		canvas.addEventListener('pointercancel', finish);
+		canvas.addEventListener('lostpointercapture', finish);
+		// Consume trailing clicks after a drag or a source-cell click handled
+		// above so the inline click handler cannot cycle a mark a second time.
+		canvas.addEventListener('click', event => {
+			if (!suppressClick) return;
+			suppressClick = false;
+			event.preventDefault();
+			event.stopImmediatePropagation();
+		}, true);
+	}
+
 	findPosition(x, y) {
-		//console.log(x, y);
-		const rect = this.canvas.getBoundingClientRect()
-		x = this.height * x / rect.height;
-		y = this.width * y / rect.width;
-		return [Math.trunc(x / this.columnSize), Math.trunc(y / this.rowSize)];
+		const rect = this.canvas.getBoundingClientRect();
+		x = this.width * x / rect.width;
+		y = this.height * y / rect.height;
+		return [Math.floor(x / this.columnSize), Math.floor(y / this.rowSize)];
 	}
 }
 
@@ -615,6 +721,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		}
 	}
 
+	table.enableDragFill();
 	return table;
 }
 
@@ -644,11 +751,8 @@ function sleep(ms) {
 async function checkCellClicked(c, x, y) {
 	var name = c.id.replace("clues-table-", "");
 	var table = tables.get(name);
-	if (table.readOnly)
-		return;
 	var position = table.findPosition(x, y);
-	//console.log(name);
-	if (position[0] == table.nColumns - 1)
+	if (!table.isEditableTimeCell(position[0], position[1]))
 		return;
 
 	//console.log(table.data);
@@ -666,16 +770,14 @@ async function checkCellClicked(c, x, y) {
 	else
 		return;
 
-	table.data[position[0]][position[1]] = value;
-	table.clearCell(position[0], position[1]);
-	table.fillCell(value, getCluesFontSize(table), '#000000', position[0], position[1]);
+	table.setTimeMark(position[0], position[1], value);
 
 	var highligthColor = '#2222FF'
-	name = table.data[1][position[1]]
+	name = table.data[1][position[1]];
 	table.clearCell(1, position[1]);
 	table.fillCell(name, getCluesNameFontSize(table) * 1.08, highligthColor, 1, position[1]);
 
-	firstRoom = data.locationOrder[0][0];
+	var firstRoom = data.locationOrder[0][0];
 	var ftable = tables.get(firstRoom);
 	var time = ftable.data[position[0]][0]
 	if (!table.isTutorial) {
