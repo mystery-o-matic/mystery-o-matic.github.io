@@ -43,6 +43,25 @@ VICTIM_SCREAM_REFERENCES = {
     "es": r"\bgrito espeluznante de la víctima\b",
     "ru": r"\bкрик жертвы\b",
 }
+TIME_REFERENCE = r"(?<![\d:])\d{1,2}:\d{2}(?![\d:])"
+# Recognize an explicit range in the displayed wording, not just two times.
+# In particular, "either ... or ..." and before/after bounds are not ranges.
+TIME_RANGE_REFERENCES = {
+    "en": (
+        rf"\bbetween\s+({TIME_REFERENCE})\s+and\s+({TIME_REFERENCE})",
+        rf"\bfrom\s+({TIME_REFERENCE})\s+(?:to|until)\s+({TIME_REFERENCE})",
+        rf"\bat\s+({TIME_REFERENCE})\s+and\s+stayed\s+until\s+({TIME_REFERENCE})",
+    ),
+    "es": (
+        rf"\bentre\s+las\s+({TIME_REFERENCE})\s+y\s+las\s+({TIME_REFERENCE})",
+        rf"\bdesde\s+las\s+({TIME_REFERENCE})\s+hasta\s+las\s+({TIME_REFERENCE})",
+        rf"\ba\s+las\s+({TIME_REFERENCE})\s+y\s+me\s+quedé\s+hasta\s+las\s+({TIME_REFERENCE})",
+    ),
+    "ru": (
+        rf"\bмежду\s+({TIME_REFERENCE})\s+и\s+({TIME_REFERENCE})",
+        rf"\bс\s+({TIME_REFERENCE})\s+до\s+({TIME_REFERENCE})",
+    ),
+}
 
 
 def get_clue_highlights(text, characters, intervals, *, language="en", victim=None,
@@ -60,18 +79,21 @@ def get_clue_highlights(text, characters, intervals, *, language="en", victim=No
     The victim's scream uses the public crime scene, just like murder-time clues.
     Body inspections only guide these tables when they state a time; weapon
     clues describing wounds do not highlight the victim or crime scene.
-    Scream ranges include every displayed time column between their endpoints.
-    Other clues highlight only their printed times, without filling in deductions.
+    Explicit time ranges include every displayed column between their endpoints.
+    Separate alternatives and one-sided bounds highlight only their printed times,
+    without filling in deductions.
     """
     tokens = {
         match.group("named") or match.group("braced")
         for match in create_template(text).pattern.finditer(text)
     }
-    times = set(re.findall(r"(?<![\d:])\d{1,2}:\d{2}(?![\d:])", text))
+    column_times = {time: Time(time).seconds for time in intervals}
+    times = {Time(time).seconds for time in re.findall(TIME_REFERENCE, text)}
+    for pattern in TIME_RANGE_REFERENCES[language]:
+        for start, end in re.findall(pattern, text, re.IGNORECASE):
+            start, end = Time(start).seconds, Time(end).seconds
+            times.update(time for time in column_times.values() if start <= time <= end)
     mentions_scream = re.search(VICTIM_SCREAM_REFERENCES[language], text, re.IGNORECASE)
-    if mentions_scream and len(times) == 2:
-        start, end = sorted(Time(time).seconds for time in times)
-        times.update(time for time in intervals if start <= Time(time).seconds <= end)
     rows = {
         name.lower() for i, name in enumerate(characters, 1)
         if "CHAR" + str(i) in tokens
@@ -98,7 +120,7 @@ def get_clue_highlights(text, characters, intervals, *, language="en", victim=No
         tables.add(crime_scene)
     highlights = {
         "rows": [] if tables else sorted(rows),
-        "columns": [time for time in intervals if time in times],
+        "columns": [label for label, time in column_times.items() if time in times],
         "tables": sorted(tables),
     }
     if tables and rows:
