@@ -46,7 +46,7 @@ def get_data():
     representations = {
         "ER": "🚑",
         "ICU": "🛏️",
-        "OPERATING THEATER": "🔪",
+        "OPERATING THEATER": "🩺",
         "PHARMACY": "💊",
         "LOBBY": "💺",
     }
