@@ -72,7 +72,7 @@ def get_data():
             {"en": "to check the cell doors",        "es": "a revisar las puertas de las celdas",      "ru": "проверить двери камер"},
         ],
         "ARMORY": [
-            {"en": "to sharpen a sword",             "es": "a afilar una espada",                      "ru": "наточить меч"},
+            {"en": "to dust the shelves",            "es": "a quitar el polvo de los estantes",         "ru": "вытереть пыль с полок"},
             {"en": "to polish a shield",             "es": "a pulir un escudo",                        "ru": "отполировать щит"},
             {"en": "to count the arrows",            "es": "a contar las flechas",                     "ru": "пересчитать стрелы"},
             {"en": "to oil the chainmail",           "es": "a engrasar la cota de malla",              "ru": "смазать кольчугу"},
