@@ -44,6 +44,15 @@ class SpanishRenderer(LanguageRenderer):
     def render_no_visitors(self, place):
         return f"Nadie estuvo en {place} en ningún momento."
 
+    def render_only_visitors(self, place, visitors):
+        names = " y ".join(visitors) if len(visitors) < 3 else ", ".join(visitors[:-1]) + " y " + visitors[-1]
+        return f"Solo {names} {'estuvo' if len(visitors) == 1 else 'estuvieron'} en {place}."
+
+    def render_heard_outside(self, subject, place, time, wording):
+        if wording == 0:
+            return f'{subject}: "Aunque yo no estaba en {place}, oí a alguien allí a las {time}"'
+        return f'{subject}: "A las {time}, yo no estaba en {place}, pero oí una voz que venía de allí"'
+
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'

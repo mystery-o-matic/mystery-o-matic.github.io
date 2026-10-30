@@ -13,9 +13,14 @@ from z3 import And, Bool, BoolVal, FreshBool, If, Implies, Int, Not, Optimize, O
 from z3 import is_true, sat, unsat
 
 from mystery_o_matic import clues as c
+from mystery_o_matic.clue_rules import statement_scope
 from mystery_o_matic.time import Time
 from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
 from mystery_o_matic.weapons import get_weapon_type
+
+
+class AmbiguousCluesError(ValueError):
+    """The displayed clues allow another answer; a fresh case may work."""
 
 
 def _check(solver, *assumptions):
@@ -217,8 +222,9 @@ class ClueSolver:
     from book exports, so it is off by default.
 
     In lying mode, only candidate-killer statements covering the murder may be
-    ignored. Empty-arrival alibis and first-arrival claims before the murder can
-    also be fabricated by the generator. Evidence is always trustworthy.
+    ignored. Scope includes implicit absence and adjacent movement marks, and
+    the whole timeline for untimed statements. Empty-arrival alibis retain their
+    historical exception. Evidence is always trustworthy.
     """
 
     def __init__(self, mystery, graph, clues, with_lies=False, killer_leaves=False):
@@ -312,22 +318,15 @@ class ClueSolver:
         raise ValueError("Unknown sighting description: " + str(kind))
 
     def _unreliable(self, clue):
-        if isinstance(clue, (c.EvidenceClue, c.NoVisitorsClue)):
+        scope = statement_scope(clue, self.mystery.interval_size)
+        if scope is None:
             return BoolVal(False)
-        subject = clue.subject
+        subject, start, end = scope
         if subject not in self.ci:
             return BoolVal(False)
-        if isinstance(clue, c.StayedClue):
-            covering = And(self.clock >= clue.time_start.seconds, self.clock <= clue.time_end.seconds)
-        elif isinstance(clue, c.SawWhenArrivingClue) and clue.object == "$NOBODY":
-            covering = BoolVal(True)
-        elif isinstance(clue, c.FirstArrivalClue):
-            covering = self.clock >= clue.time.seconds
-        elif clue.time is not None:
-            covering = self.clock == clue.time.seconds
-        else:
-            return BoolVal(False)
-        return And(self.killer == self.ci[subject], covering)
+        return And(self.killer == self.ci[subject],
+                   True if start is None else self.clock >= start,
+                   True if end is None else self.clock <= end)
 
     def _clue(self, clue):
         if isinstance(clue, c.WeaponNotUsedClue):
@@ -355,6 +354,13 @@ class ClueSolver:
         r = self.ri[clue.place]
         if isinstance(clue, c.NoVisitorsClue):
             return And(*[pos != r for path in self.loc.values() for pos in path])
+        if isinstance(clue, c.OnlyVisitorsClue):
+            if (not clue.visitors or len(set(clue.visitors)) != len(clue.visitors)
+                    or set(clue.visitors) - set(self.chars)):
+                raise ValueError("OnlyVisitorsClue requires distinct known visitors")
+            return And(*[(Or(*[pos == r for pos in path]) if char in clue.visitors
+                          else And(*[pos != r for pos in path]))
+                         for char, path in self.loc.items()])
         if isinstance(clue, c.InteractedClue):
             # The time in the event is NOT displayed to the reader.
             return Or(*[And(self.loc[clue.subject0][t] == r, self.loc[clue.subject1][t] == r,
@@ -363,6 +369,8 @@ class ClueSolver:
 
         path = self.loc[clue.subject]
         if isinstance(clue, c.StayedClue):
+            if clue.time_start.seconds > clue.time_end.seconds:
+                raise ValueError("Stay interval is reversed")
             return And(*[path[t] == r for t in range(self._time(clue.time_start), self._time(clue.time_end) + 1)])
         if isinstance(clue, c.EvidenceClue):
             return Or(*[And(pos == r, self._living(clue.subject, t)) for t, pos in enumerate(path)])
@@ -387,7 +395,8 @@ class ClueSolver:
         if isinstance(clue, (c.SawVictimWhenArrivingClue, c.SawVictimWhenLeavingClue)):
             # The victim moves, while the surviving witness is in the room.
             step = t - 1 if isinstance(clue, c.SawVictimWhenArrivingClue) else t + 1
-            facts = [path[t] == r, self.loc[clue.object][t] == r]
+            facts = [path[t] == r, self.loc[clue.object][t] == r,
+                     self._living(clue.object, t)]
             if 0 <= step < len(self.times):
                 facts.append(self.loc[clue.object][step] != r)
             return And(*facts)
@@ -399,6 +408,8 @@ class ClueSolver:
             if clue.object == "$NOBODY":
                 facts.extend(self.loc[other][t] != r for other in self.chars if other != clue.subject)
             elif not clue.object_is_alive:
+                if clue.object != self.victim:
+                    raise ValueError("A body sighting must name the victim")
                 facts.extend((self.loc[clue.object][t] == r, self.murder <= t))
             else:
                 facts.append(Or(*[And(self.loc[other][t] == r, self._living(other, t))
@@ -494,4 +505,7 @@ def order_clues(mystery, graph, include_lies=True, killer_leaves=False,
                 "inconsistent": "the clue pool contradicts the generated answer",
                 "trivial": "the fixed public facts already solve the case without any clues",
             }
-            raise ValueError(f"Cannot select necessary clues ({label}): {reasons[result.status]}")
+            message = f"Cannot select necessary clues ({label}): {reasons[result.status]}"
+            if result.status == "ambiguous":
+                raise AmbiguousCluesError(message)
+            raise ValueError(message)

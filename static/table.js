@@ -495,11 +495,6 @@ function createTables() {
 	createCluesTable("dining room:tutorial-5", "dining room:tutorial-5", 7, tutorialData.timeOffset, false, true);
 	createCluesTable("bathroom:tutorial-5", "bathroom:tutorial-5", 7, tutorialData.timeOffset, false, true);
 
-	createCluesTable("kitchen:tutorial-6", "kitchen:tutorial-6", 7, tutorialData.timeOffset, true, true);
-	createCluesTable("bedroom:tutorial-6", "bedroom:tutorial-6", 7, tutorialData.timeOffset, false, true);
-	createCluesTable("dining room:tutorial-6", "dining room:tutorial-6", 7, tutorialData.timeOffset, false, true);
-	createCluesTable("bathroom:tutorial-6", "bathroom:tutorial-6", 7, tutorialData.timeOffset, false, true);
-
 	createCluesTable("kitchen:tutorial-7", "kitchen:tutorial-7", 7, tutorialData.timeOffset, true, true);
 
 

@@ -115,30 +115,20 @@ Not only does this clue place Bob in the bathroom at 9:00, but we can backtrack 
 🔎 Bob was in the bedroom at 8:45
 🔎 Bob was NOT in the kitchen, dining room or bathroom at 8:45
 
-Finally, sometimes we get vague clues from suspects:
-
-☞ Carol: "I heard someone washing the dishes at 8:45"
-
-This clue tells us that someone was in the kitchen. Wait a minute, can you wash dishes in the bathroom? Nope, absolutely ridiculous (looking at you The Sims™). Let's review what we deduced so far:
-
-🔎 Someone was (alive!) at the kitchen at 8:45
-🔎 Carol was NOT in the kitchen at 8:45
-
-It can be tempting to try to guess where Carol was, but this is not possible. Characters sometimes can hear or see someone in other rooms, but their location cannot be inferred from this kind of clue. However, what we can deduce using our previous observation is who was in the kitchen. Clearly, it was not Carol (she was elsewhere at 8:45 actually!). Also, we know that Bob was in the bedroom, which means that Alice was in the kitchen at 8:45.
-
-Our first attempt to deduce facts was not great, so let's review our previous deduction and refine them:
-
-🔎 Alice was in the kitchen at 8:45
-🔎 Alice was NOT in the bedroom, dining room or bathroom at 8:45
-🔎 Carol was NOT in the kitchen at 8:45
-
 ⌛ Determining Time of Death
 
-Once we have a good idea of where everyone was at different times, we can start narrowing down the time of death. This is a crucial step in solving the mystery, as it can help us identify the killer. Sometimes we get helpful clues like this:
+Some clues help us narrow down the time of the murder:
+
+☞ A close examination of the body reveals that the victim was alive at 8:45
+
+🔎 Alice was alive at 8:45
+🔎 The murder happened after 8:45
+
+This clue does not tell us which room Alice was in at 8:45. Now combine it with this clue:
 
 ☞ A blood-curdling scream from the victim was heard between 8:45 and 9:00
 
-Since our suspects move every 15 minutes like clockwork, the murder had to happen either at 8:45 or 9:00. However, we already know that Alice was alive at 8:45 (and happily washing the dishes). So the only option here is that murder happened at 9:00. Remember that once the killer strikes, the victim's body is never moved, so can easily complete Alice's timeline until 9:30.
+The scream places the murder at either 8:45 or 9:00, since the timeline advances in 15-minute steps. The examination of the body tells us that Alice was still alive at 8:45, so the murder happened at 9:00. Her body was found in the kitchen and cannot be moved after the murder. We can therefore mark Alice in the kitchen at 9:00, 9:15 and 9:30.
 
 🔎 Alice was killed at 9:00 in the kitchen
 🔎 Alice's body is in the kitchen from 9:15 to 9:30
@@ -184,9 +174,9 @@ Time to put it all together and solve our very first murder. With all our deduct
 
 1. When was the murder committed?
 
-The victim's scream narrows it down to either 8:45 or 9:00. But we already know that Alice was alive at 8:45 (happily washing the dishes). That rules out 8:45, leaving only one possibility:
+The victim's scream narrows it down to either 8:45 or 9:00. The examination of the body tells us that Alice was alive at 8:45. That rules out 8:45, leaving only one possibility:
 
-🔎 8:45 is ruled out (Alice was alive and in the kitchen)
+🔎 8:45 is ruled out (Alice was alive)
 🔎 The murder was committed at 9:00
 
 2. Who was the killer?
@@ -213,12 +203,6 @@ We had four weapons. Let's eliminate them one by one:
 🔎 The murder weapon was the hammer (🔨), it was in the dining room (🪑), the only place Carol visited before the murder
 
 Three weapons eliminated, one remains. That's our answer.
-
-We actually used this same elimination technique earlier in the tutorial without calling it out. Remember when Carol said she heard someone washing dishes at 8:45? We knew Bob was in the bedroom and Carol wasn't in the kitchen. That left Alice as the only person who could have been there:
-
-🔎 Bob was in the bedroom at 8:45, not him
-🔎 Carol was NOT in the kitchen at 8:45, not her
-🔎 Alice was in the kitchen at 8:45, the only remaining possibility
 
 In each of these cases, we started with a complete list of possibilities and eliminated options one by one using verified facts: statements from truthful characters, physical evidence, and movement constraints. The conclusion follows necessarily from the facts. It is not a guess, not an assumption, and not an inference from incomplete data. This technique is fundamental to solving cases, since often the puzzle will NOT give you a direct clue pointing to the answer. Instead, you must arrive at it by systematically ruling out what's impossible until only the truth remains.
 

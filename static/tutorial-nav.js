@@ -7,7 +7,6 @@ var tutorialPages = [
 	{ id: 'tut-deductions',  title: { en: '🧠 Making Deductions',               es: '🧠 Haciendo deducciones',                 ru: '🧠 Выводы и дедукция' } },
 	{ id: 'tut-movement',    title: { en: '🚶 Movement Rules',                  es: '🚶 Reglas de movimiento',                 ru: '🚶 Правила передвижения' } },
 	{ id: 'tut-backtrack',   title: { en: '↩️ Backtracking',                    es: '↩️ Retrocediendo',                        ru: '↩️ Обратный след' } },
-	{ id: 'tut-indirect',    title: { en: '💬 Indirect Clues',                  es: '💬 Pistas indirectas',                    ru: '💬 Косвенные улики' } },
 	{ id: 'tut-time-death',  title: { en: '⌛ Determining Time of Death',       es: '⌛ Determinando la hora de la muerte',    ru: '⌛ Время смерти' } },
 	{ id: 'tut-weapon',      title: { en: '🔪 Finding the smoking gun',         es: '🔪 Encontrando el arma homicida',         ru: '🔪 Орудие преступления' } },
 	{ id: 'tut-solved',      title: { en: '🎓 Solving your first case',         es: '🎓 Resolviendo tu primer caso',           ru: '🎓 Решаем первое дело' } },

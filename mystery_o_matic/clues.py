@@ -657,6 +657,28 @@ class NoVisitorsClue(AbstractClue):
         return self
 
 
+class OnlyVisitorsClue(AbstractClue):
+    """Independent evidence naming exactly everyone who visited a room."""
+
+    def __init__(self, place, visitors):
+        self.place = place
+        self.visitors = tuple(visitors)
+        super().__init__()
+
+    def render(self, renderer):
+        return renderer.render_only_visitors(self.place, self.visitors)
+
+    @property
+    def highlight_references(self):
+        return HighlightReferences(self.visitors, (self.place,))
+
+    def is_incriminating(self, killer, victim, place, time):
+        return False
+
+    def manipulate(self, killer, victim, alibi_place):
+        raise ValueError("Independent evidence cannot be manipulated")
+
+
 class FirstArrivalClue(AbstractClue):
     """The subject's first visit to a place during the mystery timeline."""
 
@@ -716,15 +738,19 @@ class InteractedClue(AbstractClue):
 
 
 class HeardClue(AbstractClue):
-    def __init__(self, subject, activity, time, place=None):
+    def __init__(self, subject, activity, time, place=None, outside_wording=None):
         self.subject = subject
         self.activity = activity
         self.place = place
+        self.outside_wording = outside_wording
         assert "en" in activity and "es" in activity and "ru" in activity
         self.time = time
         super().__init__()
 
     def render(self, renderer):
+        if self.outside_wording is not None:
+            return renderer.render_heard_outside(self.subject, self.place, self.time,
+                                                  self.outside_wording)
         activity_text = self.activity[renderer.lang_code]
         return renderer.render_heard(self.subject, activity_text, self.time)
 
@@ -732,7 +758,7 @@ class HeardClue(AbstractClue):
     def highlight_references(self):
         # Only the activity may declare a visible room; self.place is a hidden
         # event location and must not be used for legacy or vague activities.
-        place = self.activity.get("place_reference")
+        place = self.place if self.outside_wording is not None else self.activity.get("place_reference")
         return HighlightReferences(
             (self.subject,), (place,) if place else (), (self.time.seconds,),
         )

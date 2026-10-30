@@ -381,10 +381,6 @@
 						<span class="tutorial-sidebar-icon">↩️</span>
 						<span class="tutorial-sidebar-label">Обратный след</span>
 					</li>
-					<li class="tutorial-sidebar-item" data-page="tut-indirect">
-						<span class="tutorial-sidebar-icon">💬</span>
-						<span class="tutorial-sidebar-label">Косвенные улики</span>
-					</li>
 					<li class="tutorial-sidebar-item" data-page="tut-time-death">
 						<span class="tutorial-sidebar-icon">⌛</span>
 						<span class="tutorial-sidebar-label">Время смерти</span>
@@ -420,7 +416,6 @@
 						<span class="tutorial-step-dot" data-page="tut-deductions">🧠</span>
 						<span class="tutorial-step-dot" data-page="tut-movement">🚶</span>
 						<span class="tutorial-step-dot" data-page="tut-backtrack">↩️</span>
-						<span class="tutorial-step-dot" data-page="tut-indirect">💬</span>
 						<span class="tutorial-step-dot" data-page="tut-time-death">⌛</span>
 						<span class="tutorial-step-dot" data-page="tut-weapon">🔪</span>
 						<span class="tutorial-step-dot" data-page="tut-solved">🎓</span>
@@ -927,104 +922,31 @@
 					</div>
 				</div>
 
-				<!-- PAGE 7: Indirect Clues -->
-				<div class="tutorial-page" id="tut-indirect" style="display:none">
-					<div class="compact-card mt-0">
-						<div class="compact-card-body">
-							<div class="section-header">💬 Косвенные улики</div>
-							<p>Наконец, иногда мы получаем расплывчатые улики от подозреваемых:</p>
-
-							<p>
-							<div class="d-flex justify-content-center align-items-center">
-								<div style="width: 99%" id="clues-tutorial">
-									<div class="card" style="height: auto;">
-										<div class="card-body text-center">
-											<div class="row align-items-center">
-											<p id="clue-text-tutorial" class="card-text"><b>☞ Carol</b>: «Я слышала, как кто-то
-												моет посуду в 8:45»</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							</p>
-
-								<p>Эта улика говорит нам, что кто-то был на кухне. Подождите, можно ли мыть посуду в
-									ванной? Нет, это совершенно нелепо (это к вам, The Sims™). Давайте посмотрим, что мы уже вывели:
-								</p>
-							<p>
-							<ul class="list-group">
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Кто-то был (живой!) на
-									кухне в 8:45</li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была на кухне в
-									8:45</li>
-							</ul>
-							</p>
-								<p>Может возникнуть соблазн угадать, где была Carol, но это невозможно. Персонажи иногда
-									могут слышать или видеть кого-то в других комнатах, но местонахождение нельзя вывести из этого типа
-									улики.
-									Однако, используя наши предыдущие наблюдения, мы можем вывести, кто был на кухне. Явно,
-									это была не Carol (она была в другом месте в 8:45 на самом деле!). Также мы знаем, что Bob был в спальне,
-									что означает, что <b>Alice была на кухне в 8:45</b>.
-								<br />
-							<p>
-									Наша первая попытка сделать выводы была не очень, поэтому давайте пересмотрим наш предыдущий вывод и уточним
-									его:
-							</p>
-
-							<ul class="list-group">
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice была на кухне в 8:45
-								</li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice НЕ была в спальне,
-									столовой или ванной в 8:45 </li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol НЕ была на кухне в
-									8:45</li>
-							</ul>
-							</p>
-
-							<p>
-									Вернёмся к таблице хронологии...
-							</p>
-
-
-							<div class="col-12 text-center">
-								<canvas id="clues-table-kitchen:tutorial-6" height="115" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Ваш браузер не поддерживает HTML canvas.</canvas>
-							</div>
-							<div class="col-12 text-center">
-								<canvas id="clues-table-bedroom:tutorial-6" height="95" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Ваш браузер не поддерживает HTML canvas.</canvas>
-							</div>
-
-							<div class="col-12 text-center">
-								<canvas id="clues-table-dining room:tutorial-6" height="95" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Ваш браузер не поддерживает HTML canvas.</canvas>
-							</div>
-
-							<div class="col-12 text-center">
-								<canvas id="clues-table-bathroom:tutorial-6" height="95" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Ваш браузер не поддерживает HTML canvas.</canvas>
-								<br />
-								<a onclick="clearTable(':tutorial-6');" class="btn btn-danger" role="button">Очистить ♻️</a>
-								<a onclick="checkTutorialTable('kitchen:tutorial-6', 'kitchen:tutorial-7'); checkTutorialTable('bedroom:tutorial-6', 'bedroom:tutorial-7'); checkTutorialTable('dining room:tutorial-6', 'dining room:tutorial-7'); checkTutorialTable('bathroom:tutorial-6', 'bathroom:tutorial-7');"
-									class="btn btn-info" role="button">Проверить 🎯</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- PAGE 8: Time of Death -->
+				<!-- PAGE 7: Time of Death -->
 				<div class="tutorial-page" id="tut-time-death" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
 							<div class="section-header">⌛ Определение времени смерти</div>
+							<p>Некоторые улики помогают сузить время убийства:</p>
 
-							<p>
 							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<p class="card-text">☞ Тщательный осмотр тела показывает, что жертва была жива в 8:45</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<ul class="list-group my-3">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice была жива в 8:45</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Убийство произошло после 8:45</li>
+							</ul>
+
+							<p>Эта улика не говорит, в какой комнате находилась Alice в 8:45. Теперь объединим её со следующей уликой:</p>
+
+							<div class="d-flex justify-content-center align-items-center mb-3">
 								<div style="width: 99%" id="clues-tutorial">
 									<div class="card" style="height: auto;">
 										<div class="card-body text-center">
@@ -1036,14 +958,10 @@
 									</div>
 								</div>
 							</div>
-							</p>
 
 							<p>
-									Поскольку наши подозреваемые передвигаются каждые 15 минут как часы, убийство должно было произойти либо в 8:45, либо
-									в 9:00. Однако мы уже знаем, что Alice была жива в 8:45 (и мирно мыла посуду). Так что
-									единственный вариант — убийство произошло в 9:00. Помните, что после удара убийцы
-									тело жертвы никогда не перемещают, поэтому можно легко дополнить хронологию Alice до 9:30.
-								<br />
+								Крик указывает, что убийство произошло в 8:45 или в 9:00, поскольку время в игре идёт с шагом в 15 минут. Осмотр тела показывает, что Alice была ещё жива в 8:45, значит, убийство произошло в 9:00. Её тело нашли на кухне, а после убийства его нельзя перемещать. Поэтому можно отметить, что Alice находится на кухне в 9:00, 9:15 и 9:30.
+							</p>
 
 							<ul class="list-group">
 								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice была убита в 9:00 на
@@ -1051,9 +969,9 @@
 								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Тело Alice находится на кухне
 									с 9:15 до 9:30 </li>
 							</ul>
-							<br />
 
-								Отметим наши выводы в таблице хронологии:
+							<p class="mt-3">
+									Отметьте в строке Alice, что она находится на кухне в 9:00 и 9:15. Её местонахождение в 8:45 остаётся неизвестным, а отметка на 9:30 уже проставлена.
 							</p>
 
 							<div class="col-12 text-center">
@@ -1069,7 +987,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 9: The Weapon -->
+				<!-- PAGE 8: The Weapon -->
 				<div class="tutorial-page" id="tut-weapon" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1111,7 +1029,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 10: Case Solved -->
+				<!-- PAGE 9: Case Solved -->
 				<div class="tutorial-page" id="tut-solved" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1166,9 +1084,9 @@
 									<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											Крик жертвы сужает время до 8:45 или 9:00. Но мы уже знаем, что Alice была жива в 8:45 (радостно мыла посуду). Это исключает 8:45, оставляя единственную возможность:
+											Крик жертвы сужает время до 8:45 или 9:00. Осмотр тела показывает, что Alice была жива в 8:45. Это исключает 8:45, оставляя единственную возможность:
 											<ul class="list-group mt-2">
-												<li class="list-group-item">🔎 8:45 исключено (Alice была жива и на кухне)</li>
+												<li class="list-group-item">🔎 8:45 исключено (Alice была жива)</li>
 												<li class="list-group-item">🔎 <b>Убийство произошло в 9:00</b></li>
 											</ul>
 										</div>
@@ -1239,7 +1157,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 11: Weapon Identification -->
+				<!-- PAGE 10: Weapon Identification -->
 				<div class="tutorial-page" id="tut-weapons-id" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1299,7 +1217,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 12: Dealing with liars -->
+				<!-- PAGE 11: Dealing with liars -->
 				<div class="tutorial-page" id="tut-liars" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1389,7 +1307,7 @@
 					<button id="tut-prev" class="btn btn-outline-secondary" onclick="tutorialPrev()" disabled>
 						&larr; Назад
 					</button>
-					<span id="tut-page-indicator" class="text-secondary small">1 / 12</span>
+					<span id="tut-page-indicator" class="text-secondary small">1 / 11</span>
 					<button id="tut-next" class="btn btn-outline-secondary" onclick="tutorialNext()">
 						Далее &rarr;
 					</button>

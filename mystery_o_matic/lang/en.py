@@ -44,6 +44,15 @@ class EnglishRenderer(LanguageRenderer):
     def render_no_visitors(self, place):
         return f"No one was ever in the {place}."
 
+    def render_only_visitors(self, place, visitors):
+        names = " and ".join(visitors) if len(visitors) < 3 else ", ".join(visitors[:-1]) + " and " + visitors[-1]
+        return f"Only {names} {'was' if len(visitors) == 1 else 'were'} ever in the {place}."
+
+    def render_heard_outside(self, subject, place, time, wording):
+        if wording == 0:
+            return f'{subject}: "While I wasn\'t in the {place}, I heard someone there at {time}"'
+        return f'{subject}: "At {time}, I wasn\'t in the {place}, but I heard a voice coming from it"'
+
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'

@@ -230,8 +230,17 @@ class Mystery:
                 get_event(self.source, "StoryModel", event, self.initial_time)
             )
 
-        self.visited_rooms = {"$" + room.lstrip("$") for _, room in self.initial_locations}
-        self.visited_rooms.update(e[4] for e in event_calls if e[0] == "SawWhenArriving")
+        self.room_visitors = {"$" + room.lstrip("$"): set() for room in self.weapon_locations}
+        for char, room in self.initial_locations:
+            self.room_visitors["$" + room.lstrip("$")].add("$" + char.lstrip("$"))
+        for event in event_calls:
+            if event[0] == "SawWhenArriving":
+                self.room_visitors[event[4]].add(event[1])
+        self.visited_rooms = {room for room, visitors in self.room_visitors.items() if visitors}
+        # Legacy books can explicitly select these facts from JSON. They stay
+        # out of both automatic clue pools, including website generation.
+        self.heard_events = [tuple(e) for e in event_calls
+                             if e[0] == "Heard" and e[1] != self.victim]
 
         # Use raw arrivals before victim sightings are rewritten below. Existing
         # saved states have these events too, so no new model event is needed.
@@ -240,6 +249,12 @@ class Mystery:
         ))
 
         for call in event_calls:
+            # Hearing does not identify the speaker's room and is easy to
+            # misread. Ignore these events, including those in saved cases,
+            # before constructing either puzzle variant.
+            if call[0] == "Heard":
+                continue
+
             # Skip the clues that are produced by the victim
             if call[0].startswith("NotSaw") and call[1] == self.victim:
                 continue
@@ -277,20 +292,6 @@ class Mystery:
                 self.murder_time = call[3]
             elif call[0] == "PoliceArrived":
                 self.initial_clues.append(create_clue(call))
-            elif call[0] == "Heard":
-                # Add the Heard clue as expected, except when the victim is the subject
-                if call[1] == self.victim:
-                    continue
-
-                # Create the clue but with some changes
-                # clue = create_clue(call)
-                place = call[2].replace("$", "")
-
-                if place in self.activities:
-                    activity = choice(self.activities[place])
-                    # print(clue)
-                    self.additional_clues.append(HeardClue(call[1], activity, call[3], place=call[2]))
-
             elif call[0] == "Stayed":
                 # Add the Stayed clue as expected, except when the victim is the subject
                 if call[1] != self.victim:
@@ -416,7 +417,12 @@ class Mystery:
             ):
                 clue = clue.manipulate(self.killer, self.victim, self.alibi_place)
                 if clue is not None:
-                    clues_with_lies.append(clue)
+                    from mystery_o_matic.clue_rules import may_lie_at
+                    # Do not invent an alibi outside the public lying rule.
+                    # In particular, an arrival before the murder cannot be
+                    # altered merely because it admits an earlier scene visit.
+                    if may_lie_at(clue, self.killer, self.murder_time, self.interval_size):
+                        clues_with_lies.append(clue)
             else:
                 clues_without_lies.append(clue)
                 clues_with_lies.append(clue)

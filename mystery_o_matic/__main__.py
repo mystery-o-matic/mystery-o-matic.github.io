@@ -19,7 +19,10 @@ from mystery_o_matic.mystery import CHARACTER_NAMES, Mystery, get_intervals_leng
 from mystery_o_matic.model import Model
 from mystery_o_matic.solidity import read_solidity_from_text
 from mystery_o_matic.clue_selection import select_clues
-from mystery_o_matic.solver import order_clues
+from mystery_o_matic.solver import AmbiguousCluesError, order_clues
+
+
+MAX_CLUE_ATTEMPTS = 10
 
 
 def read_story(season, date, language="en"):
@@ -217,14 +220,19 @@ def main() -> int:
     latex_languages = latex_options.pop("languages", ["en", "es"])
     render_maps = latex_options.pop("render_maps", args.mode != "latex")
     clue_selection = latex_options.pop("clue_selection", None)
+    lying_selection = latex_options.pop("clue_selection_with_lies", None)
     clue_seed = latex_options.pop("clue_seed", state.get("seed"))
     if not latex_languages or any(language not in ("en", "es") for language in latex_languages):
         parser.error("LaTeX languages must be en and/or es")
+    if lying_selection is not None and clue_selection is None:
+        parser.error("clue_selection_with_lies also requires clue_selection for the truthful variant")
     if clue_selection is not None:
         latex_options.setdefault("shuffle_clues", False)
-        latex_options.setdefault("write_lies", False)
-        if latex_options["write_lies"]:
-            parser.error("selected truthful clues cannot be exported as a lying variant")
+        latex_options.setdefault("write_lies", lying_selection is not None)
+        if latex_options["write_lies"] and lying_selection is None:
+            parser.error("selected truthful clues need clue_selection_with_lies to export a lying variant")
+        if lying_selection is not None and not latex_options["write_lies"]:
+            parser.error("clue_selection_with_lies requires write_lies")
 
     print("Welcome to mystery-o-matic!")
     solidity_file = args.scenario
@@ -282,104 +290,183 @@ def main() -> int:
     # Unused for now
     # tutorial_locations.render_locations(out_dir + "/tutorial")
 
-    # Optionally load a precomputed state to skip the slow echidna solving step
-    if args.load_state:
-        print("Loaded precomputed state from:", args.load_state)
+    # Only export cases whose remaining clues uniquely solve every requested
+    # variant. Removing hearing clues can leave a candidate ambiguous, so
+    # fresh generation tries another seed. Explicit saved cases must not be
+    # silently replaced, and repeated ambiguity must eventually fail CI.
+    for clue_attempt in range(1, MAX_CLUE_ATTEMPTS + 1):
+        weapon_used = None
+        if args.load_state:
+            print("Loaded precomputed state from:", args.load_state)
 
-        # Use location from state if not explicitly specified
-        if "location_name" in state:
-            if args.location is not None and state["location_name"] != location_name:
-                print(
-                    "Warning: loaded state location_name differs from requested location:",
-                    state["location_name"],
-                )
-            location_name = state["location_name"]
-            location_name, location_data = get_location_data(location_name, args.mode)
-            number_places = state.get("number_places", number_places)
+            # Use location from state if not explicitly specified
+            if "location_name" in state:
+                if args.location is not None and state["location_name"] != location_name:
+                    print(
+                        "Warning: loaded state location_name differs from requested location:",
+                        state["location_name"],
+                    )
+                location_name = state["location_name"]
+                location_name, location_data = get_location_data(location_name, args.mode)
+                number_places = state.get("number_places", number_places)
 
-        # Use weapons from state if available, to match the saved mystery
-        if "weapons_available" in state:
-            weapons_available = state["weapons_available"]
-        if "weapon_labels" in state:
-            weapon_labels = state["weapon_labels"]
+            # Use weapons from state if available, to match the saved mystery
+            if "weapons_available" in state:
+                weapons_available = state["weapons_available"]
+            if "weapon_labels" in state:
+                weapon_labels = state["weapon_labels"]
 
-        solidity_file = args.scenario
-        locations = Locations(
-            mode, location_name, number_places, location_data, weapons_available.keys()
-        )
-        if "location_indices" in state:
-            locations.restore_layout(state["location_indices"], state["location_edges"])
-        # override weapon locations / activities if provided in the saved state
-        if "weapon_locations" in state:
-            locations.weapon_locations = state["weapon_locations"]
-        activities = state.get("activities", locations.get_activities())
-        stay_activities = locations.get_stay_activities()
-
-        initial_locations_pairs = [tuple(x) for x in state["initial_locations_pairs"]]
-        if (args.nchars is not None or args.characters) and number_characters != len(initial_locations_pairs):
-            parser.error("requested cast size does not match the loaded state")
-        number_characters = len(initial_locations_pairs)
-        if characters is None:
-            characters = state.get("characters")
-        used_weapon_location = state.get("used_weapon_location")
-        weapon_used = state.get("weapon_used")
-        txs = state["txs"]
-        events = state.get("events", [])
-
-        model = Model("StoryModel", locations, nmoves, out_dir, solidity_file)
-        model.generate_enums(number_characters)
-        # reconstruct parsed source object from saved source_text if available
-        if "source_text" in state and state.get("source_text") is not None:
-            model.source = read_solidity_from_text(state.get("source_text"))
-        else:
-            model.source = state.get("source", model.source)
-
-        time_slots = get_intervals_length_from_events(model.source, "StoryModel", events)
-        if time_slots > max_time_slots:
-            print("Loaded solution is too large:", int(time_slots))
-            return -1
-
-    else:
-        while True:
             solidity_file = args.scenario
             locations = Locations(
                 mode, location_name, number_places, location_data, weapons_available.keys()
             )
-            print("Sorted locations:", locations.sort_locations())
-
-            weapon_locations = locations.weapon_locations
-            activities = locations.get_activities()
+            if "location_indices" in state:
+                locations.restore_layout(state["location_indices"], state["location_edges"])
+            # override weapon locations / activities if provided in the saved state
+            if "weapon_locations" in state:
+                locations.weapon_locations = state["weapon_locations"]
+            activities = state.get("activities", locations.get_activities())
             stay_activities = locations.get_stay_activities()
+
+            initial_locations_pairs = [tuple(x) for x in state["initial_locations_pairs"]]
+            if (args.nchars is not None or args.characters) and number_characters != len(initial_locations_pairs):
+                parser.error("requested cast size does not match the loaded state")
+            number_characters = len(initial_locations_pairs)
+            if characters is None:
+                characters = state.get("characters")
+            used_weapon_location = state.get("used_weapon_location")
+            weapon_used = state.get("weapon_used")
+            txs = state["txs"]
+            events = state.get("events", [])
 
             model = Model("StoryModel", locations, nmoves, out_dir, solidity_file)
             model.generate_enums(number_characters)
-            (initial_locations_pairs, used_weapon_location) = model.generate_conditions()
-            solidity_file = model.generate_solidity()
+            # reconstruct parsed source object from saved source_text if available
+            if "source_text" in state and state.get("source_text") is not None:
+                model.source = read_solidity_from_text(state.get("source_text"))
+            else:
+                model.source = state.get("source", model.source)
 
-            print("Running the simulation..")
-            result = model.solve(used_seed, workers)
+            time_slots = get_intervals_length_from_events(model.source, "StoryModel", events)
+            if time_slots > max_time_slots:
+                print("Loaded solution is too large:", int(time_slots))
+                return -1
 
-            if result is None:
-                print("No result at all!, restarting..")
+        else:
+            while True:
+                solidity_file = args.scenario
+                locations = Locations(
+                    mode, location_name, number_places, location_data, weapons_available.keys()
+                )
+                print("Sorted locations:", locations.sort_locations())
+
+                weapon_locations = locations.weapon_locations
+                activities = locations.get_activities()
+                stay_activities = locations.get_stay_activities()
+
+                model = Model("StoryModel", locations, nmoves, out_dir, solidity_file)
+                model.generate_enums(number_characters)
+                (initial_locations_pairs, used_weapon_location) = model.generate_conditions()
+                solidity_file = model.generate_solidity()
+
+                print("Running the simulation..")
+                result = model.solve(used_seed, workers)
+
+                if result is None:
+                    print("No result at all!, restarting..")
+                    used_seed += 1
+                    seed(used_seed)
+                    continue
+
+                txs = result["tests"][0]["transactions"]
+                events = []
+                if "events" in result["tests"][0]:
+                    events = result["tests"][0]["events"]
+
+                time_slots = get_intervals_length_from_events(
+                    model.source, "StoryModel", events
+                )
+
+                if time_slots <= max_time_slots:
+                    break
+
+                print("Solution is too large:", int(time_slots))
                 used_seed += 1
                 seed(used_seed)
-                continue
 
-            txs = result["tests"][0]["transactions"]
-            events = []
-            if "events" in result["tests"][0]:
-                events = result["tests"][0]["events"]
+        weapon_locations = locations.weapon_locations
 
-            time_slots = get_intervals_length_from_events(
-                model.source, "StoryModel", events
+        # Determine the weapon for this candidate, never a rejected attempt.
+        if weapon_used is None:
+            if used_weapon_location is not None:
+                weapon_used = weapon_locations[used_weapon_location]
+            else:
+                weapon_used = list(weapon_locations.values())[0]
+
+        mystery = Mystery(
+            difficulty,
+            initial_locations_pairs,
+            weapon_locations,
+            weapon_used,
+            activities,
+            model.source,
+            txs,
+            stay_activities=stay_activities,
+            used_seed=used_seed,
+            characters=characters,
+            appearance_clues=(mode != "latex" and not args.no_appearance_clues),
+        )
+        if args.load_state and "initial_time" in state:
+            from mystery_o_matic.time import Time
+            mystery.initial_time = Time(state["initial_time"])
+        mystery.load_events(events)
+        try:
+            selected_clues = (
+                select_clues(mystery, clue_selection) if clue_selection is not None else None
             )
+            selected_lies = (
+                select_clues(mystery, lying_selection, with_lies=True)
+                if lying_selection is not None else None
+            )
+        except (ValueError, KeyError, TypeError) as error:
+            parser.error(f"Invalid saved clue selection: {error}")
+        mystery.process_clues()
+        if selected_clues is not None:
+            # Render wording with its own recorded seed, independent of random
+            # pruning/alibi construction in process_clues.
+            seed(clue_seed if clue_seed is not None else used_seed)
+            mystery.clue_objects = selected_clues
+            mystery.additional_clues = [clue.string() for clue in selected_clues]
+        if selected_lies is not None:
+            seed(clue_seed if clue_seed is not None else used_seed)
+            mystery.clue_objects_with_lies = selected_lies
+            mystery.additional_clues_with_lies = [clue.string() for clue in selected_lies]
 
-            if time_slots <= max_time_slots:
-                break
-
-            print("Solution is too large:", int(time_slots))
+        try:
+            order_clues(
+                mystery,
+                locations.graph,
+                include_lies=(mode == "html" or llm_output or
+                              (mode == "latex" and latex_options.get("write_lies", True))),
+                killer_leaves=(mode != "latex"),
+                attempts=args.clue_shuffles,
+                min_ratio=args.min_necessary_ratio,
+                max_clues=max_clues,
+            )
+        except AmbiguousCluesError as error:
+            if args.load_state:
+                parser.error(f"Saved case is not uniquely solvable: {error}")
+            if clue_attempt == MAX_CLUE_ATTEMPTS:
+                parser.error(
+                    f"No uniquely solvable mystery after {MAX_CLUE_ATTEMPTS} candidates: {error}"
+                )
+            print(f"Clues allow another answer; generating another mystery ({clue_attempt}/{MAX_CLUE_ATTEMPTS})")
             used_seed += 1
             seed(used_seed)
+            continue
+        except ValueError as error:
+            parser.error(str(error))
+        break
 
     story_clue = read_story(season, date)
     story_clues = dict(
@@ -387,17 +474,7 @@ def main() -> int:
         for language in ["en", "es", "ru"]
     )
 
-    weapon_locations = locations.weapon_locations
-
-    # Determine which weapon was used (support both loaded state and freshly generated)
-    if "weapon_used" not in locals() or weapon_used is None:
-        if "used_weapon_location" in locals() and used_weapon_location is not None:
-            weapon_used = weapon_locations[used_weapon_location]
-        else:
-            # Fallback to first weapon if nothing else is available
-            weapon_used = list(weapon_locations.values())[0]
-
-    # Optionally save the precomputed state for fast reloads during testing
+    # Save only a case that passed the clue checks in every requested variant.
     if args.save_state:
         # read solidity file text if available so we don't try to serialize parser objects
         source_text = None
@@ -424,55 +501,13 @@ def main() -> int:
             "max_clues": max_clues,
             "location_indices": locations.indices,
             "location_edges": list(locations.graph.edges()),
+            "characters": mystery.get_characters(),
+            "initial_time": str(mystery.initial_time),
+            "number_characters": number_characters,
         }
-    mystery = Mystery(
-        difficulty,
-        initial_locations_pairs,
-        weapon_locations,
-        weapon_used,
-        activities,
-        model.source,
-        txs,
-        stay_activities=stay_activities,
-        used_seed=used_seed,
-        characters=characters,
-        appearance_clues=(mode != "latex" and not args.no_appearance_clues),
-    )
-    if args.load_state and "initial_time" in state:
-        from mystery_o_matic.time import Time
-        mystery.initial_time = Time(state["initial_time"])
-    if args.save_state:
-        state["characters"] = mystery.get_characters()
-        state["initial_time"] = str(mystery.initial_time)
-        state["number_characters"] = number_characters
         with open(args.save_state, "w") as f:
             json.dump(state, f, indent=2)
         print("Saved precomputed state to:", args.save_state)
-    mystery.load_events(events)
-    selected_clues = (
-        select_clues(mystery, clue_selection) if clue_selection is not None else None
-    )
-    mystery.process_clues()
-    if selected_clues is not None:
-        # Render wording with its own recorded seed, independent of random
-        # pruning/alibi construction in process_clues.
-        seed(clue_seed if clue_seed is not None else used_seed)
-        mystery.clue_objects = selected_clues
-        mystery.additional_clues = [clue.string() for clue in selected_clues]
-
-    try:
-        order_clues(
-            mystery,
-            locations.graph,
-            include_lies=(mode == "html" or llm_output or
-                          (mode == "latex" and latex_options.get("write_lies", True))),
-            killer_leaves=(mode != "latex"),
-            attempts=args.clue_shuffles,
-            min_ratio=args.min_necessary_ratio,
-            max_clues=max_clues,
-        )
-    except ValueError as error:
-        parser.error(str(error))
 
     if llm_output:
         produce_llm_output(

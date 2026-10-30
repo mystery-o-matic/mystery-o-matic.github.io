@@ -44,6 +44,15 @@ class RussianRenderer(LanguageRenderer):
     def render_no_visitors(self, place):
         return f"Никто ни разу не был в {place}_LOC."
 
+    def render_only_visitors(self, place, visitors):
+        names = " и ".join(visitors) if len(visitors) < 3 else ", ".join(visitors[:-1]) + " и " + visitors[-1]
+        return f"В {place}_LOC за всё время {'был(а)' if len(visitors) == 1 else 'были'} только {names}."
+
+    def render_heard_outside(self, subject, place, time, wording):
+        if wording == 0:
+            return f'{subject}: "В {time} меня не было в {place}_LOC, но я слышал(а) там чей-то голос"'
+        return f'{subject}: "В {time} я находился(ась) вне {place}_GEN и слышал(а) голос оттуда"'
+
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         r = randint(0, 2)
         s = f'{subject}: "'

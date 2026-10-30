@@ -404,10 +404,6 @@
 						<span class="tutorial-sidebar-icon">↩️</span>
 						<span class="tutorial-sidebar-label">Backtracking</span>
 					</li>
-					<li class="tutorial-sidebar-item" data-page="tut-indirect">
-						<span class="tutorial-sidebar-icon">💬</span>
-						<span class="tutorial-sidebar-label">Indirect Clues</span>
-					</li>
 					<li class="tutorial-sidebar-item" data-page="tut-time-death">
 						<span class="tutorial-sidebar-icon">⌛</span>
 						<span class="tutorial-sidebar-label">Time of Death</span>
@@ -443,7 +439,6 @@
 						<span class="tutorial-step-dot" data-page="tut-deductions">🧠</span>
 						<span class="tutorial-step-dot" data-page="tut-movement">🚶</span>
 						<span class="tutorial-step-dot" data-page="tut-backtrack">↩️</span>
-						<span class="tutorial-step-dot" data-page="tut-indirect">💬</span>
 						<span class="tutorial-step-dot" data-page="tut-time-death">⌛</span>
 						<span class="tutorial-step-dot" data-page="tut-weapon">🔪</span>
 						<span class="tutorial-step-dot" data-page="tut-solved">🎓</span>
@@ -955,105 +950,31 @@
 					</div>
 				</div>
 
-				<!-- PAGE 7: Indirect Clues -->
-				<div class="tutorial-page" id="tut-indirect" style="display:none">
-					<div class="compact-card mt-0">
-						<div class="compact-card-body">
-							<div class="section-header">💬 Indirect Clues</div>
-							<p>Finally, sometimes we get vague clues from suspects:</p>
-
-							<p>
-							<div class="d-flex justify-content-center align-items-center">
-								<div style="width: 99%" id="clues-tutorial">
-									<div class="card" style="height: auto;">
-										<div class="card-body text-center">
-											<div class="row align-items-center">
-												<p id="clue-text-tutorial" class="card-text"><b>☞ Carol</b>: "I heard someone
-													washing the dishes at 8:45"</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							</p>
-
-							<p>This clue tells us that someone was in the kitchen. Wait a minute, can you wash dishes in the
-								bathroom? Nope, absolutely ridiculous (looking at you The Sims™). Let’s review what we deduced so
-								far: </p>
-							<p>
-							<ul class="list-group">
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Someone was (alive!) at the
-									kitchen at 8:45</li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol was NOT in the kitchen at
-									8:45</li>
-							</ul>
-							</p>
-							<p>It can be tempting to try to guess where Carol was, but this is not possible. Characters sometimes
-								can hear or see someone in other rooms, but their location cannot be inferred from this kind of
-								clue.
-								However, what we can deduce using our previous observations is who was in the kitchen. Clearly, it
-								was not Carol (she was elsewhere at 8:45 actually!). Also, we know that Bob was in the bedroom,
-								which means that <b>Alice was in the kitchen at 8:45</b>.
-								<br />
-							<p>
-								Our first attempt to deduce facts was not great, so let’s review our previous deduction and refine
-								them:
-							</p>
-
-							<ul class="list-group">
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was in the kitchen at 8:45
-								</li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was NOT in the bedroom,
-									dining room or bathroom at 8:45 </li>
-								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Carol was NOT in the kitchen at
-									8:45</li>
-							</ul>
-							</p>
-
-							<p>
-								Back to the timeline board...
-							</p>
-
-
-							<div class="col-12 text-center">
-								<canvas id="clues-table-kitchen:tutorial-6" height="115" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Your browser does not support the HTML canvas tag.</canvas>
-							</div>
-							<div class="col-12 text-center">
-								<canvas id="clues-table-bedroom:tutorial-6" height="95" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Your browser does not support the HTML canvas tag.</canvas>
-							</div>
-
-							<div class="col-12 text-center">
-								<canvas id="clues-table-dining room:tutorial-6" height="95" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Your browser does not support the HTML canvas tag.</canvas>
-							</div>
-
-							<div class="col-12 text-center">
-								<canvas id="clues-table-bathroom:tutorial-6" height="95" width="500"
-									onclick="checkCellClicked(this, event.offsetX, event.offsetY)">
-									Your browser does not support the HTML canvas tag.</canvas>
-								<br />
-								<a onclick="clearTable(':tutorial-6');" class="btn btn-danger" role="button">Clear ♻️</a>
-								<a onclick="checkTutorialTable('kitchen:tutorial-6', 'kitchen:tutorial-7'); checkTutorialTable('bedroom:tutorial-6', 'bedroom:tutorial-7'); checkTutorialTable('dining room:tutorial-6', 'dining room:tutorial-7'); checkTutorialTable('bathroom:tutorial-6', 'bathroom:tutorial-7');"
-									class="btn btn-info" role="button">Check 🎯</a>
-							</div>
-
-						</div>
-					</div>
-				</div>
-
-				<!-- PAGE 8: Time of Death -->
+				<!-- PAGE 7: Time of Death -->
 				<div class="tutorial-page" id="tut-time-death" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
 							<div class="section-header">⌛ Determining Time of Death</div>
+							<p>Some clues help us narrow down the time of the murder:</p>
 
-							<p>
 							<div class="d-flex justify-content-center align-items-center">
+								<div style="width: 99%">
+									<div class="card" style="height: auto;">
+										<div class="card-body text-center">
+											<p class="card-text">☞ A close examination of the body reveals that the victim was alive at 8:45</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<ul class="list-group my-3">
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was alive at 8:45</li>
+								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 The murder happened after 8:45</li>
+							</ul>
+
+							<p>This clue does not tell us which room Alice was in at 8:45. Now combine it with this clue:</p>
+
+							<div class="d-flex justify-content-center align-items-center mb-3">
 								<div style="width: 99%" id="clues-tutorial">
 									<div class="card" style="height: auto;">
 										<div class="card-body text-center">
@@ -1065,14 +986,10 @@
 									</div>
 								</div>
 							</div>
-							</p>
 
 							<p>
-								Since our suspects move every 15 minutes like clockwork, the murder had to happen either at 8:45 or
-								9:00. However, we already know that Alice was alive at 8:45 (and happily washing the dishes). So the
-								only option here is that murder happened at 9:00. Remember that once the killer strikes, the
-								victim’s body is never moved, so we can easily complete Alice’s timeline until 9:30.
-								<br />
+								The scream places the murder at either 8:45 or 9:00, since the timeline advances in 15-minute steps. The examination of the body tells us that Alice was still alive at 8:45, so the murder happened at 9:00. Her body was found in the kitchen and cannot be moved after the murder. We can therefore mark Alice in the kitchen at 9:00, 9:15 and 9:30.
+							</p>
 
 							<ul class="list-group">
 								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice was killed at 9:00 in the
@@ -1080,9 +997,9 @@
 								<li class="list-group-item" onClick="toggleClueStrikeout(this)">🔎 Alice’s body is in the kitchen
 									from 9:15 to 9:30 </li>
 							</ul>
-							<br />
 
-							Let’s note our findings in the timeline board:
+							<p class="mt-3">
+								Fill in Alice’s kitchen row at 9:00 and 9:15 below. Her location at 8:45 remains unknown, and the 9:30 mark is already provided.
 							</p>
 
 							<div class="col-12 text-center">
@@ -1098,7 +1015,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 9: The Weapon -->
+				<!-- PAGE 8: The Weapon -->
 				<div class="tutorial-page" id="tut-weapon" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1140,7 +1057,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 10: Case Solved -->
+				<!-- PAGE 9: Case Solved -->
 				<div class="tutorial-page" id="tut-solved" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1196,9 +1113,9 @@
 									<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 										data-bs-parent="#accordionExample">
 										<div class="accordion-body">
-											The victim’s scream narrows it down to either 8:45 or 9:00. But we already know that Alice was alive at 8:45 (happily washing the dishes). That rules out 8:45, leaving only one possibility:
+											The victim’s scream narrows it down to either 8:45 or 9:00. The examination of the body tells us that Alice was alive at 8:45. That rules out 8:45, leaving only one possibility:
 											<ul class="list-group mt-2">
-												<li class="list-group-item">🔎 8:45 is ruled out (Alice was alive and in the kitchen)</li>
+												<li class="list-group-item">🔎 8:45 is ruled out (Alice was alive)</li>
 												<li class="list-group-item">🔎 <b>The murder was committed at 9:00</b></li>
 											</ul>
 										</div>
@@ -1277,7 +1194,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 11: Weapon Identification -->
+				<!-- PAGE 10: Weapon Identification -->
 				<div class="tutorial-page" id="tut-weapons-id" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1345,7 +1262,7 @@
 					</div>
 				</div>
 
-				<!-- PAGE 12: Dealing with liars -->
+				<!-- PAGE 11: Dealing with liars -->
 				<div class="tutorial-page" id="tut-liars" style="display:none">
 					<div class="compact-card mt-0">
 						<div class="compact-card-body">
@@ -1444,7 +1361,7 @@
 					<button id="tut-prev" class="btn btn-outline-secondary" onclick="tutorialPrev()" disabled>
 						&larr; Previous
 					</button>
-					<span id="tut-page-indicator" class="text-secondary small">1 / 12</span>
+					<span id="tut-page-indicator" class="text-secondary small">1 / 11</span>
 					<button id="tut-next" class="btn btn-outline-secondary" onclick="tutorialNext()">
 						Next &rarr;
 					</button>

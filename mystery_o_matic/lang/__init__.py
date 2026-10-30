@@ -47,6 +47,14 @@ class LanguageRenderer(ABC):
         return None
 
     @abstractmethod
+    def render_only_visitors(self, place, visitors):
+        pass
+
+    @abstractmethod
+    def render_heard_outside(self, subject, place, time, wording):
+        pass
+
+    @abstractmethod
     def render_saw_when_arriving(self, subject, object, object_is_alive, place, time, fog_kind=None):
         pass
 
