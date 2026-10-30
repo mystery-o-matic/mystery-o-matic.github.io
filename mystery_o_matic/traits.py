@@ -11,9 +11,8 @@ Each entry carries two localized forms per language:
   - "bio":  the bare nominative noun phrase shown in the profile modal
     (e.g. EN "a crimson silk scarf").
 
-The pool is universal (period/location-neutral) so it works in every setting,
-and is comfortably larger than the maximum cast size (6) so a unique assignment
-is always possible.
+The regular pool is period/location-neutral. Halloween uses a separate pool of
+five approved costume details, with one distinct detail per character.
 
 NOTE: the Russian forms are authored to the best of our ability and should be
 reviewed by a native speaker before a wide release (worn items use "в" +
@@ -66,6 +65,71 @@ COARSE_PHRASES = {
                     "es": "alguien sin gafas",
                     "ru": "кого-то без очков"},
 }
+
+HALLOWEEN_TRAITS = [
+    {
+        "id": "spider_hair_clip",
+        "emoji": "🕷️",
+        "clue": {"en": "wearing a large spider hair clip",
+                 "es": "con una pinza grande para el pelo en forma de araña",
+                 "ru": "с большой заколкой в виде паука"},
+        "bio": {"en": "a large spider hair clip",
+                "es": "una pinza grande para el pelo en forma de araña",
+                "ru": "большая заколка в виде паука"},
+    },
+    {
+        "id": "pumpkin_mask",
+        "emoji": "🎃",
+        "clue": {"en": "wearing a pumpkin mask",
+                 "es": "con una máscara de calabaza",
+                 "ru": "в маске в виде тыквы"},
+        "bio": {"en": "a pumpkin mask",
+                "es": "una máscara de calabaza",
+                "ru": "маска в виде тыквы"},
+    },
+    {
+        "id": "ghost_brooch",
+        "emoji": "👻",
+        "clue": {"en": "wearing a ghost-shaped brooch",
+                 "es": "con un broche en forma de fantasma",
+                 "ru": "с брошью в виде привидения"},
+        "bio": {"en": "a ghost-shaped brooch",
+                "es": "un broche en forma de fantasma",
+                "ru": "брошь в виде привидения"},
+    },
+    {
+        "id": "cobweb_cape",
+        "emoji": "🕸️",
+        "clue": {"en": "wearing a cape covered in cobweb patterns",
+                 "es": "con una capa con dibujos de telarañas",
+                 "ru": "в плаще с узором из паутины"},
+        "bio": {"en": "a cape covered in cobweb patterns",
+                "es": "una capa con dibujos de telarañas",
+                "ru": "плащ с узором из паутины"},
+    },
+    {
+        "id": "black_cat_badge",
+        "emoji": "🐈‍⬛",
+        "clue": {"en": "wearing a black-cat badge",
+                 "es": "con una insignia con un gato negro",
+                 "ru": "со значком в виде чёрного кота"},
+        "bio": {"en": "a black-cat badge",
+                "es": "una insignia con un gato negro",
+                "ru": "значок в виде чёрного кота"},
+    },
+]
+
+
+def get_trait_pool(theme="", number_characters=0):
+    pool = HALLOWEEN_TRAITS if theme == "halloween" else ALL_TRAITS
+    if number_characters > len(pool):
+        raise ValueError(
+            "{} mysteries support at most {} characters, one per distinct appearance trait".format(
+                "Halloween" if theme == "halloween" else "These", len(pool)
+            )
+        )
+    return pool
+
 
 ALL_TRAITS = [
     {

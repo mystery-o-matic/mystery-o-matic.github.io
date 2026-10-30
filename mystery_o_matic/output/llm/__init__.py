@@ -1,3 +1,5 @@
+from datetime import date
+
 from mystery_o_matic.output import create_template
 from mystery_o_matic.output.llm.utils import (
     read_txt_template,
@@ -7,6 +9,7 @@ from mystery_o_matic.output.llm.utils import (
 )
 from mystery_o_matic.clues import NoOneElseStatement
 from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
+from mystery_o_matic.seasonal import get_location_intro, get_seasonal_theme
 
 # Per-character line mapping the vague "a woman" / "someone wearing X" sightings
 # to a name. {gender} is the descriptor ("a woman"), {trait} the bio noun phrase.
@@ -15,7 +18,8 @@ SUSPECT_DESC_FRAME = "{name} is {gender}, recognizable by {trait}."
 
 
 def produce_llm_output(
-    static_dir, out_dir, language, mystery, weapons, weapon_labels, locations
+    static_dir, out_dir, language, mystery, weapons, weapon_labels, locations,
+    mystery_date=None,
 ):
 
     connections_list = []
@@ -81,7 +85,8 @@ def produce_llm_output(
     characters = list(map(lambda char: char.capitalize(), mystery.get_characters()))
     conjunction = " y " if language == "es" else " and "
     introLocation = ", ".join(characters[:-1]) + conjunction + characters[-1]
-    introLocation += locations.intro[language]
+    seasonal_theme = get_seasonal_theme(mystery_date or date.today())
+    introLocation += get_location_intro(locations, language, seasonal_theme)
     introLocation = introLocation.replace("<b>", "").replace("</b>", "")
 
     for room, name in locations.names[language].items():

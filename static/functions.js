@@ -1,6 +1,8 @@
 function getCurrentDate() {
 	var options = {  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: false, timeZone: 'UTC' };
-	var date = new Date(document.lastModified);
+	var date = typeof data !== "undefined" && data.mysteryDate
+		? new Date(data.mysteryDate + "T00:00:00Z")
+		: new Date(document.lastModified);
 	if (isNaN(date)) {
 		date = new Date();
 	}

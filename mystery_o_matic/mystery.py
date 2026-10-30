@@ -16,7 +16,7 @@ from hashlib import sha256
 from mystery_o_matic.clues import *
 from mystery_o_matic.solidity import get_tx, get_event
 from mystery_o_matic.time import Time
-from mystery_o_matic.traits import ALL_TRAITS
+from mystery_o_matic.traits import get_trait_pool
 
 # Register language renderers (must happen before any clue.string() calls)
 import mystery_o_matic.lang.en  # noqa: F401
@@ -138,6 +138,7 @@ class Mystery:
         used_seed=None,
         characters=None,
         appearance_clues=True,
+        trait_theme="",
     ):
         """
         Initialize the Mystery class.
@@ -155,6 +156,7 @@ class Mystery:
         """
         self.difficulty = difficulty
         self.appearance_clues = appearance_clues
+        self.trait_theme = trait_theme
         self.solution = []
         self.initial_clues = []
         self.additional_clues = []
@@ -198,7 +200,7 @@ class Mystery:
         # puzzles regenerate byte-identically. Keyed by $CHARn placeholder.
         self.used_seed = used_seed
         self._trait_rng = Random("%s-traits" % (used_seed,))
-        trait_pool = list(ALL_TRAITS)
+        trait_pool = list(get_trait_pool(trait_theme, self.number_characters))
         self._trait_rng.shuffle(trait_pool)
         self.character_traits = {
             self.cplaceholders[i]: trait_pool[i]
@@ -323,6 +325,10 @@ class Mystery:
         return sightings
 
     def _pick_fog_kind(self, clue, usable_props):
+        # Costume details are the identifying information in Halloween cases.
+        # Assign this before rendering and solving, so both use the same IDs.
+        if self.trait_theme == "halloween":
+            return FOG_TRAIT
         kinds = [FOG_TRAIT, FOG_DESCRIPTOR] + list(usable_props.keys())
         pick = self._trait_rng.choice(kinds)
         if pick in usable_props:

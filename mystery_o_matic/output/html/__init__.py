@@ -1,3 +1,5 @@
+from datetime import date
+
 from mystery_o_matic.output import create_template
 from mystery_o_matic.output.html.utils import (
     read_html_template,
@@ -14,6 +16,9 @@ from mystery_o_matic.clues import NoOneElseStatement
 from mystery_o_matic.lang import get_renderer
 from mystery_o_matic.time import Time
 from mystery_o_matic.traits import CHARACTER_DESCRIPTORS, CHARACTER_EMOJIS
+from mystery_o_matic.seasonal import (
+    HALLOWEEN_LABELS, get_location_intro, get_seasonal_theme,
+)
 
 # Sentence frame for the profile "distinguishing feature" line. {} is filled
 # with the trait's nominative noun phrase + emoji, e.g. "a brass pocket watch (⌚)".
@@ -135,7 +140,10 @@ def produce_html_output(
     weapon_labels,
     locations,
     story_clues,
+    mystery_date=None,
 ):
+    mystery_date = mystery_date or date.today()
+    seasonal_theme = get_seasonal_theme(mystery_date)
     intervals = mystery.get_intervals()
     suspects = mystery.get_suspects()
     select_suspects = get_options_selector(zip(suspects, suspects))
@@ -186,6 +194,8 @@ def produce_html_output(
         location_order.append((loc, create_template("$" + loc.upper()).substitute(names_txt)))
 
     json = {}
+    json["mysteryDate"] = mystery_date.isoformat()
+    json["seasonalTheme"] = seasonal_theme
     json["locationOrder"] = location_order
     json["additionalClues"] = {}
     json["additionalCluesWithLies"] = {}
@@ -282,7 +292,7 @@ def produce_html_output(
         else:
             conjunction = " and "
         introLocation = ", ".join(characters[:-1]) + conjunction + characters[-1]
-        introLocation += locations.intro[language]
+        introLocation += get_location_intro(locations, language, seasonal_theme)
 
         for room, name in locations.names[language].items():
             if room not in locations.rindices:
@@ -390,6 +400,13 @@ def produce_html_output(
         select_weapons = get_options_selector(weapons_options)
 
         args = {}
+        args["seasonalTheme"] = seasonal_theme
+        args["themeColor"] = "#b8470b" if seasonal_theme == "halloween" else "#f14902"
+        args["seasonalBanner"] = (
+            '<p class="seasonal-banner"><span aria-hidden="true">🎃</span> '
+            + HALLOWEEN_LABELS[language] + '</p>'
+            if seasonal_theme == "halloween" else ""
+        )
         args["cluesTables"] = clues_tables
         args["introLocation"] = introLocation
         args["initialClues"] = initial_clues

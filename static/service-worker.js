@@ -31,6 +31,7 @@ const CORE_ASSETS = [
 	"/css/main.css",
 	"/css/sticky-notes.css",
 	"/css/sleuth-o-meter.css",
+	"/css/seasonal.css",
 	"/images/apple-touch-icon.png",
 	"/images/favicon-16x16.png",
 	"/images/favicon-32x32.png",
@@ -154,7 +155,8 @@ function isAppShellAsset(url) {
 		"/emoji.css",
 		"/css/main.css",
 		"/css/sticky-notes.css",
-		"/css/sleuth-o-meter.css"
+		"/css/sleuth-o-meter.css",
+		"/css/seasonal.css"
 	].indexOf(url.pathname) !== -1;
 }
 

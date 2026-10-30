@@ -3,7 +3,7 @@
 from sys import argv, exit
 from argparse import ArgumentParser
 from random import seed, random, shuffle
-from datetime import datetime
+from datetime import date as Date
 from hashlib import sha256
 from os.path import isfile
 import json
@@ -20,6 +20,8 @@ from mystery_o_matic.model import Model
 from mystery_o_matic.solidity import read_solidity_from_text
 from mystery_o_matic.clue_selection import select_clues
 from mystery_o_matic.solver import AmbiguousCluesError, order_clues
+from mystery_o_matic.seasonal import get_seasonal_theme
+from mystery_o_matic.traits import get_trait_pool
 
 
 MAX_CLUE_ATTEMPTS = 10
@@ -103,6 +105,11 @@ def main() -> int:
         action="store_const",
         const=True,
         help="generate the mystery for the day",
+    )
+
+    parser.add_argument(
+        "--date", type=Date.fromisoformat,
+        help="mystery date (YYYY-MM-DD); defaults to the saved date or today; also used by --today",
     )
 
     parser.add_argument(
@@ -210,6 +217,13 @@ def main() -> int:
     if args.load_state:
         with open(args.load_state, "r", encoding="utf-8") as f:
             state = json.load(f)
+    try:
+        mystery_date = args.date or (
+            Date.fromisoformat(state["mystery_date"])
+            if state.get("mystery_date") else Date.today()
+        )
+    except (TypeError, ValueError):
+        parser.error("saved mystery_date must be a valid date in YYYY-MM-DD format")
     max_clues = args.max_clues if args.max_clues is not None else state.get("max_clues")
     if max_clues is not None and (type(max_clues) is not int or max_clues < 1):
         parser.error("--max-clues must be a positive integer")
@@ -244,7 +258,7 @@ def main() -> int:
     number_places = state.get("number_places", args.nplaces)
     characters = args.characters
     number_characters = len(characters) if characters else (args.nchars or 3)
-    date = datetime.today().strftime("%d-%m-%Y")
+    date = mystery_date.strftime("%d-%m-%Y")
     mode = args.mode
     llm_output = args.llm
     difficulty = args.difficulty
@@ -262,6 +276,15 @@ def main() -> int:
         print("Invalid mode", mode)
         print("Only html and text is accepted")
         return -1
+
+    # Profiles and their identifying clues belong to the website/LLM exports.
+    # Resolve the pool before generation, including when reloading a saved date.
+    trait_theme = get_seasonal_theme(mystery_date) if mode == "html" or llm_output else ""
+    cast_size = len(state["initial_locations_pairs"]) if args.load_state else number_characters
+    try:
+        get_trait_pool(trait_theme, cast_size)
+    except ValueError as error:
+        parser.error(str(error))
 
     if args.today:
         print(f"Generating mystery for {date} (season {season})")
@@ -415,6 +438,7 @@ def main() -> int:
             used_seed=used_seed,
             characters=characters,
             appearance_clues=(mode != "latex" and not args.no_appearance_clues),
+            trait_theme=trait_theme,
         )
         if args.load_state and "initial_time" in state:
             from mystery_o_matic.time import Time
@@ -496,6 +520,7 @@ def main() -> int:
             "weapons_available": weapons_available,
             "weapon_labels": weapon_labels,
             "seed": used_seed,
+            "mystery_date": mystery_date.isoformat(),
             "location_name": location_name,
             "number_places": number_places,
             "max_clues": max_clues,
@@ -518,6 +543,7 @@ def main() -> int:
             weapons_available,
             weapon_labels,
             locations,
+            mystery_date=mystery_date,
         )
 
     if mode == "html":
@@ -530,6 +556,7 @@ def main() -> int:
             weapon_labels,
             locations,
             story_clues,
+            mystery_date=mystery_date,
         )
     elif mode == "latex":
         produce_tex_output(

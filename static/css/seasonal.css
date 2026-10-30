@@ -1,0 +1,110 @@
+/* The generator fixes this attribute to the puzzle's date, not the viewer's
+   clock. Keep every rule scoped so November returns to the usual palette. */
+[data-seasonal-theme="halloween"] {
+	--bs-link-color: #99420f;
+	--bs-link-color-rgb: 153, 66, 15;
+	--bs-link-hover-color: #6e2d08;
+	--bs-link-hover-color-rgb: 110, 45, 8;
+	--halloween-surface: #ffffff;
+	--halloween-accent: #99420f;
+	--halloween-tint: #fff5ed;
+	--halloween-border: #ead2bf;
+	--halloween-control: #8d4b22;
+}
+
+[data-seasonal-theme="halloween"][data-bs-theme="dark"] {
+	--bs-link-color: #ffb87f;
+	--bs-link-color-rgb: 255, 184, 127;
+	--bs-link-hover-color: #ffd6b5;
+	--bs-link-hover-color-rgb: 255, 214, 181;
+	--halloween-surface: #212529;
+	--halloween-accent: #ffb87f;
+	--halloween-tint: #302a25;
+	--halloween-border: #654a37;
+	--halloween-control: #e6b18a;
+}
+
+[data-seasonal-theme="halloween"] .section-header {
+	color: var(--halloween-accent);
+	background: var(--halloween-tint);
+	border: 0;
+	border-left: 3px solid #d67432;
+	border-radius: 0 4px 4px 0;
+}
+
+[data-seasonal-theme="halloween"] .seasonal-banner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6rem;
+	margin: 0.4rem 0 0;
+	color: var(--halloween-accent);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+[data-seasonal-theme="halloween"] #clues-box,
+[data-seasonal-theme="halloween"] #clues-box .col-9,
+[data-seasonal-theme="halloween"] .tutorial-sidebar {
+	border-color: var(--halloween-border);
+}
+
+[data-seasonal-theme="halloween"] .tutorial-sidebar-item:hover,
+[data-seasonal-theme="halloween"] .tutorial-sidebar-item.active,
+[data-seasonal-theme="halloween"] .tutorial-step-dot.active {
+	background: var(--halloween-tint);
+	color: var(--halloween-control);
+}
+
+[data-seasonal-theme="halloween"] .btn-outline-secondary {
+	--bs-btn-color: var(--halloween-control);
+	--bs-btn-border-color: var(--halloween-control);
+	--bs-btn-hover-color: var(--halloween-surface);
+	--bs-btn-hover-bg: var(--halloween-control);
+	--bs-btn-hover-border-color: var(--halloween-control);
+	--bs-btn-active-color: var(--halloween-surface);
+	--bs-btn-active-bg: var(--halloween-control);
+	--bs-btn-active-border-color: var(--halloween-control);
+	--bs-btn-focus-shadow-rgb: var(--bs-link-color-rgb);
+	/* Theme switching adds Bootstrap link colors to button-shaped anchors. */
+	color: var(--halloween-control) !important;
+}
+
+[data-seasonal-theme="halloween"] .btn-outline-secondary:hover,
+[data-seasonal-theme="halloween"] .btn-outline-secondary:focus-visible,
+[data-seasonal-theme="halloween"] .btn-outline-secondary:active {
+	color: var(--halloween-surface) !important;
+}
+
+[data-seasonal-theme="halloween"] .btn[href="#game"] {
+	--bs-btn-bg: #b8470b;
+	--bs-btn-border-color: #b8470b;
+	--bs-btn-hover-bg: #943707;
+	--bs-btn-hover-border-color: #943707;
+	--bs-btn-active-bg: #943707;
+	--bs-btn-active-border-color: #943707;
+	--bs-btn-focus-shadow-rgb: 184, 71, 11;
+	color: #ffffff !important;
+}
+
+/* The answer notes stay pale, with black text, in both light and dark modes. */
+[data-seasonal-theme="halloween"] ul li a.sticky-notes,
+[data-seasonal-theme="halloween"] ul li select.sticky-notes {
+	background: #ffe0b8;
+}
+
+[data-seasonal-theme="halloween"] ul li:nth-child(even) a.sticky-notes,
+[data-seasonal-theme="halloween"] ul li:nth-child(even) select.sticky-notes {
+	background: #e4d3f2;
+}
+
+[data-seasonal-theme="halloween"] ul li:nth-child(3n) a.sticky-notes,
+[data-seasonal-theme="halloween"] ul li:nth-child(3n) select.sticky-notes {
+	background: #f5ebcf;
+}
+
+[data-seasonal-theme="halloween"] hr.styled-hr::after {
+	content: "🎃";
+}
