@@ -119,7 +119,8 @@ def select_clues(mystery, specifications, with_lies=False):
                     or alibi.lstrip("$") not in mystery.weapon_locations or alibi == murder_room):
                 raise ValueError("alibi_place requires an incriminating event in a lying variant and another known room")
             clue = clue.manipulate(mystery.killer, mystery.victim, alibi)
-            if clue is None or not may_lie_at(clue, mystery.killer, mystery.murder_time, mystery.interval_size):
+            if clue is None or not may_lie_at(clue, mystery.killer, mystery.murder_time,
+                                             mystery.interval_size, murder_room):
                 raise ValueError("selected alibi is not permitted by the public lying rule")
         elif incriminating:
             raise ValueError(f"{kind} is an incriminating statement omitted from truthful output")

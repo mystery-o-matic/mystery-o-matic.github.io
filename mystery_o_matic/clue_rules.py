@@ -1,38 +1,51 @@
-"""Lying permissions derived from what a statement actually tells the reader.
+"""Lying permissions derived from the public statement and crime scene.
 
-Bounds are inclusive seconds; None denotes an unbounded end. Event timestamps
-that are absent from the wording must never narrow the scope of a statement.
+A statement can conceal the crime by describing the scene or by placing its
+speaker elsewhere at the murder time. Absence from an unrelated room is not an
+alibi. Bounds are inclusive seconds; None denotes an unbounded end. Hidden event
+timestamps must never narrow the scope of an untimed statement.
 """
 
 from mystery_o_matic import clues as c
 
 
-def statement_scope(clue, interval_size):
+def lying_scope(clue, interval_size, murder_place):
+    """Return (speaker, earliest murder, latest murder), or no permission.
+
+    The whole statement may be false when it covers the candidate crime, but
+    statements outside this scope stay true, including the killer's statements.
+    This uses no intended killer/time, private movement history or chosen alibi.
+    """
+    at_scene = getattr(clue, "place", None) == murder_place
     if isinstance(clue, c.InteractedClue):
-        return clue.subject0, None, None
+        return (clue.subject0, None, None) if at_scene else None
     if isinstance(clue, c.NotSawWhileInClue):
-        return clue.subject, None, None
+        return (clue.subject, None, None) if at_scene else None
     if isinstance(clue, c.StayedClue):
+        # Being elsewhere during this interval is a direct alibi.
         return clue.subject, clue.time_start.seconds, clue.time_end.seconds
     if isinstance(clue, c.FirstArrivalClue):
-        # "Not until T" asserts absence at EVERY earlier mark too.
-        return clue.subject, None, clue.time.seconds
-    if isinstance(clue, c.SawWhenArrivingClue) and clue.object == "$NOBODY":
-        # Existing empty-arrival alibis may conceal an earlier encounter.
-        return clue.subject, None, None
+        # Earlier absences conceal the crime only when this is the crime scene.
+        # At another room, only the claimed presence at T supplies an alibi.
+        return clue.subject, None if at_scene else clue.time.seconds, clue.time.seconds
     if isinstance(clue, (c.SawWhenArrivingClue, c.SawVictimWhenArrivingClue)):
-        return clue.subject, clue.time.seconds - interval_size, clue.time.seconds
+        return clue.subject, clue.time.seconds - (interval_size if at_scene else 0), clue.time.seconds
     if isinstance(clue, (c.SawWhenLeavingClue, c.SawVictimWhenLeavingClue)):
-        return clue.subject, clue.time.seconds, clue.time.seconds + interval_size
-    if isinstance(clue, (c.HeardClue, c.NotSawWhenArrivingLeavingClue)):
+        return clue.subject, clue.time.seconds, clue.time.seconds + (interval_size if at_scene else 0)
+    if isinstance(clue, c.HeardClue):
+        # "I heard someone there from outside" denies presence at the crime
+        # scene only when "there" is that scene, not some unrelated room.
+        return (clue.subject, clue.time.seconds, clue.time.seconds) if at_scene else None
+    if isinstance(clue, c.NotSawWhenArrivingLeavingClue):
+        # The wording places the speaker in this room at T; no movement is stated.
         return clue.subject, clue.time.seconds, clue.time.seconds
     # Forensics and narrator statements remain reliable, even when they name
     # the candidate killer. Unknown clue types are rejected by the solver.
     return None
 
 
-def may_lie_at(clue, killer, time, interval_size):
-    scope = statement_scope(clue, interval_size)
+def may_lie_at(clue, killer, time, interval_size, murder_place):
+    scope = lying_scope(clue, interval_size, murder_place)
     if scope is None:
         return False
     speaker, start, end = scope

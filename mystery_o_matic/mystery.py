@@ -427,7 +427,8 @@ class Mystery:
                     # Do not invent an alibi outside the public lying rule.
                     # In particular, an arrival before the murder cannot be
                     # altered merely because it admits an earlier scene visit.
-                    if may_lie_at(clue, self.killer, self.murder_time, self.interval_size):
+                    if may_lie_at(clue, self.killer, self.murder_time, self.interval_size,
+                                  self.murder_place):
                         clues_with_lies.append(clue)
             else:
                 clues_without_lies.append(clue)

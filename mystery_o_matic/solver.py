@@ -13,7 +13,7 @@ from z3 import And, Bool, BoolVal, FreshBool, If, Implies, Int, Not, Optimize, O
 from z3 import is_true, sat, unsat
 
 from mystery_o_matic import clues as c
-from mystery_o_matic.clue_rules import statement_scope
+from mystery_o_matic.clue_rules import lying_scope
 from mystery_o_matic.time import Time
 from mystery_o_matic.traits import CHARACTER_DESCRIPTORS
 from mystery_o_matic.weapons import get_weapon_type
@@ -221,10 +221,10 @@ class ClueSolver:
     killer_leaves rule is printed in the website's opening facts, but omitted
     from book exports, so it is off by default.
 
-    In lying mode, only candidate-killer statements covering the murder may be
-    ignored. Scope includes implicit absence and adjacent movement marks, and
-    the whole timeline for untimed statements. Empty-arrival alibis retain their
-    historical exception. Evidence is always trustworthy.
+    In lying mode, candidate-killer statements may be false only when they
+    concern the crime scene at the murder time or claim the speaker was
+    elsewhere then. The public lying rules are shared with clue generation;
+    unrelated statements and independent evidence are always trustworthy.
     """
 
     def __init__(self, mystery, graph, clues, with_lies=False, killer_leaves=False):
@@ -318,7 +318,9 @@ class ClueSolver:
         raise ValueError("Unknown sighting description: " + str(kind))
 
     def _unreliable(self, clue):
-        scope = statement_scope(clue, self.mystery.interval_size)
+        # The body's publicly known room, never a hidden simulation field.
+        scene = self.mystery.final_locations[self.victim]
+        scope = lying_scope(clue, self.mystery.interval_size, scene)
         if scope is None:
             return BoolVal(False)
         subject, start, end = scope
