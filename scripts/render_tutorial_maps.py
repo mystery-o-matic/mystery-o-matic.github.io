@@ -16,13 +16,14 @@ from mystery_o_matic.roommap import (
     RADIUS,
     STROKE,
     render,
+    render_png,
 )
 
 LANGUAGES = ("en", "es", "ru")
 
 
-def _large_map(labels, edges, captions, edge_styles=None):
-    return render(
+def _large_map(labels, edges, captions, edge_styles=None, renderer=render, **kwargs):
+    return renderer(
         labels,
         edges,
         rx=150.0,
@@ -38,6 +39,7 @@ def _large_map(labels, edges, captions, edge_styles=None):
         link_width=BIG_LINK_W,
         max_inline_width=180.0,
         edge_styles=edge_styles,
+        **kwargs,
     )
 
 
@@ -74,24 +76,9 @@ def render_tutorial_maps(output_dir):
         destination.mkdir(parents=True, exist_ok=True)
         captions = [tutorial.names[language][tutorial.indices[node]] for node in nodes]
 
-        maps = {
-            "locations_tutorial.svg": _large_map(labels, edges, captions),
-            "locations_tutorial_highlighted.svg": _large_map(
-                labels, edges, captions, route_styles
-            ),
-            "locations_tutorial_small.svg": render(
-                labels,
-                edges,
-                rx=34.0,
-                ry=85.0,
-                tile=34.0,
-                font_size=20.0,
-                fill="#ffffff",
-                radius=RADIUS,
-                stroke=STROKE,
-                link=BIG_LINK,
-                link_width=BIG_LINK_W,
-            ),
+        large_maps = {
+            "locations_tutorial": None,
+            "locations_tutorial_highlighted": route_styles,
         }
         for name, target in highlights.items():
             edge_styles = {
@@ -99,12 +86,27 @@ def render_tutorial_maps(output_dir):
                 for edge in edges
                 if target not in edge
             }
-            maps[f"locations_tutorial_highlighted_{name}.svg"] = _large_map(
-                labels, edges, captions, edge_styles
+            large_maps[f"locations_tutorial_highlighted_{name}"] = edge_styles
+
+        for stem, edge_styles in large_maps.items():
+            svg = _large_map(labels, edges, captions, edge_styles)
+            (destination / f"{stem}.svg").write_text(svg, encoding="utf8")
+            _large_map(
+                labels, edges, captions, edge_styles,
+                renderer=render_png, path=destination / f"{stem}.png",
             )
 
-        for filename, svg in maps.items():
-            (destination / filename).write_text(svg, encoding="utf8")
+        small_options = {
+            "rx": 34.0, "ry": 85.0, "tile": 34.0, "font_size": 20.0,
+            "fill": "#ffffff", "radius": RADIUS, "stroke": STROKE,
+            "link": BIG_LINK, "link_width": BIG_LINK_W,
+        }
+        (destination / "locations_tutorial_small.svg").write_text(
+            render(labels, edges, **small_options), encoding="utf8"
+        )
+        render_png(
+            labels, edges, destination / "locations_tutorial_small.png", **small_options
+        )
 
 
 def main():

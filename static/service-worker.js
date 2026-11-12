@@ -1,3 +1,5 @@
+importScripts("emoji-assets.js");
+
 const CACHE_NAME = "mystery-o-matic-offline-v1";
 const LANGUAGES = ["en", "es", "ru"];
 const LANGUAGE_ASSETS = LANGUAGES.flatMap(function (language) {
@@ -16,12 +18,24 @@ const LANGUAGE_ASSETS = LANGUAGES.flatMap(function (language) {
 		"/" + language + "/locations_tutorial_highlighted_dining_room.svg"
 	];
 });
+const IMAGE_ICON_ASSETS = EMOJI_IMAGE_ASSETS.concat(LANGUAGES.flatMap(function (language) {
+	return [
+		"/" + language + "/locations_tutorial.png",
+		"/" + language + "/locations_tutorial_small.png",
+		"/" + language + "/locations_tutorial_highlighted.png",
+		"/" + language + "/locations_tutorial_highlighted_bathroom.png",
+		"/" + language + "/locations_tutorial_highlighted_bedroom.png",
+		"/" + language + "/locations_tutorial_highlighted_dining_room.png"
+	];
+}));
 const CORE_ASSETS = [
 	"/",
 	"/index.html",
 	"/data.js",
 	"/tutorialData.js",
 	"/table.js",
+	"/icon-support.js",
+	"/emoji-assets.js",
 	"/translation.js",
 	"/functions.js",
 	"/sleuth-o-meter.js",
@@ -55,6 +69,12 @@ self.addEventListener("install", function (event) {
 
 self.addEventListener("activate", function (event) {
 	event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener("message", function (event) {
+	if (event.data && event.data.type === "cache-image-icons") {
+		event.waitUntil(cacheAssets(IMAGE_ICON_ASSETS));
+	}
 });
 
 self.addEventListener("fetch", function (event) {
@@ -119,9 +139,13 @@ self.addEventListener("fetch", function (event) {
 });
 
 async function cacheCoreAssets() {
+	await cacheAssets(CORE_ASSETS);
+}
+
+async function cacheAssets(assets) {
 	var cache = await caches.open(CACHE_NAME);
 	await Promise.allSettled(
-		CORE_ASSETS.map(function (asset) {
+		assets.map(function (asset) {
 			return cache.add(new Request(asset, { cache: "reload" }));
 		})
 	);
@@ -148,6 +172,8 @@ function isAppShellAsset(url) {
 		"/functions.js",
 		"/sleuth-o-meter.js",
 		"/table.js",
+		"/icon-support.js",
+		"/emoji-assets.js",
 		"/translation.js",
 		"/tutorialData.js",
 		"/tutorial-nav.js",

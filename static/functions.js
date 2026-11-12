@@ -323,7 +323,7 @@ function showPage(page) {
 		document.getElementById("translate-button").style.display = "none";
 	} else {
 		document.getElementById("home-button").style.display = "none";
-		document.getElementById("switch-theme-button").style.removeProperty("display");
+		document.getElementById("switch-theme-button").style.display = isEInk ? "none" : "";
 		document.getElementById("translate-button").style.removeProperty("display");
 	}
 }
@@ -398,12 +398,6 @@ function selectClues(withLies, autoSelected) {
 	revealAnotherClue(0);
 	if (typeof updateSleuthRankExplanation === "function") {
 		updateSleuthRankExplanation();
-	}
-
-	if (isKindle) {
-		var smallMap = document.querySelector("#clues-box #locations-small");
-		smallMap.src = getMysteryAssetUrl("locations_small.png");
-		smallMap.style.height = "25vh";
 	}
 }
 
@@ -751,7 +745,7 @@ function toggleLinkTheme(usingLightTheme, element) {
 }
 
 function switchTheme() {
-	if (isKindle)
+	if (isEInk)
 		return;
 	var currentTheme = document.querySelector("html").getAttribute("data-bs-theme");
 	document.querySelector("html").setAttribute("data-bs-theme", currentTheme == "light" ? "dark" : "light");

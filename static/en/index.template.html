@@ -1644,18 +1644,22 @@
 		}());
 	</script>
 	<script src="../tutorialData.js"></script>
+	<script src="../icon-support.js"></script>
 	<script src="../table.js"></script>
 	<script src="../translation.js"></script>
 	<script src="../functions.js"></script>
 	<script src="../sleuth-o-meter.js"></script>
 	<script src="../tutorial-nav.js"></script>
 	<script>
-		WebFont.load({
-			google: {
-				families: ['Raleway']
-			},
-			active: function () { createTables(); }
-		});
+		if (typeof WebFont === 'undefined') {
+			initializeTables();
+		} else {
+			WebFont.load({
+				google: { families: ['Raleway'] },
+				active: initializeTables,
+				inactive: initializeTables
+			});
+		}
 	</script>
 </body>
 

@@ -24,7 +24,7 @@ font.
 
 from functools import lru_cache
 from itertools import combinations, permutations
-from math import cos, pi, sin
+from math import cos, hypot, pi, sin
 
 import drawsvg as draw
 
@@ -585,13 +585,22 @@ def render_png(
     link=LINK,
     link_width=LINK_W,
     max_inline_width=None,
+    edge_styles=None,
 ):
-    """Same drawing, rasterised. Only the Kindle view uses the PNGs.
+    """Same drawing, rasterised for image icon mode.
 
     Drawn directly rather than by rasterising the SVG, so Pillow is the only
     image-rendering dependency.
     """
+    from pathlib import Path
+
     from PIL import Image, ImageDraw
+
+    # HTML exports already contain a copy of the static assets. Prefer that
+    # bundle so installed console scripts also work outside the source tree.
+    asset_root = Path(path).resolve().parent.parent
+    if not (asset_root / "emoji.js").is_file():
+        asset_root = Path(__file__).resolve().parents[1] / "static"
 
     n = len(labels)
     texts, widths, line_sets, box_height, line_height = _inline_text_layout(
@@ -640,12 +649,39 @@ def render_png(
                 box_height,
             )
             start, end = (x1, y1), (x2, y2)
-        d.line(
-            [px(start), px(end)],
-            fill=link,
-            width=max(1, int(link_width * S)),
-        )
-    font = _emoji_font(int(font_size * S))
+        style = (edge_styles or {}).get((a, b), (edge_styles or {}).get((b, a), {}))
+        colour = style.get("stroke", link)
+        width = max(1, round(style.get("stroke_width", link_width) * S))
+        p1, p2 = px(start), px(end)
+        dash = style.get("stroke_dasharray")
+        if dash:
+            pattern = [float(value) * S for value in dash.split()]
+            length = hypot(p2[0] - p1[0], p2[1] - p1[1])
+            distance, step = 0.0, 0
+            while distance < length:
+                end_distance = min(length, distance + pattern[step % len(pattern)])
+                if step % 2 == 0:
+                    points = [
+                        (p1[0] + (p2[0] - p1[0]) * t / length,
+                         p1[1] + (p2[1] - p1[1]) * t / length)
+                        for t in (distance, end_distance)
+                    ]
+                    d.line(points, fill=colour, width=width)
+                distance, step = end_distance, step + 1
+        else:
+            d.line([p1, p2], fill=colour, width=width)
+
+    def draw_glyph(label, centre):
+        image = _emoji_image(label, asset_root)
+        if image is not None:
+            size = max(1, round(font_size * S))
+            image = image.resize((size, size), Image.Resampling.LANCZOS)
+            im.alpha_composite(image, (round(centre[0] - size / 2), round(centre[1] - size / 2)))
+        else:
+            font = _emoji_font(round(font_size * S))
+            if font is not None:
+                d.text(centre, label, font=font, anchor="mm", embedded_color=True)
+
     for i, label in enumerate(labels):
         x, y = px(pts[i])
         bw = (widths[i] if widths else tile) * S
@@ -672,7 +708,7 @@ def render_png(
                     prefix = line[: -len(label)].rstrip()
                     name = f"{prefix} " if prefix else ""
                     nw = d.textlength(name, font=tf) if name else 0.0
-                    gw = font_size * S * 1.15 if font is not None else 0.0
+                    gw = font_size * S * 1.15
                     start = x - (nw + gw) / 2.0
                     if name:
                         d.text(
@@ -682,14 +718,7 @@ def render_png(
                             anchor="lm",
                             fill="#111111",
                         )
-                    if font is not None:
-                        d.text(
-                            (start + nw + gw / 2.0, line_y),
-                            label,
-                            font=font,
-                            anchor="mm",
-                            embedded_color=True,
-                        )
+                    draw_glyph(label, (start + nw + gw / 2.0, line_y))
                 else:
                     d.text((x, line_y), line, font=tf, anchor="mm", fill="#111111")
         elif texts:
@@ -701,16 +730,9 @@ def render_png(
             gw = font_size * S * 1.15
             start = x - (nw + gw) / 2
             d.text((start, y), name, font=tf, anchor="lm", fill="#111111")
-            if font is not None:
-                d.text(
-                    (start + nw + gw / 2, y),
-                    label,
-                    font=font,
-                    anchor="mm",
-                    embedded_color=True,
-                )
-        elif font is not None:
-            d.text((x, y), label, font=font, anchor="mm", embedded_color=True)
+            draw_glyph(label, (start + nw + gw / 2, y))
+        else:
+            draw_glyph(label, (x, y))
         if captions and not inline:
             tf = _text_font(int(CAPTION_SIZE * S))
             d.text(
@@ -721,6 +743,23 @@ def render_png(
                 fill="#333333",
             )
     im.save(path, optimize=True)
+
+
+@lru_cache(maxsize=None)  # noqa: UP033 -- deployment still runs Python 3.8
+def _emoji_image(label, static):
+    """Use the same bundled icon as the browser, without requiring emoji fonts."""
+    import json
+
+    from PIL import Image
+
+    data, _ = json.JSONDecoder().raw_decode(
+        (static / "emoji.js").read_text(encoding="utf8").split("emoji.prototype.data = ", 1)[1]
+    )
+    key = next((key for key, record in data.items() if label in record[0]), None)
+    if key is None:
+        return None
+    with Image.open(static / "images/emoji-data/img-google-64" / f"{key}.png") as image:
+        return image.convert("RGBA")
 
 
 @lru_cache(maxsize=None)  # noqa: UP033 -- deployment still runs Python 3.8

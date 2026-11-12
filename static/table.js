@@ -122,6 +122,10 @@ class ClueTable {
     }
 
 	_drawImage(image, size, column, row) {
+		if (!image.width || !image.height) {
+			this._fillText(image.alt || '?', getWeaponFontSize(this.columnSize), this.ctx.fillStyle, column, row);
+			return;
+		}
         const dHeight = size;
         const dWidth = image.width * (dHeight / image.height);
         const centerX = this.columnSize * column + this.columnSize / 2;
@@ -132,6 +136,11 @@ class ClueTable {
     }
 
 	_drawImages(images, size, column, row) {
+		if (images.some(image => !image.width || !image.height)) {
+			this._fillText(images.map(image => image.alt || '?').join(' / '),
+				getWeaponFontSize(this.columnSize), this.ctx.fillStyle, column, row);
+			return;
+		}
         const dHeight = size;
         const dWidths = images.map(img => img.width * (dHeight / img.height));
         const totalWidth = dWidths.reduce((a, b) => a + b, 0);
@@ -166,6 +175,12 @@ class ClueTable {
 		const textX = this.columnSize * column + this.columnSize / 2;
 		const textY = this.height / 2;
 		if (text && typeof(text) === "object") {
+			if (!text.width || !text.height) {
+				this.ctx.font = 'bold ' + getWeaponFontSize(this.columnSize) + 'px Raleway';
+				this.ctx.textBaseline = 'middle';
+				this.ctx.fillText(text.alt || '?', textX, this.height / 2);
+				return;
+			}
 			const dHeight = size;
 			const dWidth = text.width * (dHeight / text.height);
 			const centerX = textX;
@@ -346,40 +361,17 @@ function getWeaponFontSize(columSize) {
 }
 
 var ua = navigator.userAgent;
-var isKindle = /Kindle/i.test(ua);
 var isMobile = /Mobi/i.test(ua);
 // iPadOS 13+ pretends to be a Mac, so also check for touch support
 var isIOS = /iPad|iPhone|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
 
-var emoji = null;
+initializeIconSupport();
 
-if (isKindle) {
-	emoji = new EmojiConvertor();
-	emoji.img_sets['google'].path = '../images/emoji-data/img-google-64/';
-	emoji.img_set = 'google';
-	emoji.text_mode = false;
-	document.body.innerHTML = emoji.replace_unified(document.body.innerHTML);
-	document.getElementById("locations-big").src = "locations_big.png";
-	document.getElementById("locations-big").style.height = 'auto';
-	document.getElementById("switch-theme-button").style.display = "none";
-}
-
-function preload_image(url) {
-	let img = new Image();
-	console.log("preloading: " + url)
-	img.src = url;
-	return img;
-}
-
-function getEmoji(input) {
-	if (emoji) {
-		input = emoji.replace_unified(input);
-		const parser = new DOMParser();
-		htmlDoc = parser.parseFromString(input, 'text/html');
-		codepoint = htmlDoc.getElementsByTagName("span")[0].dataset["codepoints"];
-		return preload_image("../images/emoji-data/img-google-64/" + codepoint + ".png");
-	} else
-		return input;
+var tablesInitialized = false;
+function initializeTables() {
+	if (tablesInitialized) return;
+	tablesInitialized = true;
+	iconImagesReady.then(createTables);
 }
 
 // On iOS, WebKit places color emoji on a canvas using metrics that do not
@@ -576,7 +568,7 @@ function createCluesTableWeapons(name) {
 	var tableColorEven = "#FFFFFF";
 	var tableColorOdd = "#E8E8E8";
 	var tableLineColor = "#000000";
-	if (isKindle) {
+	if (isEInk) {
 		tableColorEven = "#FFFFFF";
 		tableColorOdd = "#FFFFFF";
 	}
@@ -591,7 +583,7 @@ function createCluesTableWeapons(name) {
 	for (var i = 0; i < weapons.length; i++) {
 		var placeIcon = getEmoji(locationIcons[weaponMap[weapons[i]]]);
 		var weaponIcon = getEmoji(weaponIcons[weapons[i]]);
-		if (isKindle)
+		if (useImageIcons)
 			table.fillCell([weaponIcon, placeIcon], getWeaponFontSize(columnSize), "#000000", i, 0);
 		else
 			table.fillCell(
@@ -640,7 +632,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 	var tableColorEven = "#FFFFFF";
 	var tableColorOdd = "#E8E8E8";
 	var tableLineColor = "#000000";
-	if (isKindle) {
+	if (isEInk) {
 		tableColorEven = "#EEEEEE";
 		tableColorOdd = "#DDDDDD";
 	}
@@ -701,7 +693,7 @@ function createCluesTable(room, name, nColumns, timeOffset, headerVisible, isTut
 		var character = rowNames[i - startRow];
 		roomName = locationMap[character];
 		var color = (character == victim) ? '#cc0000' : '#000000';
-		var symbol = (character == victim && isKindle) ? "☠︎" : "✓";
+		var symbol = (character == victim && isEInk) ? getEmoji("☠️") : "✓";
 		if (roomName == name) {
 			table.clearCell(nColumns - 1, i);
 			table.fillCell(symbol, getCluesFontSize(table), color, nColumns - 1, i);
