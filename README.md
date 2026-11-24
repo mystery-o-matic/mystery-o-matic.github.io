@@ -108,6 +108,28 @@ English, Spanish, and Russian tutorial SVG with:
 python3 scripts/render_tutorial_maps.py
 ```
 
+### Daily publishing and recovery
+
+The daily workflow is scheduled for 01:17 UTC. This is a target start time, not
+a guaranteed release time: GitHub Actions can delay scheduled runs, and the
+puzzle becomes available after generation, deployment and cache propagation.
+
+After deploying, the workflow compares the live `data.js` byte for byte with the
+generated file. It makes up to 25 attempts, 30 seconds apart, with a 10-second
+request timeout. A stale puzzle fails the workflow even if Pages reports a
+successful deployment. Saved `github-pages` artifacts are retained for seven days.
+
+To republish an existing puzzle without regenerating it, run **Republish saved
+mystery** from GitHub Actions and enter the original workflow run ID, or use:
+
+```bash
+gh workflow run republish.yaml --ref code -f run_id=WORKFLOW_RUN_ID
+```
+
+The recovery workflow uploads the saved archive unchanged and runs the same
+live verification. Publishing workflows are serialized to avoid overlapping
+deployments.
+
 ## Adding a new language
 
 Clue text is generated through language renderers in `mystery_o_matic/lang/`. Each language has its own module implementing the `LanguageRenderer` interface.

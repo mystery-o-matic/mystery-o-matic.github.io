@@ -24,7 +24,8 @@ on:
           - abandoned school
   workflow_call:
   schedule:
-    - cron: "0 1 * * *"
+    # Avoid the start-of-hour queue; GitHub's scheduled runs can still be delayed.
+    - cron: "17 1 * * *"
   push:
     branches: [ code ]
     paths:
@@ -36,6 +37,13 @@ on:
       - static/**
       - scenarios/**
       - .github/**
+      # Updating the recovery workflow must not generate another daily puzzle.
+      - '!.github/workflows/republish.yaml'
+      - scripts/verify_deployment.py
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -121,7 +129,14 @@ jobs:
       with:
           # Upload the resulting folder
           path: 'out'
+          retention-days: 7
 
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
+
+    - name: Verify the published mystery
+      timeout-minutes: 20
+      env:
+        SITE_URL: ${{ steps.deployment.outputs.page_url }}
+      run: python3 scripts/verify_deployment.py out/data.js --site-url "$SITE_URL"

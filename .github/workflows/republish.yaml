@@ -1,0 +1,58 @@
+name: Republish saved mystery
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Workflow run containing the saved github-pages artifact'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  republish:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Download the saved Pages archive
+      uses: actions/download-artifact@v4
+      with:
+        name: github-pages
+        run-id: ${{ inputs.run_id }}
+        github-token: ${{ github.token }}
+        path: saved-artifact
+
+    - name: Read the expected puzzle data
+      run: |
+        mkdir expected
+        tar -xOf saved-artifact/artifact.tar ./data.js > expected/data.js
+
+    - name: Upload the unchanged Pages archive
+      uses: actions/upload-artifact@v4
+      with:
+        name: github-pages
+        path: saved-artifact/artifact.tar
+        if-no-files-found: error
+        compression-level: 0
+        retention-days: 7
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+    - name: Verify the published mystery
+      timeout-minutes: 20
+      env:
+        SITE_URL: ${{ steps.deployment.outputs.page_url }}
+      run: python3 scripts/verify_deployment.py expected/data.js --site-url "$SITE_URL"
