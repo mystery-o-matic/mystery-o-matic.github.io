@@ -1,6 +1,11 @@
 name: Republish saved mystery
 
 on:
+  # One-time incident recovery; removed after the saved artifact is verified live.
+  push:
+    branches: [ code ]
+    paths:
+      - .github/workflows/republish.yaml
   workflow_dispatch:
     inputs:
       run_id:
@@ -29,7 +34,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: github-pages
-        run-id: ${{ inputs.run_id }}
+        run-id: ${{ inputs.run_id || '45375572323' }}
         github-token: ${{ github.token }}
         path: saved-artifact
 
