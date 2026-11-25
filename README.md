@@ -114,6 +114,11 @@ The daily workflow is scheduled for 01:17 UTC. This is a target start time, not
 a guaranteed release time: GitHub Actions can delay scheduled runs, and the
 puzzle becomes available after generation, deployment and cache propagation.
 
+If Pages fails before returning a deployment URL (for example, because a newly
+uploaded artifact is not visible yet), publishing retries up to two times with
+a 20-second wait. A failure after a deployment URL is returned, or after all
+three attempts, still fails the workflow.
+
 After deploying, the workflow compares the live `data.js` byte for byte with the
 generated file. It makes up to 25 attempts, 30 seconds apart, with a 10-second
 request timeout. A stale puzzle fails the workflow even if Pages reports a

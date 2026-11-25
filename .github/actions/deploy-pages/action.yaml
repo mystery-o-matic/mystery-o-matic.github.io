@@ -1,0 +1,51 @@
+name: Deploy Pages with artifact discovery retries
+description: Retry early deployment failures while a newly uploaded artifact becomes visible.
+
+outputs:
+  page_url:
+    description: The deployed GitHub Pages URL
+    value: ${{ steps.third.outputs.page_url || steps.second.outputs.page_url || steps.first.outputs.page_url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Deploy to GitHub Pages
+      id: first
+      continue-on-error: true
+      uses: actions/deploy-pages@v4
+
+    # The upstream action looks up the artifact immediately after upload, and
+    # an empty listing fails without retrying. Retry only before it returns a
+    # deployment URL; failures while polling an existing deployment still fail.
+    - name: Wait before retrying artifact discovery
+      if: ${{ !cancelled() && steps.first.outcome == 'failure' && !steps.first.outputs.page_url }}
+      shell: bash
+      run: sleep 20
+
+    - name: Retry deployment
+      id: second
+      if: ${{ !cancelled() && steps.first.outcome == 'failure' && !steps.first.outputs.page_url }}
+      continue-on-error: true
+      uses: actions/deploy-pages@v4
+
+    - name: Wait before the final artifact discovery attempt
+      if: ${{ !cancelled() && steps.second.outcome == 'failure' && !steps.second.outputs.page_url }}
+      shell: bash
+      run: sleep 20
+
+    - name: Final deployment attempt
+      id: third
+      if: ${{ !cancelled() && steps.second.outcome == 'failure' && !steps.second.outputs.page_url }}
+      continue-on-error: true
+      uses: actions/deploy-pages@v4
+
+    - name: Require a successful deployment
+      if: ${{ !cancelled() }}
+      shell: bash
+      env:
+        DEPLOYMENT_SUCCEEDED: ${{ steps.first.outcome == 'success' || steps.second.outcome == 'success' || steps.third.outcome == 'success' }}
+      run: |
+        if [ "$DEPLOYMENT_SUCCEEDED" != "true" ]; then
+          echo "::error::GitHub Pages deployment failed; the uploaded puzzle artifact is still available."
+          exit 1
+        fi
