@@ -26,6 +26,8 @@ on:
   schedule:
     # Avoid the start-of-hour queue; GitHub's scheduled runs can still be delayed.
     - cron: "17 1 * * *"
+    # Catch up after a delayed, dropped or failed daily run.
+    - cron: "47 2-23 * * *"
   push:
     branches: [ code ]
     paths:
@@ -40,6 +42,7 @@ on:
       # Updating the recovery workflow must not generate another daily puzzle.
       - '!.github/workflows/republish.yaml'
       - scripts/verify_deployment.py
+      - scripts/check_daily_mystery.py
 
 concurrency:
   group: github-pages
@@ -51,7 +54,24 @@ permissions:
   id-token: write
 
 jobs:
+  check_daily_mystery:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      generate: ${{ steps.check.outputs.generate }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Check whether today's puzzle is live
+      id: check
+      run: python3 scripts/check_daily_mystery.py
+
   build:
+    needs: check_daily_mystery
+    # Manual runs and pushes force generation, even when the scheduled check is skipped.
+    if: ${{ !cancelled() && (github.event_name != 'schedule' || needs.check_daily_mystery.outputs.generate == 'true') }}
     runs-on: ubuntu-24.04
     steps:
     - name: Setup Python

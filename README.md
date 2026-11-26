@@ -114,6 +114,13 @@ The daily workflow is scheduled for 01:17 UTC. This is a target start time, not
 a guaranteed release time: GitHub Actions can delay scheduled runs, and the
 puzzle becomes available after generation, deployment and cache propagation.
 
+Catch-up checks also run at minute 47 of every hour from 02:00 through 23:00 UTC.
+Scheduled runs first check the live puzzle's UTC date and skip generation when
+today's puzzle is already available. A stale date, or a site that cannot be read
+after three attempts, triggers generation. Manual runs and code pushes always
+generate a fresh puzzle. These checks provide additional recovery opportunities;
+GitHub can still delay scheduled triggers.
+
 If Pages fails before returning a deployment URL (for example, because a newly
 uploaded artifact is not visible yet), publishing retries up to two times with
 a 20-second wait. A failure after a deployment URL is returned, or after all
